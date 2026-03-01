@@ -630,7 +630,7 @@ function tokenToGoogleDocs(token, startIndex) {
         },
       });
 
-      // Apply italic and background to quote text
+      // Apply italic, background, and font family to quote text
       // Alerts are not italicized by default (often just normal text), but let's keep italic for "boxed text" feel?
       // Actually, standard Alerts are normal text. D&D Boxed Text is italic.
       // Let's keep Default as Italic, but Alerts as Normal?
@@ -640,8 +640,9 @@ function tokenToGoogleDocs(token, startIndex) {
           range: { startIndex: currentIndex, endIndex: quoteEnd },
           textStyle: {
             italic: true,
+            weightedFontFamily: { fontFamily: "Merriweather", weight: 400 },
           },
-          fields: "italic",
+          fields: "italic,weightedFontFamily",
         },
       });
       // Apply inline formatting if any (validate indices)
