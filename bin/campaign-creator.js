@@ -30,8 +30,8 @@ const SCOPES = [
   "https://www.googleapis.com/auth/drive",
 ];
 
-const PAGE_BREAK = "\n\n\\f\n\n";
-const THEMATIC_BREAK = "\n\n---\n\n";
+const PAGE_BREAK = "\n\n";
+const THEMATIC_BREAK = "\n\n";
 
 /**
  * Get priority for a file path to determine sort order.
@@ -52,9 +52,9 @@ function getFilePriority(adventureConfig, relativePath) {
  */
 function generateTitlePage(adventureConfig) {
   if (adventureConfig.titlePageTemplate) {
-    return adventureConfig.titlePageTemplate + "\n\n\\f\n\n";
+    return adventureConfig.titlePageTemplate + "\n\n";
   }
-  return `# ${adventureConfig.title}\n\n---\n\n## Adventure Overview\n\n---\n\n\\f\n\n`;
+  return `# ${adventureConfig.title}\n\n`;
 }
 
 /**
