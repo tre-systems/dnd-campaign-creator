@@ -111,15 +111,15 @@ Each adventure can include an optional `artStyle` object in `campaign.json` to d
 }
 ```
 
-| Field | Purpose |
-| --- | --- |
-| `style` | Overall artistic style and level of detail |
-| `medium` | The look and feel of the rendering technique |
-| `palette` | Color palette, including per-section accent colors |
-| `lighting` | Lighting direction, sources, and contrast |
-| `mood` | Emotional tone and atmosphere |
-| `subjects` | Composition guidelines for NPCs vs. locations |
-| `avoid` | Explicit exclusions to maintain consistency |
+| Field      | Purpose                                            |
+| ---------- | -------------------------------------------------- |
+| `style`    | Overall artistic style and level of detail         |
+| `medium`   | The look and feel of the rendering technique       |
+| `palette`  | Color palette, including per-section accent colors |
+| `lighting` | Lighting direction, sources, and contrast          |
+| `mood`     | Emotional tone and atmosphere                      |
+| `subjects` | Composition guidelines for NPCs vs. locations      |
+| `avoid`    | Explicit exclusions to maintain consistency        |
 
 When generating images (e.g. with an AI tool), prepend the `artStyle` fields to your prompt to maintain a cohesive visual language across the entire campaign.
 
