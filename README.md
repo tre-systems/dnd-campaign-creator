@@ -2,7 +2,7 @@
 
 A generic, automated utility for compiling Markdown-based D&D adventures into flawlessly styled Google Docs, complete with Google Drive image syncing.
 
-This tool extracts the robust publishing scripts developed for the *Borderlands Campaign* and makes them available for any organized repository of Markdown adventure notes. 
+This tool extracts the robust publishing scripts developed for the _Borderlands Campaign_ and makes them available for any organized repository of Markdown adventure notes.
 
 ## Features
 
@@ -15,23 +15,29 @@ This tool extracts the robust publishing scripts developed for the *Borderlands 
 This repository now acts as a **generic, reusable engine**. Campaign content itself should live in completely separate repositories and link to these tools.
 
 ### 1. Initializing a New Campaign
-You can create a new blank campaign repository anywhere on your machine by referring to the Antigravity workflow designed for this tool. 
+
+You can create a new blank campaign repository anywhere on your machine by referring to the Antigravity workflow designed for this tool.
 
 If you are using Google Antigravity, simply tell the agent:
+
 > "Use the create-campaign workflow to make a new campaign at /path/to/my/new/campaign"
 
 ### 2. Manual Setup
+
 If you prefer manual setup:
+
 1. Create a new directory for your campaign: `mkdir my-campaign && cd my-campaign && npm init -y`
 2. Link the generic tools directly from this engine repository:
+
    ```bash
    npm install file:/path/to/dnd-campaign-creator
    ```
+
 3. Copy the `campaign.example.json` file from this repository into your new campaign repository and rename it to `campaign.json`.
 
 ### `campaign.json` Configuration
 
-Your campaign repository must have a `campaign.json` at its root. 
+Your campaign repository must have a `campaign.json` at its root.
 
 ```json
 {
@@ -41,11 +47,16 @@ Your campaign repository must have a `campaign.json` at its root.
     "my-epic-adventure": {
       "title": "My Epic Adventure",
       "sourceDir": "adventures/epic",
-      "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE",  // Optional: leave null to create a new doc
+      "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE", // Optional: leave null to create a new doc
       "folderId": "YOUR_GOOGLE_DRIVE_FOLDER_ID", // Optional
       "categories": [
         { "name": "Content", "key": "content", "pageBreakBefore": false },
-        { "name": "Session Notes", "key": "session", "pageBreakBefore": true, "excludeFromPublish": true }
+        {
+          "name": "Session Notes",
+          "key": "session",
+          "pageBreakBefore": true,
+          "excludeFromPublish": true
+        }
       ],
       "order": {
         "content": ["01-intro.md", "02-dungeon.md"],
@@ -58,7 +69,7 @@ Your campaign repository must have a `campaign.json` at its root.
 
 ### Publishing
 
-Once you've linked the toolkit in your campaign repository, you can publish using `npx`. Run this command *from within your campaign repository*:
+Once you've linked the toolkit in your campaign repository, you can publish using `npx`. Run this command _from within your campaign repository_:
 
 ```bash
 npx campaign-creator publish my-epic-adventure --config ./campaign.json

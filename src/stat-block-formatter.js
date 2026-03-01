@@ -4,7 +4,7 @@
  * Handles detection and formatting of D&D 5E stat blocks in Markdown.
  */
 
-const { inlineMarkdownToText } = require("./markdown-utils");
+const { inlineMarkdownToText } = require("./markdown-utils.js");
 
 /**
  * Check if a blockquote contains a D&D stat block.
@@ -55,9 +55,6 @@ function isStatBlock(blockquoteToken) {
       ) {
         return true;
       }
-
-      // If we found the title line but this next line isn't the size type,
-      // sometimes the size line is merged in the same paragraph token!
     }
 
     // If the token is a paragraph, check if it contains both a strong title and an em size inside it natively
@@ -489,6 +486,12 @@ function formatStatBlock(blockquoteToken, startIndex) {
         fields: "borderBottom,spaceBelow",
       },
     });
+
+    // Ensure there's a blank space below the stat block!
+    requests.push({
+      insertText: { location: { index: statBlockEnd }, text: "\n" },
+    });
+    currentIndex += 1; // For the inserted newline
   }
 
   return { requests, nextIndex: currentIndex };

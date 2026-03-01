@@ -5,7 +5,7 @@ description: How to create a new D&D campaign using the dnd-campaign-creator too
 This workflow defines how to initialize a brand new D&D campaign repository that leverages the generic `dnd-campaign-creator` toolkit via local npm linking.
 
 1. **Verify Base Toolkit**: Ensure that `/Users/robertgilks/Source/dnd-campaign-creator` exists and is a valid NPM project.
-2. **Create Campaign Directory**: 
+2. **Create Campaign Directory**:
    // turbo
    `mkdir -p <PATH_TO_NEW_CAMPAIGN> && cd <PATH_TO_NEW_CAMPAIGN> && npm init -y`
 3. **Install the Toolkit**: Link the base toolkit using NPM local file installation.
