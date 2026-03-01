@@ -10,6 +10,32 @@ This tool extracts the robust publishing scripts developed for the _Borderlands 
 - **Image Syncing**: Automatically traverses markdown files finding local images (like maps and NPC portraits), uploads them to Google Drive (making them public), and rewrites the markdown to use the new Drive URLs.
 - **Stat Block Formatting**: D&D 5E compliant formatting for any blockquotes matching the standard `_Size type, alignment_` layout, complete with thematic parchment backgrounds and red dividers.
 
+## Prerequisites
+
+- **Node.js**: v18 or newer
+- **Google Cloud Console Project**: You need an active Google Cloud Project with the **Google Docs API** and **Google Drive API** enabled.
+
+## Authentication Setup
+
+Because this tool interacts with Google Drive (to upload images) and Google Docs (to write the adventure content), you must supply your own Google API credentials.
+You have two options:
+
+### Option 1: Desktop OAuth (Easiest)
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project or select an existing one.
+3. Enable the **Google Docs API** and **Google Drive API**.
+4. Navigate to **APIs & Services** > **Credentials**.
+5. Click **Create Credentials** > **OAuth client ID**.
+6. Set the Application type to **Desktop app**.
+7. Download the resulting JSON file and save it exactly as `credentials.json` in the root of your new campaign repository.
+8. When you run the publisher for the first time, it will prompt you in your browser to grant access and will save a `token.json` file.
+
+### Option 2: Service Account
+1. Follow steps 1-3 above, then go to **IAM & Admin** > **Service Accounts**.
+2. Create a new Service Account and download a JSON key.
+3. Save it as `service-account-key.json` in the root of your campaign repository.
+4. Set the environment variable `AUTH_METHOD=service-account` when running the tool.
+
 ## Setup & Architecture
 
 This repository now acts as a **generic, reusable engine**. Campaign content itself should live in completely separate repositories and link to these tools.

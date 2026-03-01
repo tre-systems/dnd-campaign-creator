@@ -1,7 +1,7 @@
 {
   "name": "dnd-campaign-creator",
   "version": "1.0.0",
-  "description": "",
+  "description": "A generic utility for compiling Markdown adventures into Google Docs with Drive image syncing.",
   "main": "src/index.js",
   "bin": {
     "campaign-creator": "./bin/campaign-creator.js"
@@ -17,9 +17,16 @@
     "type": "git",
     "url": "git+https://github.com/tre-systems/dnd-campaign-creator.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "dnd",
+    "campaign",
+    "google-docs",
+    "markdown",
+    "publishing",
+    "5e"
+  ],
+  "author": "Robert Gilks",
+  "license": "MIT",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/tre-systems/dnd-campaign-creator/issues"

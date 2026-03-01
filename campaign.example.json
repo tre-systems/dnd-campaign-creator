@@ -1,11 +1,11 @@
 {
-  "campaignRoot": "../dnd/borderlands-campaign",
-  "assetsDir": "../dnd/borderlands-campaign/assets",
+  "campaignRoot": "./",
+  "assetsDir": "./assets",
   "adventures": {
-    "war-for-the-west": {
-      "title": "The War for the West",
-      "sourceDir": "adventures/war-for-the-west",
-      "targetDocId": "1dVf2bX7_lIt-Lcf3uXzuOpix0sy9jvw5lJ70F0fbS64",
+    "my-epic-adventure": {
+      "title": "My Epic Adventure",
+      "sourceDir": "adventures/epic",
+      "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE",
       "categories": [
         {
           "name": "Adventure Overview",
@@ -30,19 +30,14 @@
       "order": {
         "main": ["000-session-primer.md", "00-adventure-guide.md"],
         "acts": [
-          "01-the-sky-is-broken.md",
-          "01a-the-desolate-keep.md",
-          "02-the-road-west.md",
-          "03-battle-of-the-western-lands.md"
+          "01-intro.md",
+          "02-the-road-west.md"
         ],
-        "npcs": ["npcs/maverak.md", "npcs/rogahn-khan.md"],
+        "npcs": ["npcs/villain.md", "npcs/ally.md"],
         "handouts": [
-          "handouts/elephant-legend-lore.md",
-          "handouts/grey-folk-warning.md",
-          "handouts/western-front-report.md",
-          "handouts/fabulous-portable-elephant.md"
+          "handouts/secret-note.md"
         ],
-        "session": ["session-notes.md"]
+        "session": ["session-1-notes.md"]
       }
     }
   }
