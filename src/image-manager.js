@@ -2,6 +2,7 @@ const fs = require("fs").promises;
 const path = require("path");
 const { google } = require("googleapis");
 const crypto = require("crypto");
+const sharp = require("sharp");
 
 /**
  * Scan markdown content for local image paths.
@@ -116,10 +117,53 @@ async function uploadImageToDrive(drive, filePath, folderId) {
     if (folderId) {
       fileMetadata.parents = [folderId];
     }
+    
+    // Check if the file is an SVG
+    const isSvg = filePath.toLowerCase().endsWith('.svg');
+    let mediaBody;
+
+    if (isSvg) {
+       console.log(`  🎨 Rasterizing SVG to PNG...`);
+       // Read the SVG as text so we can inline local image references
+       let svgContent = await fs.readFile(filePath, "utf8");
+       
+       // Find all local image links inside the SVG and convert them to base64 Data URIs
+       const imageRegex = /href=["']([^"']+\.(png|jpg|jpeg|webp))["']/gi;
+       let match;
+       while ((match = imageRegex.exec(svgContent)) !== null) {
+           const relativeImagePath = match[1];
+           if (!relativeImagePath.startsWith('http') && !relativeImagePath.startsWith('data:')) {
+               const absoluteImagePath = path.resolve(path.dirname(filePath), relativeImagePath);
+               try {
+                   const imgBuffer = await fs.readFile(absoluteImagePath);
+                   const ext = path.extname(absoluteImagePath).substring(1).toLowerCase();
+                   const mimeType = ext === 'jpg' ? 'jpeg' : ext;
+                   const base64Data = imgBuffer.toString('base64');
+                   const dataUri = `data:image/${mimeType};base64,${base64Data}`;
+                   
+                   svgContent = svgContent.replace(match[0], `href="${dataUri}"`);
+               } catch (e) {
+                   console.warn(`   ⚠️  Could not inline SVG image ${absoluteImagePath}: ${e.message}`);
+               }
+           }
+       }
+       
+       // Render the inlined SVG to a PNG buffer
+       const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+       
+       // Create a readable stream from the buffer for Google API
+       const { Readable } = require('stream');
+       mediaBody = Readable.from(pngBuffer);
+       
+       // Force the drive filename to be .png so Docs doesn't complain about the file type
+       fileMetadata.name = fileName.replace(/\.svg$/i, '.png');
+    } else {
+       mediaBody = require("fs").createReadStream(filePath);
+    }
 
     const media = {
       mimeType: "image/png",
-      body: require("fs").createReadStream(filePath),
+      body: mediaBody,
     };
 
     const res = await drive.files.create({
