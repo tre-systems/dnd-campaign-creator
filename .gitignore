@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+token.json
+credentials.json
+build/
+coverage/
+*.log

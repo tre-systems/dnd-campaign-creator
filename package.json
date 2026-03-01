@@ -1,0 +1,39 @@
+{
+  "name": "dnd-campaign-creator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "bin": {
+    "campaign-creator": "./bin/campaign-creator.js"
+  },
+  "scripts": {
+    "test": "node --test src/__tests__/*.test.js",
+    "format": "prettier --write '**/*.{js,md,json}'",
+    "lint": "markdownlint-cli '**/*.md' --ignore node_modules",
+    "check-links": "linkinator '**/*.md' --skip '^(?!https?://)' --retry",
+    "precommit": "npm run format && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tre-systems/dnd-campaign-creator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tre-systems/dnd-campaign-creator/issues"
+  },
+  "homepage": "https://github.com/tre-systems/dnd-campaign-creator#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "googleapis": "^171.4.0",
+    "marked": "^17.0.3"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "linkinator": "^7.6.1",
+    "markdownlint-cli": "^0.47.0",
+    "prettier": "^3.8.1"
+  }
+}
