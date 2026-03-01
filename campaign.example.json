@@ -29,14 +29,9 @@
       ],
       "order": {
         "main": ["000-session-primer.md", "00-adventure-guide.md"],
-        "acts": [
-          "01-intro.md",
-          "02-the-road-west.md"
-        ],
+        "acts": ["01-intro.md", "02-the-road-west.md"],
         "npcs": ["npcs/villain.md", "npcs/ally.md"],
-        "handouts": [
-          "handouts/secret-note.md"
-        ],
+        "handouts": ["handouts/secret-note.md"],
         "session": ["session-1-notes.md"]
       }
     }

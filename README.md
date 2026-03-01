@@ -21,6 +21,7 @@ Because this tool interacts with Google Drive (to upload images) and Google Docs
 You have two options:
 
 ### Option 1: Desktop OAuth (Easiest)
+
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
 2. Create a new project or select an existing one.
 3. Enable the **Google Docs API** and **Google Drive API**.
@@ -31,6 +32,7 @@ You have two options:
 8. When you run the publisher for the first time, it will prompt you in your browser to grant access and will save a `token.json` file.
 
 ### Option 2: Service Account
+
 1. Follow steps 1-3 above, then go to **IAM & Admin** > **Service Accounts**.
 2. Create a new Service Account and download a JSON key.
 3. Save it as `service-account-key.json` in the root of your campaign repository.
