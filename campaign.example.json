@@ -6,6 +6,15 @@
       "title": "My Epic Adventure",
       "sourceDir": "adventures/epic",
       "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE",
+      "artStyle": {
+        "style": "Dark fantasy, painterly, highly detailed",
+        "medium": "Digital painting with traditional oil painting aesthetic",
+        "palette": "Desaturated earth tones, warm torchlight ambers, cold dungeon blues",
+        "lighting": "Dramatic, directional. Deep shadows, high contrast",
+        "mood": "Epic, foreboding, mysterious",
+        "subjects": "NPCs as character portraits with environmental context. Locations as wide establishing shots with sense of scale",
+        "avoid": "Cartoonish styles, bright saturated colors, text or lettering in images"
+      },
       "categories": [
         {
           "name": "Adventure Overview",

@@ -95,6 +95,34 @@ Your campaign repository must have a `campaign.json` at its root.
 }
 ```
 
+### Art Style Definition
+
+Each adventure can include an optional `artStyle` object in `campaign.json` to define the visual identity for generated illustrations. This ensures consistency when creating images across sessions, contributors, or AI tools.
+
+```json
+"artStyle": {
+  "style": "Dark fantasy, painterly, highly detailed",
+  "medium": "Digital painting with traditional oil painting aesthetic",
+  "palette": "Desaturated earth tones, warm torchlight ambers, cold dungeon blues",
+  "lighting": "Dramatic, directional. Deep shadows, high contrast",
+  "mood": "Epic, foreboding, mysterious",
+  "subjects": "NPCs as character portraits with environmental context. Locations as wide establishing shots with sense of scale",
+  "avoid": "Cartoonish styles, bright saturated colors, text or lettering in images"
+}
+```
+
+| Field | Purpose |
+| --- | --- |
+| `style` | Overall artistic style and level of detail |
+| `medium` | The look and feel of the rendering technique |
+| `palette` | Color palette, including per-section accent colors |
+| `lighting` | Lighting direction, sources, and contrast |
+| `mood` | Emotional tone and atmosphere |
+| `subjects` | Composition guidelines for NPCs vs. locations |
+| `avoid` | Explicit exclusions to maintain consistency |
+
+When generating images (e.g. with an AI tool), prepend the `artStyle` fields to your prompt to maintain a cohesive visual language across the entire campaign.
+
 ### Publishing
 
 Once you've linked the toolkit in your campaign repository, you can publish using `npx`. Run this command _from within your campaign repository_:
