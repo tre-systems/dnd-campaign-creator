@@ -123,6 +123,25 @@ Each adventure can include an optional `artStyle` object in `campaign.json` to d
 
 When generating images (e.g. with an AI tool), prepend the `artStyle` fields to your prompt to maintain a cohesive visual language across the entire campaign.
 
+### Player Guide
+
+Every campaign benefits from a player-facing guide that sets expectations before anyone sits down at the table. This is typically the first file in your adventure's `order` list (e.g., `000-session-primer.md`) and gets published at the top of the Google Doc so players can read it before the first session.
+
+Each campaign is different, but a good player guide generally covers:
+
+- **What the game is about** — Tone, themes, and what kind of experience to expect (combat-heavy, roleplay-focused, survival horror, political intrigue, etc.)
+- **Character creation rules** — Which rulebooks and sources are allowed, ability score method (Standard Array, Point Buy, rolling), starting level, and any restrictions
+- **What to bring** — Character sheet, dice, pencils, notebooks, supplementary rulebooks
+- **House rules** — Any deviations from the official rules (flanking, fumbles, readied spells, ammunition recovery, shooting into melee, etc.)
+- **XP or milestone system** — How progression works, what earns XP, and what happens when a player misses a session
+- **Resting and resource management** — If your campaign tracks light sources, rations, encumbrance, or dungeon turns
+- **Player expectations** — Rules knowledge responsibility, engagement expectations, and the balance between combat, exploration, and social interaction
+- **Quick reference tables** — Key rules and resource durations in a scannable format
+
+The example `campaign.json` includes a `000-session-primer.md` file as the first entry in the main order. Use this slot for your player guide.
+
+> **Tip:** Players are responsible for knowing the rules for their own characters. If they use material from supplementary sourcebooks, they should bring those rules to the table. Make this explicit in your guide — it saves enormous amounts of time during play.
+
 ### Publishing
 
 Once you've linked the toolkit in your campaign repository, you can publish using `npx`. Run this command _from within your campaign repository_:
