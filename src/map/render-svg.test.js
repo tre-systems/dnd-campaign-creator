@@ -105,13 +105,7 @@ describe("render-svg", () => {
     });
 
     it("renders door with orientation-aware geometry", () => {
-      const horizontal = renderFeatureSymbol(
-        CELL.DOOR,
-        0,
-        0,
-        20,
-        "horizontal",
-      );
+      const horizontal = renderFeatureSymbol(CELL.DOOR, 0, 0, 20, "horizontal");
       const vertical = renderFeatureSymbol(CELL.DOOR, 0, 0, 20, "vertical");
       assert.notEqual(
         horizontal,
