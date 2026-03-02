@@ -237,7 +237,10 @@ async function processImagesAndUpload(
 
     // Replacing: ](/path/to/img) -> ](driveUrl) or [Missing Image: path]
     const escapedPath = img.originalPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const replaceRegex = new RegExp(`!\\[([^\\]]*)\\]\\((file:\/\/)?${escapedPath}\\)`, "g");
+    const replaceRegex = new RegExp(
+      `!\\[([^\\]]*)\\]\\((file:\/\/)?${escapedPath}\\)`,
+      "g",
+    );
 
     if (driveUrl) {
       newContent = newContent.replace(replaceRegex, `![$1](${driveUrl})`);
