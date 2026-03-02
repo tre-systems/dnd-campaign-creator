@@ -1,0 +1,181 @@
+{
+  "id": "gatehouse-ruin",
+  "level": 1,
+  "chapter": "Act I",
+  "theme": "Goblin-occupied dwarven gatehouse",
+  "pressure": "faction",
+  "sessionLoad": "standard",
+  "promise": "Players breach the outer defences and discover the goblins are fortifying against something deeper.",
+  "layoutStrategy": "constructed",
+  "grid": { "width": 30, "height": 44 },
+  "density": "standard",
+
+  "nodes": [
+    {
+      "id": "E1",
+      "type": "entry",
+      "name": "Collapsed Gate",
+      "sizeClass": "medium",
+      "sightline": "open",
+      "retreatOptions": ["G1"]
+    },
+    {
+      "id": "G1",
+      "type": "guard",
+      "name": "Guard Post",
+      "sizeClass": "medium",
+      "sightline": "partial",
+      "retreatOptions": ["H1"],
+      "occupants": "2 goblin sentries"
+    },
+    {
+      "id": "H1",
+      "type": "hub",
+      "name": "Gatehouse Hall",
+      "sizeClass": "medium",
+      "sightline": "open",
+      "retreatOptions": ["R1", "R3", "F1"]
+    },
+    {
+      "id": "R1",
+      "type": "standard",
+      "name": "Barracks",
+      "sizeClass": "small",
+      "sightline": "blocked",
+      "retreatOptions": ["H1"],
+      "occupants": "4 goblins"
+    },
+    {
+      "id": "R2",
+      "type": "resource",
+      "name": "Armoury",
+      "sizeClass": "small",
+      "sightline": "blocked",
+      "retreatOptions": ["R1"]
+    },
+    {
+      "id": "R3",
+      "type": "resource",
+      "name": "Kitchen/Well",
+      "sizeClass": "medium",
+      "sightline": "open",
+      "retreatOptions": ["X1"],
+      "occupants": "1 noncombatant cook"
+    },
+    {
+      "id": "F1",
+      "type": "faction-core",
+      "name": "Boss Room",
+      "sizeClass": "large",
+      "sightline": "open",
+      "retreatOptions": ["X1"],
+      "occupants": "Hobgoblin boss + 1 bodyguard"
+    },
+    {
+      "id": "S1",
+      "type": "secret",
+      "name": "Old Vault",
+      "sizeClass": "small",
+      "sightline": "blocked",
+      "retreatOptions": []
+    },
+    {
+      "id": "X1",
+      "type": "exit",
+      "name": "Stairs Down",
+      "sizeClass": "small",
+      "sightline": "partial",
+      "retreatOptions": ["R3", "F1"]
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "E1",
+      "to": "G1",
+      "type": "door",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "G1",
+      "to": "H1",
+      "type": "open",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "H1",
+      "to": "R1",
+      "type": "open",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "H1",
+      "to": "R3",
+      "type": "door",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "H1",
+      "to": "F1",
+      "type": "locked",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "R1",
+      "to": "R2",
+      "type": "open",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "R3",
+      "to": "X1",
+      "type": "open",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "F1",
+      "to": "S1",
+      "type": "secret",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "F1",
+      "to": "X1",
+      "type": "door",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "R2",
+      "to": "H1",
+      "type": "secret",
+      "bidirectional": true,
+      "width": "standard"
+    },
+    {
+      "from": "E1",
+      "to": "H1",
+      "type": "open",
+      "bidirectional": true,
+      "width": "standard"
+    }
+  ],
+
+  "connectors": [
+    {
+      "side": "bottom",
+      "offset": 15,
+      "width": 3,
+      "transitionType": "vertical",
+      "destination": "Deep Caves"
+    }
+  ]
+}

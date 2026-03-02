@@ -337,14 +337,167 @@ async function run() {
     } catch (error) {
       console.error("Critical Error Config:", error.message);
     }
+  } else if (command === "generate-map") {
+    const sectionFile = args[1];
+    if (!sectionFile || sectionFile.startsWith("--")) {
+      console.error(
+        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--no-grid] [--no-labels] [--color-scheme <blue|parchment>]",
+      );
+      process.exit(1);
+    }
+
+    try {
+      await generateMap(sectionFile, args);
+    } catch (error) {
+      console.error(`Error generating map: ${error.message}`);
+      process.exit(1);
+    }
   } else {
     console.log(`
 D&D Campaign Creator Tool
 Usage:
   campaign-creator publish <adventure-key> [--config ./campaign.json] [--test]
   campaign-creator sync-assets <adventure-key> [--config ./campaign.json] [--generate]
+  campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only]
 `);
   }
+}
+
+/**
+ * Generate a dungeon map from a section definition JSON file.
+ */
+async function generateMap(sectionFile, args) {
+  const { buildIntent, createRng } = require("../src/map/intent");
+  const { buildGraph } = require("../src/map/topology");
+  const { validateTopology, validateGeometry } = require("../src/map/validate");
+  const { layoutConstructed } = require("../src/map/geometry");
+  const { routeCorridors } = require("../src/map/corridors");
+  const { renderSvg } = require("../src/map/render-svg");
+  const { renderAscii } = require("../src/map/render-ascii");
+  const { renderPacket } = require("../src/map/packet");
+
+  // Parse CLI options
+  const getArg = (flag) => {
+    const i = args.indexOf(flag);
+    return i !== -1 && args[i + 1] ? args[i + 1] : null;
+  };
+  const outputDir =
+    getArg("--output") || path.dirname(path.resolve(sectionFile));
+  const seedInput = getArg("--seed");
+  const seed = seedInput ? parseInt(seedInput, 10) : Date.now();
+  const cellSize = getArg("--cell-size")
+    ? parseInt(getArg("--cell-size"), 10)
+    : 20;
+  const validateOnly = args.includes("--validate-only");
+  const asciiOnly = args.includes("--ascii-only");
+  const showGrid = !args.includes("--no-grid");
+  const showLabels = !args.includes("--no-labels");
+  const colorScheme = getArg("--color-scheme") || "blue";
+
+  console.error(`Using seed: ${seed}`);
+  const rng = createRng(seed);
+
+  // 1. Load section definition
+  const raw = await fs.readFile(path.resolve(sectionFile), "utf8");
+  const section = JSON.parse(raw);
+
+  // 2. Build intent
+  const intent = buildIntent(section);
+  intent._connectors = section.connectors || [];
+  console.log(`Section: ${intent.theme} (${intent.id})`);
+  console.log(
+    `Grid: ${intent.grid.width}x${intent.grid.height}, ${intent.layoutStrategy}, ${intent.density}`,
+  );
+
+  // 3. Build topology graph
+  const graph = buildGraph(section.nodes, section.edges);
+  console.log(
+    `Topology: ${graph.nodes.length} nodes, ${graph.edges.length} edges`,
+  );
+
+  // 4. Validate topology
+  const topoResult = validateTopology(graph, intent.grid);
+  console.log("\nTopology validation:");
+  for (const r of topoResult.results) {
+    console.log(`  ${r.passed ? "PASS" : "FAIL"} ${r.rule}: ${r.detail}`);
+  }
+  if (!topoResult.valid) {
+    console.error(
+      "\nTopology validation failed. Fix issues before generating geometry.",
+    );
+    process.exit(1);
+  }
+  if (validateOnly) {
+    console.log("\nValidation complete (--validate-only).");
+    return;
+  }
+
+  // 5. Generate geometry
+  console.log("\nGenerating layout...");
+  let geometry = layoutConstructed(
+    graph,
+    intent.grid,
+    intent.density,
+    section.connectors || [],
+    10,
+    rng,
+  );
+
+  // 6. Route corridors
+  geometry = routeCorridors(geometry, graph, rng);
+
+  // 7. Validate geometry
+  const geoResult = validateGeometry(geometry, graph);
+  console.log("\nGeometry validation:");
+  for (const r of geoResult.results) {
+    console.log(`  ${r.passed ? "PASS" : "FAIL"} ${r.rule}: ${r.detail}`);
+  }
+
+  // Merge validation results
+  const allValidation = {
+    valid: topoResult.valid && geoResult.valid,
+    results: [...topoResult.results, ...geoResult.results],
+  };
+
+  // 8. Render outputs
+  await fs.mkdir(outputDir, { recursive: true });
+
+  // ASCII map
+  const ascii = renderAscii(geometry, graph);
+  const asciiPath = path.join(outputDir, `${intent.id}-map.txt`);
+  await fs.writeFile(asciiPath, ascii, "utf8");
+  console.log(`\nASCII map: ${asciiPath}`);
+
+  // SVG map
+  let svgFilename = null;
+  if (!asciiOnly) {
+    const svg = renderSvg(geometry, graph, intent, {
+      cellSize,
+      showGrid,
+      showLabels,
+      showRockHatch: true,
+      colorScheme,
+    });
+    svgFilename = `${intent.id}-map.svg`;
+    const svgPath = path.join(outputDir, svgFilename);
+    await fs.writeFile(svgPath, svg, "utf8");
+    console.log(`SVG map: ${svgPath}`);
+  }
+
+  // Section packet markdown
+  const packet = renderPacket(
+    geometry,
+    graph,
+    intent,
+    ascii,
+    svgFilename ? `./${svgFilename}` : null,
+    allValidation,
+  );
+  const packetPath = path.join(outputDir, `${intent.id}-packet.md`);
+  await fs.writeFile(packetPath, packet, "utf8");
+  console.log(`Section packet: ${packetPath}`);
+
+  console.log("\nDone.");
 }
 
 if (require.main === module) {
@@ -354,4 +507,5 @@ if (require.main === module) {
 module.exports = {
   publishAdventure,
   combineAdventureFiles,
+  generateMap,
 };
