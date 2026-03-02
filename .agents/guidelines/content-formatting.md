@@ -15,10 +15,10 @@ These rules apply when writing or editing any campaign markdown content (adventu
 ### Bad (table)
 
 ```markdown
-| Monster | HP | AC | Attack |
-|---------|----|----|--------|
-| Goblin  | 7  | 15 | +4     |
-| Orc     | 15 | 13 | +5     |
+| Monster | HP  | AC  | Attack |
+| ------- | --- | --- | ------ |
+| Goblin  | 7   | 15  | +4     |
+| Orc     | 15  | 13  | +5     |
 ```
 
 ### Good (list)

@@ -1,3 +1,4 @@
+const { AIService } = require("./ai-service");
 const fs = require("fs").promises;
 const path = require("path");
 const { google } = require("googleapis");
@@ -249,7 +250,108 @@ async function processImagesAndUpload(
   return newContent;
 }
 
+/**
+ * Generate a detailed AI prompt based on art style and image description.
+ *
+ * @param {Object} artStyle - The style config from campaign.json
+ * @param {string} description - The alt text/description for the image
+ * @returns {string} - The constructed prompt
+ */
+function generatePrompt(artStyle, description) {
+  if (!artStyle) return description;
+
+  const { style, medium, palette, lighting, mood, subjects, avoid } = artStyle;
+
+  // Find quarter-specific palette if applicable (heuristic: check if description mentions a quest/quarter key)
+  let activePalette = palette;
+  if (typeof palette === "string" && palette.includes("(")) {
+    // Basic heuristic: "industrial brass-copper (2A)"
+    const palettes = palette.split(";").map((p) => p.trim());
+    const match = palettes.find((p) => {
+      const parts = p.match(/\(([^)]+)\)/);
+      return (
+        parts && description.toUpperCase().includes(parts[1].toUpperCase())
+      );
+    });
+    if (match) activePalette = match;
+  }
+
+  return [
+    `${style}. ${medium}.`,
+    description,
+    subjects ? `Subjects: ${subjects}.` : "",
+    activePalette ? `Palette: ${activePalette}.` : "",
+    lighting ? `Lighting: ${lighting}.` : "",
+    mood ? `Mood: ${mood}.` : "",
+    avoid ? `Avoid: ${avoid}.` : "No text or lettering.",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+/**
+ * Sync all assets for an adventure by finding missing images and generating them.
+ *
+ * @param {Object} adventureDir - Path to adventure source
+ * @param {Object} adventureConfig - The adventure part of campaign.json
+ * @param {boolean} shouldGenerate - Whether to actually call the AI
+ */
+async function syncAdventureAssets(
+  adventureDir,
+  adventureConfig,
+  shouldGenerate = false,
+) {
+  console.log(`🖼️  Syncing assets for: ${adventureConfig.title}`);
+
+  const { getMarkdownFiles } = require("./document-manager");
+  const mdFiles = await getMarkdownFiles(adventureDir);
+  const missingByFile = new Map();
+  const allMissing = new Set();
+
+  for (const file of mdFiles) {
+    const content = await fs.readFile(file, "utf8");
+    const images = extractLocalImagePaths(content, file);
+
+    for (const img of images) {
+      if (!(await fs.stat(img.path).catch(() => null))) {
+        if (!missingByFile.has(file)) missingByFile.set(file, []);
+        missingByFile.get(file).push(img);
+        allMissing.add(JSON.stringify({ path: img.path, alt: img.alt }));
+      }
+    }
+  }
+
+  if (allMissing.size === 0) {
+    console.log("   ✅ All assets present.");
+    return;
+  }
+
+  console.log(`   Found ${allMissing.size} missing unique assets.`);
+
+  const aiService = new AIService();
+
+  for (const itemJson of allMissing) {
+    const item = JSON.parse(itemJson);
+    const prompt = generatePrompt(adventureConfig.artStyle, item.alt);
+
+    console.log(`\n   --- Missing: ${path.basename(item.path)} ---`);
+    console.log(`   Prompt: ${prompt}`);
+
+    if (shouldGenerate) {
+      await aiService.generateImage(prompt, item.path);
+    }
+  }
+
+  if (!shouldGenerate) {
+    console.log(
+      "\n   💡 Run with --generate to trigger AI generation for these assets.",
+    );
+  }
+}
+
 module.exports = {
   processImagesAndUpload,
   extractLocalImagePaths,
+  generatePrompt,
+  syncAdventureAssets,
 };

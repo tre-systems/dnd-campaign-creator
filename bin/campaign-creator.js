@@ -22,7 +22,10 @@ const {
   listDocs,
   getDocContent,
 } = require("../src/document-manager");
-const { processImagesAndUpload } = require("../src/image-manager");
+const {
+  processImagesAndUpload,
+  syncAdventureAssets,
+} = require("../src/image-manager");
 
 // Google Docs API scopes
 const SCOPES = [
@@ -263,6 +266,32 @@ async function publishAdventure(config, adventureName, isDryRun = false) {
   }
 }
 
+/**
+ * Sync assets command handler
+ */
+async function syncAssets(config, adventureName, shouldGenerate = false) {
+  const adventureConfig = config.adventures[adventureName];
+
+  if (!adventureConfig) {
+    console.error(
+      `❌ Error: Unknown adventure '${adventureName}' in campaign config.`,
+    );
+    process.exit(1);
+  }
+
+  const adventureDir = path.resolve(
+    config.campaignRoot,
+    adventureConfig.sourceDir || adventureName,
+  );
+
+  try {
+    await syncAdventureAssets(adventureDir, adventureConfig, shouldGenerate);
+  } catch (error) {
+    console.error(`❌ Error syncing assets: ${error.message}`);
+    process.exit(1);
+  }
+}
+
 // CLI handler
 async function run() {
   const args = process.argv.slice(2);
@@ -291,11 +320,29 @@ async function run() {
     } catch (error) {
       console.error("Critical Error Config:", error.message);
     }
+  } else if (command === "sync-assets") {
+    const adventureName = args[1];
+    const shouldGenerate = args.includes("--generate");
+
+    if (!adventureName || adventureName.startsWith("--")) {
+      console.error(
+        "Usage: campaign-creator sync-assets <adventure-key> [--config <path>] [--generate]",
+      );
+      process.exit(1);
+    }
+
+    try {
+      const config = await loadConfig(configPath);
+      await syncAssets(config, adventureName, shouldGenerate);
+    } catch (error) {
+      console.error("Critical Error Config:", error.message);
+    }
   } else {
     console.log(`
 D&D Campaign Creator Tool
 Usage:
   campaign-creator publish <adventure-key> [--config ./campaign.json] [--test]
+  campaign-creator sync-assets <adventure-key> [--config ./campaign.json] [--generate]
 `);
   }
 }
