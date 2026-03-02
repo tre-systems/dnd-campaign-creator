@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 332" width="242" height="332">
+<style>
+.bg{fill:#4d95c0}.cell{fill:#f8fcff;stroke:#d3e6f3;stroke-width:1}.label{font:10px Georgia,serif;fill:#e6f4fc;text-anchor:middle}
+.door{fill:#f8fcff;stroke:#3f7fa8;stroke-width:1.8}.door-locked{fill:#f8fcff;stroke:#3f7fa8;stroke-width:1.8}.door-locked-key{fill:#3f7fa8}
+.door-secret{fill:none;stroke:#3f7fa8;stroke-width:1.6;stroke-dasharray:2,2}.secret-label{font-family:Georgia,serif;font-weight:bold;fill:#3f7fa8}
+.stairs{fill:none;stroke:#3f7fa8;stroke-width:1.5}.stairs-arrow{fill:#3f7fa8}.pillar,.trap,.portcullis,.archway,.curtain,.statue,.statue-base,.altar,.altar-cross,.well-outer,.well-inner,.fountain-outer,.fountain-inner,.fountain-jet,.firepit,.throne,.throne-arm,.sarcophagus,.sarcophagus-lid,.bars,.pit,.pit-hatch,.lever-arm{fill:none;stroke:#3f7fa8;stroke-width:1.2}
+.firepit-flame,.throne-seat,.lever-base,.lever-handle,.archway-base{fill:#3f7fa8}.water{fill:#edf4fa;stroke:#7faecc;stroke-width:0.8}.water-wave{fill:none;stroke:#3f7fa8;stroke-width:0.8;opacity:.5}.treasure{fill:none;stroke:#3f7fa8;stroke-width:1.3}.collapsed{fill:#e2f0f8}.rubble-dot{fill:#84b2cd}
+</style>
+<rect class="bg" width="242" height="332"/>
+<rect class="cell" x="16" y="16" width="42" height="42"/>
+<rect class="door" x="23.77" y="31.33" width="26.46" height="11.34" rx="1"/>
+<text class="label" x="37" y="70">DOOR</text>
+<rect class="cell" x="58" y="16" width="42" height="42"/>
+<rect class="door" x="73.33" y="23.77" width="11.34" height="26.46" rx="1"/>
+<text class="label" x="79" y="70">DOOR(v)</text>
+<rect class="cell" x="100" y="16" width="42" height="42"/>
+<rect class="door-locked" x="107.77" y="31.33" width="26.46" height="11.34" rx="1"/>
+      <circle class="door-locked-key" cx="121" cy="37" r="2.52"/>
+<text class="label" x="121" y="70">LOCKED</text>
+<rect class="cell" x="142" y="16" width="42" height="42"/>
+<line class="door-secret" x1="144" y1="37" x2="182" y2="37"/>
+      <text class="secret-label" x="163" y="38" font-size="18.900000000000002" text-anchor="middle" dominant-baseline="central">S</text>
+<text class="label" x="163" y="70">SECRET</text>
+<rect class="cell" x="184" y="16" width="42" height="42"/>
+<rect class="door" x="191.77" y="31.33" width="11.592" height="11.34" rx="1"/>
+      <rect class="door" x="206.638" y="31.33" width="11.592" height="11.34" rx="1"/>
+<text class="label" x="205" y="70">DOUBLE</text>
+<rect class="cell" x="16" y="76" width="42" height="42"/>
+<line class="portcullis" x1="34.48" y1="84.4" x2="34.48" y2="109.6"/>
+      <line class="portcullis" x1="39.52" y1="84.4" x2="39.52" y2="109.6"/>
+      <line class="portcullis" x1="31.33" y1="90.07" x2="42.67" y2="90.07"/>
+      <line class="portcullis" x1="31.33" y1="97" x2="42.67" y2="97"/>
+      <line class="portcullis" x1="31.33" y1="103.93" x2="42.67" y2="103.93"/>
+<text class="label" x="37" y="130">PORTCULLIS</text>
+<rect class="cell" x="58" y="76" width="42" height="42"/>
+<path class="archway" d="M 64.3 109.6 Q 79 82.3 93.69999999999999 109.6"/>
+      <circle class="archway-base" cx="64.3" cy="109.6" r="2.52"/>
+      <circle class="archway-base" cx="93.69999999999999" cy="109.6" r="2.52"/>
+<text class="label" x="79" y="130">ARCHWAY</text>
+<rect class="cell" x="100" y="76" width="42" height="42"/>
+<path class="curtain" d="M 104.2 97 Q 112.6 86.92 121 97 Q 129.4 107.08 137.8 97"/>
+<text class="label" x="121" y="130">CURTAIN</text>
+<rect class="cell" x="142" y="76" width="42" height="42"/>
+<line class="stairs" x1="152.5" y1="84.4" x2="152.5" y2="109.6"/>
+      <line class="stairs" x1="163" y1="84.4" x2="163" y2="109.6"/>
+      <line class="stairs" x1="173.5" y1="84.4" x2="173.5" y2="109.6"/>
+      <polygon class="stairs-arrow" points="156.7,99.1 169.3,99.1 163,111.69999999999999"/>
+<text class="label" x="163" y="130">STAIRS D</text>
+<rect class="cell" x="184" y="76" width="42" height="42"/>
+<line class="stairs" x1="194.5" y1="84.4" x2="194.5" y2="109.6"/>
+      <line class="stairs" x1="205" y1="84.4" x2="205" y2="109.6"/>
+      <line class="stairs" x1="215.5" y1="84.4" x2="215.5" y2="109.6"/>
+      <polygon class="stairs-arrow" points="198.7,94.9 211.3,94.9 205,82.3"/>
+<text class="label" x="205" y="130">STAIRS U</text>
+<rect class="cell" x="16" y="136" width="42" height="42"/>
+<circle class="pillar" cx="37" cy="157" r="7.56"/>
+<text class="label" x="37" y="190">PILLAR</text>
+<rect class="cell" x="58" y="136" width="42" height="42"/>
+<rect class="statue-base" x="70.18" y="148.18" width="17.639999999999997" height="17.639999999999997"/>
+      <circle class="statue" cx="79" cy="157" r="5.67"/>
+<text class="label" x="79" y="190">STATUE</text>
+<rect class="cell" x="100" y="136" width="42" height="42"/>
+<rect class="altar" x="108.4" y="150.7" width="25.2" height="15.12" rx="1"/>
+      <line class="altar-cross" x1="121" y1="153.22" x2="121" y2="160.78"/>
+      <line class="altar-cross" x1="117.22" y1="156.37" x2="124.78" y2="156.37"/>
+<text class="label" x="121" y="190">ALTAR</text>
+<rect class="cell" x="142" y="136" width="42" height="42"/>
+<circle class="well-outer" cx="163" cy="157" r="10.08"/>
+      <circle class="well-inner" cx="163" cy="157" r="5.04"/>
+<text class="label" x="163" y="190">WELL</text>
+<rect class="cell" x="184" y="136" width="42" height="42"/>
+<circle class="fountain-outer" cx="205" cy="157" r="11.34"/>
+      <circle class="fountain-inner" cx="205" cy="157" r="4.409999999999999"/>
+      <line class="fountain-jet" x1="205" y1="152.59" x2="205" y2="146.92"/>
+      <line class="fountain-jet" x1="201.85" y1="160.15" x2="197.44" y2="164.56"/>
+      <line class="fountain-jet" x1="208.15" y1="160.15" x2="212.56" y2="164.56"/>
+<text class="label" x="205" y="190">FOUNTAIN</text>
+<rect class="cell" x="16" y="196" width="42" height="42"/>
+<circle class="firepit" cx="37" cy="217" r="8.819999999999999"/>
+      <polygon class="firepit-flame" points="37,210.7 34.48,218.26 39.52,218.26"/>
+      <polygon class="firepit-flame" points="33.22,214.48 31.33,219.52 35.11,219.52"/>
+      <polygon class="firepit-flame" points="40.78,214.48 38.89,219.52 42.67,219.52"/>
+<text class="label" x="37" y="250">FIREPIT</text>
+<rect class="cell" x="58" y="196" width="42" height="42"/>
+<rect class="throne" x="71.44" y="206.92" width="15.12" height="20.16" rx="2"/>
+      <rect class="throne-seat" x="72.7" y="217" width="12.6" height="7.56"/>
+      <line class="throne-arm" x1="71.44" y1="217" x2="71.44" y2="223.3"/>
+      <line class="throne-arm" x1="86.56" y1="217" x2="86.56" y2="223.3"/>
+<text class="label" x="79" y="250">THRONE</text>
+<rect class="cell" x="100" y="196" width="42" height="42"/>
+<rect class="sarcophagus" x="107.14" y="210.7" width="27.720000000000002" height="12.6" rx="2"/>
+      <rect class="sarcophagus-lid" x="110.92" y="213.22" width="20.16" height="7.56" rx="1"/>
+<text class="label" x="121" y="250">SARC</text>
+<rect class="cell" x="142" y="196" width="42" height="42"/>
+<line class="bars" x1="150.4" y1="200.2" x2="150.4" y2="233.8"/>
+      <line class="bars" x1="158.8" y1="200.2" x2="158.8" y2="233.8"/>
+      <line class="bars" x1="167.2" y1="200.2" x2="167.2" y2="233.8"/>
+      <line class="bars" x1="175.6" y1="200.2" x2="175.6" y2="233.8"/>
+<text class="label" x="163" y="250">BARS</text>
+<rect class="cell" x="184" y="196" width="42" height="42"/>
+<rect class="pit" x="190.3" y="202.3" width="29.4" height="29.4"/>
+      <line class="pit-hatch" x1="190.3" y1="202.3" x2="219.7" y2="231.7"/>
+      <line class="pit-hatch" x1="219.7" y1="202.3" x2="190.3" y2="231.7"/>
+<text class="label" x="205" y="250">PIT</text>
+<rect class="cell" x="16" y="256" width="42" height="42"/>
+<circle class="lever-base" cx="37" cy="280.78" r="3.78"/>
+      <line class="lever-arm" x1="37" y1="280.78" x2="43.3" y2="269.44"/>
+      <circle class="lever-handle" cx="43.3" cy="269.44" r="1.89"/>
+<text class="label" x="37" y="310">LEVER</text>
+<rect class="cell" x="58" y="256" width="42" height="42"/>
+<line class="trap" x1="68.5" y1="266.5" x2="89.5" y2="287.5"/>
+      <line class="trap" x1="89.5" y1="266.5" x2="68.5" y2="287.5"/>
+<text class="label" x="79" y="310">TRAP</text>
+<rect class="cell" x="100" y="256" width="42" height="42"/>
+<rect class="water" x="100" y="256" width="42" height="42"/>
+      <path class="water-wave" d="M 104.2 274.48 Q 112.6 269.44 121 274.48 Q 129.4 279.52 137.8 274.48"/>
+      <path class="water-wave" d="M 104.2 282.04 Q 112.6 277 121 282.04 Q 129.4 287.08 137.8 282.04"/>
+<text class="label" x="121" y="310">WATER</text>
+<rect class="cell" x="142" y="256" width="42" height="42"/>
+<polygon class="treasure" points="163,264.4 175.6,277 163,289.6 150.4,277"/>
+<text class="label" x="163" y="310">TREASURE</text>
+<rect class="cell" x="184" y="256" width="42" height="42"/>
+<rect class="collapsed" x="184" y="256" width="42" height="42"/>
+      <circle class="rubble-dot" cx="198.7" cy="273.22" r="1.89"/>
+      <circle class="rubble-dot" cx="208.78" cy="270.7" r="2.52"/>
+      <circle class="rubble-dot" cx="205" cy="279.52" r="2.268"/>
+      <circle class="rubble-dot" cx="201.22" cy="283.3" r="1.512"/>
+      <circle class="rubble-dot" cx="212.56" cy="280.78" r="1.764"/>
+<text class="label" x="205" y="310">COLLAPSED</text>
+</svg>

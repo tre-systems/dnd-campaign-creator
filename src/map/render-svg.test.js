@@ -104,6 +104,24 @@ describe("render-svg", () => {
       assert.ok(svg.includes('class="door"'), "Should have door class");
     });
 
+    it("renders door with orientation-aware geometry", () => {
+      const horizontal = renderFeatureSymbol(
+        CELL.DOOR,
+        0,
+        0,
+        20,
+        "horizontal",
+      );
+      const vertical = renderFeatureSymbol(CELL.DOOR, 0, 0, 20, "vertical");
+      assert.notEqual(
+        horizontal,
+        vertical,
+        "Door symbol should differ by orientation",
+      );
+      assert.ok(horizontal.includes('class="door"'));
+      assert.ok(vertical.includes('class="door"'));
+    });
+
     it("renders locked door with keyhole", () => {
       const svg = renderFeatureSymbol(CELL.DOOR_LOCKED, 0, 0, 20);
       assert.ok(svg.includes("<rect"), "Locked door should have a rect");
@@ -350,7 +368,7 @@ describe("render-svg", () => {
       const { geometry, graph, intent } = generateGatehouseMap();
       const svg = renderSvg(geometry, graph, intent);
       assert.ok(
-        svg.includes("#1a3a5c"),
+        svg.includes("#4d95c0"),
         "Should contain blue background color",
       );
     });
@@ -364,7 +382,7 @@ describe("render-svg", () => {
         svg.includes("#f5f0e6"),
         "Should contain parchment background color",
       );
-      assert.ok(!svg.includes("#1a3a5c"), "Should not contain blue background");
+      assert.ok(!svg.includes("#4d95c0"), "Should not contain blue background");
     });
 
     it("includes compass rose by default", () => {

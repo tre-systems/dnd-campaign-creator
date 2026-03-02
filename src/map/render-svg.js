@@ -127,54 +127,121 @@ function mergeCollinearSegments(segments) {
 }
 
 /**
+ * Infer the orientation of a door-like symbol from neighbouring passable cells.
+ * When movement is left-right through the cell, the symbol should be vertical, and vice versa.
+ *
+ * @param {number[][]} cells
+ * @param {number} x
+ * @param {number} y
+ * @returns {"horizontal"|"vertical"}
+ */
+function inferDoorOrientation(cells, x, y) {
+  const height = cells.length;
+  const width = height > 0 ? cells[0].length : 0;
+
+  function isOpen(nx, ny) {
+    return (
+      nx >= 0 &&
+      nx < width &&
+      ny >= 0 &&
+      ny < height &&
+      isFloorLike(cells[ny][nx])
+    );
+  }
+
+  const left = isOpen(x - 1, y);
+  const right = isOpen(x + 1, y);
+  const up = isOpen(x, y - 1);
+  const down = isOpen(x, y + 1);
+
+  const horizontalFlow = Number(left) + Number(right);
+  const verticalFlow = Number(up) + Number(down);
+
+  if (horizontalFlow > verticalFlow) return "vertical";
+  if (verticalFlow > horizontalFlow) return "horizontal";
+  if (left || right) return "vertical";
+  return "horizontal";
+}
+
+/**
  * Render an SVG symbol for a feature cell.
  *
  * @param {number} cellType - CELL constant
  * @param {number} px - Pixel x (top-left of cell)
  * @param {number} py - Pixel y (top-left of cell)
  * @param {number} cs - Cell size in pixels
+ * @param {"horizontal"|"vertical"} [orientation="horizontal"] - Symbol orientation for door-like glyphs
  * @returns {string} SVG element string
  */
-function renderFeatureSymbol(cellType, px, py, cs) {
+function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
   const cx = px + cs / 2;
   const cy = py + cs / 2;
   const r = cs * 0.3;
 
   switch (cellType) {
     case CELL.DOOR:
-      // Classic door: filled rectangle across the opening
-      return `<rect class="door" x="${cx - r}" y="${cy - r * 0.4}" width="${r * 2}" height="${r * 0.8}" rx="1"/>`;
+      // Classic old-school door: short bar across opening
+      if (orientation === "vertical") {
+        return `<rect class="door" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 2.1}" rx="1"/>`;
+      }
+      return `<rect class="door" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 2.1}" height="${r * 0.9}" rx="1"/>`;
 
     case CELL.DOOR_LOCKED:
       // Locked door: filled rectangle with keyhole circle
+      if (orientation === "vertical") {
+        return [
+          `<rect class="door-locked" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 2.1}" rx="1"/>`,
+          `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${r * 0.2}"/>`,
+        ].join("\n      ");
+      }
       return [
-        `<rect class="door-locked" x="${cx - r}" y="${cy - r * 0.4}" width="${r * 2}" height="${r * 0.8}" rx="1"/>`,
+        `<rect class="door-locked" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 2.1}" height="${r * 0.9}" rx="1"/>`,
         `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${r * 0.2}"/>`,
       ].join("\n      ");
 
     case CELL.DOOR_SECRET:
       // Secret door: dashed line with S marker
+      if (orientation === "vertical") {
+        return [
+          `<line class="door-secret" x1="${cx}" y1="${py + 2}" x2="${cx}" y2="${py + cs - 2}"/>`,
+          `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
+        ].join("\n      ");
+      }
       return [
         `<line class="door-secret" x1="${px + 2}" y1="${cy}" x2="${px + cs - 2}" y2="${cy}"/>`,
-        `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.4}" text-anchor="middle" dominant-baseline="central">S</text>`,
+        `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
       ].join("\n      ");
 
     case CELL.DOUBLE_DOOR:
       // Double door: two rectangles side by side with gap
+      if (orientation === "vertical") {
+        return [
+          `<rect class="door" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 0.92}" rx="1"/>`,
+          `<rect class="door" x="${cx - r * 0.45}" y="${cy + r * 0.13}" width="${r * 0.9}" height="${r * 0.92}" rx="1"/>`,
+        ].join("\n      ");
+      }
       return [
-        `<rect class="door" x="${cx - r}" y="${cy - r * 0.4}" width="${r * 0.85}" height="${r * 0.8}" rx="1"/>`,
-        `<rect class="door" x="${cx + r * 0.15}" y="${cy - r * 0.4}" width="${r * 0.85}" height="${r * 0.8}" rx="1"/>`,
+        `<rect class="door" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 0.92}" height="${r * 0.9}" rx="1"/>`,
+        `<rect class="door" x="${cx + r * 0.13}" y="${cy - r * 0.45}" width="${r * 0.92}" height="${r * 0.9}" rx="1"/>`,
       ].join("\n      ");
 
     case CELL.PORTCULLIS:
-      // Portcullis: vertical bars (classic grate symbol)
+      // Portcullis: compact grate symbol aligned to opening
+      if (orientation === "vertical") {
+        return [
+          `<line class="portcullis" x1="${cx - r * 0.2}" y1="${cy - r}" x2="${cx - r * 0.2}" y2="${cy + r}"/>`,
+          `<line class="portcullis" x1="${cx + r * 0.2}" y1="${cy - r}" x2="${cx + r * 0.2}" y2="${cy + r}"/>`,
+          `<line class="portcullis" x1="${cx - r * 0.45}" y1="${cy - r * 0.55}" x2="${cx + r * 0.45}" y2="${cy - r * 0.55}"/>`,
+          `<line class="portcullis" x1="${cx - r * 0.45}" y1="${cy}" x2="${cx + r * 0.45}" y2="${cy}"/>`,
+          `<line class="portcullis" x1="${cx - r * 0.45}" y1="${cy + r * 0.55}" x2="${cx + r * 0.45}" y2="${cy + r * 0.55}"/>`,
+        ].join("\n      ");
+      }
       return [
-        `<line class="portcullis" x1="${px + cs * 0.2}" y1="${py + cs * 0.15}" x2="${px + cs * 0.2}" y2="${py + cs * 0.85}"/>`,
-        `<line class="portcullis" x1="${px + cs * 0.4}" y1="${py + cs * 0.15}" x2="${px + cs * 0.4}" y2="${py + cs * 0.85}"/>`,
-        `<line class="portcullis" x1="${px + cs * 0.6}" y1="${py + cs * 0.15}" x2="${px + cs * 0.6}" y2="${py + cs * 0.85}"/>`,
-        `<line class="portcullis" x1="${px + cs * 0.8}" y1="${py + cs * 0.15}" x2="${px + cs * 0.8}" y2="${py + cs * 0.85}"/>`,
-        `<line class="portcullis" x1="${px + cs * 0.15}" y1="${py + cs * 0.35}" x2="${px + cs * 0.85}" y2="${py + cs * 0.35}"/>`,
-        `<line class="portcullis" x1="${px + cs * 0.15}" y1="${py + cs * 0.65}" x2="${px + cs * 0.85}" y2="${py + cs * 0.65}"/>`,
+        `<line class="portcullis" x1="${cx - r}" y1="${cy - r * 0.2}" x2="${cx + r}" y2="${cy - r * 0.2}"/>`,
+        `<line class="portcullis" x1="${cx - r}" y1="${cy + r * 0.2}" x2="${cx + r}" y2="${cy + r * 0.2}"/>`,
+        `<line class="portcullis" x1="${cx - r * 0.55}" y1="${cy - r * 0.45}" x2="${cx - r * 0.55}" y2="${cy + r * 0.45}"/>`,
+        `<line class="portcullis" x1="${cx}" y1="${cy - r * 0.45}" x2="${cx}" y2="${cy + r * 0.45}"/>`,
+        `<line class="portcullis" x1="${cx + r * 0.55}" y1="${cy - r * 0.45}" x2="${cx + r * 0.55}" y2="${cy + r * 0.45}"/>`,
       ].join("\n      ");
 
     case CELL.ARCHWAY:
@@ -389,64 +456,67 @@ function generateStyles(cellSize, colorScheme) {
     .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #333; text-anchor: middle; dominant-baseline: central; }
     .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #777; text-anchor: middle; dominant-baseline: central; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #333; }
+    .compass-line { stroke: #555; stroke-width: 1; }
     .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #555; text-anchor: middle; }
     .rock-hatch { stroke: #ccc8bc; stroke-width: 0.5; }
   </style>`;
   }
 
   // Classic blue dungeon map style (default)
-  // Inspired by the original TSR/Judges Guild blue-and-white maps
+  // Inspired by old-school blue/white dungeon keymaps.
   return `<style>
-    .bg { fill: #1a3a5c; }
-    .floor { fill: #e8e4d8; }
-    .corridor { fill: #ddd8c8; }
-    .grid-line { stroke: #c8c0b0; stroke-width: 0.5; }
-    .wall { stroke: #0d1f33; stroke-width: ${wallWidth}; stroke-linecap: square; }
-    .door { fill: #c8a050; stroke: #0d1f33; stroke-width: 1; }
-    .door-locked { fill: #c8a050; stroke: #0d1f33; stroke-width: 1.5; }
-    .door-locked-key { fill: #0d1f33; stroke: none; }
-    .door-secret { fill: none; stroke: #8899aa; stroke-width: 1.5; stroke-dasharray: 3,3; }
-    .secret-label { font-family: Georgia, serif; fill: #8899aa; }
-    .stairs { fill: none; stroke: #2a2a2a; stroke-width: 1.5; }
-    .pillar { fill: #999; stroke: #2a2a2a; stroke-width: 1; }
-    .trap { fill: none; stroke: #cc4444; stroke-width: 1.5; }
-    .water { fill: #6699bb; stroke: none; }
-    .treasure { fill: #daa520; stroke: #2a2a2a; stroke-width: 1; }
-    .rubble { fill: #c0b8a8; }
-    .portcullis { fill: none; stroke: #4a4a4a; stroke-width: 1.5; }
-    .archway { fill: none; stroke: #0d1f33; stroke-width: 1.5; }
-    .archway-base { fill: #0d1f33; stroke: none; }
-    .curtain { fill: none; stroke: #8b6914; stroke-width: 1.5; stroke-dasharray: 4,2; }
-    .statue-base { fill: none; stroke: #4a4a4a; stroke-width: 1; }
-    .statue { fill: #999; stroke: #4a4a4a; stroke-width: 1; }
-    .altar { fill: none; stroke: #4a4a4a; stroke-width: 1.5; }
-    .altar-cross { stroke: #4a4a4a; stroke-width: 1.5; }
-    .well-outer { fill: none; stroke: #4a4a4a; stroke-width: 1.5; }
-    .well-inner { fill: #6699bb; stroke: #4a4a4a; stroke-width: 1; }
-    .fountain-outer { fill: none; stroke: #4a4a4a; stroke-width: 1.5; }
-    .fountain-inner { fill: #6699bb; stroke: #4a4a4a; stroke-width: 1; }
-    .fountain-jet { stroke: #88aacc; stroke-width: 1; }
-    .firepit { fill: none; stroke: #aa4444; stroke-width: 1.5; }
-    .firepit-flame { fill: #cc6633; stroke: none; }
-    .throne { fill: none; stroke: #c8a050; stroke-width: 1.5; }
-    .throne-seat { fill: #c8a050; stroke: none; opacity: 0.3; }
-    .throne-arm { stroke: #c8a050; stroke-width: 1.5; }
-    .sarcophagus { fill: none; stroke: #555; stroke-width: 1.5; }
-    .sarcophagus-lid { fill: #888; stroke: #555; stroke-width: 1; opacity: 0.3; }
-    .bars { stroke: #555; stroke-width: 1.5; }
-    .pit { fill: none; stroke: #4a4a4a; stroke-width: 1.5; }
-    .pit-hatch { stroke: #4a4a4a; stroke-width: 1; }
-    .lever-base { fill: #555; stroke: #2a2a2a; stroke-width: 1; }
-    .lever-arm { stroke: #2a2a2a; stroke-width: 1.5; }
-    .lever-handle { fill: #2a2a2a; stroke: none; }
-    .collapsed { fill: #b8b0a0; stroke: none; }
-    .rubble-dot { fill: #777; stroke: none; }
-    .water-wave { fill: none; stroke: #88bbdd; stroke-width: 0.8; opacity: 0.5; }
-    .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #2a2a2a; text-anchor: middle; dominant-baseline: central; }
-    .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #555; text-anchor: middle; dominant-baseline: central; }
-    .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #e8e4d8; }
-    .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #8899aa; text-anchor: middle; }
-    .rock-hatch { stroke: #2a4a6a; stroke-width: 0.5; }
+    .bg { fill: #4d95c0; }
+    .floor { fill: #f8fcff; }
+    .corridor { fill: #f8fcff; }
+    .grid-line { stroke: #d3e6f3; stroke-width: 0.7; }
+    .wall { stroke: #4d95c0; stroke-width: ${wallWidth}; stroke-linecap: round; stroke-linejoin: round; }
+    .door { fill: #f8fcff; stroke: #3f7fa8; stroke-width: 1.8; }
+    .door-locked { fill: #f8fcff; stroke: #3f7fa8; stroke-width: 1.8; }
+    .door-locked-key { fill: #3f7fa8; stroke: none; }
+    .door-secret { fill: none; stroke: #3f7fa8; stroke-width: 1.6; stroke-dasharray: 2,2; }
+    .secret-label { font-family: Georgia, serif; font-weight: bold; fill: #3f7fa8; }
+    .stairs { fill: none; stroke: #3f7fa8; stroke-width: 1.5; }
+    .stairs-arrow { fill: #3f7fa8; stroke: none; }
+    .pillar { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
+    .trap { fill: none; stroke: #3f7fa8; stroke-width: 1.5; }
+    .water { fill: #edf4fa; stroke: #7faecc; stroke-width: 0.8; }
+    .treasure { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
+    .rubble { fill: #edf3f7; }
+    .portcullis { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
+    .archway { fill: none; stroke: #3f7fa8; stroke-width: 1.4; }
+    .archway-base { fill: #3f7fa8; stroke: none; }
+    .curtain { fill: none; stroke: #3f7fa8; stroke-width: 1.3; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .statue { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .altar { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .altar-cross { stroke: #3f7fa8; stroke-width: 1.2; }
+    .well-outer { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .well-inner { fill: none; stroke: #3f7fa8; stroke-width: 1; }
+    .fountain-outer { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .fountain-inner { fill: none; stroke: #3f7fa8; stroke-width: 1; }
+    .fountain-jet { stroke: #3f7fa8; stroke-width: 1; }
+    .firepit { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .firepit-flame { fill: #3f7fa8; stroke: none; opacity: 0.35; }
+    .throne { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .throne-seat { fill: #3f7fa8; stroke: none; opacity: 0.2; }
+    .throne-arm { stroke: #3f7fa8; stroke-width: 1.2; }
+    .sarcophagus { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .sarcophagus-lid { fill: none; stroke: #3f7fa8; stroke-width: 1; opacity: 0.9; }
+    .bars { stroke: #3f7fa8; stroke-width: 1.2; }
+    .pit { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
+    .pit-hatch { stroke: #3f7fa8; stroke-width: 1; }
+    .lever-base { fill: #3f7fa8; stroke: #3f7fa8; stroke-width: 1; }
+    .lever-arm { stroke: #3f7fa8; stroke-width: 1.2; }
+    .lever-handle { fill: #3f7fa8; stroke: none; }
+    .collapsed { fill: #e2f0f8; stroke: none; }
+    .rubble-dot { fill: #84b2cd; stroke: none; }
+    .water-wave { fill: none; stroke: #3f7fa8; stroke-width: 0.8; opacity: 0.5; }
+    .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #3a739d; text-anchor: middle; dominant-baseline: central; }
+    .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #4f89ad; text-anchor: middle; dominant-baseline: central; }
+    .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
+    .compass-line { stroke: #dff0fa; stroke-width: 1; }
+    .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #dff0fa; text-anchor: middle; }
+    .rock-hatch { stroke: #67a0c2; stroke-width: 0.5; }
   </style>`;
 }
 
@@ -527,12 +597,12 @@ function renderGridLines(cells, width, height, cs) {
  */
 function renderRockHatch(cells, width, height, cs) {
   const parts = [];
+  const step = Math.max(4, Math.floor(cs * 0.45));
 
-  // Define crosshatch pattern
+  // Define old-school angled hatch pattern for rock.
   parts.push(`<defs>
-    <pattern id="rock-hatch" width="${cs}" height="${cs}" patternUnits="userSpaceOnUse">
-      <line class="rock-hatch" x1="0" y1="0" x2="${cs}" y2="${cs}"/>
-      <line class="rock-hatch" x1="${cs}" y1="0" x2="0" y2="${cs}"/>
+    <pattern id="rock-hatch" width="${step}" height="${step}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch" x1="0" y1="${step}" x2="${step}" y2="0"/>
     </pattern>
   </defs>`);
 
@@ -570,8 +640,8 @@ function renderCompass(svgW, cs) {
   const r = cs * 0.8;
   return [
     `<g class="compass" transform="translate(${cx},${cy})">`,
-    `  <line stroke="#999" stroke-width="1" x1="0" y1="${-r}" x2="0" y2="${r}"/>`,
-    `  <line stroke="#999" stroke-width="1" x1="${-r}" y1="0" x2="${r}" y2="0"/>`,
+    `  <line class="compass-line" x1="0" y1="${-r}" x2="0" y2="${r}"/>`,
+    `  <line class="compass-line" x1="${-r}" y1="0" x2="${r}" y2="0"/>`,
     `  <text class="compass-text" x="0" y="${-r - 4}">N</text>`,
     `</g>`,
   ].join("\n    ");
@@ -597,7 +667,7 @@ function renderSvg(geometry, graph, intent, options) {
   const cs = options.cellSize || 20;
   const showGrid = options.showGrid !== false;
   const showLabels = options.showLabels !== false;
-  const showRockHatch = options.showRockHatch !== false; // Default ON for blue maps
+  const showRockHatch = options.showRockHatch === true; // Default OFF to match clean blue-map style
   const showCompass = options.showCompass !== false;
   const colorScheme = options.colorScheme || "blue";
 
@@ -687,7 +757,14 @@ function renderSvg(geometry, graph, intent, options) {
         cell !== CELL.CORRIDOR &&
         cell !== CELL.RUBBLE
       ) {
-        const symbol = renderFeatureSymbol(cell, x * cs, y * cs, cs);
+        const orientation = inferDoorOrientation(geometry.cells, x, y);
+        const symbol = renderFeatureSymbol(
+          cell,
+          x * cs,
+          y * cs,
+          cs,
+          orientation,
+        );
         if (symbol) {
           parts.push(`    ${symbol}`);
         }
