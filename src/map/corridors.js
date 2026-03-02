@@ -5,7 +5,7 @@
  * @module map/corridors
  */
 
-const { CELL, isFloorLike } = require("./geometry");
+const { CELL } = require("./geometry");
 
 /**
  * Map edge types to door cell types.
@@ -181,19 +181,49 @@ function countCollisions(path, cells) {
  * @param {number} width - Corridor width in cells (1, 2, or 3)
  */
 function carveCorridorPath(cells, path, width) {
-  const halfW = Math.floor((width - 1) / 2);
   const gridH = cells.length;
   const gridW = cells[0].length;
+  width = Math.max(1, Math.floor(width || 1));
 
-  for (const point of path) {
-    for (let dy = -halfW; dy <= halfW; dy++) {
-      for (let dx = -halfW; dx <= halfW; dx++) {
-        const nx = point.x + dx;
-        const ny = point.y + dy;
-        if (nx >= 0 && nx < gridW && ny >= 0 && ny < gridH) {
-          if (cells[ny][nx] === CELL.WALL) {
-            cells[ny][nx] = CELL.CORRIDOR;
-          }
+  const rangeStart = -Math.floor((width - 1) / 2);
+  const rangeEnd = rangeStart + width - 1;
+
+  for (let i = 0; i < path.length; i++) {
+    const point = path[i];
+    const prev = i > 0 ? path[i - 1] : null;
+    const next = i < path.length - 1 ? path[i + 1] : null;
+
+    const dx = next
+      ? next.x - point.x
+      : prev
+        ? point.x - prev.x
+        : 0;
+    const dy = next
+      ? next.y - point.y
+      : prev
+        ? point.y - prev.y
+        : 0;
+
+    const offsets = [];
+    if (dx !== 0 && dy === 0) {
+      // Horizontal run: expand in Y only.
+      for (let oy = rangeStart; oy <= rangeEnd; oy++) offsets.push([0, oy]);
+    } else if (dy !== 0 && dx === 0) {
+      // Vertical run: expand in X only.
+      for (let ox = rangeStart; ox <= rangeEnd; ox++) offsets.push([ox, 0]);
+    } else {
+      // Corner/degenerate case: fill a width x width patch.
+      for (let oy = rangeStart; oy <= rangeEnd; oy++) {
+        for (let ox = rangeStart; ox <= rangeEnd; ox++) offsets.push([ox, oy]);
+      }
+    }
+
+    for (const [ox, oy] of offsets) {
+      const nx = point.x + ox;
+      const ny = point.y + oy;
+      if (nx >= 0 && nx < gridW && ny >= 0 && ny < gridH) {
+        if (cells[ny][nx] === CELL.WALL) {
+          cells[ny][nx] = CELL.CORRIDOR;
         }
       }
     }
@@ -247,15 +277,52 @@ function widthClassToCells(widthClass) {
 }
 
 /**
+ * Resolve the interior anchor cell for a boundary connector.
+ *
+ * @param {Object} connector - Connector definition
+ * @param {number} width - Grid width
+ * @param {number} height - Grid height
+ * @returns {{x: number, y: number}}
+ */
+function connectorAnchor(connector, width, height) {
+  const offset = Math.max(0, Math.floor(connector.offset || 0));
+  if (connector.side === "top") return { x: clamp(offset, 0, width - 1), y: 1 };
+  if (connector.side === "bottom")
+    return { x: clamp(offset, 0, width - 1), y: height - 2 };
+  if (connector.side === "left") return { x: 1, y: clamp(offset, 0, height - 1) };
+  if (connector.side === "right")
+    return { x: width - 2, y: clamp(offset, 0, height - 1) };
+  return { x: clamp(offset, 0, width - 1), y: 1 };
+}
+
+function nearestRoomForPoint(rooms, point) {
+  let best = null;
+  let bestDist = Infinity;
+  for (const room of rooms) {
+    const cx = room.x + room.w / 2;
+    const cy = room.y + room.h / 2;
+    const dist = Math.abs(cx - point.x) + Math.abs(cy - point.y);
+    if (dist < bestDist) {
+      best = room;
+      bestDist = dist;
+    }
+  }
+  return best;
+}
+
+/**
  * Route corridors between all connected rooms.
  * Modifies the geometry in place.
  *
  * @param {Object} geometry - Geometry with placed rooms
  * @param {Object} graph - TopologyGraph with edges
  * @param {Function} rng - Seeded random function
+ * @param {Object[]} [connectors=[]] - Boundary connector definitions
  * @returns {Object} Updated geometry with corridors carved into grid
  */
-function routeCorridors(geometry, graph, rng) {
+function routeCorridors(geometry, graph, rng, connectors) {
+  connectors = Array.isArray(connectors) ? connectors : [];
+
   for (const edge of graph.edges) {
     const roomA = findRoom(geometry, edge.from);
     const roomB = findRoom(geometry, edge.to);
@@ -300,6 +367,31 @@ function routeCorridors(geometry, graph, rng) {
     });
   }
 
+  // Route each boundary connector into the nearest room to ensure section exits are playable.
+  for (let i = 0; i < connectors.length; i++) {
+    const connector = connectors[i];
+    const anchor = connectorAnchor(connector, geometry.width, geometry.height);
+    const targetRoom = nearestRoomForPoint(geometry.rooms, anchor);
+    if (!targetRoom) continue;
+
+    const roomPoint = bestWallPoint(targetRoom, {
+      x: anchor.x,
+      y: anchor.y,
+      w: 1,
+      h: 1,
+    });
+    const path = routeL(anchor, roomPoint, geometry.cells, rng);
+    const connectorWidth = Math.max(1, Math.floor(connector.width || 1));
+    carveCorridorPath(geometry.cells, path, connectorWidth);
+    geometry.corridors.push({
+      from: `connector:${i + 1}`,
+      to: targetRoom.nodeId,
+      path,
+      doorPositions: [],
+      connector: true,
+    });
+  }
+
   return geometry;
 }
 
@@ -312,4 +404,5 @@ module.exports = {
   findRoom,
   edgeTypeToDoorCell,
   widthClassToCells,
+  connectorAnchor,
 };

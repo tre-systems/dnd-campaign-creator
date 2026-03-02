@@ -14,7 +14,7 @@ const VALID_PRESSURES = [
   "mixed",
 ];
 const VALID_SESSION_LOADS = ["light", "standard", "heavy"];
-const VALID_LAYOUT_STRATEGIES = ["constructed", "organic", "hybrid", "dense"];
+const VALID_LAYOUT_STRATEGIES = ["constructed", "organic", "hybrid"];
 const VALID_DENSITIES = ["sparse", "standard", "dense"];
 
 const MAX_GRID_WIDTH = 30;

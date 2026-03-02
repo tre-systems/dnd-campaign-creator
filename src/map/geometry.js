@@ -57,12 +57,25 @@ const SIZE_RANGES = {
  *
  * @param {string} sizeClass - 'small', 'medium', or 'large'
  * @param {Function} rng - Seeded random function returning [0, 1)
+ * @param {string} [density='standard'] - 'sparse', 'standard', or 'dense'
  * @returns {{w: number, h: number}}
  */
-function randomDimensionsForSizeClass(sizeClass, rng) {
+function randomDimensionsForSizeClass(sizeClass, rng, density) {
+  density = density || "standard";
   const range = SIZE_RANGES[sizeClass] || SIZE_RANGES.medium;
-  const w = range.minW + Math.floor(rng() * (range.maxW - range.minW + 1));
-  const h = range.minH + Math.floor(rng() * (range.maxH - range.minH + 1));
+  const pick = (min, max) => {
+    const span = max - min;
+    if (density === "sparse") {
+      return min + Math.floor(rng() * (Math.floor(span / 2) + 1));
+    }
+    if (density === "dense") {
+      const denseMin = min + Math.floor(span / 2);
+      return denseMin + Math.floor(rng() * (max - denseMin + 1));
+    }
+    return min + Math.floor(rng() * (span + 1));
+  };
+  const w = pick(range.minW, range.maxW);
+  const h = pick(range.minH, range.maxH);
   return { w, h };
 }
 
@@ -170,10 +183,13 @@ function collectLeaves(node) {
  * @param {{nodeId: string, w: number, h: number, sizeClass: string}} roomSpec
  * @param {{x: number, y: number, w: number, h: number}} partition
  * @param {Function} rng
+ * @param {string} [density='standard']
  * @returns {Object|null} PlacedRoom or null if room cannot fit
  */
-function placeRoomInPartition(roomSpec, partition, rng) {
-  const margin = 2; // 1 for wall visibility, 1 for corridor space
+function placeRoomInPartition(roomSpec, partition, rng, density) {
+  density = density || "standard";
+  const marginByDensity = { sparse: 3, standard: 2, dense: 1 };
+  const margin = marginByDensity[density] || 2;
   const maxW = partition.w - margin * 2;
   const maxH = partition.h - margin * 2;
 
@@ -242,24 +258,27 @@ function fillRoomFloor(cells, room) {
  * @param {number} gridHeight
  */
 function markConnector(cells, connector, gridWidth, gridHeight) {
-  const { side, offset, width } = connector;
-  const halfW = Math.floor(width / 2);
+  const side = connector.side;
+  const offset = connector.offset;
+  const width = Math.max(1, Math.floor(connector.width || 1));
+  const start = offset - Math.floor((width - 1) / 2);
 
-  for (let i = -halfW; i <= halfW; i++) {
+  for (let i = 0; i < width; i++) {
+    const pos = start + i;
     if (side === "top") {
-      const x = Math.min(Math.max(offset + i, 0), gridWidth - 1);
+      const x = Math.min(Math.max(pos, 0), gridWidth - 1);
       cells[0][x] = CELL.CORRIDOR;
       cells[1][x] = CELL.CORRIDOR;
     } else if (side === "bottom") {
-      const x = Math.min(Math.max(offset + i, 0), gridWidth - 1);
+      const x = Math.min(Math.max(pos, 0), gridWidth - 1);
       cells[gridHeight - 1][x] = CELL.CORRIDOR;
       cells[gridHeight - 2][x] = CELL.CORRIDOR;
     } else if (side === "left") {
-      const y = Math.min(Math.max(offset + i, 0), gridHeight - 1);
+      const y = Math.min(Math.max(pos, 0), gridHeight - 1);
       cells[y][0] = CELL.CORRIDOR;
       cells[y][1] = CELL.CORRIDOR;
     } else if (side === "right") {
-      const y = Math.min(Math.max(offset + i, 0), gridHeight - 1);
+      const y = Math.min(Math.max(pos, 0), gridHeight - 1);
       cells[y][gridWidth - 1] = CELL.CORRIDOR;
       cells[y][gridWidth - 2] = CELL.CORRIDOR;
     }
@@ -273,7 +292,7 @@ function markConnector(cells, connector, gridWidth, gridHeight) {
  * @param {{width: number, height: number}} gridSize - Max grid dimensions
  * @param {string} density - 'sparse', 'standard', or 'dense'
  * @param {Object[]} connectors - Boundary connector definitions
- * @param {number} [maxAttempts=10] - Retry count for failed layouts
+ * @param {number} [maxAttempts=50] - Retry count for failed layouts
  * @param {Function} rng - Seeded random function
  * @returns {Object} Geometry with grid, rooms, and corridors array (empty)
  */
@@ -285,13 +304,13 @@ function layoutConstructed(
   maxAttempts,
   rng,
 ) {
-  maxAttempts = maxAttempts || 10;
+  maxAttempts = maxAttempts || 50;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       // Step 1: Compute room dimensions from topology
       const roomSpecs = graph.nodes.map((node) => {
-        const dims = randomDimensionsForSizeClass(node.sizeClass, rng);
+        const dims = randomDimensionsForSizeClass(node.sizeClass, rng, density);
         return {
           nodeId: node.id,
           w: dims.w,
@@ -330,6 +349,7 @@ function layoutConstructed(
           sortedSpecs[i],
           sortedPartitions[i],
           rng,
+          density,
         );
         if (!room) {
           throw new Error("Room does not fit in partition");

@@ -2,6 +2,7 @@ const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 const { validateTopology, validateGeometry } = require("./validate");
 const { buildGraph } = require("./topology");
+const { CELL, createGrid } = require("./geometry");
 const {
   createGatehouseSection,
   createLinearSection,
@@ -126,6 +127,55 @@ describe("validate", () => {
         (r) => r.rule === "Rooms within bounds",
       );
       assert.equal(bounds.passed, false);
+    });
+
+    it("detects disconnected connectors", () => {
+      const graph = buildGraph([{ id: "A", type: "entry", name: "A" }], []);
+      const cells = createGrid(12, 12);
+      // Single room in center; connector stub at bottom remains disconnected.
+      for (let y = 4; y < 8; y++) {
+        for (let x = 4; x < 8; x++) cells[y][x] = CELL.FLOOR;
+      }
+      cells[11][2] = CELL.CORRIDOR;
+      cells[10][2] = CELL.CORRIDOR;
+      const geometry = {
+        width: 12,
+        height: 12,
+        cells,
+        rooms: [{ nodeId: "A", x: 4, y: 4, w: 4, h: 4, sizeClass: "large" }],
+        corridors: [],
+      };
+      const result = validateGeometry(geometry, graph, [
+        { side: "bottom", offset: 2, width: 1 },
+      ]);
+      const connectorRule = result.results.find(
+        (r) => r.rule === "Connectors connected",
+      );
+      assert.equal(connectorRule.passed, false);
+    });
+
+    it("passes when connector reaches a room", () => {
+      const graph = buildGraph([{ id: "A", type: "entry", name: "A" }], []);
+      const cells = createGrid(12, 12);
+      for (let y = 4; y < 8; y++) {
+        for (let x = 4; x < 8; x++) cells[y][x] = CELL.FLOOR;
+      }
+      // Corridor from bottom connector to room.
+      for (let y = 7; y < 12; y++) cells[y][5] = CELL.CORRIDOR;
+      const geometry = {
+        width: 12,
+        height: 12,
+        cells,
+        rooms: [{ nodeId: "A", x: 4, y: 4, w: 4, h: 4, sizeClass: "large" }],
+        corridors: [],
+      };
+      const result = validateGeometry(geometry, graph, [
+        { side: "bottom", offset: 5, width: 1 },
+      ]);
+      const connectorRule = result.results.find(
+        (r) => r.rule === "Connectors connected",
+      );
+      assert.equal(connectorRule.passed, true);
     });
   });
 });

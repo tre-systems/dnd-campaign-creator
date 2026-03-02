@@ -88,6 +88,16 @@ function buildGraph(nodes, edges) {
         `Invalid edge type "${edge.type}". Must be one of: ${VALID_EDGE_TYPES.join(", ")}`,
       );
     }
+    if (edge.width && !VALID_WIDTH_CLASSES.includes(edge.width)) {
+      throw new Error(
+        `Invalid edge width "${edge.width}" on ${edge.from}->${edge.to}. Must be one of: ${VALID_WIDTH_CLASSES.join(", ")}`,
+      );
+    }
+    if (edge.type === "one-way" && edge.bidirectional === true) {
+      throw new Error(
+        `Invalid one-way edge ${edge.from}->${edge.to}: bidirectional cannot be true`,
+      );
+    }
   }
 
   // Normalise edges
@@ -95,7 +105,9 @@ function buildGraph(nodes, edges) {
     from: e.from,
     to: e.to,
     type: e.type,
-    bidirectional: e.bidirectional !== false,
+    // One-way edges default to directed; all others default to bidirectional.
+    bidirectional:
+      e.type === "one-way" ? e.bidirectional === true : e.bidirectional !== false,
     width: e.width || "standard",
     gate: e.gate || null,
     noise: e.noise || "normal",
@@ -169,33 +181,41 @@ function bfsDistance(graph, startId) {
 function countEdgeDisjointPaths(graph, sourceId, sinkId) {
   if (sourceId === sinkId) return 0;
 
-  let flow = 0;
-  const used = new Set();
+  // Build directed residual network with unit capacities.
+  const residual = new Map();
+  const adjacency = new Map();
+  const addArc = (u, v, cap) => {
+    const key = `${u}->${v}`;
+    residual.set(key, (residual.get(key) || 0) + cap);
+    if (!adjacency.has(u)) adjacency.set(u, []);
+    if (!adjacency.has(v)) adjacency.set(v, []);
+    adjacency.get(u).push(v);
 
+    const revKey = `${v}->${u}`;
+    if (!residual.has(revKey)) residual.set(revKey, 0);
+    if (!adjacency.get(v).includes(u)) adjacency.get(v).push(u);
+  };
+
+  for (const edge of graph.edges) {
+    addArc(edge.from, edge.to, 1);
+    if (edge.bidirectional) addArc(edge.to, edge.from, 1);
+  }
+
+  let flow = 0;
+
+  // Edmonds-Karp (BFS augmenting paths)
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    // BFS for augmenting path
     const parent = new Map();
-    const parentEdge = new Map();
     const queue = [sourceId];
     parent.set(sourceId, null);
 
-    while (queue.length > 0) {
+    while (queue.length > 0 && !parent.has(sinkId)) {
       const current = queue.shift();
-      if (current === sinkId) break;
-
-      for (let i = 0; i < graph.edges.length; i++) {
-        if (used.has(i)) continue;
-        const edge = graph.edges[i];
-        let neighbor = null;
-        if (edge.from === current) {
-          neighbor = edge.to;
-        } else if (edge.bidirectional && edge.to === current) {
-          neighbor = edge.from;
-        }
-        if (neighbor && !parent.has(neighbor)) {
+      for (const neighbor of adjacency.get(current) || []) {
+        const cap = residual.get(`${current}->${neighbor}`) || 0;
+        if (cap > 0 && !parent.has(neighbor)) {
           parent.set(neighbor, current);
-          parentEdge.set(neighbor, i);
           queue.push(neighbor);
         }
       }
@@ -203,11 +223,15 @@ function countEdgeDisjointPaths(graph, sourceId, sinkId) {
 
     if (!parent.has(sinkId)) break;
 
-    // Mark edges along the path as used
+    // Unit capacities => bottleneck is always 1
     let node = sinkId;
     while (node !== sourceId) {
-      used.add(parentEdge.get(node));
-      node = parent.get(node);
+      const prev = parent.get(node);
+      const fwd = `${prev}->${node}`;
+      const rev = `${node}->${prev}`;
+      residual.set(fwd, (residual.get(fwd) || 0) - 1);
+      residual.set(rev, (residual.get(rev) || 0) + 1);
+      node = prev;
     }
     flow++;
   }

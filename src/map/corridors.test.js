@@ -152,6 +152,21 @@ describe("corridors", () => {
       carveCorridorPath(cells, path, 3);
       assert.equal(cells[0][0], CELL.CORRIDOR);
     });
+
+    it("carves a 2-cell-wide horizontal corridor for standard width", () => {
+      const cells = createGrid(8, 8);
+      const path = [
+        { x: 2, y: 4 },
+        { x: 3, y: 4 },
+        { x: 4, y: 4 },
+      ];
+      carveCorridorPath(cells, path, 2);
+      // Width=2 should affect both row 4 and row 5 along the horizontal run.
+      assert.equal(cells[4][2], CELL.CORRIDOR);
+      assert.equal(cells[5][2], CELL.CORRIDOR);
+      assert.equal(cells[4][4], CELL.CORRIDOR);
+      assert.equal(cells[5][4], CELL.CORRIDOR);
+    });
   });
 
   describe("placeDoor", () => {
@@ -251,6 +266,28 @@ describe("corridors", () => {
         }
       }
       assert.ok(corridorCount > 0, "Should have carved corridor cells");
+    });
+
+    it("routes boundary connectors into the nearest room", () => {
+      const section = createGatehouseSection();
+      const graph = buildGraph(section.nodes, section.edges);
+      const rng = createRng(42);
+      let geometry = layoutConstructed(
+        graph,
+        section.grid,
+        section.density,
+        section.connectors,
+        10,
+        rng,
+      );
+
+      geometry = routeCorridors(geometry, graph, rng, section.connectors);
+      const connectorCorridors = geometry.corridors.filter((c) => c.connector);
+      assert.equal(
+        connectorCorridors.length,
+        section.connectors.length,
+        "Each connector should have one routed connector corridor",
+      );
     });
   });
 });

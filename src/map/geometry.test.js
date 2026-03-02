@@ -6,6 +6,8 @@ const {
   bspPartition,
   collectLeaves,
   layoutConstructed,
+  createGrid,
+  markConnector,
   MIN_PARTITION_DIM,
 } = require("./geometry");
 const { buildGraph } = require("./topology");
@@ -39,6 +41,23 @@ describe("geometry", () => {
         assert.ok(w >= 10 && w <= 15, `large width ${w} out of range`);
         assert.ok(h >= 10 && h <= 20, `large height ${h} out of range`);
       }
+    });
+
+    it("biases dimensions lower for sparse and higher for dense", () => {
+      const sparseRng = createRng(7);
+      const denseRng = createRng(7);
+      let sparseTotal = 0;
+      let denseTotal = 0;
+      for (let i = 0; i < 200; i++) {
+        const sparse = randomDimensionsForSizeClass("medium", sparseRng, "sparse");
+        const dense = randomDimensionsForSizeClass("medium", denseRng, "dense");
+        sparseTotal += sparse.w + sparse.h;
+        denseTotal += dense.w + dense.h;
+      }
+      assert.ok(
+        denseTotal > sparseTotal,
+        `Expected dense (${denseTotal}) > sparse (${sparseTotal})`,
+      );
     });
   });
 
@@ -179,6 +198,29 @@ describe("geometry", () => {
         assert.equal(g1.rooms[i].x, g2.rooms[i].x);
         assert.equal(g1.rooms[i].y, g2.rooms[i].y);
       }
+    });
+
+    it("can use extra retries for hard seeds", () => {
+      const section = createGatehouseSection();
+      const graph = buildGraph(section.nodes, section.edges);
+      const rng = createRng(13);
+      assert.doesNotThrow(() => {
+        layoutConstructed(graph, section.grid, section.density, [], 50, rng);
+      });
+    });
+  });
+
+  describe("markConnector", () => {
+    it("marks exactly the requested width for even connector widths", () => {
+      const cells = createGrid(10, 10);
+      markConnector(cells, { side: "bottom", offset: 4, width: 2 }, 10, 10);
+      // Width 2 should mark x=4 and x=5 on bottom/interior rows.
+      assert.equal(cells[9][4], CELL.CORRIDOR);
+      assert.equal(cells[9][5], CELL.CORRIDOR);
+      assert.equal(cells[8][4], CELL.CORRIDOR);
+      assert.equal(cells[8][5], CELL.CORRIDOR);
+      // Nearby untouched cell confirms we did not mark width 3.
+      assert.notEqual(cells[9][3], CELL.CORRIDOR);
     });
   });
 });

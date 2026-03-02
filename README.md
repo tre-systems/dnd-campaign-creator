@@ -151,3 +151,34 @@ npx campaign-creator publish my-epic-adventure --config ./campaign.json
 ```
 
 You can append `--test` to the command to run a dry-run which simulates the file fetching and category organization without hitting the Google APIs or modifying any documents.
+
+### Map Generation
+
+The tool can generate old-school tactical maps and section packets from a section JSON definition:
+
+```bash
+npx campaign-creator generate-map ./examples/gatehouse-ruin.json --output ./examples --seed 42
+```
+
+Generated artifacts:
+
+- `<id>-map.txt` (ASCII map)
+- `<id>-map.svg` (styled SVG map)
+- `<id>-packet.md` (section packet with topology, room key, and validation checklist)
+
+Useful options:
+
+- `--validate-only` run topology checks without geometry/output
+- `--ascii-only` skip SVG generation
+- `--cell-size <px>` SVG cell size (default `20`)
+- `--no-grid` disable SVG grid lines
+- `--no-labels` disable room labels
+- `--color-scheme <blue|parchment>` map palette
+- `--max-attempts <n>` geometry retry budget (default `50`)
+- `--allow-invalid` emit outputs even if geometry validation fails
+
+Notes:
+
+- The map system enforces a maximum section grid of `30 x 44`.
+- Connector definitions are routed into playable space and validated for reachability.
+- `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.

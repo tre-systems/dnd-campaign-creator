@@ -127,11 +127,21 @@ function validateTopology(graph, gridSize) {
   let routeOk = true;
   let routeDetail = "";
   if (entries.length > 0 && exits.length > 0) {
-    const paths = countEdgeDisjointPaths(graph, entries[0].id, exits[0].id);
-    routeOk = paths >= 2;
+    let bestPaths = -1;
+    let bestPair = null;
+    for (const entry of entries) {
+      for (const exit of exits) {
+        const paths = countEdgeDisjointPaths(graph, entry.id, exit.id);
+        if (paths > bestPaths) {
+          bestPaths = paths;
+          bestPair = { entry: entry.id, exit: exit.id };
+        }
+      }
+    }
+    routeOk = bestPaths >= 2;
     routeDetail = routeOk
-      ? `${paths} independent routes from ${entries[0].id} to ${exits[0].id}`
-      : `Only ${paths} route from ${entries[0].id} to ${exits[0].id} (need >= 2)`;
+      ? `${bestPaths} independent routes from ${bestPair.entry} to ${bestPair.exit}`
+      : `Only ${bestPaths} route from ${bestPair.entry} to ${bestPair.exit} (need >= 2)`;
   } else {
     routeOk = false;
     routeDetail = "Cannot check routes without entry and exit";
@@ -213,9 +223,11 @@ function validateTopology(graph, gridSize) {
  *
  * @param {Object} geometry - Geometry with rooms and cells
  * @param {Object} graph - TopologyGraph
+ * @param {Object[]} [connectors=[]] - Boundary connector definitions
  * @returns {{valid: boolean, results: {rule: string, passed: boolean, detail: string}[]}}
  */
-function validateGeometry(geometry, graph) {
+function validateGeometry(geometry, graph, connectors) {
+  connectors = Array.isArray(connectors) ? connectors : [];
   const results = [];
 
   // Rule 1: All rooms within grid bounds
@@ -287,6 +299,85 @@ function validateGeometry(geometry, graph) {
     detail: hasLarge
       ? "At least one large room present"
       : "No large rooms (need at least one for set-piece encounters)",
+  });
+
+  // Rule 5: All connectors are reachable from playable space
+  let connectorsOk = true;
+  let connectorsDetail = "";
+  if (connectors.length > 0) {
+    const roomCenters = new Set(
+      geometry.rooms.map((r) => `${Math.floor(r.y + r.h / 2)},${Math.floor(r.x + r.w / 2)}`),
+    );
+    const inBounds = (x, y) =>
+      y >= 0 && y < geometry.height && x >= 0 && x < geometry.width;
+    const isWalkable = (x, y) => geometry.cells[y][x] !== 0;
+    const dirs = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+
+    for (let i = 0; i < connectors.length; i++) {
+      const c = connectors[i];
+      let sx = c.offset;
+      let sy = 1;
+      if (c.side === "bottom") sy = geometry.height - 2;
+      else if (c.side === "left") {
+        sx = 1;
+        sy = c.offset;
+      } else if (c.side === "right") {
+        sx = geometry.width - 2;
+        sy = c.offset;
+      }
+      sx = Math.max(0, Math.min(geometry.width - 1, Math.floor(sx || 0)));
+      sy = Math.max(0, Math.min(geometry.height - 1, Math.floor(sy || 0)));
+
+      if (!inBounds(sx, sy) || !isWalkable(sx, sy)) {
+        connectorsOk = false;
+        connectorsDetail = `Connector ${i + 1} (${c.side}@${c.offset}) has no walkable anchor`;
+        break;
+      }
+
+      const queue = [[sx, sy]];
+      const seen = new Set([`${sy},${sx}`]);
+      let reachedRoom = false;
+
+      while (queue.length > 0 && !reachedRoom) {
+        const [x, y] = queue.shift();
+        if (roomCenters.has(`${y},${x}`)) {
+          reachedRoom = true;
+          break;
+        }
+        for (const [dx, dy] of dirs) {
+          const nx = x + dx;
+          const ny = y + dy;
+          const key = `${ny},${nx}`;
+          if (inBounds(nx, ny) && !seen.has(key) && isWalkable(nx, ny)) {
+            seen.add(key);
+            queue.push([nx, ny]);
+          }
+        }
+      }
+
+      if (!reachedRoom) {
+        connectorsOk = false;
+        connectorsDetail = `Connector ${i + 1} (${c.side}@${c.offset}) is not connected to any room`;
+        break;
+      }
+    }
+
+    if (connectorsOk) {
+      connectorsDetail = `All ${connectors.length} connectors connect to playable space`;
+    }
+  } else {
+    connectorsDetail = "No connectors defined";
+  }
+
+  results.push({
+    rule: "Connectors connected",
+    passed: connectorsOk,
+    detail: connectorsDetail,
   });
 
   return {

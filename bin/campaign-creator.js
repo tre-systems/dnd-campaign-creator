@@ -341,7 +341,7 @@ async function run() {
     const sectionFile = args[1];
     if (!sectionFile || sectionFile.startsWith("--")) {
       console.error(
-        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--no-grid] [--no-labels] [--color-scheme <blue|parchment>]",
+        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--max-attempts <n>] [--allow-invalid] [--no-grid] [--no-labels] [--color-scheme <blue|parchment>]",
       );
       process.exit(1);
     }
@@ -388,7 +388,11 @@ async function generateMap(sectionFile, args) {
   const cellSize = getArg("--cell-size")
     ? parseInt(getArg("--cell-size"), 10)
     : 20;
+  const maxAttempts = getArg("--max-attempts")
+    ? parseInt(getArg("--max-attempts"), 10)
+    : 50;
   const validateOnly = args.includes("--validate-only");
+  const allowInvalid = args.includes("--allow-invalid");
   const asciiOnly = args.includes("--ascii-only");
   const showGrid = !args.includes("--no-grid");
   const showLabels = !args.includes("--no-labels");
@@ -434,23 +438,34 @@ async function generateMap(sectionFile, args) {
 
   // 5. Generate geometry
   console.log("\nGenerating layout...");
+  if (intent.layoutStrategy !== "constructed") {
+    console.warn(
+      `Layout strategy "${intent.layoutStrategy}" currently uses constructed placement baseline.`,
+    );
+  }
   let geometry = layoutConstructed(
     graph,
     intent.grid,
     intent.density,
     section.connectors || [],
-    10,
+    maxAttempts,
     rng,
   );
 
   // 6. Route corridors
-  geometry = routeCorridors(geometry, graph, rng);
+  geometry = routeCorridors(geometry, graph, rng, section.connectors || []);
 
   // 7. Validate geometry
-  const geoResult = validateGeometry(geometry, graph);
+  const geoResult = validateGeometry(geometry, graph, section.connectors || []);
   console.log("\nGeometry validation:");
   for (const r of geoResult.results) {
     console.log(`  ${r.passed ? "PASS" : "FAIL"} ${r.rule}: ${r.detail}`);
+  }
+  if (!geoResult.valid && !allowInvalid) {
+    console.error(
+      "\nGeometry validation failed. Re-run with --allow-invalid to emit debug outputs.",
+    );
+    process.exit(1);
   }
 
   // Merge validation results

@@ -70,6 +70,45 @@ describe("topology", () => {
         /Invalid edge type/,
       );
     });
+
+    it("rejects invalid edge width class", () => {
+      assert.throws(
+        () =>
+          buildGraph(
+            [
+              { id: "A", type: "entry", name: "A" },
+              { id: "B", type: "exit", name: "B" },
+            ],
+            [{ from: "A", to: "B", type: "open", width: "ultra-wide" }],
+          ),
+        /Invalid edge width/,
+      );
+    });
+
+    it("defaults one-way edges to directed", () => {
+      const graph = buildGraph(
+        [
+          { id: "A", type: "entry", name: "A" },
+          { id: "B", type: "exit", name: "B" },
+        ],
+        [{ from: "A", to: "B", type: "one-way" }],
+      );
+      assert.equal(graph.edges[0].bidirectional, false);
+    });
+
+    it("rejects contradictory one-way bidirectional edges", () => {
+      assert.throws(
+        () =>
+          buildGraph(
+            [
+              { id: "A", type: "entry", name: "A" },
+              { id: "B", type: "exit", name: "B" },
+            ],
+            [{ from: "A", to: "B", type: "one-way", bidirectional: true }],
+          ),
+        /one-way edge/,
+      );
+    });
   });
 
   describe("bfsDistance", () => {
@@ -137,6 +176,29 @@ describe("topology", () => {
         ],
       );
       assert.equal(countEdgeDisjointPaths(graph, "A", "C"), 1);
+    });
+
+    it("finds 2 paths in a graph requiring residual rerouting", () => {
+      const graph = buildGraph(
+        [
+          { id: "0", type: "entry", name: "0" },
+          { id: "1", type: "standard", name: "1" },
+          { id: "2", type: "standard", name: "2" },
+          { id: "3", type: "standard", name: "3" },
+          { id: "4", type: "standard", name: "4" },
+          { id: "5", type: "exit", name: "5" },
+        ],
+        [
+          { from: "0", to: "3", type: "open", bidirectional: true },
+          { from: "0", to: "4", type: "open", bidirectional: true },
+          { from: "1", to: "3", type: "open", bidirectional: true },
+          { from: "1", to: "4", type: "open", bidirectional: true },
+          { from: "1", to: "5", type: "open", bidirectional: true },
+          { from: "2", to: "3", type: "open", bidirectional: true },
+          { from: "2", to: "5", type: "open", bidirectional: true },
+        ],
+      );
+      assert.equal(countEdgeDisjointPaths(graph, "0", "5"), 2);
     });
   });
 
