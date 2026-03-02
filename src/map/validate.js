@@ -306,7 +306,9 @@ function validateGeometry(geometry, graph, connectors) {
   let connectorsDetail = "";
   if (connectors.length > 0) {
     const roomCenters = new Set(
-      geometry.rooms.map((r) => `${Math.floor(r.y + r.h / 2)},${Math.floor(r.x + r.w / 2)}`),
+      geometry.rooms.map(
+        (r) => `${Math.floor(r.y + r.h / 2)},${Math.floor(r.x + r.w / 2)}`,
+      ),
     );
     const inBounds = (x, y) =>
       y >= 0 && y < geometry.height && x >= 0 && x < geometry.width;

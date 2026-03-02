@@ -49,7 +49,11 @@ describe("geometry", () => {
       let sparseTotal = 0;
       let denseTotal = 0;
       for (let i = 0; i < 200; i++) {
-        const sparse = randomDimensionsForSizeClass("medium", sparseRng, "sparse");
+        const sparse = randomDimensionsForSizeClass(
+          "medium",
+          sparseRng,
+          "sparse",
+        );
         const dense = randomDimensionsForSizeClass("medium", denseRng, "dense");
         sparseTotal += sparse.w + sparse.h;
         denseTotal += dense.w + dense.h;

@@ -193,16 +193,8 @@ function carveCorridorPath(cells, path, width) {
     const prev = i > 0 ? path[i - 1] : null;
     const next = i < path.length - 1 ? path[i + 1] : null;
 
-    const dx = next
-      ? next.x - point.x
-      : prev
-        ? point.x - prev.x
-        : 0;
-    const dy = next
-      ? next.y - point.y
-      : prev
-        ? point.y - prev.y
-        : 0;
+    const dx = next ? next.x - point.x : prev ? point.x - prev.x : 0;
+    const dy = next ? next.y - point.y : prev ? point.y - prev.y : 0;
 
     const offsets = [];
     if (dx !== 0 && dy === 0) {
@@ -289,7 +281,8 @@ function connectorAnchor(connector, width, height) {
   if (connector.side === "top") return { x: clamp(offset, 0, width - 1), y: 1 };
   if (connector.side === "bottom")
     return { x: clamp(offset, 0, width - 1), y: height - 2 };
-  if (connector.side === "left") return { x: 1, y: clamp(offset, 0, height - 1) };
+  if (connector.side === "left")
+    return { x: 1, y: clamp(offset, 0, height - 1) };
   if (connector.side === "right")
     return { x: width - 2, y: clamp(offset, 0, height - 1) };
   return { x: clamp(offset, 0, width - 1), y: 1 };

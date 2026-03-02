@@ -107,7 +107,9 @@ function buildGraph(nodes, edges) {
     type: e.type,
     // One-way edges default to directed; all others default to bidirectional.
     bidirectional:
-      e.type === "one-way" ? e.bidirectional === true : e.bidirectional !== false,
+      e.type === "one-way"
+        ? e.bidirectional === true
+        : e.bidirectional !== false,
     width: e.width || "standard",
     gate: e.gate || null,
     noise: e.noise || "normal",
