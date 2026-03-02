@@ -222,27 +222,30 @@ async function processImagesAndUpload(
 
   // Process sequentially
   for (const img of images) {
+    let driveUrl = null;
     try {
       // access check
       await fs.access(img.path);
 
       const fileId = await uploadImageToDrive(driveService, img.path, folderId);
-      const driveUrl = `https://drive.google.com/file/d/${fileId}/view`;
-
-      // Replacing: ](/path/to/img) -> ](driveUrl)
-      const escapedPath = img.originalPath.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&",
-      );
-      const replaceRegex = new RegExp(
-        `\\]\\((file:\/\/)?${escapedPath}\\)`,
-        "g",
-      );
-
-      newContent = newContent.replace(replaceRegex, `](${driveUrl})`);
+      driveUrl = `https://drive.google.com/file/d/${fileId}/view`;
     } catch (error) {
       console.warn(
         `   ⚠️  Could not process image ${img.path}: ${error.message}`,
+      );
+    }
+
+    // Replacing: ](/path/to/img) -> ](driveUrl) or [Missing Image: path]
+    const escapedPath = img.originalPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const replaceRegex = new RegExp(`!\\[([^\\]]*)\\]\\((file:\/\/)?${escapedPath}\\)`, "g");
+
+    if (driveUrl) {
+      newContent = newContent.replace(replaceRegex, `![$1](${driveUrl})`);
+    } else {
+      // If upload failed, replace with a clear placeholder text so the Docs API doesn't crash on a local path
+      newContent = newContent.replace(
+        replaceRegex,
+        `\n> [!WARNING]\n> **Missing Asset**: ${path.basename(img.path)}\n`,
       );
     }
   }
