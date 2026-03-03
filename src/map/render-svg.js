@@ -583,7 +583,8 @@ function generateStyles(cellSize, colorScheme) {
  * @returns {string}
  */
 function renderBlueprintWash(svgW, mapH, colorScheme) {
-  const gradId = colorScheme === "parchment" ? "parchment-wash" : "blueprint-wash";
+  const gradId =
+    colorScheme === "parchment" ? "parchment-wash" : "blueprint-wash";
   const dark = colorScheme === "parchment" ? "#c8b696" : "#205b79";
   const light = colorScheme === "parchment" ? "#f8f0de" : "#78b0cd";
   return [
@@ -638,7 +639,11 @@ function renderSheetBorder(svgW, svgH, cs) {
     `  <rect class="sheet-border-inner" x="${innerPad}" y="${innerPad}" width="${Math.max(1, svgW - innerPad * 2)}" height="${Math.max(1, svgH - innerPad * 2)}" rx="${Math.max(1, cs * 0.03)}"/>`,
   ];
 
-  for (let x = innerPad + tickStep; x < svgW - innerPad - tickStep * 0.35; x += tickStep) {
+  for (
+    let x = innerPad + tickStep;
+    x < svgW - innerPad - tickStep * 0.35;
+    x += tickStep
+  ) {
     parts.push(
       `  <line class="sheet-tick" x1="${x}" y1="${innerPad}" x2="${x}" y2="${innerPad + tickLen}"/>`,
     );
@@ -646,7 +651,11 @@ function renderSheetBorder(svgW, svgH, cs) {
       `  <line class="sheet-tick" x1="${x}" y1="${svgH - innerPad}" x2="${x}" y2="${svgH - innerPad - tickLen}"/>`,
     );
   }
-  for (let y = innerPad + tickStep; y < svgH - innerPad - tickStep * 0.35; y += tickStep) {
+  for (
+    let y = innerPad + tickStep;
+    y < svgH - innerPad - tickStep * 0.35;
+    y += tickStep
+  ) {
     parts.push(
       `  <line class="sheet-tick" x1="${innerPad}" y1="${y}" x2="${innerPad + tickLen}" y2="${y}"/>`,
     );
@@ -878,8 +887,7 @@ const LEGEND_ITEM_DEFS = [
 function computeLegendLayout(itemCount, cs) {
   const colW = cs * 6.6;
   const rowH = cs * 1.6;
-  const cols =
-    itemCount <= 9 ? Math.min(3, itemCount) : Math.min(4, itemCount);
+  const cols = itemCount <= 9 ? Math.min(3, itemCount) : Math.min(4, itemCount);
   const rows = Math.ceil(itemCount / Math.max(1, cols));
   const pad = cs * 0.62;
   const titleH = cs * 1.35;
@@ -962,7 +970,9 @@ function renderLegend(usedFeatures, x, y, cs) {
  * @returns {string}
  */
 function renderTitleBlock(intent, x, y, w, h) {
-  const title = escapeXml((intent.theme || intent.id || "Dungeon Section").toUpperCase());
+  const title = escapeXml(
+    (intent.theme || intent.id || "Dungeon Section").toUpperCase(),
+  );
   const sectionId = escapeXml((intent.id || "UNKNOWN").toUpperCase());
   const chapter = escapeXml(
     (intent.chapter ? String(intent.chapter) : "UNSPECIFIED").toUpperCase(),
