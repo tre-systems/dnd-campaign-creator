@@ -17,26 +17,107 @@ This tool extracts the robust publishing scripts developed for the _Borderlands 
 
 ## Authentication Setup
 
-Because this tool interacts with Google Drive (to upload images) and Google Docs (to write the adventure content), you must supply your own Google API credentials.
-You have two options:
+Because this tool uploads images to Drive and writes documents via Docs, it
+must authenticate with Google APIs using one of two methods:
 
-### Option 1: Desktop OAuth (Easiest)
+- **OAuth desktop app** (recommended for most individual users)
+- **Service account** (recommended for automation/CI)
 
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2. Create a new project or select an existing one.
-3. Enable the **Google Docs API** and **Google Drive API**.
-4. Navigate to **Google Auth Platform** > **Clients**.
-5. Click **Create client**.
-6. Set the Application type to **Desktop app**.
-7. Download the resulting JSON file and save it exactly as `credentials.json` in the root of your new campaign repository.
-8. When you run the publisher for the first time, it will prompt you in your browser to grant access and will save a `token.json` file.
+The tool uses these scopes:
 
-### Option 2: Service Account
+- `https://www.googleapis.com/auth/documents`
+- `https://www.googleapis.com/auth/drive`
 
-1. Follow steps 1-3 above, then go to **IAM & Admin** > **Service Accounts**.
-2. Create a new Service Account and download a JSON key.
-3. Save it as `service-account-key.json` in the root of your campaign repository.
-4. Set the environment variable `AUTH_METHOD=service-account` when running the tool.
+### Quick Setup Checklist
+
+1. Create/select a Google Cloud project.
+2. Enable **Google Docs API** and **Google Drive API**.
+3. Configure one auth method below.
+4. Run a dry run: `npx campaign-creator publish <adventure-key> --config ./campaign.json --test`
+5. Run real publish once auth is confirmed.
+
+### Option 1: Desktop OAuth (Recommended)
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project (or select an existing one).
+3. Enable **Google Docs API** and **Google Drive API**.
+4. Configure OAuth consent screen:
+   - Go to **Google Auth Platform** > **Branding / Audience**.
+   - If app is in testing mode, add your Google account under **Test users**.
+5. Create OAuth client credentials:
+   - Go to **Google Auth Platform** > **Clients**.
+   - Click **Create client**.
+   - Choose **Desktop app**.
+6. Download the credentials JSON and save it as `credentials.json` in your
+   campaign repository root (the directory where you run `npx campaign-creator`).
+7. Run a publish command. On first run, a browser window opens for consent.
+8. After success, `token.json` is created automatically and reused on future runs.
+
+### Option 2: Service Account (Automation-Friendly)
+
+1. In Google Cloud Console, enable **Google Docs API** and **Google Drive API**.
+2. Go to **IAM & Admin** > **Service Accounts** and create a service account.
+3. Create and download a JSON key.
+4. Save it as `service-account-key.json` in your campaign repository root.
+5. Share the destination Drive folder (and any existing target document) with
+   the service account email (Editor role), otherwise writes will fail with 403.
+6. Set auth mode to service account when running commands:
+
+macOS/Linux:
+
+```bash
+AUTH_METHOD=service-account npx campaign-creator publish my-epic-adventure --config ./campaign.json
+```
+
+PowerShell:
+
+```powershell
+$env:AUTH_METHOD="service-account"
+npx campaign-creator publish my-epic-adventure --config ./campaign.json
+```
+
+### Credential File Resolution And Overrides
+
+By default, credential files are discovered in this order:
+
+1. Current working directory (`process.cwd()`, typically your campaign repo)
+2. Package directory fallback
+3. Legacy parent-directory fallback
+
+You can override paths explicitly:
+
+- `GOOGLE_OAUTH_CREDENTIALS_PATH`
+- `GOOGLE_SERVICE_ACCOUNT_KEY_PATH`
+- `GOOGLE_TOKEN_PATH`
+
+Auth method can be selected with either:
+
+- `AUTH_METHOD`
+- `DRIVE_AUTH_METHOD`
+
+Accepted auth method values:
+
+- `oauth` (default)
+- `service-account`
+
+### Troubleshooting (Common Errors)
+
+- `OAuth credentials not found`: place `credentials.json` in your campaign root
+  or set `GOOGLE_OAUTH_CREDENTIALS_PATH`.
+- `Service account key not found`: place `service-account-key.json` in your
+  campaign root or set `GOOGLE_SERVICE_ACCOUNT_KEY_PATH`.
+- `Invalid service account key format`: ensure the file is the original JSON
+  key and includes `client_email` and `private_key`.
+- `access_denied` during OAuth: your Google account may not be listed as a
+  test user on the OAuth consent screen.
+- `redirect_uri_mismatch`: recreate credentials as **Desktop app** (not Web app).
+- `403 insufficient permissions`: for service accounts, ensure the folder/doc
+  is explicitly shared to the service account email.
+- Images fail to render in Docs: this tool sets image files to public
+  reader links. If your Workspace policy blocks public sharing, those images
+  may need an org-allowed alternative sharing model.
+
+If OAuth tokens become stale/corrupt, delete `token.json` and authenticate again.
 
 ## Setup & Architecture
 
@@ -173,6 +254,7 @@ Useful options:
 - `--cell-size <px>` SVG cell size (default `20`)
 - `--no-grid` disable SVG grid lines
 - `--no-labels` disable room labels
+- `--label-mode <auto|corner|center|none>` room label placement strategy
 - `--color-scheme <blue|parchment>` map palette
 - `--style-profile <blue-enhanced|blueprint-strict>` blue-map style profile
 - `--max-attempts <n>` geometry retry budget (default `50`)
@@ -184,6 +266,7 @@ Notes:
 - Connector definitions are routed into playable space and validated for reachability.
 - `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
 - `blueprint-strict` defaults to flatter old-school output (no sheet wash, paper grain, title block, legend, or compass unless explicitly enabled).
+- Dressing placement now reserves doorway ingress and center traffic lanes so key room features do not block natural movement.
 
 ### Quality Automation
 

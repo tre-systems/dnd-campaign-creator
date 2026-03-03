@@ -10,7 +10,9 @@
     "test": "node --test src/__tests__/*.test.js src/map/*.test.js",
     "format": "prettier --write '**/*.{js,md,json}'",
     "lint": "markdownlint '**/*.md' --ignore node_modules",
-    "verify": "npm run lint && npm test",
+    "map:snapshots:update": "node bin/map-quality.js update",
+    "map:snapshots:check": "node bin/map-quality.js check",
+    "verify": "npm run lint && npm test && npm run map:snapshots:check",
     "check-links": "linkinator 'README.md' 'CONTRIBUTING.md' 'docs/**/*.md' 'examples/**/*.md' --skip '^(?!https?://)' --retry",
     "precommit": "npm run format && npm run lint",
     "prepare": "husky"

@@ -308,8 +308,8 @@ grid based on topology edges.
 For each topology edge:
 
 1. Find the source and target rooms by `nodeId`
-2. Compute wall connection points using `bestWallPoint()` (picks the wall
-   face pointing toward the target room)
+2. Compute wall connection points using `bestWallPointForGrid()` (selects
+   target-facing wall points that are also backed by playable room floor)
 3. Route a path between the two points using A\* pathfinding
 4. Carve the path into the grid (only overwriting `WALL` cells)
 5. Place a door symbol if the edge type requires one
@@ -367,7 +367,14 @@ For wide corridors, it expands perpendicular to the movement direction.
 - `secret` -> `CELL.DOOR_SECRET`
 - `open` / other -> no door
 
-Doors are placed on the source-room wall connection point for that edge.
+Doors are placed only when the candidate threshold cell is adjacent to both
+room floor and passage space (`CORRIDOR`/door cells). This prevents invalid
+door symbols floating in solid rock.
+
+By edge type:
+
+- `door`: place paired thresholds on both connected room walls when valid.
+- `locked` / `secret`: place on the destination-side threshold by convention.
 
 ### 3c. Dressing
 
@@ -406,6 +413,13 @@ offsets relative to the room's top-left corner.
 
 Features are only placed on `CELL.FLOOR` cells. Doors, corridors, and
 existing features are never overwritten.
+
+Door-aware placement guards also reserve ingress and center traffic lanes:
+
+- Inside-door cells and immediate neighbours are kept clear.
+- A direct ingress-to-center lane is reserved per doorway.
+- If a recipe anchor lands on a blocked tile, placement relocates to the
+  nearest valid tile inside the room.
 
 ---
 
@@ -462,7 +476,7 @@ Produces old-school dungeon maps in the Paratime/TSR blue style.
 7. Wall segments (computed and merged; enhanced renders under/main/highlight, strict renders a single heavy wall pass)
 8. Map frame (double-line cartographic border around map area)
 9. Feature symbols (doors, stairs, pillars, altars, etc.)
-10. Room labels (profile dependent: top-left number tags in enhanced, centered room numbers in strict)
+10. Room labels (profile dependent: top-left number tags in enhanced, centered room numbers in strict; overridable via `labelMode`)
 11. Optional compass rose (enabled by default in enhanced, disabled by default in strict)
 12. Optional legend box (enabled by default in enhanced, disabled by default in strict)
 13. Optional title block and full sheet border (enabled by default in enhanced, disabled by default in strict)
@@ -529,6 +543,13 @@ Labels are profile-dependent:
 
 - `blue-enhanced`: compact top-left number tags.
 - `blueprint-strict`: centered room numbers for immediate table-readability.
+
+`labelMode` can explicitly override this behaviour:
+
+- `auto` (default): profile-driven labels.
+- `corner`: force top-left tags.
+- `center`: force centered labels.
+- `none`: suppress labels.
 
 #### SVG structure
 
@@ -622,6 +643,7 @@ const geoResult = validateGeometry(geometry, graph, section.connectors);
 const svg = renderSvg(geometry, graph, intent, {
   cellSize: 20,
   styleProfile: "blueprint-strict",
+  labelMode: "auto",
 });
 const ascii = renderAscii(geometry, graph);
 const packet = renderPacket(geometry, graph, intent, ascii, "map.svg", {
@@ -670,7 +692,7 @@ Three fixtures in `fixtures/gatehouse-ruin.js`:
 The map rendering has been through several iterations, tracked as versioned
 PNG/SVG artifacts in `docs/map-review/iteration/`.
 
-Older iteration packet files are preserved for history; pre-`v11` packet
+Older iteration packet files are preserved for history; pre-`v12` packet
 content may include superseded placeholder sections.
 
 | Version | Key changes                                                                                                                                          |
@@ -683,6 +705,7 @@ content may include superseded placeholder sections.
 | v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync                                          |
 | v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                           |
 | v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
+| v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`) |
 
 ---
 

@@ -132,8 +132,8 @@ describe("render-svg", () => {
       assert.ok(svg.includes("<line"), "Secret door should have a line");
       assert.ok(svg.includes("S"), "Secret door should have S label");
       assert.ok(
-        svg.includes("secret-ring"),
-        "Secret door should have circled marker",
+        svg.includes("secret-box"),
+        "Secret door should have boxed marker",
       );
       assert.ok(
         svg.includes("door-secret-tick"),
@@ -146,7 +146,7 @@ describe("render-svg", () => {
       assert.ok(svg.includes("<line"), "Stairs should have lines");
       assert.ok(svg.includes("<polygon"), "Stairs should have arrow");
       const treadCount = (svg.match(/class="stairs"/g) || []).length;
-      assert.ok(treadCount >= 5, "Stairs should have multiple treads");
+      assert.ok(treadCount >= 4, "Stairs should have multiple treads");
     });
 
     it("renders pillar as circle", () => {
@@ -479,6 +479,120 @@ describe("render-svg", () => {
         "Should include major 5-square grid lines",
       );
       assert.ok(svg.includes('class="room-tag"'), "Should include room tags");
+    });
+
+    it("supports strict profile with reduced chrome and centered labels", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, {
+        styleProfile: "blueprint-strict",
+      });
+
+      assert.ok(
+        svg.includes('class="room-number-center"'),
+        "Strict profile should use centered room numbers",
+      );
+      assert.ok(
+        !svg.includes('class="room-tag"'),
+        "Strict profile should not render tag labels",
+      );
+      assert.ok(
+        !svg.includes("blueprint-wash"),
+        "Strict profile should omit wash by default",
+      );
+      assert.ok(
+        !svg.includes("blueprint-grain"),
+        "Strict profile should omit grain by default",
+      );
+      assert.ok(
+        !svg.includes('class="title-block-box"'),
+        "Strict profile should omit title block by default",
+      );
+      assert.ok(
+        !svg.includes('class="sheet-border-outer"'),
+        "Strict profile should omit sheet border by default",
+      );
+      assert.ok(
+        !svg.includes('class="compass"'),
+        "Strict profile should omit compass by default",
+      );
+      assert.ok(
+        !svg.includes('class="legend-box"'),
+        "Strict profile should omit legend by default",
+      );
+    });
+
+    it("supports explicit centered labels in enhanced profile", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, {
+        styleProfile: "blue-enhanced",
+        labelMode: "center",
+      });
+
+      assert.ok(
+        svg.includes('class="room-number-center"'),
+        "Center label mode should render centered labels",
+      );
+      assert.ok(
+        !svg.includes('class="room-tag"'),
+        "Center label mode should suppress corner tags",
+      );
+    });
+
+    it("supports explicit corner labels in strict profile", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, {
+        styleProfile: "blueprint-strict",
+        labelMode: "corner",
+      });
+
+      assert.ok(
+        svg.includes('class="room-tag"'),
+        "Corner label mode should render room tags",
+      );
+      assert.ok(
+        !svg.includes('class="room-number-center"'),
+        "Corner label mode should suppress centered labels",
+      );
+    });
+
+    it("supports disabling labels via labelMode none", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, {
+        labelMode: "none",
+      });
+
+      assert.ok(
+        !svg.includes('class="room-number"'),
+        "Label mode none should suppress corner labels",
+      );
+      assert.ok(
+        !svg.includes('class="room-number-center"'),
+        "Label mode none should suppress centered labels",
+      );
+    });
+
+    it("uses strict rock patterns in strict profile", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, {
+        styleProfile: "blueprint-strict",
+      });
+
+      assert.ok(
+        svg.includes("rock-hatch-major-strict"),
+        "Strict profile should include strict major hatching",
+      );
+      assert.ok(
+        svg.includes("rock-hatch-minor-strict"),
+        "Strict profile should include strict minor hatching",
+      );
+      assert.ok(
+        !svg.includes("rock-stipple-a"),
+        "Strict profile should not include stipple overlays",
+      );
+      assert.ok(
+        !svg.includes('<line class="rock-chisel-mark"'),
+        "Strict profile should not include chisel marks",
+      );
     });
 
     it("allocates enough height for full legend rendering", () => {

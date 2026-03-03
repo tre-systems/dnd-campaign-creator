@@ -46,11 +46,11 @@ function renderPacket(
   // 6. Transition Connectors
   sections.push(renderConnectors(intent));
 
-  // 7. Encounter Ecology (placeholder)
-  sections.push(renderEcology());
+  // 7. Encounter Ecology
+  sections.push(renderEcology(geometry, graph, intent));
 
-  // 8. Dynamic Behaviour (placeholder)
-  sections.push(renderDynamicBehaviour());
+  // 8. Dynamic Behaviour
+  sections.push(renderDynamicBehaviour(geometry, graph, intent));
 
   // 9. Validation Checklist
   sections.push(renderValidation(validationResult));
@@ -191,33 +191,284 @@ function renderConnectors(intent) {
   return lines.join("\n");
 }
 
-function renderEcology() {
+function buildRoomLabelLookup(geometry) {
+  const labels = new Map();
+  for (let i = 0; i < geometry.rooms.length; i++) {
+    labels.set(geometry.rooms[i].nodeId, roomLabelFromIndex(i));
+  }
+  return labels;
+}
+
+function buildUndirectedAdjacency(graph) {
+  const adjacency = new Map();
+  for (const node of graph.nodes) {
+    adjacency.set(node.id, new Set());
+  }
+  for (const edge of graph.edges) {
+    adjacency.get(edge.from)?.add(edge.to);
+    adjacency.get(edge.to)?.add(edge.from);
+  }
+  return adjacency;
+}
+
+function bfsDistances(adjacency, startId) {
+  const dist = new Map();
+  if (!startId || !adjacency.has(startId)) return dist;
+  const queue = [startId];
+  dist.set(startId, 0);
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    const currentDist = dist.get(current);
+    for (const next of adjacency.get(current) || []) {
+      if (!dist.has(next)) {
+        dist.set(next, currentDist + 1);
+        queue.push(next);
+      }
+    }
+  }
+
+  return dist;
+}
+
+function shortestPathToAny(adjacency, startId, targetIds) {
+  if (!startId || !adjacency.has(startId)) return null;
+  if (targetIds.has(startId)) return [startId];
+
+  const queue = [startId];
+  const parent = new Map();
+  parent.set(startId, null);
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    for (const next of adjacency.get(current) || []) {
+      if (parent.has(next)) continue;
+      parent.set(next, current);
+      if (targetIds.has(next)) {
+        const path = [];
+        let step = next;
+        while (step) {
+          path.push(step);
+          step = parent.get(step);
+        }
+        return path.reverse();
+      }
+      queue.push(next);
+    }
+  }
+
+  return null;
+}
+
+function classifyZones(graph, geometry) {
+  const labels = buildRoomLabelLookup(geometry);
+  const adjacency = buildUndirectedAdjacency(graph);
+  const entries = graph.nodes.filter((n) => n.type === "entry");
+  const primaryEntryId = entries[0] ? entries[0].id : graph.nodes[0]?.id;
+  const dist = bfsDistances(adjacency, primaryEntryId);
+  const reachableDepths = Array.from(dist.values());
+  const maxDepth =
+    reachableDepths.length > 0 ? Math.max(...reachableDepths) : 0;
+  const coreThreshold = Math.max(2, maxDepth - 1);
+
+  const zones = {
+    Perimeter: [],
+    Transit: [],
+    Core: [],
+    Hidden: [],
+  };
+
+  for (const node of graph.nodes) {
+    const d = dist.has(node.id) ? dist.get(node.id) : maxDepth + 1;
+    let zone = "Transit";
+    if (node.type === "secret") {
+      zone = "Hidden";
+    } else if (node.type === "entry" || node.type === "guard" || d <= 1) {
+      zone = "Perimeter";
+    } else if (
+      node.type === "faction-core" ||
+      node.type === "set-piece" ||
+      d >= coreThreshold
+    ) {
+      zone = "Core";
+    }
+    zones[zone].push(node);
+  }
+
+  return {
+    labels,
+    adjacency,
+    zones,
+    primaryEntryId,
+  };
+}
+
+function zoneControlSummary(nodes) {
+  if (nodes.some((n) => n.type === "faction-core"))
+    return "Primary faction hold";
+  if (nodes.some((n) => n.type === "guard")) return "Sentry-controlled";
+  if (nodes.some((n) => n.occupants)) return "Occupied service spaces";
+  if (nodes.some((n) => n.type === "secret")) return "Low traffic / hidden use";
+  return "Lightly held";
+}
+
+function zoneRoomSummary(nodes, labels) {
+  if (nodes.length === 0) return "-";
+  return nodes
+    .map((node) => `${labels.get(node.id) || node.id} (${node.name})`)
+    .join("; ");
+}
+
+function pressureTrigger(intent) {
+  switch (intent.pressure) {
+    case "faction":
+      return "Missing sentry, alarm gong, or blocked route";
+    case "pursuit":
+      return "Footsteps, open doors, or light sources";
+    case "hazard":
+      return "Trap trigger or environmental collapse";
+    case "puzzle":
+      return "Tampered mechanism or wrong solve state";
+    case "boss":
+      return "Core chamber disturbance";
+    default:
+      return "Any hostile contact";
+  }
+}
+
+function patrolInterval(intent) {
+  switch (intent.sessionLoad) {
+    case "light":
+      return "20 min";
+    case "heavy":
+      return "10 min";
+    default:
+      return "15 min";
+  }
+}
+
+function buildPatrols(graph, zonesData, intent) {
+  const { zones, labels, adjacency, primaryEntryId } = zonesData;
+  const trigger = pressureTrigger(intent);
+  const interval = patrolInterval(intent);
+  const coreTargets = new Set(zones.Core.map((n) => n.id));
+  const entryTargets = new Set(
+    graph.nodes.filter((n) => n.type === "entry").map((n) => n.id),
+  );
+
+  const owners = graph.nodes.filter(
+    (n) => n.type === "guard" || n.type === "hub" || n.type === "faction-core",
+  );
+  const candidates = owners.length > 0 ? owners : graph.nodes.slice(0, 1);
+  const patrols = [];
+
+  for (let i = 0; i < candidates.length && patrols.length < 3; i++) {
+    const owner = candidates[i];
+    const targetSet = new Set(coreTargets);
+    targetSet.delete(owner.id);
+    if (targetSet.size === 0 && primaryEntryId) targetSet.add(primaryEntryId);
+
+    let routePath = shortestPathToAny(adjacency, owner.id, targetSet);
+    if (!routePath || routePath.length < 2) {
+      routePath = shortestPathToAny(adjacency, owner.id, entryTargets);
+    }
+    if (!routePath || routePath.length < 2) {
+      routePath = [owner.id];
+    }
+
+    const fallbackId =
+      (
+        zones.Core.find((n) => n.id !== owner.id) ||
+        zones.Transit[0] ||
+        zones.Perimeter[0] ||
+        zones.Hidden[0]
+      )?.id || owner.id;
+
+    patrols.push({
+      id: `P${patrols.length + 1}`,
+      owner: `${labels.get(owner.id) || owner.id} (${owner.name})`,
+      route: routePath.map((id) => labels.get(id) || id).join(" -> "),
+      interval,
+      triggers: trigger,
+      fallback: labels.get(fallbackId) || fallbackId,
+    });
+  }
+
+  return patrols;
+}
+
+function renderEcology(geometry, graph, intent) {
+  const zonesData = classifyZones(graph, geometry);
+  const { zones, labels } = zonesData;
+  const patrols = buildPatrols(graph, zonesData, intent);
+  const zoneDescriptions = {
+    Perimeter: "First-contact ring. Delay intruders and raise alarms.",
+    Transit: "Circulation band linking wings and support rooms.",
+    Core: "Command/treasure depth where defenders concentrate.",
+    Hidden: "Irregular spaces outside routine movement.",
+  };
+  const zoneResponses = {
+    Perimeter: "Delay and signal.",
+    Transit: "Screen and fall back to chokepoints.",
+    Core: "Hold position and counterattack.",
+    Hidden: "Ambush or opportunistic withdrawal.",
+  };
+
   return [
     `## Encounter Ecology`,
     "",
-    "Territory zones, patrol routes, and creature behaviour to be defined.",
+    "Territory and patrol model derived from topology depth, room role, and section pressure.",
     "",
     "### Territory Zones",
     "",
-    "| Zone | Rooms | Description |",
-    "| --- | --- | --- |",
-    "| Core | - | - |",
-    "| Buffer | - | - |",
-    "| Transit | - | - |",
+    "| Zone | Rooms | Description | Control | Response |",
+    "| --- | --- | --- | --- | --- |",
+    `| Perimeter | ${zoneRoomSummary(zones.Perimeter, labels)} | ${zoneDescriptions.Perimeter} | ${zoneControlSummary(zones.Perimeter)} | ${zoneResponses.Perimeter} |`,
+    `| Transit | ${zoneRoomSummary(zones.Transit, labels)} | ${zoneDescriptions.Transit} | ${zoneControlSummary(zones.Transit)} | ${zoneResponses.Transit} |`,
+    `| Core | ${zoneRoomSummary(zones.Core, labels)} | ${zoneDescriptions.Core} | ${zoneControlSummary(zones.Core)} | ${zoneResponses.Core} |`,
+    `| Hidden | ${zoneRoomSummary(zones.Hidden, labels)} | ${zoneDescriptions.Hidden} | ${zoneControlSummary(zones.Hidden)} | ${zoneResponses.Hidden} |`,
     "",
     "### Patrols",
     "",
     "| Patrol | Owner | Route | Interval | Triggers | Fallback |",
     "| --- | --- | --- | --- | --- | --- |",
-    "| - | - | - | - | - | - |",
+    ...patrols.map(
+      (patrol) =>
+        `| ${patrol.id} | ${patrol.owner} | ${patrol.route} | ${patrol.interval} | ${patrol.triggers} | ${patrol.fallback} |`,
+    ),
   ].join("\n");
 }
 
-function renderDynamicBehaviour() {
+function renderDynamicBehaviour(geometry, graph, intent) {
+  const zonesData = classifyZones(graph, geometry);
+  const patrols = buildPatrols(graph, zonesData, intent);
+  const patrolRoute = patrols[0] ? patrols[0].route : "nearest connected rooms";
+  const perimeterRooms = zoneRoomSummary(
+    zonesData.zones.Perimeter,
+    zonesData.labels,
+  );
+  const transitRooms = zoneRoomSummary(
+    zonesData.zones.Transit,
+    zonesData.labels,
+  );
+  const coreRooms = zoneRoomSummary(zonesData.zones.Core, zonesData.labels);
+
   return [
     `## Dynamic Behaviour`,
     "",
-    "Timers, triggered events, and escalation sequences to be defined.",
+    "Escalation clocks and reactive movement generated from section pressure and patrol ownership.",
+    "",
+    "| Clock | Trigger | Effect | Reset |",
+    "| --- | --- | --- | --- |",
+    `| Suspicion | Disturbance in ${perimeterRooms} | Patrol ${patrols[0] ? patrols[0].id : "P1"} re-runs route (${patrolRoute}) with no detours. | 20 minutes with no new signs |`,
+    `| Alerted | Combat/noise in ${transitRooms} | Reinforcements move to nearest chokepoint and lock contested doors. | 45 minutes with no contact |`,
+    `| Committed | Core threatened (${coreRooms}) | Defenders abandon perimeter and concentrate on core defence or evacuation path. | End of scene / regroup outside section |`,
+    "",
+    "### Escalation Sequence",
+    "",
+    `1. Initial contact pressure follows **${intent.pressure}** cues and starts at perimeter routes.`,
+    `2. Patrol cadence is **${patrolInterval(intent)}**; skipped check-ins immediately escalate one clock step.`,
+    "3. Once committed, defenders preserve one fallback route and deny all secondary routes until reset.",
   ].join("\n");
 }
 

@@ -1,6 +1,12 @@
-# Campaign Map System - Proposal D (Final)
+# Campaign Map System - Proposal D (Design Target)
 
-Supersedes proposals A, B, and C. This is the implementation specification for map generation in `dnd-campaign-creator`.
+Supersedes proposals A, B, and C.
+
+This document is a **design target**, not the canonical runtime specification.
+For implementation-truth behaviour, refer to:
+
+- `docs/map-system.md` (authoritative system reference)
+- `src/map/*.js` (runtime source of truth)
 
 ## What This Takes From Each Predecessor
 
@@ -14,7 +20,7 @@ Supersedes proposals A, B, and C. This is the implementation specification for m
 
 ## Goals
 
-1. Every section fits within **30 x 44 squares** maximum.
+1. Design target: every section fits within **30 x 44 squares** maximum.
 2. Logical layout and playability take priority over aesthetics.
 3. Creature and NPC placement follows coherent spatial and territorial logic.
 4. Output includes old-school dungeon map graphics (SVG) suitable for print and screen.
@@ -30,12 +36,24 @@ Supersedes proposals A, B, and C. This is the implementation specification for m
 ## Implementation Status (March 3, 2026)
 
 This document remains the design target. Current implementation details differ
-slightly in a few places:
+in a few places:
 
 - Runtime grid validation currently allows **10 x 10** to **60 x 60** (not capped at 30 x 44).
+- Runtime room size ranges are smaller than the target table:
+  - `small`: 2-3 x 2-3
+  - `medium`: 3-5 x 3-6
+  - `large`: 5-8 x 5-10
+- Runtime corridor widths are currently:
+  - `tight`: 1 cell
+  - `standard`: 1 cell
+  - `wide`: 2 cells
+- `layoutStrategy: "organic"` and `"hybrid"` currently use the constructed
+  placement baseline.
 - Blue-map rendering now supports two profiles:
   - `blue-enhanced` (textured sheet + furniture)
   - `blueprint-strict` (reference-faithful, flatter old-school output)
+- Label rendering supports explicit mode overrides: `auto`, `corner`, `center`, `none`.
+- Door placement is threshold-validated (must bridge room floor and passage), and dressing placement reserves doorway ingress lanes.
 - Section packets now auto-generate territory ecology and dynamic escalation
   sections (no longer placeholders).
 
@@ -97,16 +115,26 @@ Each edge records: bidirectional flag, gate condition, width class (tight/standa
 
 ### Layer 3: Geometry
 
-Place the topology onto a grid of at most 30 x 44 squares.
+Design target places topology onto a grid of at most 30 x 44 squares.
 Current runtime supports larger sections (up to 60 x 60) for multi-wing maps.
 
 #### Room Sizes
+
+Design-target table:
 
 | Class  | Dimensions     | Typical use                          | Mix  |
 | ------ | -------------- | ------------------------------------ | ---- |
 | Small  | 3x3 to 5x5     | Guard posts, cells, closets, shrines | ~50% |
 | Medium | 6x8 to 8x10    | Common rooms, barracks, workshops    | ~35% |
 | Large  | 10x12 to 15x20 | Great halls, caverns, throne rooms   | ~15% |
+
+Current runtime table:
+
+| Class | Dimensions |
+| --- | --- |
+| Small | 2x2 to 3x3 |
+| Medium | 3x3 to 5x6 |
+| Large | 5x5 to 8x10 |
 
 At least one large room per section for a landmark or set-piece encounter.
 
@@ -119,13 +147,27 @@ Select per section theme:
 - **Hybrid**: Constructed core with organic perimeter (fortress over natural caverns, mine complex).
 - **Dense**: Rooms-and-mazes algorithm (Nystrom). Fill remaining space with maze, connect regions, trim 80-90% of dead ends. For tight warrens where every square matters.
 
+Current runtime status:
+
+- `constructed`: implemented.
+- `organic` and `hybrid`: accepted in intent validation, but currently routed
+  through constructed placement.
+
 #### Corridor Standards
+
+Design-target standards:
 
 - **Standard width:** 2 squares (two characters abreast for tabletop combat).
 - **Tight squeeze:** 1 square. Rare, deliberate pressure points only.
 - **Major thoroughfare:** 3 squares.
 - **Length target:** 3-8 squares. Corridors over 10 squares need features (alcoves, branches, doors).
 - **Intersections:** prefer T-junctions. 4-way crossings only at major junctions.
+
+Current runtime widths:
+
+- `tight`: 1 cell
+- `standard`: 1 cell
+- `wide`: 2 cells
 
 #### Density Bands
 
@@ -219,7 +261,9 @@ The target aesthetic is the classic TSR/Judges Guild look: clear, functional, ha
 </svg>
 ```
 
-**Cell size:** 20px per grid square at default scale. A full 30x44 section renders at 600x880px default, scalable to any size.
+**Cell size:** 20px per grid square at default scale.
+Design-target 30x44 sections render at 600x880px; runtime may be larger
+because validated grids can be up to 60x60.
 
 #### Secondary Output: ASCII
 
@@ -602,7 +646,7 @@ Boss response:
 - [x] Patrol crosses player path (H1)
 - [x] Drawable in under 10 minutes
 
-## Implementation Plan
+## Historical Implementation Plan
 
 ### Module Structure
 
@@ -611,9 +655,8 @@ src/
   map/
     intent.js        - Section intent definition and validation
     topology.js      - Graph generation and topology rules
-    geometry.js      - Room placement algorithms (BSP, force-directed, CA)
+    geometry.js      - Room placement algorithms (runtime currently BSP baseline)
     corridors.js     - Corridor routing (L-shaped, A*)
-    ecology.js       - Territory, patrol, and creature placement logic
     render-svg.js    - Old-school SVG map renderer
     render-ascii.js  - ASCII fallback renderer
     validate.js      - Validation checklist runner
@@ -634,9 +677,9 @@ src/
 
 6. **Packet generator** (`packet.js`): Assemble section specification markdown from all layers.
 
-7. **Ecology pass** (`ecology.js`): Territory assignment, patrol route generation, creature placement validation.
+7. **Ecology pass** (`packet.js` runtime): Territory/patrol/dynamic sections are now computed in packet generation.
 
-8. **Geometry: organic layout** (`geometry.js`): Force-directed and cellular automata for cave sections. Second priority after constructed works.
+8. **Geometry: organic layout** (`geometry.js`): Force-directed and cellular automata for cave sections (still pending in runtime).
 
 ### Testing
 
@@ -664,7 +707,7 @@ No fixed schedule. Convert sections as they come up for play:
 
 1. Write intent (Layer 1) from existing prose.
 2. Extract topology graph from existing room descriptions.
-3. Generate or hand-place geometry to fit 30x44.
+3. Generate or hand-place geometry to fit campaign policy (design target: 30x44; runtime supports up to 60x60).
 4. Produce section packet and SVG map.
 
 Existing narrative prose remains valid. The packet adds tactical structure alongside it.

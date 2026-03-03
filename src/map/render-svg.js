@@ -9,6 +9,48 @@
 const { CELL, isFloorLike } = require("./geometry");
 const { roomLabelFromIndex } = require("./room-label");
 
+const STYLE_PROFILE = {
+  BLUE_ENHANCED: "blue-enhanced",
+  BLUE_STRICT: "blueprint-strict",
+};
+
+/**
+ * Resolve renderer profile aliases and defaults.
+ *
+ * @param {string} colorScheme
+ * @param {string} [styleProfile]
+ * @returns {string}
+ */
+function normaliseStyleProfile(colorScheme, styleProfile) {
+  if (colorScheme === "parchment") return "parchment-classic";
+  const profile = (styleProfile || STYLE_PROFILE.BLUE_ENHANCED).toLowerCase();
+  if (
+    profile === STYLE_PROFILE.BLUE_STRICT ||
+    profile === "paratime-strict" ||
+    profile === "strict"
+  ) {
+    return STYLE_PROFILE.BLUE_STRICT;
+  }
+  return STYLE_PROFILE.BLUE_ENHANCED;
+}
+
+/**
+ * Resolve room label rendering mode.
+ *
+ * @param {string} [labelMode]
+ * @param {boolean} strictBlue
+ * @param {boolean} showLabels
+ * @returns {"none"|"corner"|"center"}
+ */
+function normaliseLabelMode(labelMode, strictBlue, showLabels) {
+  if (!showLabels) return "none";
+  const mode = (labelMode || "auto").toLowerCase();
+  if (mode === "none") return "none";
+  if (mode === "corner" || mode === "top-left") return "corner";
+  if (mode === "center" || mode === "centred") return "center";
+  return strictBlue ? "center" : "corner";
+}
+
 /**
  * Compute wall segments from the grid.
  * A wall segment exists on every edge between a floor-like cell and a wall cell.
@@ -181,68 +223,68 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
 
   switch (cellType) {
     case CELL.DOOR: {
-      // Classic old-school door: wall notch with center slit and hinge pin.
-      const dr = r * 1.3;
+      // Door: larger, simpler block with a single slit and hinge marker for readability at play scale.
       if (orientation === "vertical") {
-        const dw = dr * 0.85;
-        const dh = dr * 1.9;
+        const dw = cs * 0.56;
+        const dh = cs * 0.9;
+        const pin = Math.max(0.8, cs * 0.1);
         return [
           `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-          `<line class="door-slit" x1="${cx - dw * 0.3}" y1="${cy}" x2="${cx + dw * 0.3}" y2="${cy}"/>`,
-          `<circle class="door-pin" cx="${cx}" cy="${cy - dh * 0.25}" r="${Math.max(0.6, cs * 0.045)}"/>`,
+          `<line class="door-slit" x1="${cx - dw * 0.34}" y1="${cy}" x2="${cx + dw * 0.34}" y2="${cy}"/>`,
+          `<rect class="door-pin" x="${cx - pin * 0.5}" y="${cy - dh * 0.5 + cs * 0.08}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
         ].join("\n      ");
       }
-      const dw = dr * 1.9;
-      const dh = dr * 0.85;
+      const dw = cs * 0.9;
+      const dh = cs * 0.56;
+      const pin = Math.max(0.8, cs * 0.1);
       return [
         `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.3}" x2="${cx}" y2="${cy + dh * 0.3}"/>`,
-        `<circle class="door-pin" cx="${cx + dw * 0.25}" cy="${cy}" r="${Math.max(0.6, cs * 0.045)}"/>`,
+        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.34}" x2="${cx}" y2="${cy + dh * 0.34}"/>`,
+        `<rect class="door-pin" x="${cx + dw * 0.5 - cs * 0.08 - pin}" y="${cy - pin * 0.5}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
       ].join("\n      ");
     }
 
     case CELL.DOOR_LOCKED: {
-      // Locked door: standard door with hasp bar and keyhole.
-      const dlr = r * 1.3;
+      // Locked door: standard door silhouette plus prominent lock bar/key marker.
       if (orientation === "vertical") {
-        const dw = dlr * 0.85;
-        const dh = dlr * 1.9;
-        const keyR = dlr * 0.16;
+        const dw = cs * 0.56;
+        const dh = cs * 0.9;
+        const keyR = Math.max(1, cs * 0.08);
         return [
           `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-          `<line class="door-hasp" x1="${cx - dw * 0.34}" y1="${cy}" x2="${cx + dw * 0.34}" y2="${cy}"/>`,
-          `<circle class="door-locked-key" cx="${cx}" cy="${cy + keyR * 0.15}" r="${keyR}"/>`,
-          `<line class="door-locked-key-stem" x1="${cx}" y1="${cy + keyR * 0.65}" x2="${cx}" y2="${cy + keyR * 1.65}"/>`,
+          `<line class="door-hasp" x1="${cx - dw * 0.38}" y1="${cy}" x2="${cx + dw * 0.38}" y2="${cy}"/>`,
+          `<circle class="door-locked-key" cx="${cx}" cy="${cy + keyR * 0.55}" r="${keyR}"/>`,
+          `<line class="door-locked-key-stem" x1="${cx}" y1="${cy + keyR * 1.45}" x2="${cx}" y2="${cy + keyR * 2.45}"/>`,
         ].join("\n      ");
       }
-      const dw = dlr * 1.9;
-      const dh = dlr * 0.85;
-      const keyR = dlr * 0.16;
+      const dw = cs * 0.9;
+      const dh = cs * 0.56;
+      const keyR = Math.max(1, cs * 0.08);
       return [
         `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-        `<line class="door-hasp" x1="${cx}" y1="${cy - dh * 0.34}" x2="${cx}" y2="${cy + dh * 0.34}"/>`,
-        `<circle class="door-locked-key" cx="${cx + keyR * 0.15}" cy="${cy}" r="${keyR}"/>`,
-        `<line class="door-locked-key-stem" x1="${cx + keyR * 0.65}" y1="${cy}" x2="${cx + keyR * 1.65}" y2="${cy}"/>`,
+        `<line class="door-hasp" x1="${cx}" y1="${cy - dh * 0.38}" x2="${cx}" y2="${cy + dh * 0.38}"/>`,
+        `<circle class="door-locked-key" cx="${cx + keyR * 0.55}" cy="${cy}" r="${keyR}"/>`,
+        `<line class="door-locked-key-stem" x1="${cx + keyR * 1.45}" y1="${cy}" x2="${cx + keyR * 2.45}" y2="${cy}"/>`,
       ].join("\n      ");
     }
 
     case CELL.DOOR_SECRET:
-      // Secret door: dashed cut-line with terminal ticks and circled S.
+      // Secret door: bold dashed seam with end caps and a boxed S marker.
       if (orientation === "vertical") {
         return [
-          `<line class="door-secret" x1="${cx}" y1="${py + 2}" x2="${cx}" y2="${py + cs - 2}"/>`,
-          `<line class="door-secret-tick" x1="${cx - r * 0.45}" y1="${py + cs * 0.2}" x2="${cx + r * 0.45}" y2="${py + cs * 0.2}"/>`,
-          `<line class="door-secret-tick" x1="${cx - r * 0.45}" y1="${py + cs * 0.8}" x2="${cx + r * 0.45}" y2="${py + cs * 0.8}"/>`,
-          `<circle class="secret-ring" cx="${cx}" cy="${cy}" r="${cs * 0.2}"/>`,
-          `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
+          `<line class="door-secret" x1="${cx}" y1="${py + cs * 0.08}" x2="${cx}" y2="${py + cs * 0.92}"/>`,
+          `<line class="door-secret-tick" x1="${cx - cs * 0.22}" y1="${py + cs * 0.12}" x2="${cx + cs * 0.22}" y2="${py + cs * 0.12}"/>`,
+          `<line class="door-secret-tick" x1="${cx - cs * 0.22}" y1="${py + cs * 0.88}" x2="${cx + cs * 0.22}" y2="${py + cs * 0.88}"/>`,
+          `<rect class="secret-box" x="${cx - cs * 0.18}" y="${cy - cs * 0.16}" width="${cs * 0.36}" height="${cs * 0.32}" rx="${Math.max(0.8, cs * 0.04)}"/>`,
+          `<text class="secret-label" x="${cx}" y="${cy}" font-size="${cs * 0.42}" text-anchor="middle" dominant-baseline="central">S</text>`,
         ].join("\n      ");
       }
       return [
-        `<line class="door-secret" x1="${px + 2}" y1="${cy}" x2="${px + cs - 2}" y2="${cy}"/>`,
-        `<line class="door-secret-tick" x1="${px + cs * 0.2}" y1="${cy - r * 0.45}" x2="${px + cs * 0.2}" y2="${cy + r * 0.45}"/>`,
-        `<line class="door-secret-tick" x1="${px + cs * 0.8}" y1="${cy - r * 0.45}" x2="${px + cs * 0.8}" y2="${cy + r * 0.45}"/>`,
-        `<circle class="secret-ring" cx="${cx}" cy="${cy}" r="${cs * 0.2}"/>`,
-        `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
+        `<line class="door-secret" x1="${px + cs * 0.08}" y1="${cy}" x2="${px + cs * 0.92}" y2="${cy}"/>`,
+        `<line class="door-secret-tick" x1="${px + cs * 0.12}" y1="${cy - cs * 0.22}" x2="${px + cs * 0.12}" y2="${cy + cs * 0.22}"/>`,
+        `<line class="door-secret-tick" x1="${px + cs * 0.88}" y1="${cy - cs * 0.22}" x2="${px + cs * 0.88}" y2="${cy + cs * 0.22}"/>`,
+        `<rect class="secret-box" x="${cx - cs * 0.18}" y="${cy - cs * 0.16}" width="${cs * 0.36}" height="${cs * 0.32}" rx="${Math.max(0.8, cs * 0.04)}"/>`,
+        `<text class="secret-label" x="${cx}" y="${cy}" font-size="${cs * 0.42}" text-anchor="middle" dominant-baseline="central">S</text>`,
       ].join("\n      ");
 
     case CELL.DOUBLE_DOOR:
@@ -290,25 +332,23 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       return `<path class="curtain" d="M ${px + cs * 0.1} ${cy} Q ${px + cs * 0.3} ${cy - r * 0.8} ${cx} ${cy} Q ${px + cs * 0.7} ${cy + r * 0.8} ${px + cs * 0.9} ${cy}"/>`;
 
     case CELL.STAIRS_DOWN:
-      // Stairs down: tapered treads descending toward bottom with down marker.
+      // Stairs down: broad top treads tapering downward with a clear down arrow.
       return [
         `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.2}" x2="${px + cs * 0.86}" y2="${py + cs * 0.2}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.34}" x2="${px + cs * 0.8}" y2="${py + cs * 0.34}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.26}" y1="${py + cs * 0.48}" x2="${px + cs * 0.74}" y2="${py + cs * 0.48}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.32}" y1="${py + cs * 0.62}" x2="${px + cs * 0.68}" y2="${py + cs * 0.62}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.38}" y1="${py + cs * 0.76}" x2="${px + cs * 0.62}" y2="${py + cs * 0.76}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - r * 0.45},${py + cs * 0.68} ${cx + r * 0.45},${py + cs * 0.68} ${cx},${py + cs * 0.9}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.36}" x2="${px + cs * 0.8}" y2="${py + cs * 0.36}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.27}" y1="${py + cs * 0.52}" x2="${px + cs * 0.73}" y2="${py + cs * 0.52}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.34}" y1="${py + cs * 0.68}" x2="${px + cs * 0.66}" y2="${py + cs * 0.68}"/>`,
+        `<polygon class="stairs-arrow" points="${cx - cs * 0.17},${py + cs * 0.73} ${cx + cs * 0.17},${py + cs * 0.73} ${cx},${py + cs * 0.92}"/>`,
       ].join("\n      ");
 
     case CELL.STAIRS_UP:
-      // Stairs up: tapered treads ascending toward top with up marker.
+      // Stairs up: broad bottom treads tapering upward with a clear up arrow.
       return [
-        `<line class="stairs" x1="${px + cs * 0.38}" y1="${py + cs * 0.24}" x2="${px + cs * 0.62}" y2="${py + cs * 0.24}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.32}" y1="${py + cs * 0.38}" x2="${px + cs * 0.68}" y2="${py + cs * 0.38}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.26}" y1="${py + cs * 0.52}" x2="${px + cs * 0.74}" y2="${py + cs * 0.52}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.66}" x2="${px + cs * 0.8}" y2="${py + cs * 0.66}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.34}" y1="${py + cs * 0.32}" x2="${px + cs * 0.66}" y2="${py + cs * 0.32}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.27}" y1="${py + cs * 0.48}" x2="${px + cs * 0.73}" y2="${py + cs * 0.48}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.64}" x2="${px + cs * 0.8}" y2="${py + cs * 0.64}"/>`,
         `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.8}" x2="${px + cs * 0.86}" y2="${py + cs * 0.8}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - r * 0.45},${py + cs * 0.32} ${cx + r * 0.45},${py + cs * 0.32} ${cx},${py + cs * 0.1}"/>`,
+        `<polygon class="stairs-arrow" points="${cx - cs * 0.17},${py + cs * 0.27} ${cx + cs * 0.17},${py + cs * 0.27} ${cx},${py + cs * 0.08}"/>`,
       ].join("\n      ");
 
     case CELL.PILLAR:
@@ -438,9 +478,10 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
  *
  * @param {number} cellSize
  * @param {string} [colorScheme='blue'] - 'blue' for classic blue, 'parchment' for warm tones
+ * @param {string} [styleProfile='blue-enhanced'] - visual profile
  * @returns {string}
  */
-function generateStyles(cellSize, colorScheme) {
+function generateStyles(cellSize, colorScheme, styleProfile) {
   const wallWidth = cellSize < 15 ? 3 : 4;
   const wallUnderWidth = wallWidth + 1.4;
   const wallHighlightWidth = Math.max(1, wallWidth * 0.33);
@@ -469,6 +510,7 @@ function generateStyles(cellSize, colorScheme) {
     .door-secret { fill: none; stroke: #888; stroke-width: 1.5; stroke-dasharray: 3,3; }
     .door-secret-tick { stroke: #888; stroke-width: 1.3; }
     .secret-ring { fill: none; stroke: #888; stroke-width: 1.1; }
+    .secret-box { fill: #f5f0e6; stroke: #888; stroke-width: 1; }
     .secret-label { font-family: Georgia, serif; font-weight: bold; fill: #666; }
     .stairs { fill: none; stroke: #1a1a1a; stroke-width: 1.5; }
     .stairs-arrow { fill: #1a1a1a; stroke: none; }
@@ -508,6 +550,7 @@ function generateStyles(cellSize, colorScheme) {
     .water-wave { fill: none; stroke: #fff; stroke-width: 0.8; opacity: 0.4; }
     .room-tag { fill: #f3ecdf; stroke: #8b7b63; stroke-width: 0.9; }
     .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #333; stroke: #f5f0e6; stroke-width: ${Math.max(0.8, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: Georgia, serif; font-size: ${Math.max(11, cellSize * 0.68)}px; font-weight: bold; fill: #333; stroke: #f5f0e6; stroke-width: ${Math.max(0.8, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
     .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #777; text-anchor: middle; dominant-baseline: central; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #333; }
     .compass-fill { fill: #e9decd; }
@@ -532,6 +575,100 @@ function generateStyles(cellSize, colorScheme) {
     .sheet-border-outer { fill: none; stroke: #665949; stroke-width: 1.4; }
     .sheet-border-inner { fill: none; stroke: #a79780; stroke-width: 0.9; }
     .sheet-tick { stroke: #8e7f67; stroke-width: 0.8; }
+  </style>`;
+  }
+
+  if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
+    const strictWall = cellSize < 15 ? 3.2 : 3.8;
+    const sym = "#2f698b";
+    return `<style>
+    .bg { fill: #4d92ba; }
+    .bg-wash { fill: #4d92ba; opacity: 0; }
+    .paper-grain { fill: #4d92ba; opacity: 0; }
+    .frame-outer { fill: none; stroke: #1c5674; stroke-width: 2; }
+    .frame-inner { fill: none; stroke: #87aec4; stroke-width: 0.85; opacity: 0.7; }
+    .floor { fill: #eef6fb; }
+    .corridor { fill: #eef6fb; }
+    .grid-line { stroke: #c9dce9; stroke-width: 0.48; }
+    .grid-line-major { stroke: #9dbdd0; stroke-width: 0.86; }
+    .wall-under { stroke: #16516d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #16516d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #16516d; stroke-width: 0.1; opacity: 0; }
+    .door { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.8; }
+    .door-slit { stroke: ${sym}; stroke-width: 1.2; }
+    .door-pin { fill: ${sym}; stroke: none; }
+    .door-locked { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.9; }
+    .door-hasp { stroke: ${sym}; stroke-width: 1.35; }
+    .door-locked-key { fill: ${sym}; stroke: none; }
+    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.2; stroke-linecap: round; }
+    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.7; stroke-dasharray: 2.6,2.1; }
+    .door-secret-tick { stroke: ${sym}; stroke-width: 1.5; }
+    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.2; }
+    .secret-box { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.2; }
+    .secret-label { font-family: 'Times New Roman', Times, serif; font-weight: bold; fill: ${sym}; }
+    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.65; }
+    .stairs-arrow { fill: ${sym}; stroke: none; }
+    .pillar { fill: ${sym}; stroke: none; }
+    .trap { fill: none; stroke: ${sym}; stroke-width: 1.6; }
+    .water { fill: #dce9f2; stroke: ${sym}; stroke-width: 0.7; }
+    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .rubble { fill: #e4edf3; }
+    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.45; }
+    .archway { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .archway-base { fill: ${sym}; stroke: none; }
+    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.4; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .statue { fill: ${sym}; stroke: none; }
+    .altar { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .altar-cross { stroke: ${sym}; stroke-width: 1.4; }
+    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .well-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
+    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
+    .fountain-jet { stroke: ${sym}; stroke-width: 1; }
+    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.34; }
+    .throne { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.22; }
+    .throne-arm { stroke: ${sym}; stroke-width: 1.3; }
+    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 1; opacity: 0.82; }
+    .bars { stroke: ${sym}; stroke-width: 1.3; }
+    .pit { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .pit-hatch { stroke: ${sym}; stroke-width: 1; }
+    .lever-base { fill: ${sym}; stroke: ${sym}; stroke-width: 1; }
+    .lever-arm { stroke: ${sym}; stroke-width: 1.3; }
+    .lever-handle { fill: ${sym}; stroke: none; }
+    .collapsed { fill: #d8e6ef; stroke: none; }
+    .rubble-dot { fill: #72a4c2; stroke: none; }
+    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.75; opacity: 0.46; }
+    .room-tag { fill: #eef6fb; stroke: #3d7393; stroke-width: 0.8; }
+    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.58)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.85, cellSize * 0.048)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.64)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
+    .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
+    .compass-fill { fill: #eef6fb; }
+    .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.4; }
+    .compass-dark { fill: #1b5a78; }
+    .compass-light { fill: #eef6fb; }
+    .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #f0f6fa; text-anchor: middle; }
+    .legend-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1.4; }
+    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #1b5a78; }
+    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #1b5a78; }
+    .legend-sym { stroke: ${sym}; stroke-width: 1.35; fill: none; }
+    .legend-sym-filled { fill: ${sym}; stroke: none; }
+    .scale-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1; }
+    .rock-tone { fill: #3f7898; }
+    .rock-hatch-major { stroke: #346c8c; stroke-width: 0.56; }
+    .rock-hatch-minor { stroke: #5d8daa; stroke-width: 0.42; }
+    .rock-stipple-dot { fill: #4f88ab; opacity: 0.55; }
+    .rock-chisel-mark { stroke: #2e627f; stroke-width: 0.5; stroke-linecap: round; }
+    .title-block-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1.6; }
+    .title-block-divider { stroke: #95b9cf; stroke-width: 0.9; }
+    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #5f90ac; letter-spacing: 0.4px; }
+    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #1b5a78; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #1b5a78; stroke-width: 1.2; }
+    .sheet-border-inner { fill: none; stroke: #8fb4cb; stroke-width: 0.75; }
+    .sheet-tick { stroke: #8fb4cb; stroke-width: 0.72; }
   </style>`;
   }
 
@@ -561,6 +698,7 @@ function generateStyles(cellSize, colorScheme) {
     .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.8; stroke-dasharray: 2,2; }
     .door-secret-tick { stroke: ${sym}; stroke-width: 1.4; }
     .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .secret-box { fill: #f0f6fa; stroke: ${sym}; stroke-width: 1.2; }
     .secret-label { font-family: Georgia, serif; font-weight: bold; fill: ${sym}; }
     .stairs { fill: none; stroke: ${sym}; stroke-width: 1.8; }
     .stairs-arrow { fill: ${sym}; stroke: none; }
@@ -600,6 +738,7 @@ function generateStyles(cellSize, colorScheme) {
     .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.8; opacity: 0.5; }
     .room-tag { fill: #f0f6fa; stroke: #3c7392; stroke-width: 1; }
     .room-number { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.6)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.64)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
     .compass-fill { fill: #f0f6fa; }
     .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.5; }
@@ -817,9 +956,97 @@ function renderGridLines(cells, width, height, cs) {
  * @param {number} width
  * @param {number} height
  * @param {number} cs - Cell size
+ * @param {string} styleProfile
  * @returns {string} SVG defs and pattern usage
  */
-function renderRockHatch(cells, width, height, cs) {
+function renderRockHatch(cells, width, height, cs, styleProfile) {
+  if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
+    const parts = [];
+    const majorStep = Math.max(4, Math.floor(cs * 0.36));
+    const minorStep = Math.max(6, Math.floor(cs * 0.58));
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const hashNoise2d = (x, y, salt = 0) => {
+      let h = Math.imul(x + 1 + salt, 0x9e3779b1);
+      h ^= Math.imul(y + 1 + salt * 3, 0x85ebca6b);
+      h ^= h >>> 16;
+      h = Math.imul(h, 0xc2b2ae35);
+      h ^= h >>> 13;
+      return (h >>> 0) / 4294967295;
+    };
+
+    parts.push(`<defs>
+    <pattern id="rock-hatch-major-strict" width="${majorStep}" height="${majorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-major" x1="0" y1="${majorStep}" x2="${majorStep}" y2="0"/>
+    </pattern>
+    <pattern id="rock-hatch-minor-strict" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-minor" x1="0" y1="0" x2="${minorStep}" y2="${minorStep}"/>
+    </pattern>
+  </defs>`);
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        if (cells[y][x] !== CELL.WALL) continue;
+
+        let nearestFloor = Infinity;
+        for (let oy = -4; oy <= 4; oy++) {
+          for (let ox = -4; ox <= 4; ox++) {
+            const dist = Math.abs(ox) + Math.abs(oy);
+            if (dist === 0 || dist > 4) continue;
+            const nx = x + ox;
+            const ny = y + oy;
+            if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+            if (isFloorLike(cells[ny][nx])) {
+              nearestFloor = Math.min(nearestFloor, dist);
+            }
+          }
+        }
+
+        const noise = hashNoise2d(x, y, 29);
+        const band =
+          nearestFloor === 1
+            ? 1
+            : nearestFloor === 2
+              ? 0.82
+              : nearestFloor === 3
+                ? 0.66
+                : nearestFloor === 4
+                  ? 0.52
+                  : 0.34;
+        const toneOpacity = clamp(
+          0.11 + band * 0.16 + (noise - 0.5) * 0.06,
+          0.08,
+          0.3,
+        );
+        const majorOpacity = clamp(
+          0.36 + band * 0.44 + (noise - 0.5) * 0.08,
+          0.26,
+          0.9,
+        );
+        const minorOpacity = clamp(
+          0.16 + band * 0.24 + (noise - 0.5) * 0.08,
+          0.1,
+          0.58,
+        );
+        const px = x * cs;
+        const py = y * cs;
+
+        parts.push(
+          `<rect class="rock-tone" x="${px}" y="${py}" width="${cs}" height="${cs}" opacity="${toneOpacity.toFixed(3)}"/>`,
+        );
+        parts.push(
+          `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-major-strict)" opacity="${majorOpacity.toFixed(3)}"/>`,
+        );
+        if (nearestFloor <= 3 || noise > 0.55) {
+          parts.push(
+            `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-minor-strict)" opacity="${minorOpacity.toFixed(3)}"/>`,
+          );
+        }
+      }
+    }
+
+    return parts.join("\n    ");
+  }
+
   const parts = [];
   const majorStep = Math.max(3, Math.floor(cs * 0.34));
   const minorStep = Math.max(4, Math.floor(cs * 0.52));
@@ -1180,18 +1407,43 @@ function renderTitleBlock(intent, x, y, w, h) {
  * @param {boolean} [options.showRockHatch=true] - Show rock crosshatch
  * @param {boolean} [options.showCompass=true] - Show compass rose
  * @param {boolean} [options.showLegend=true] - Show legend box
+ * @param {boolean} [options.showTitleBlock=true] - Show metadata title block
+ * @param {boolean} [options.showSheetBorder=true] - Show outer sheet border
+ * @param {boolean} [options.showWash=true] - Show tonal wash layer
+ * @param {boolean} [options.showPaperGrain=true] - Show paper grain texture
  * @param {string} [options.colorScheme='blue'] - 'blue' for classic blue, 'parchment' for warm tones
+ * @param {string} [options.styleProfile='blue-enhanced'] - 'blue-enhanced' or 'blueprint-strict'
+ * @param {string} [options.labelMode='auto'] - 'auto', 'corner', 'center', or 'none'
  * @returns {string} Complete SVG document as string
  */
 function renderSvg(geometry, graph, intent, options) {
   options = options || {};
   const cs = options.cellSize || 20;
+  const colorScheme = options.colorScheme || "blue";
+  const styleProfile = normaliseStyleProfile(colorScheme, options.styleProfile);
+  const strictBlue = styleProfile === STYLE_PROFILE.BLUE_STRICT;
   const showGrid = options.showGrid !== false;
   const showLabels = options.showLabels !== false;
+  const labelMode = normaliseLabelMode(
+    options.labelMode,
+    strictBlue,
+    showLabels,
+  );
   const showRockHatch = options.showRockHatch !== false; // Default ON for old-school wall fill
-  const showCompass = options.showCompass !== false;
-  const showLegend = options.showLegend !== false;
-  const colorScheme = options.colorScheme || "blue";
+  const showCompass =
+    options.showCompass !== undefined ? options.showCompass : !strictBlue;
+  const showLegend =
+    options.showLegend !== undefined ? options.showLegend : !strictBlue;
+  const showTitleBlock =
+    options.showTitleBlock !== undefined ? options.showTitleBlock : !strictBlue;
+  const showSheetBorder =
+    options.showSheetBorder !== undefined
+      ? options.showSheetBorder
+      : !strictBlue;
+  const showWash =
+    options.showWash !== undefined ? options.showWash : !strictBlue;
+  const showPaperGrain =
+    options.showPaperGrain !== undefined ? options.showPaperGrain : !strictBlue;
 
   const mapW = geometry.width * cs;
   const mapH = geometry.height * cs;
@@ -1211,14 +1463,18 @@ function renderSvg(geometry, graph, intent, options) {
       ? computeLegendLayout(activeLegendItems.length, cs)
       : null;
   const legendH = legendLayout ? cs * 0.5 + legendLayout.boxH + cs * 0.5 : 0;
-  const titleH = cs * 2.75;
-  const titleBandH = cs * 0.45 + titleH + cs * 0.55;
+  const titleH = showTitleBlock ? cs * 2.75 : 0;
+  const titleBandH = showTitleBlock ? cs * 0.45 + titleH + cs * 0.55 : 0;
 
   const svgW = mapW;
   const svgH = mapH + legendH + titleBandH;
-  const titleW = Math.max(120, Math.min(mapW - cs * 1.6, cs * 20));
-  const titleX = Math.max(cs * 0.5, mapW - titleW - cs * 0.6);
-  const titleY = mapH + legendH + cs * 0.45;
+  const titleW = showTitleBlock
+    ? Math.max(120, Math.min(mapW - cs * 1.6, cs * 20))
+    : 0;
+  const titleX = showTitleBlock
+    ? Math.max(cs * 0.5, mapW - titleW - cs * 0.6)
+    : 0;
+  const titleY = showTitleBlock ? mapH + legendH + cs * 0.45 : 0;
 
   const parts = [];
 
@@ -1228,22 +1484,26 @@ function renderSvg(geometry, graph, intent, options) {
   );
 
   // Stylesheet
-  parts.push(generateStyles(cs, colorScheme));
+  parts.push(generateStyles(cs, colorScheme, styleProfile));
 
   // Background
   parts.push(`  <rect class="bg" width="${svgW}" height="${svgH}"/>`);
-  parts.push(`  <g class="bg-wash-layer">`);
-  parts.push(`    ${renderBlueprintWash(svgW, mapH, colorScheme)}`);
-  parts.push(`  </g>`);
-  parts.push(`  <g class="paper-grain-layer">`);
-  parts.push(`    ${renderPaperGrain(svgW, svgH, cs)}`);
-  parts.push(`  </g>`);
+  if (showWash) {
+    parts.push(`  <g class="bg-wash-layer">`);
+    parts.push(`    ${renderBlueprintWash(svgW, mapH, colorScheme)}`);
+    parts.push(`  </g>`);
+  }
+  if (showPaperGrain) {
+    parts.push(`  <g class="paper-grain-layer">`);
+    parts.push(`    ${renderPaperGrain(svgW, svgH, cs)}`);
+    parts.push(`  </g>`);
+  }
 
   // Rock hatching (optional, before floors so floors draw on top)
   if (showRockHatch) {
     parts.push(`  <g class="rock-hatch-layer">`);
     parts.push(
-      `    ${renderRockHatch(geometry.cells, geometry.width, geometry.height, cs)}`,
+      `    ${renderRockHatch(geometry.cells, geometry.width, geometry.height, cs, styleProfile)}`,
     );
     parts.push(`  </g>`);
   }
@@ -1292,15 +1552,19 @@ function renderSvg(geometry, graph, intent, options) {
   );
   parts.push(`  <g class="walls">`);
   for (const seg of wallSegments) {
-    parts.push(
-      `    <line class="wall-under" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
-    );
+    if (!strictBlue) {
+      parts.push(
+        `    <line class="wall-under" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
+      );
+    }
     parts.push(
       `    <line class="wall" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
     );
-    parts.push(
-      `    <line class="wall-highlight" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
-    );
+    if (!strictBlue) {
+      parts.push(
+        `    <line class="wall-highlight" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
+      );
+    }
   }
   parts.push(`  </g>`);
 
@@ -1334,25 +1598,32 @@ function renderSvg(geometry, graph, intent, options) {
   }
   parts.push(`  </g>`);
 
-  // Room labels (Paratime style: small bold number in top-left corner, no names)
-  if (showLabels && geometry.rooms) {
+  // Room labels
+  if (labelMode !== "none" && geometry.rooms) {
     parts.push(`  <g class="labels">`);
     for (let i = 0; i < geometry.rooms.length; i++) {
       const room = geometry.rooms[i];
-      // Room number only (no names on the map - those go in a separate key)
       const num = roomLabelFromIndex(i);
-      const tagX = (room.x + 0.08) * cs;
-      const tagY = (room.y + 0.18) * cs;
-      const tagW = Math.max(cs * 0.64, cs * (0.36 + num.length * 0.33));
-      const tagH = cs * 0.56;
-      const lx = tagX + tagW / 2;
-      const ly = tagY + tagH * 0.58;
-      parts.push(
-        `    <rect class="room-tag" x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="${Math.max(1, cs * 0.08)}"/>`,
-      );
-      parts.push(
-        `    <text class="room-number" x="${lx}" y="${ly}">${escapeXml(num)}</text>`,
-      );
+      if (labelMode === "center") {
+        const cx = (room.x + room.w / 2) * cs;
+        const cy = (room.y + room.h / 2) * cs;
+        parts.push(
+          `    <text class="room-number-center" x="${cx}" y="${cy}">${escapeXml(num)}</text>`,
+        );
+      } else {
+        const tagX = (room.x + 0.08) * cs;
+        const tagY = (room.y + 0.18) * cs;
+        const tagW = Math.max(cs * 0.64, cs * (0.36 + num.length * 0.33));
+        const tagH = cs * 0.56;
+        const lx = tagX + tagW / 2;
+        const ly = tagY + tagH * 0.58;
+        parts.push(
+          `    <rect class="room-tag" x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="${Math.max(1, cs * 0.08)}"/>`,
+        );
+        parts.push(
+          `    <text class="room-number" x="${lx}" y="${ly}">${escapeXml(num)}</text>`,
+        );
+      }
     }
     parts.push(`  </g>`);
   }
@@ -1372,12 +1643,18 @@ function renderSvg(geometry, graph, intent, options) {
   }
 
   // Map metadata title block in the lower sheet area
-  parts.push(`  <g class="title-block-group">`);
-  parts.push(`    ${renderTitleBlock(intent, titleX, titleY, titleW, titleH)}`);
-  parts.push(`  </g>`);
+  if (showTitleBlock) {
+    parts.push(`  <g class="title-block-group">`);
+    parts.push(
+      `    ${renderTitleBlock(intent, titleX, titleY, titleW, titleH)}`,
+    );
+    parts.push(`  </g>`);
+  }
 
   // Sheet frame around the full map + legend/title area.
-  parts.push(`  ${renderSheetBorder(svgW, svgH, cs)}`);
+  if (showSheetBorder) {
+    parts.push(`  ${renderSheetBorder(svgW, svgH, cs)}`);
+  }
 
   parts.push(`</svg>`);
   return parts.join("\n");

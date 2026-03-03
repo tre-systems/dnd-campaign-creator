@@ -138,5 +138,73 @@ describe("dressing", () => {
       applyDressing(geometry, graph, rng);
       assert.equal(cells[2][4], CELL.DOOR, "Door should not be overwritten");
     });
+
+    it("keeps doorway ingress lanes clear of blocking features", () => {
+      const cells = createGrid(14, 14);
+      for (let y = 3; y < 11; y++) {
+        for (let x = 3; x < 11; x++) cells[y][x] = CELL.FLOOR;
+      }
+      // Top doorway into the room.
+      cells[2][7] = CELL.DOOR;
+      cells[1][7] = CELL.CORRIDOR;
+
+      const room = {
+        x: 3,
+        y: 3,
+        w: 8,
+        h: 8,
+        nodeId: "R01",
+        doorPositions: [{ x: 7, y: 2, type: "door" }],
+      };
+      const geometry = { width: 14, height: 14, cells, rooms: [room] };
+      const graph = {
+        nodeMap: new Map([
+          ["R01", { id: "R01", name: "Great Hall", sizeClass: "large" }],
+        ]),
+      };
+
+      applyDressing(geometry, graph, createRng(11));
+
+      // Inside-door ingress and immediate lane to center should remain passable floor.
+      assert.equal(cells[3][7], CELL.FLOOR);
+      assert.equal(cells[4][7], CELL.FLOOR);
+      assert.equal(cells[5][7], CELL.FLOOR);
+    });
+
+    it("relocates blocked recipe anchors to nearby valid tiles", () => {
+      const cells = createGrid(12, 12);
+      for (let y = 3; y < 8; y++) {
+        for (let x = 3; x < 8; x++) cells[y][x] = CELL.FLOOR;
+      }
+      cells[2][5] = CELL.DOOR;
+      cells[1][5] = CELL.CORRIDOR;
+
+      const room = {
+        x: 3,
+        y: 3,
+        w: 5,
+        h: 5,
+        nodeId: "R02",
+        doorPositions: [{ x: 5, y: 2, type: "door" }],
+      };
+      const geometry = { width: 12, height: 12, cells, rooms: [room] };
+      const graph = {
+        nodeMap: new Map([
+          ["R02", { id: "R02", name: "Well Room", sizeClass: "small" }],
+        ]),
+      };
+
+      applyDressing(geometry, graph, createRng(17));
+
+      let wells = [];
+      for (let y = room.y; y < room.y + room.h; y++) {
+        for (let x = room.x; x < room.x + room.w; x++) {
+          if (cells[y][x] === CELL.WELL) wells.push({ x, y });
+        }
+      }
+
+      assert.equal(wells.length, 1, "Expected one relocated well placement");
+      assert.notDeepEqual(wells[0], { x: 5, y: 5 }, "Well should move off reserved center lane");
+    });
   });
 });

@@ -19,18 +19,38 @@ try {
   // These are optional - scripts will handle missing dependencies
 }
 
-const PROJECT_ROOT = path.join(__dirname, "..", "..");
-const CREDENTIALS_PATH = path.join(PROJECT_ROOT, "credentials.json");
-const SERVICE_ACCOUNT_PATH = path.join(
-  PROJECT_ROOT,
-  "service-account-key.json",
-);
-const TOKEN_PATH = path.join(PROJECT_ROOT, "token.json");
+const PACKAGE_ROOT = path.join(__dirname, "..");
+const LEGACY_ROOT = path.join(__dirname, "..", "..");
+
+const DEFAULT_CREDENTIALS_FILENAME = "credentials.json";
+const DEFAULT_SERVICE_ACCOUNT_FILENAME = "service-account-key.json";
+const DEFAULT_TOKEN_FILENAME = "token.json";
+
+function candidateSearchDirs() {
+  return [process.cwd(), PACKAGE_ROOT, LEGACY_ROOT];
+}
+
+function resolvePathForRead(explicitPath, filename) {
+  if (explicitPath) return path.resolve(explicitPath);
+
+  for (const dir of candidateSearchDirs()) {
+    const candidate = path.join(dir, filename);
+    if (fsSync.existsSync(candidate)) return candidate;
+  }
+
+  // Deterministic fallback for clear error messaging.
+  return path.join(process.cwd(), filename);
+}
+
+function resolvePathForWrite(explicitPath, fallbackDir, filename) {
+  if (explicitPath) return path.resolve(explicitPath);
+  return path.join(fallbackDir || process.cwd(), filename);
+}
 
 /**
  * Load saved OAuth credentials from token file
  */
-async function loadSavedCredentialsIfExist(tokenPath = TOKEN_PATH) {
+async function loadSavedCredentialsIfExist(tokenPath) {
   if (!google) {
     return null;
   }
@@ -49,8 +69,8 @@ async function loadSavedCredentialsIfExist(tokenPath = TOKEN_PATH) {
  */
 async function saveCredentials(
   client,
-  credentialsPath = CREDENTIALS_PATH,
-  tokenPath = TOKEN_PATH,
+  credentialsPath,
+  tokenPath,
 ) {
   try {
     const content = await fs.readFile(credentialsPath);
@@ -74,9 +94,9 @@ async function saveCredentials(
  * @param {Object} options - Configuration options
  * @param {string[]} options.scopes - API scopes required
  * @param {string} options.authMethod - 'oauth' or 'service-account' (default: from env or 'oauth')
- * @param {string} options.credentialsPath - Path to OAuth credentials file (default: project root)
- * @param {string} options.serviceAccountPath - Path to service account key file (default: project root)
- * @param {string} options.tokenPath - Path to save OAuth token (default: project root)
+ * @param {string} options.credentialsPath - Path to OAuth credentials file (default: discovered from cwd/package fallback or GOOGLE_OAUTH_CREDENTIALS_PATH)
+ * @param {string} options.serviceAccountPath - Path to service account key file (default: discovered from cwd/package fallback or GOOGLE_SERVICE_ACCOUNT_KEY_PATH)
+ * @param {string} options.tokenPath - Path to save OAuth token (default: alongside resolved OAuth credentials or GOOGLE_TOKEN_PATH)
  * @param {boolean} options.requireAuth - If true, exit on auth failure (default: false)
  * @returns {Promise<Object|null>} Authenticated client or null
  */
@@ -85,9 +105,9 @@ async function authorize({
   authMethod = process.env.DRIVE_AUTH_METHOD ||
     process.env.AUTH_METHOD ||
     "oauth",
-  credentialsPath = CREDENTIALS_PATH,
-  serviceAccountPath = SERVICE_ACCOUNT_PATH,
-  tokenPath = TOKEN_PATH,
+  credentialsPath = process.env.GOOGLE_OAUTH_CREDENTIALS_PATH,
+  serviceAccountPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH,
+  tokenPath = process.env.GOOGLE_TOKEN_PATH,
   requireAuth = false,
 } = {}) {
   if (!google) {
@@ -100,11 +120,26 @@ async function authorize({
     return null;
   }
 
+  const resolvedCredentialsPath = resolvePathForRead(
+    credentialsPath,
+    DEFAULT_CREDENTIALS_FILENAME,
+  );
+  const resolvedServiceAccountPath = resolvePathForRead(
+    serviceAccountPath,
+    DEFAULT_SERVICE_ACCOUNT_FILENAME,
+  );
+  const tokenDir = path.dirname(resolvedCredentialsPath);
+  const resolvedTokenPath = resolvePathForWrite(
+    tokenPath,
+    tokenDir,
+    DEFAULT_TOKEN_FILENAME,
+  );
+
   // Service Account authentication
   if (authMethod === "service-account") {
     try {
-      if (!fsSync.existsSync(serviceAccountPath)) {
-        const error = `Service account key not found: ${serviceAccountPath}`;
+      if (!fsSync.existsSync(resolvedServiceAccountPath)) {
+        const error = `Service account key not found: ${resolvedServiceAccountPath}`;
         if (requireAuth) {
           console.error(`❌ ${error}`);
           console.log("\nTo set up service account:");
@@ -117,14 +152,14 @@ async function authorize({
           console.log("5. Create a new service account");
           console.log("6. Create a key (JSON) and download it");
           console.log(
-            `7. Save it as "${path.basename(serviceAccountPath)}" in the project root`,
+            `7. Save it as "${path.basename(resolvedServiceAccountPath)}" in your campaign root or set GOOGLE_SERVICE_ACCOUNT_KEY_PATH`,
           );
           process.exit(1);
         }
         return null;
       }
 
-      const serviceAccount = await fs.readFile(serviceAccountPath);
+      const serviceAccount = await fs.readFile(resolvedServiceAccountPath);
       const key = JSON.parse(serviceAccount);
 
       // Validate key structure
@@ -168,8 +203,8 @@ async function authorize({
     return null;
   }
 
-  if (!fsSync.existsSync(credentialsPath)) {
-    const error = `OAuth credentials not found: ${credentialsPath}`;
+  if (!fsSync.existsSync(resolvedCredentialsPath)) {
+    const error = `OAuth credentials not found: ${resolvedCredentialsPath}`;
     if (requireAuth) {
       console.error(`❌ ${error}`);
       console.log("\nTo set up OAuth:");
@@ -179,14 +214,16 @@ async function authorize({
         "3. Enable required APIs (Google Docs API, Google Drive API, etc.)",
       );
       console.log("4. Create OAuth 2.0 credentials (Desktop app)");
-      console.log('5. Download credentials and save as "credentials.json"');
+      console.log(
+        '5. Download credentials and save as "credentials.json" in your campaign root or set GOOGLE_OAUTH_CREDENTIALS_PATH',
+      );
       process.exit(1);
     }
     return null;
   }
 
   // Try to load saved credentials first
-  let client = await loadSavedCredentialsIfExist(tokenPath);
+  let client = await loadSavedCredentialsIfExist(resolvedTokenPath);
   if (client) {
     return client;
   }
@@ -195,11 +232,11 @@ async function authorize({
   try {
     client = await authenticate({
       scopes: scopes,
-      keyfilePath: credentialsPath,
+      keyfilePath: resolvedCredentialsPath,
     });
 
     if (client.credentials) {
-      await saveCredentials(client, credentialsPath, tokenPath);
+      await saveCredentials(client, resolvedCredentialsPath, resolvedTokenPath);
     }
 
     return client;

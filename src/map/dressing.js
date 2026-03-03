@@ -164,6 +164,122 @@ function pickRecipe(node) {
   return null;
 }
 
+function key(x, y) {
+  return `${x},${y}`;
+}
+
+function inBounds(geometry, x, y) {
+  return y >= 0 && y < geometry.height && x >= 0 && x < geometry.width;
+}
+
+function isInRoom(room, x, y) {
+  return x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h;
+}
+
+function markKeepout(keepout, room, x, y) {
+  if (isInRoom(room, x, y)) {
+    keepout.add(key(x, y));
+  }
+}
+
+function markDoorIngressKeepout(geometry, room, keepout) {
+  if (!Array.isArray(room.doorPositions) || room.doorPositions.length === 0) {
+    return;
+  }
+
+  const dirs = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  const ingress = [];
+
+  for (const door of room.doorPositions) {
+    if (!inBounds(geometry, door.x, door.y)) continue;
+    markKeepout(keepout, room, door.x, door.y);
+
+    for (const [dx, dy] of dirs) {
+      const nx = door.x + dx;
+      const ny = door.y + dy;
+      if (!isInRoom(room, nx, ny)) continue;
+      if (!inBounds(geometry, nx, ny)) continue;
+      if (geometry.cells[ny][nx] !== CELL.FLOOR) continue;
+
+      ingress.push({ x: nx, y: ny });
+      markKeepout(keepout, room, nx, ny);
+      // Keep one tile of breathing room around ingress cells so features don't crowd doors.
+      markKeepout(keepout, room, nx + 1, ny);
+      markKeepout(keepout, room, nx - 1, ny);
+      markKeepout(keepout, room, nx, ny + 1);
+      markKeepout(keepout, room, nx, ny - 1);
+    }
+  }
+
+  if (ingress.length === 0) return;
+
+  const centerX = room.x + Math.floor(room.w / 2);
+  const centerY = room.y + Math.floor(room.h / 2);
+
+  // Reserve a direct line from each doorway ingress toward room center.
+  for (const start of ingress) {
+    let x = start.x;
+    let y = start.y;
+    markKeepout(keepout, room, x, y);
+
+    while (x !== centerX) {
+      x += centerX > x ? 1 : -1;
+      markKeepout(keepout, room, x, y);
+    }
+    while (y !== centerY) {
+      y += centerY > y ? 1 : -1;
+      markKeepout(keepout, room, x, y);
+    }
+  }
+}
+
+function canPlaceAt(geometry, room, x, y, keepout, occupied) {
+  if (!isInRoom(room, x, y)) return false;
+  if (!inBounds(geometry, x, y)) return false;
+  if (geometry.cells[y][x] !== CELL.FLOOR) return false;
+  const k = key(x, y);
+  if (keepout.has(k)) return false;
+  if (occupied.has(k)) return false;
+  return true;
+}
+
+function choosePlacementCell(geometry, room, targetX, targetY, keepout, occupied) {
+  if (canPlaceAt(geometry, room, targetX, targetY, keepout, occupied)) {
+    return { x: targetX, y: targetY };
+  }
+
+  const centerX = room.x + Math.floor(room.w / 2);
+  const centerY = room.y + Math.floor(room.h / 2);
+  const maxRadius = Math.max(room.w, room.h);
+  let best = null;
+  let bestScore = Infinity;
+
+  for (let r = 1; r <= maxRadius; r++) {
+    for (let y = targetY - r; y <= targetY + r; y++) {
+      for (let x = targetX - r; x <= targetX + r; x++) {
+        const dist = Math.abs(x - targetX) + Math.abs(y - targetY);
+        if (dist !== r) continue;
+        if (!canPlaceAt(geometry, room, x, y, keepout, occupied)) continue;
+
+        const centerDist = Math.abs(x - centerX) + Math.abs(y - centerY);
+        const score = dist * 10 + centerDist;
+        if (score < bestScore) {
+          bestScore = score;
+          best = { x, y };
+        }
+      }
+    }
+    if (best) return best;
+  }
+
+  return null;
+}
+
 /**
  * Apply dungeon dressing features to rooms on the grid.
  *
@@ -187,20 +303,25 @@ function applyDressing(geometry, graph, rng) {
     const recipe = RECIPES[recipeName];
     if (!recipe) continue;
 
+    const keepout = new Set();
+    const occupied = new Set();
+    markDoorIngressKeepout(geometry, room, keepout);
+
     const placements = recipe(room, rng);
     for (const p of placements) {
-      const gx = room.x + p.dx;
-      const gy = room.y + p.dy;
-      // Only place on FLOOR cells (don't overwrite doors, corridors, etc.)
-      if (
-        gy >= 0 &&
-        gy < geometry.height &&
-        gx >= 0 &&
-        gx < geometry.width &&
-        geometry.cells[gy][gx] === CELL.FLOOR
-      ) {
-        geometry.cells[gy][gx] = p.cell;
-      }
+      const desiredX = room.x + p.dx;
+      const desiredY = room.y + p.dy;
+      const chosen = choosePlacementCell(
+        geometry,
+        room,
+        desiredX,
+        desiredY,
+        keepout,
+        occupied,
+      );
+      if (!chosen) continue;
+      geometry.cells[chosen.y][chosen.x] = p.cell;
+      occupied.add(key(chosen.x, chosen.y));
     }
   }
 

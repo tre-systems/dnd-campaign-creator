@@ -78,6 +78,87 @@ function bestWallPoint(room, target) {
   }
 }
 
+const DOOR_TYPES = new Set([CELL.DOOR, CELL.DOOR_LOCKED, CELL.DOOR_SECRET]);
+
+function inBounds(cells, x, y) {
+  return y >= 0 && y < cells.length && x >= 0 && x < cells[0].length;
+}
+
+function isRoomFloorCell(cells, x, y) {
+  return inBounds(cells, x, y) && cells[y][x] === CELL.FLOOR;
+}
+
+function collectWallCandidates(room, cells) {
+  const candidates = [];
+  const seen = new Set();
+
+  const addCandidate = (x, y, wall, insideX, insideY) => {
+    if (!inBounds(cells, x, y)) return;
+    if (!isRoomFloorCell(cells, insideX, insideY)) return;
+    const key = `${x},${y}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    candidates.push({ x, y, wall, insideX, insideY });
+  };
+
+  for (let y = room.y; y < room.y + room.h; y++) {
+    addCandidate(room.x - 1, y, "left", room.x, y);
+    addCandidate(room.x + room.w, y, "right", room.x + room.w - 1, y);
+  }
+  for (let x = room.x; x < room.x + room.w; x++) {
+    addCandidate(x, room.y - 1, "top", x, room.y);
+    addCandidate(x, room.y + room.h, "bottom", x, room.y + room.h - 1);
+  }
+
+  return candidates;
+}
+
+function preferredWall(room, target) {
+  const centerA = { x: room.x + room.w / 2, y: room.y + room.h / 2 };
+  const centerB = { x: target.x + target.w / 2, y: target.y + target.h / 2 };
+  const dx = centerB.x - centerA.x;
+  const dy = centerB.y - centerA.y;
+
+  if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? "right" : "left";
+  return dy > 0 ? "bottom" : "top";
+}
+
+function chooseCandidate(candidates, room, target) {
+  if (candidates.length === 0) return null;
+  const centerB = { x: target.x + target.w / 2, y: target.y + target.h / 2 };
+  const preferred = preferredWall(room, target);
+
+  let best = null;
+  let bestScore = Infinity;
+  for (const candidate of candidates) {
+    const wallPenalty = candidate.wall === preferred ? 0 : 8;
+    const dist = Math.abs(candidate.x - centerB.x) + Math.abs(candidate.y - centerB.y);
+    const score = dist + wallPenalty;
+    if (score < bestScore) {
+      bestScore = score;
+      best = candidate;
+    }
+  }
+
+  return best;
+}
+
+/**
+ * Choose a wall point that is guaranteed to connect to playable room floor.
+ * Falls back to geometric wall point selection if no floor-backed edge exists.
+ *
+ * @param {Object} room - Source room
+ * @param {Object} target - Target room-like object
+ * @param {number[][]} cells - Current geometry grid
+ * @returns {{x:number,y:number,wall:string}}
+ */
+function bestWallPointForGrid(room, target, cells) {
+  const candidates = collectWallCandidates(room, cells);
+  const chosen = chooseCandidate(candidates, room, target);
+  if (chosen) return { x: chosen.x, y: chosen.y, wall: chosen.wall };
+  return bestWallPoint(room, target);
+}
+
 /**
  * Clamp a value to [min, max].
  */
@@ -339,16 +420,34 @@ function carveCorridorPath(cells, path, width) {
  * @param {number[][]} cells - Grid
  * @param {{x: number, y: number}} point - Door position
  * @param {number} doorType - CELL constant (DOOR, DOOR_LOCKED, DOOR_SECRET)
+ * @returns {boolean} true if a door was placed at the point
  */
 function placeDoor(cells, point, doorType) {
-  if (
-    point.y >= 0 &&
-    point.y < cells.length &&
-    point.x >= 0 &&
-    point.x < cells[0].length
-  ) {
-    cells[point.y][point.x] = doorType;
+  if (!inBounds(cells, point.x, point.y)) return false;
+
+  const neighbours = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  let adjacentFloor = 0;
+  let adjacentPassage = 0;
+  for (const [dx, dy] of neighbours) {
+    const nx = point.x + dx;
+    const ny = point.y + dy;
+    if (!inBounds(cells, nx, ny)) continue;
+    const c = cells[ny][nx];
+    if (c === CELL.FLOOR) adjacentFloor++;
+    if (c === CELL.CORRIDOR || DOOR_TYPES.has(c)) adjacentPassage++;
   }
+
+  // Door cells should join room floor to passage space.
+  if (adjacentFloor > 0 && adjacentPassage > 0) {
+    cells[point.y][point.x] = doorType;
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -439,8 +538,8 @@ function routeCorridors(geometry, graph, rng, connectors) {
     }
 
     // Find connection points on room walls
-    const pointA = bestWallPoint(roomA, roomB);
-    const pointB = bestWallPoint(roomB, roomA);
+    const pointA = bestWallPointForGrid(roomA, roomB, geometry.cells);
+    const pointB = bestWallPointForGrid(roomB, roomA, geometry.cells);
 
     // Route corridor using A* pathfinding for shortest natural path
     const path = routeAStar(pointA, pointB, geometry.cells, rng);
@@ -449,15 +548,29 @@ function routeCorridors(geometry, graph, rng, connectors) {
     const corridorWidth = widthClassToCells(edge.width);
     carveCorridorPath(geometry.cells, path, corridorWidth);
 
-    // Place door at room A's wall if edge type has a door
+    // Place door(s) at room-wall transition points if this edge is gated.
+    const placedDoorPositions = [];
     const doorType = edgeTypeToDoorCell(edge.type);
     if (doorType !== null) {
-      placeDoor(geometry.cells, pointA, doorType);
-      roomA.doorPositions.push({
-        x: pointA.x,
-        y: pointA.y,
-        type: edge.type,
-      });
+      // Standard doors get paired thresholds on both connected rooms.
+      if (edge.type === "door") {
+        if (placeDoor(geometry.cells, pointA, doorType)) {
+          placedDoorPositions.push({ x: pointA.x, y: pointA.y, type: edge.type });
+        }
+        if (placeDoor(geometry.cells, pointB, doorType)) {
+          placedDoorPositions.push({ x: pointB.x, y: pointB.y, type: edge.type });
+        }
+      } else {
+        // Locked/secret edges gate the destination side by convention.
+        if (placeDoor(geometry.cells, pointB, doorType)) {
+          placedDoorPositions.push({ x: pointB.x, y: pointB.y, type: edge.type });
+        }
+      }
+
+      for (const door of placedDoorPositions) {
+        roomA.doorPositions.push(door);
+        roomB.doorPositions.push(door);
+      }
     }
 
     // Record corridor metadata
@@ -465,9 +578,7 @@ function routeCorridors(geometry, graph, rng, connectors) {
       from: edge.from,
       to: edge.to,
       path,
-      doorPositions: doorType
-        ? [{ x: pointA.x, y: pointA.y, type: edge.type }]
-        : [],
+      doorPositions: placedDoorPositions,
     });
   }
 
@@ -478,12 +589,16 @@ function routeCorridors(geometry, graph, rng, connectors) {
     const targetRoom = nearestRoomForPoint(geometry.rooms, anchor);
     if (!targetRoom) continue;
 
-    const roomPoint = bestWallPoint(targetRoom, {
-      x: anchor.x,
-      y: anchor.y,
-      w: 1,
-      h: 1,
-    });
+    const roomPoint = bestWallPointForGrid(
+      targetRoom,
+      {
+        x: anchor.x,
+        y: anchor.y,
+        w: 1,
+        h: 1,
+      },
+      geometry.cells,
+    );
     const path = routeL(anchor, roomPoint, geometry.cells, rng);
     const connectorWidth = Math.max(1, Math.floor(connector.width || 1));
     carveCorridorPath(geometry.cells, path, connectorWidth);
@@ -502,6 +617,7 @@ function routeCorridors(geometry, graph, rng, connectors) {
 module.exports = {
   routeCorridors,
   bestWallPoint,
+  bestWallPointForGrid,
   buildLPath,
   carveCorridorPath,
   placeDoor,

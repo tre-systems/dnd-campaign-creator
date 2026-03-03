@@ -41,4 +41,88 @@ describe("generate-map", () => {
     const hasFeature = /[caswtf=F!Ox]/.test(ascii);
     assert.equal(hasFeature, true, "Expected at least one dressing feature");
   });
+
+  it("supports strict style profile from CLI options", async () => {
+    const outputDir = await fs.mkdtemp(path.join(os.tmpdir(), "map-gen-"));
+    const sectionPath = path.resolve("examples/gatehouse-ruin.json");
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    const originalError = console.error;
+
+    try {
+      console.log = () => {};
+      console.warn = () => {};
+      console.error = () => {};
+
+      await generateMap(sectionPath, [
+        "generate-map",
+        sectionPath,
+        "--output",
+        outputDir,
+        "--seed",
+        "42",
+        "--style-profile",
+        "blueprint-strict",
+      ]);
+    } finally {
+      console.log = originalLog;
+      console.warn = originalWarn;
+      console.error = originalError;
+    }
+
+    const svgPath = path.join(outputDir, "gatehouse-ruin-map.svg");
+    const svg = await fs.readFile(svgPath, "utf8");
+
+    assert.ok(
+      svg.includes('class="room-number-center"'),
+      "Expected centered room labels in strict profile",
+    );
+    assert.ok(
+      !svg.includes('class="room-tag"'),
+      "Expected top-left room tags to be disabled in strict profile",
+    );
+  });
+
+  it("supports explicit label mode override from CLI options", async () => {
+    const outputDir = await fs.mkdtemp(path.join(os.tmpdir(), "map-gen-"));
+    const sectionPath = path.resolve("examples/gatehouse-ruin.json");
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    const originalError = console.error;
+
+    try {
+      console.log = () => {};
+      console.warn = () => {};
+      console.error = () => {};
+
+      await generateMap(sectionPath, [
+        "generate-map",
+        sectionPath,
+        "--output",
+        outputDir,
+        "--seed",
+        "42",
+        "--style-profile",
+        "blueprint-strict",
+        "--label-mode",
+        "corner",
+      ]);
+    } finally {
+      console.log = originalLog;
+      console.warn = originalWarn;
+      console.error = originalError;
+    }
+
+    const svgPath = path.join(outputDir, "gatehouse-ruin-map.svg");
+    const svg = await fs.readFile(svgPath, "utf8");
+
+    assert.ok(
+      svg.includes('class="room-tag"'),
+      "Expected corner room tags when label-mode is corner",
+    );
+    assert.ok(
+      !svg.includes('class="room-number-center"'),
+      "Expected centered room labels to be disabled by corner label mode",
+    );
+  });
 });

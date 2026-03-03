@@ -341,7 +341,7 @@ async function run() {
     const sectionFile = args[1];
     if (!sectionFile || sectionFile.startsWith("--")) {
       console.error(
-        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--max-attempts <n>] [--allow-invalid] [--no-grid] [--no-labels] [--color-scheme <blue|parchment>]",
+        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--max-attempts <n>] [--allow-invalid] [--no-grid] [--no-labels] [--label-mode <auto|corner|center|none>] [--color-scheme <blue|parchment>] [--style-profile <blue-enhanced|blueprint-strict>]",
       );
       process.exit(1);
     }
@@ -398,6 +398,8 @@ async function generateMap(sectionFile, args) {
   const showGrid = !args.includes("--no-grid");
   const showLabels = !args.includes("--no-labels");
   const colorScheme = getArg("--color-scheme") || "blue";
+  const styleProfile = getArg("--style-profile") || undefined;
+  const labelMode = getArg("--label-mode") || undefined;
 
   console.error(`Using seed: ${seed}`);
   const rng = createRng(seed);
@@ -496,6 +498,8 @@ async function generateMap(sectionFile, args) {
       showLabels,
       showRockHatch: true,
       colorScheme,
+      styleProfile,
+      labelMode,
     });
     svgFilename = `${intent.id}-map.svg`;
     const svgPath = path.join(outputDir, svgFilename);
