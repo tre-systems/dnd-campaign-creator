@@ -367,7 +367,7 @@ For wide corridors, it expands perpendicular to the movement direction.
 - `secret` -> `CELL.DOOR_SECRET`
 - `open` / other -> no door
 
-Doors are placed at the midpoint of the carved path.
+Doors are placed on the source-room wall connection point for that edge.
 
 ### 3c. Dressing
 
@@ -380,17 +380,15 @@ type/name from the topology graph.
 
 `pickRecipe(node)` matches room names (case-insensitive) to recipes:
 
-| Keyword match                | Recipe    |
-| ---------------------------- | --------- |
-| `chapel`, `shrine`, `temple` | `chapel`  |
-| `throne`                     | `throne`  |
-| `crypt`, `tomb`              | `crypt`   |
-| `well`, `cistern`            | `well`    |
-| `forge`, `smithy`            | `forge`   |
-| `gallery`, `hall` (large)    | `pillars` |
-| `library`                    | `library` |
-| Large rooms (no keyword)     | `pillars` |
-| Medium+ rooms (30% chance)   | `scatter` |
+- `chapel`, `shrine` -> `chapel`
+- `throne` -> `throne`
+- `crypt`, `tomb` -> `crypt`
+- `well` -> `well`
+- `forge`, `smelt` -> `forge`
+- `gallery`, `great hall`, or `hall` (if large) -> `pillars`
+- `library`, `scriptorium` -> `library`
+- Large rooms (no keyword) -> `pillars`
+- Rooms with no recipe (30% chance) -> `scatter`
 
 #### Recipes
 
@@ -486,7 +484,7 @@ Wall lines are rendered in three passes (`wall-under`, `wall`,
 **Blue (default, Paratime style):**
 
 - Background: `#4a90b8`
-- Floors: `#f5fafd`
+- Floors: `#eef6fb`
 - Walls: `#16516d` (stroke width 3-4px)
 - Features: `#3b7a9e`
 
@@ -526,7 +524,7 @@ bold weight, and a light stroke halo for readability.
   <rect class="bg"/>
   <g class="bg-wash-layer">...</g>
   <g class="paper-grain-layer">...</g>
-  <g class="rock-hatch">...</g>
+  <g class="rock-hatch-layer">...</g>
   <g class="floors">...</g>
   <g class="grid">...</g>
   <g class="walls">...</g>
@@ -544,7 +542,7 @@ bold weight, and a light stroke halo for readability.
 
 **Module:** `render-ascii.js`
 
-Text-based fallback. Each cell maps to a character:
+Text-based fallback. Common cells map to:
 
 ```text
 # = wall    . = floor/corridor    + = door
@@ -553,6 +551,8 @@ L = locked  S = secret            > = stairs down
 ~ = water   * = treasure          s = statue
 a = altar   w = well              t = throne
 ```
+
+Additional feature mappings are defined in `render-ascii.js` (`ASCII_MAP`).
 
 Room labels use `1-9`, then `A-Z`, then `AA`, `AB`, ... and are placed at room centres.
 

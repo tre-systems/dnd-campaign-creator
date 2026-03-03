@@ -54,7 +54,7 @@
 
 ## Section Map
 
-![Goblin-occupied dwarven gatehouse Map](./gatehouse-ruin-map.svg)
+![Goblin-occupied dwarven gatehouse Map](./gatehouse-ruin-seed13-blue-v4.svg)
 
 ```text
 ##############################
