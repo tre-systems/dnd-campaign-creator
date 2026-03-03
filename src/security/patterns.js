@@ -23,12 +23,14 @@ const forbiddenPathChecks = [
   },
   {
     name: "private-key-file",
-    test: (p) => /\.(pem|p12|pfx)$/i.test(p) || /(^|\/)id_(rsa|ed25519)$/i.test(p),
+    test: (p) =>
+      /\.(pem|p12|pfx)$/i.test(p) || /(^|\/)id_(rsa|ed25519)$/i.test(p),
     message: "Private key material should never be tracked",
   },
   {
     name: "external-reference-image",
-    test: (p) => /^docs\/map-review\/references\/.+\.(png|jpe?g|webp)$/i.test(p),
+    test: (p) =>
+      /^docs\/map-review\/references\/.+\.(png|jpe?g|webp)$/i.test(p),
     message:
       "External reference images should remain local-only unless license provenance is documented",
   },

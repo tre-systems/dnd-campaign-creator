@@ -9,7 +9,10 @@
 
 const { execFileSync } = require("node:child_process");
 const path = require("node:path");
-const { forbiddenPathChecks, secretPatterns } = require("../src/security/patterns");
+const {
+  forbiddenPathChecks,
+  secretPatterns,
+} = require("../src/security/patterns");
 
 const repoRoot = path.resolve(__dirname, "..");
 const MAX_BLOB_SIZE = 1_000_000;
@@ -96,7 +99,11 @@ function scanHistory() {
   for (const sha of blobShas) {
     const meta = blobMeta.get(sha);
     if (!meta || meta.type !== "blob") continue;
-    if (!Number.isFinite(meta.size) || meta.size <= 0 || meta.size > MAX_BLOB_SIZE) {
+    if (
+      !Number.isFinite(meta.size) ||
+      meta.size <= 0 ||
+      meta.size > MAX_BLOB_SIZE
+    ) {
       continue;
     }
 
@@ -133,7 +140,9 @@ function scanHistory() {
   }
 
   if (findings.length === 0) {
-    console.log("History security scan passed: no high-signal secrets found in git history.");
+    console.log(
+      "History security scan passed: no high-signal secrets found in git history.",
+    );
     return;
   }
 

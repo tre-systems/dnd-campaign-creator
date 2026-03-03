@@ -10,7 +10,10 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { execSync } = require("node:child_process");
-const { forbiddenPathChecks, secretPatterns } = require("../src/security/patterns");
+const {
+  forbiddenPathChecks,
+  secretPatterns,
+} = require("../src/security/patterns");
 
 const repoRoot = path.resolve(__dirname, "..");
 
@@ -83,7 +86,9 @@ function scan() {
   }
 
   if (findings.length === 0) {
-    console.log("Security scan passed: no high-signal secrets or sensitive files detected.");
+    console.log(
+      "Security scan passed: no high-signal secrets or sensitive files detected.",
+    );
     return;
   }
 
