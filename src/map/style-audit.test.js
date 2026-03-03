@@ -33,7 +33,10 @@ describe("style-audit", () => {
 
     assert.ok(metrics.blueCast > 0.5, "Expected clear blue cast");
     assert.ok(metrics.edgeDensity < 0.001, "Solid image should have no edges");
-    assert.ok(metrics.textureDensity < 0.001, "Solid image should have no texture");
+    assert.ok(
+      metrics.textureDensity < 0.001,
+      "Solid image should have no texture",
+    );
   });
 
   it("detects higher structural detail in dense grid patterns", () => {

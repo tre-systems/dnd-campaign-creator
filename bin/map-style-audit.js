@@ -15,7 +15,9 @@ const {
   deriveRecommendations,
 } = require("../src/map/style-audit");
 
-const DEFAULT_REFERENCE_DIR = path.resolve("docs/map-review/references/paratime");
+const DEFAULT_REFERENCE_DIR = path.resolve(
+  "docs/map-review/references/paratime",
+);
 const DEFAULT_SNAPSHOT_DIR = path.resolve("docs/map-review/snapshots");
 const DEFAULT_SIZE = 512;
 
@@ -169,7 +171,11 @@ async function main() {
   const sampleMean = aggregateMetrics(sampleMetrics);
   const delta = metricDelta(sampleMean, referenceMean);
   const score = computeAlignmentScore(delta);
-  const recommendations = deriveRecommendations(sampleMean, referenceMean, delta);
+  const recommendations = deriveRecommendations(
+    sampleMean,
+    referenceMean,
+    delta,
+  );
 
   console.log("Map Style Audit");
   console.log(`- References: ${referenceImages.length} (${referencesDir})`);
@@ -212,4 +218,3 @@ main().catch((error) => {
   console.error(`map:style:audit failed: ${error.message}`);
   process.exit(1);
 });
-
