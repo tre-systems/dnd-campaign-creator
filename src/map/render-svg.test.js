@@ -323,6 +323,14 @@ describe("render-svg", () => {
         svg.includes('class="wall"'),
         "SVG should contain wall elements",
       );
+      assert.ok(
+        svg.includes('class="wall-under"'),
+        "SVG should contain wall under-stroke elements",
+      );
+      assert.ok(
+        svg.includes('class="wall-highlight"'),
+        "SVG should contain wall highlight elements",
+      );
     });
 
     it("contains room labels when enabled", () => {
@@ -407,6 +415,66 @@ describe("render-svg", () => {
       assert.ok(
         svg.includes("rock-hatch"),
         "SVG should contain rock hatch pattern",
+      );
+    });
+
+    it("includes blueprint grain texture and map frame", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent);
+      assert.ok(
+        svg.includes("blueprint-grain"),
+        "SVG should include blueprint grain pattern",
+      );
+      assert.ok(
+        svg.includes('class="frame-outer"'),
+        "SVG should include outer map frame",
+      );
+      assert.ok(
+        svg.includes('class="frame-inner"'),
+        "SVG should include inner map frame",
+      );
+    });
+
+    it("includes sheet wash, title block, and border details", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent);
+      assert.ok(svg.includes("blueprint-wash"), "Should include wash gradient");
+      assert.ok(
+        svg.includes('class="title-block-box"'),
+        "Should include title block",
+      );
+      assert.ok(
+        svg.includes('class="sheet-border-outer"'),
+        "Should include outer sheet border",
+      );
+      assert.ok(
+        svg.includes('class="grid-line-major"'),
+        "Should include major 5-square grid lines",
+      );
+      assert.ok(svg.includes('class="room-tag"'), "Should include room tags");
+    });
+
+    it("allocates enough height for full legend rendering", () => {
+      const { geometry, graph, intent } = generateGatehouseMap();
+      const svg = renderSvg(geometry, graph, intent, { showLegend: true });
+      const svgHeightMatch = svg.match(/^<svg[^>]*height="([0-9.]+)"/);
+      const legendYMatch = svg.match(
+        /<g class="legend" transform="translate\([0-9.]+,([0-9.]+)\)">/,
+      );
+      const legendHeightMatch = svg.match(
+        /<rect class="legend-box" x="0" y="0" width="[0-9.]+" height="([0-9.]+)"/,
+      );
+
+      assert.ok(svgHeightMatch, "SVG height should exist");
+      assert.ok(legendYMatch, "Legend transform should exist");
+      assert.ok(legendHeightMatch, "Legend box should exist");
+
+      const svgHeight = parseFloat(svgHeightMatch[1]);
+      const legendBottom =
+        parseFloat(legendYMatch[1]) + parseFloat(legendHeightMatch[1]);
+      assert.ok(
+        legendBottom <= svgHeight,
+        "Legend should fit within declared SVG height",
       );
     });
   });

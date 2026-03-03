@@ -410,14 +410,23 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
  */
 function generateStyles(cellSize, colorScheme) {
   const wallWidth = cellSize < 15 ? 3 : 4;
+  const wallUnderWidth = wallWidth + 1.4;
+  const wallHighlightWidth = Math.max(1, wallWidth * 0.33);
 
   if (colorScheme === "parchment") {
     return `<style>
     .bg { fill: #f5f0e6; }
+    .bg-wash { fill: #e8dcc7; opacity: 0.14; }
+    .paper-grain { fill: #efe5d4; opacity: 0.2; }
+    .frame-outer { fill: none; stroke: #2a2520; stroke-width: 2.4; }
+    .frame-inner { fill: none; stroke: #8b7b63; stroke-width: 1.1; opacity: 0.8; }
     .floor { fill: #f9f7f2; }
     .corridor { fill: #eeebe2; }
     .grid-line { stroke: #e0ddd4; stroke-width: 0.5; }
-    .wall { stroke: #1a1a1a; stroke-width: ${wallWidth}; stroke-linecap: square; }
+    .grid-line-major { stroke: #c6c0b3; stroke-width: 0.9; }
+    .wall-under { stroke: #1a1a1a; stroke-width: ${wallUnderWidth}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #24211d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #8e7b67; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.35; }
     .door { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1; }
     .door-locked { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1.5; }
     .door-locked-key { fill: #1a1a1a; stroke: none; }
@@ -458,12 +467,28 @@ function generateStyles(cellSize, colorScheme) {
     .collapsed { fill: #c8c0b0; stroke: none; }
     .rubble-dot { fill: #888; stroke: none; }
     .water-wave { fill: none; stroke: #fff; stroke-width: 0.8; opacity: 0.4; }
-    .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #333; text-anchor: middle; dominant-baseline: central; }
+    .room-tag { fill: #f3ecdf; stroke: #8b7b63; stroke-width: 0.9; }
+    .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #333; stroke: #f5f0e6; stroke-width: ${Math.max(0.8, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
     .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #777; text-anchor: middle; dominant-baseline: central; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #333; }
-    .compass-line { stroke: #555; stroke-width: 1; }
-    .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #555; text-anchor: middle; }
+    .compass-fill { fill: #e9decd; }
+    .compass-stroke { fill: none; stroke: #555; stroke-width: 1.2; }
+    .compass-dark { fill: #555; }
+    .compass-light { fill: #f5f0e6; }
+    .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #555; text-anchor: middle; font-weight: bold; }
+    .legend-box { fill: #f3eadb; stroke: #665949; stroke-width: 1.8; }
+    .legend-title { font-family: Georgia, serif; font-size: ${Math.max(11, cellSize * 0.6)}px; font-weight: bold; fill: #554a3d; }
+    .legend-text { font-family: Georgia, serif; font-size: ${Math.max(9, cellSize * 0.46)}px; fill: #665949; }
+    .legend-sym { stroke: #555; stroke-width: 1.4; fill: none; }
+    .scale-box { fill: #f9f2e5; stroke: #665949; stroke-width: 1; }
     .rock-hatch { stroke: #ccc8bc; stroke-width: 0.5; }
+    .title-block-box { fill: #f3eadb; stroke: #665949; stroke-width: 1.6; }
+    .title-block-divider { stroke: #9a8a72; stroke-width: 0.9; }
+    .title-label { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.34)}px; fill: #8a7a63; letter-spacing: 0.4px; }
+    .title-value { font-family: Georgia, serif; font-size: ${Math.max(9, cellSize * 0.42)}px; fill: #4d4338; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #665949; stroke-width: 1.4; }
+    .sheet-border-inner { fill: none; stroke: #a79780; stroke-width: 0.9; }
+    .sheet-tick { stroke: #8e7f67; stroke-width: 0.8; }
   </style>`;
   }
 
@@ -472,10 +497,17 @@ function generateStyles(cellSize, colorScheme) {
   const sym = "#3b7a9e"; // symbol colour (darker than bg, lighter than wall)
   return `<style>
     .bg { fill: #4a90b8; }
-    .floor { fill: #f5fafd; }
-    .corridor { fill: #f5fafd; }
+    .bg-wash { fill: #6ea8c8; opacity: 0.22; }
+    .paper-grain { fill: #75aac9; opacity: 0.16; }
+    .frame-outer { fill: none; stroke: #0f4158; stroke-width: 2.6; }
+    .frame-inner { fill: none; stroke: #9ec3d9; stroke-width: 1.1; opacity: 0.75; }
+    .floor { fill: #eef6fb; }
+    .corridor { fill: #eef6fb; }
     .grid-line { stroke: #d0e0ec; stroke-width: 0.5; }
+    .grid-line-major { stroke: #a9c5d8; stroke-width: 0.9; }
+    .wall-under { stroke: #0f4966; stroke-width: ${wallUnderWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall { stroke: #16516d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #8fb7cd; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.45; }
     .door { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
     .door-locked { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
     .door-locked-key { fill: ${sym}; stroke: none; }
@@ -517,19 +549,133 @@ function generateStyles(cellSize, colorScheme) {
     .collapsed { fill: #dae6ee; stroke: none; }
     .rubble-dot { fill: #7eaec8; stroke: none; }
     .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.8; opacity: 0.5; }
-    .room-number { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.6)}px; font-weight: bold; fill: #1b5a78; text-anchor: start; dominant-baseline: central; }
+    .room-tag { fill: #f0f6fa; stroke: #3c7392; stroke-width: 1; }
+    .room-number { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.6)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
     .compass-fill { fill: #f0f6fa; }
     .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.5; }
+    .compass-dark { fill: #1b5a78; }
+    .compass-light { fill: #f0f6fa; }
     .compass-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.55)}px; font-weight: bold; fill: #f0f6fa; text-anchor: middle; }
     .legend-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 2; }
-    .legend-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.55)}px; font-weight: bold; fill: #1b5a78; }
-    .legend-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(8, cellSize * 0.4)}px; fill: #1b5a78; }
+    .legend-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(11, cellSize * 0.6)}px; font-weight: bold; fill: #1b5a78; }
+    .legend-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(9, cellSize * 0.46)}px; fill: #1b5a78; }
     .legend-sym { stroke: ${sym}; stroke-width: 1.5; fill: none; }
     .legend-sym-filled { fill: ${sym}; stroke: none; }
     .scale-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1; }
     .rock-hatch { stroke: #67a0c2; stroke-width: 0.5; }
+    .title-block-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1.8; }
+    .title-block-divider { stroke: #95b9cf; stroke-width: 1; }
+    .title-label { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(7, cellSize * 0.34)}px; fill: #5f90ac; letter-spacing: 0.5px; }
+    .title-value { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(9, cellSize * 0.43)}px; fill: #1b5a78; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #1b5a78; stroke-width: 1.4; }
+    .sheet-border-inner { fill: none; stroke: #8fb4cb; stroke-width: 0.9; }
+    .sheet-tick { stroke: #8fb4cb; stroke-width: 0.8; }
   </style>`;
+}
+
+/**
+ * Render a tonal wash over the map area so the sheet feels less flat.
+ *
+ * @param {number} svgW
+ * @param {number} mapH
+ * @param {string} colorScheme
+ * @returns {string}
+ */
+function renderBlueprintWash(svgW, mapH, colorScheme) {
+  const gradId = colorScheme === "parchment" ? "parchment-wash" : "blueprint-wash";
+  const dark = colorScheme === "parchment" ? "#c8b696" : "#205b79";
+  const light = colorScheme === "parchment" ? "#f8f0de" : "#78b0cd";
+  return [
+    `<defs>`,
+    `  <radialGradient id="${gradId}" cx="50%" cy="42%" r="70%">`,
+    `    <stop offset="0%" stop-color="${light}" stop-opacity="0.85"/>`,
+    `    <stop offset="62%" stop-color="${light}" stop-opacity="0.38"/>`,
+    `    <stop offset="100%" stop-color="${dark}" stop-opacity="0.7"/>`,
+    `  </radialGradient>`,
+    `</defs>`,
+    `<rect class="bg-wash" x="0" y="0" width="${svgW}" height="${mapH}" fill="url(#${gradId})"/>`,
+  ].join("\n    ");
+}
+
+/**
+ * Render a subtle paper-grain texture layer.
+ *
+ * @param {number} svgW
+ * @param {number} svgH
+ * @param {number} cs
+ * @returns {string}
+ */
+function renderPaperGrain(svgW, svgH, cs) {
+  const dotStep = Math.max(8, Math.floor(cs * 0.6));
+  return [
+    `<defs>`,
+    `  <pattern id="blueprint-grain" width="${dotStep}" height="${dotStep}" patternUnits="userSpaceOnUse">`,
+    `    <circle cx="${Math.max(1, Math.floor(dotStep * 0.25))}" cy="${Math.max(1, Math.floor(dotStep * 0.3))}" r="0.6" fill="#fff" opacity="0.35"/>`,
+    `    <circle cx="${Math.max(2, Math.floor(dotStep * 0.72))}" cy="${Math.max(2, Math.floor(dotStep * 0.75))}" r="0.5" fill="#fff" opacity="0.28"/>`,
+    `  </pattern>`,
+    `</defs>`,
+    `<rect class="paper-grain" x="0" y="0" width="${svgW}" height="${svgH}" fill="url(#blueprint-grain)"/>`,
+  ].join("\n    ");
+}
+
+/**
+ * Render an outer sheet border with registration ticks.
+ *
+ * @param {number} svgW
+ * @param {number} svgH
+ * @param {number} cs
+ * @returns {string}
+ */
+function renderSheetBorder(svgW, svgH, cs) {
+  const outerPad = Math.max(1.2, cs * 0.05);
+  const innerPad = outerPad + Math.max(2, cs * 0.16);
+  const tickStep = Math.max(cs * 5, 30);
+  const tickLen = Math.max(4, cs * 0.3);
+  const parts = [
+    `<g class="sheet-border">`,
+    `  <rect class="sheet-border-outer" x="${outerPad}" y="${outerPad}" width="${Math.max(1, svgW - outerPad * 2)}" height="${Math.max(1, svgH - outerPad * 2)}" rx="${Math.max(1, cs * 0.04)}"/>`,
+    `  <rect class="sheet-border-inner" x="${innerPad}" y="${innerPad}" width="${Math.max(1, svgW - innerPad * 2)}" height="${Math.max(1, svgH - innerPad * 2)}" rx="${Math.max(1, cs * 0.03)}"/>`,
+  ];
+
+  for (let x = innerPad + tickStep; x < svgW - innerPad - tickStep * 0.35; x += tickStep) {
+    parts.push(
+      `  <line class="sheet-tick" x1="${x}" y1="${innerPad}" x2="${x}" y2="${innerPad + tickLen}"/>`,
+    );
+    parts.push(
+      `  <line class="sheet-tick" x1="${x}" y1="${svgH - innerPad}" x2="${x}" y2="${svgH - innerPad - tickLen}"/>`,
+    );
+  }
+  for (let y = innerPad + tickStep; y < svgH - innerPad - tickStep * 0.35; y += tickStep) {
+    parts.push(
+      `  <line class="sheet-tick" x1="${innerPad}" y1="${y}" x2="${innerPad + tickLen}" y2="${y}"/>`,
+    );
+    parts.push(
+      `  <line class="sheet-tick" x1="${svgW - innerPad}" y1="${y}" x2="${svgW - innerPad - tickLen}" y2="${y}"/>`,
+    );
+  }
+
+  parts.push(`</g>`);
+  return parts.join("\n    ");
+}
+
+/**
+ * Render a double-line map frame around the map area.
+ *
+ * @param {number} mapW
+ * @param {number} mapH
+ * @param {number} cs
+ * @returns {string}
+ */
+function renderMapFrame(mapW, mapH, cs) {
+  const outerPad = Math.max(1.5, cs * 0.08);
+  const innerPad = outerPad + Math.max(2, cs * 0.14);
+  return [
+    `<g class="map-frame">`,
+    `  <rect class="frame-outer" x="${outerPad}" y="${outerPad}" width="${Math.max(1, mapW - outerPad * 2)}" height="${Math.max(1, mapH - outerPad * 2)}" rx="${Math.max(1, cs * 0.04)}"/>`,
+    `  <rect class="frame-inner" x="${innerPad}" y="${innerPad}" width="${Math.max(1, mapW - innerPad * 2)}" height="${Math.max(1, mapH - innerPad * 2)}" rx="${Math.max(1, cs * 0.03)}"/>`,
+    `</g>`,
+  ].join("\n    ");
 }
 
 /**
@@ -557,15 +703,17 @@ function renderGridLines(cells, width, height, cs) {
         startX = x;
         inFloor = true;
       } else if (!isFloor && inFloor) {
+        const lineClass = y % 5 === 0 ? "grid-line-major" : "grid-line";
         lines.push(
-          `<line class="grid-line" x1="${startX * cs}" y1="${y * cs}" x2="${x * cs}" y2="${y * cs}"/>`,
+          `<line class="${lineClass}" x1="${startX * cs}" y1="${y * cs}" x2="${x * cs}" y2="${y * cs}"/>`,
         );
         inFloor = false;
       }
     }
     if (inFloor) {
+      const lineClass = y % 5 === 0 ? "grid-line-major" : "grid-line";
       lines.push(
-        `<line class="grid-line" x1="${startX * cs}" y1="${y * cs}" x2="${width * cs}" y2="${y * cs}"/>`,
+        `<line class="${lineClass}" x1="${startX * cs}" y1="${y * cs}" x2="${width * cs}" y2="${y * cs}"/>`,
       );
     }
   }
@@ -582,15 +730,17 @@ function renderGridLines(cells, width, height, cs) {
         startY = y;
         inFloor = true;
       } else if (!isFloor && inFloor) {
+        const lineClass = x % 5 === 0 ? "grid-line-major" : "grid-line";
         lines.push(
-          `<line class="grid-line" x1="${x * cs}" y1="${startY * cs}" x2="${x * cs}" y2="${y * cs}"/>`,
+          `<line class="${lineClass}" x1="${x * cs}" y1="${startY * cs}" x2="${x * cs}" y2="${y * cs}"/>`,
         );
         inFloor = false;
       }
     }
     if (inFloor) {
+      const lineClass = x % 5 === 0 ? "grid-line-major" : "grid-line";
       lines.push(
-        `<line class="grid-line" x1="${x * cs}" y1="${startY * cs}" x2="${x * cs}" y2="${height * cs}"/>`,
+        `<line class="${lineClass}" x1="${x * cs}" y1="${startY * cs}" x2="${x * cs}" y2="${height * cs}"/>`,
       );
     }
   }
@@ -651,19 +801,20 @@ function renderRockHatch(cells, width, height, cs) {
 function renderCompass(svgW, svgH, cs) {
   const cx = svgW - cs * 2.5;
   const cy = svgH - cs * 3.5;
-  const s = cs * 1.2; // arrow scale
+  const s = cs * 1.05;
 
-  // Arrow pointing up with a decorative base
+  // Four-point old-school compass rose
   return [
     `<g class="compass" transform="translate(${cx},${cy})">`,
-    // Arrow shaft
-    `  <polygon class="compass-fill" points="0,${-s * 1.4} ${s * 0.45},${s * 0.3} ${s * 0.12},${s * 0.3} ${s * 0.12},${s * 1.0} ${-s * 0.12},${s * 1.0} ${-s * 0.12},${s * 0.3} ${-s * 0.45},${s * 0.3}"/>`,
-    `  <polygon class="compass-stroke" points="0,${-s * 1.4} ${s * 0.45},${s * 0.3} ${s * 0.12},${s * 0.3} ${s * 0.12},${s * 1.0} ${-s * 0.12},${s * 1.0} ${-s * 0.12},${s * 0.3} ${-s * 0.45},${s * 0.3}"/>`,
-    // Base circle
-    `  <circle class="compass-fill" cx="0" cy="${s * 1.2}" r="${s * 0.25}"/>`,
-    `  <circle class="compass-stroke" cx="0" cy="${s * 1.2}" r="${s * 0.25}"/>`,
-    // "North" label
-    `  <text class="compass-text" x="0" y="${s * 1.8}" dominant-baseline="hanging">North</text>`,
+    `  <circle class="compass-fill" cx="0" cy="0" r="${s * 0.95}"/>`,
+    `  <circle class="compass-stroke" cx="0" cy="0" r="${s * 0.95}"/>`,
+    `  <polygon class="compass-dark" points="0,${-s * 1.2} ${s * 0.3},0 0,${s * 0.45} ${-s * 0.3},0"/>`,
+    `  <polygon class="compass-light" points="${-s * 1.2},0 0,${s * 0.3} ${s * 0.45},0 0,${-s * 0.3}"/>`,
+    `  <polygon class="compass-stroke" points="0,${-s * 1.2} ${s * 0.3},0 0,${s * 0.45} ${-s * 0.3},0"/>`,
+    `  <polygon class="compass-stroke" points="${-s * 1.2},0 0,${s * 0.3} ${s * 0.45},0 0,${-s * 0.3}"/>`,
+    `  <circle class="compass-dark" cx="0" cy="${s * 1.35}" r="${s * 0.14}"/>`,
+    `  <circle class="compass-fill" cx="0" cy="${s * 1.35}" r="${s * 0.08}"/>`,
+    `  <text class="compass-text" x="0" y="${s * 1.75}" dominant-baseline="hanging">North</text>`,
     `</g>`,
   ].join("\n    ");
 }
@@ -689,6 +840,54 @@ function detectUsedFeatures(cells, width, height) {
   return used;
 }
 
+const LEGEND_ITEM_DEFS = [
+  [CELL.DOOR, "Door"],
+  [CELL.DOOR_LOCKED, "Locked Door"],
+  [CELL.DOOR_SECRET, "Secret Door"],
+  [CELL.DOUBLE_DOOR, "Double Door"],
+  [CELL.PORTCULLIS, "Portcullis"],
+  [CELL.ARCHWAY, "Archway"],
+  [CELL.STAIRS_DOWN, "Stairs Down"],
+  [CELL.STAIRS_UP, "Stairs Up"],
+  [CELL.PILLAR, "Column"],
+  [CELL.STATUE, "Statue"],
+  [CELL.ALTAR, "Altar"],
+  [CELL.WELL, "Well"],
+  [CELL.FOUNTAIN, "Fountain"],
+  [CELL.FIREPIT, "Fire Pit"],
+  [CELL.THRONE, "Throne"],
+  [CELL.SARCOPHAGUS, "Sarcophagus"],
+  [CELL.BARS, "Bars"],
+  [CELL.PIT, "Covered Pit"],
+  [CELL.LEVER, "Lever"],
+  [CELL.TRAP, "Trap"],
+  [CELL.WATER, "Water"],
+  [CELL.TREASURE, "Treasure"],
+  [CELL.COLLAPSED, "Collapsed"],
+  [CELL.CURTAIN, "Curtain"],
+  [CELL.RUBBLE, "Rubble"],
+];
+
+/**
+ * Compute legend layout dimensions so SVG sizing and rendering stay in sync.
+ *
+ * @param {number} itemCount
+ * @param {number} cs
+ * @returns {{colW:number,rowH:number,cols:number,rows:number,pad:number,titleH:number,boxW:number,boxH:number}}
+ */
+function computeLegendLayout(itemCount, cs) {
+  const colW = cs * 6.6;
+  const rowH = cs * 1.6;
+  const cols =
+    itemCount <= 9 ? Math.min(3, itemCount) : Math.min(4, itemCount);
+  const rows = Math.ceil(itemCount / Math.max(1, cols));
+  const pad = cs * 0.62;
+  const titleH = cs * 1.35;
+  const boxW = cols * colW + pad * 2;
+  const boxH = rows * rowH + titleH + pad * 2;
+  return { colW, rowH, cols, rows, pad, titleH, boxW, boxH };
+}
+
 /**
  * Render a legend box in the Paratime style.
  * Only shows symbols that actually appear on the map.
@@ -700,46 +899,13 @@ function detectUsedFeatures(cells, width, height) {
  * @returns {string} SVG group
  */
 function renderLegend(usedFeatures, x, y, cs) {
-  // Map of cell types to legend label
-  const legendItems = [
-    [CELL.DOOR, "Door"],
-    [CELL.DOOR_LOCKED, "Locked Door"],
-    [CELL.DOOR_SECRET, "Secret Door"],
-    [CELL.DOUBLE_DOOR, "Double Door"],
-    [CELL.PORTCULLIS, "Portcullis"],
-    [CELL.ARCHWAY, "Archway"],
-    [CELL.STAIRS_DOWN, "Stairs Down"],
-    [CELL.STAIRS_UP, "Stairs Up"],
-    [CELL.PILLAR, "Column"],
-    [CELL.STATUE, "Statue"],
-    [CELL.ALTAR, "Altar"],
-    [CELL.WELL, "Well"],
-    [CELL.FOUNTAIN, "Fountain"],
-    [CELL.FIREPIT, "Fire Pit"],
-    [CELL.THRONE, "Throne"],
-    [CELL.SARCOPHAGUS, "Sarcophagus"],
-    [CELL.BARS, "Bars"],
-    [CELL.PIT, "Covered Pit"],
-    [CELL.LEVER, "Lever"],
-    [CELL.TRAP, "Trap"],
-    [CELL.WATER, "Water"],
-    [CELL.TREASURE, "Treasure"],
-    [CELL.COLLAPSED, "Collapsed"],
-    [CELL.CURTAIN, "Curtain"],
-    [CELL.RUBBLE, "Rubble"],
-  ];
-
-  const active = legendItems.filter(([type]) => usedFeatures.has(type));
+  const active = LEGEND_ITEM_DEFS.filter(([type]) => usedFeatures.has(type));
   if (active.length === 0) return "";
 
-  const colW = cs * 5.5;
-  const rowH = cs * 1.2;
-  const cols = Math.min(4, active.length);
-  const rows = Math.ceil(active.length / cols);
-  const pad = cs * 0.5;
-  const titleH = cs * 1.0;
-  const boxW = cols * colW + pad * 2;
-  const boxH = rows * rowH + titleH + pad * 2;
+  const { colW, rowH, cols, pad, titleH, boxW, boxH } = computeLegendLayout(
+    active.length,
+    cs,
+  );
 
   const parts = [];
   parts.push(`<g class="legend" transform="translate(${x},${y})">`);
@@ -761,7 +927,7 @@ function renderLegend(usedFeatures, x, y, cs) {
 
   // Underline
   parts.push(
-    `  <line class="legend-sym" x1="${pad}" y1="${pad + titleH}" x2="${boxW - pad}" y2="${pad + titleH}" stroke-width="0.5"/>`,
+    `  <line class="legend-sym" x1="${pad}" y1="${pad + titleH}" x2="${boxW - pad}" y2="${pad + titleH}" stroke-width="0.8"/>`,
   );
 
   // Items
@@ -771,7 +937,7 @@ function renderLegend(usedFeatures, x, y, cs) {
     const row = Math.floor(i / cols);
     const ix = pad + col * colW;
     const iy = pad + titleH + row * rowH + rowH * 0.5;
-    const symSize = cs * 0.7;
+    const symSize = cs * 0.82;
 
     // Render a mini symbol
     const sym = renderFeatureSymbol(cellType, ix, iy - symSize / 2, symSize);
@@ -783,6 +949,47 @@ function renderLegend(usedFeatures, x, y, cs) {
 
   parts.push(`</g>`);
   return parts.join("\n    ");
+}
+
+/**
+ * Render a classic map title block in the lower sheet area.
+ *
+ * @param {Object} intent
+ * @param {number} x
+ * @param {number} y
+ * @param {number} w
+ * @param {number} h
+ * @returns {string}
+ */
+function renderTitleBlock(intent, x, y, w, h) {
+  const title = escapeXml((intent.theme || intent.id || "Dungeon Section").toUpperCase());
+  const sectionId = escapeXml((intent.id || "UNKNOWN").toUpperCase());
+  const chapter = escapeXml(
+    (intent.chapter ? String(intent.chapter) : "UNSPECIFIED").toUpperCase(),
+  );
+  const level = Number.isFinite(intent.level)
+    ? `LEVEL ${intent.level}`
+    : "LEVEL ?";
+
+  const pad = Math.max(6, h * 0.12);
+  const midY = y + h * 0.53;
+  const rightCol = x + w * 0.74;
+
+  return [
+    `<g class="title-block">`,
+    `  <rect class="title-block-box" x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/>`,
+    `  <line class="title-block-divider" x1="${x}" y1="${midY}" x2="${x + w}" y2="${midY}"/>`,
+    `  <line class="title-block-divider" x1="${rightCol}" y1="${y}" x2="${rightCol}" y2="${y + h}"/>`,
+    `  <text class="title-label" x="${x + pad}" y="${y + pad * 1.2}">SECTION</text>`,
+    `  <text class="title-value" x="${x + pad}" y="${y + h * 0.38}" dominant-baseline="middle">${title}</text>`,
+    `  <text class="title-label" x="${x + pad}" y="${midY + pad * 1.2}">ID / CHAPTER</text>`,
+    `  <text class="title-value" x="${x + pad}" y="${y + h * 0.82}" dominant-baseline="middle">${sectionId} · ${chapter}</text>`,
+    `  <text class="title-label" x="${rightCol + pad * 0.65}" y="${y + pad * 1.2}">LEVEL</text>`,
+    `  <text class="title-value" x="${rightCol + pad * 0.65}" y="${y + h * 0.34}" dominant-baseline="middle">${escapeXml(level)}</text>`,
+    `  <text class="title-label" x="${rightCol + pad * 0.65}" y="${midY + pad * 1.2}">SCALE</text>`,
+    `  <text class="title-value" x="${rightCol + pad * 0.65}" y="${y + h * 0.82}" dominant-baseline="middle">1 SQ = 10 FT</text>`,
+    `</g>`,
+  ].join("\n    ");
 }
 
 /**
@@ -821,44 +1028,22 @@ function renderSvg(geometry, graph, intent, options) {
     geometry.height,
   );
 
-  // Compute legend dimensions to add to total SVG height
-  const legendItems = [
-    CELL.DOOR,
-    CELL.DOOR_LOCKED,
-    CELL.DOOR_SECRET,
-    CELL.DOUBLE_DOOR,
-    CELL.PORTCULLIS,
-    CELL.ARCHWAY,
-    CELL.STAIRS_DOWN,
-    CELL.STAIRS_UP,
-    CELL.PILLAR,
-    CELL.STATUE,
-    CELL.ALTAR,
-    CELL.WELL,
-    CELL.FOUNTAIN,
-    CELL.FIREPIT,
-    CELL.THRONE,
-    CELL.SARCOPHAGUS,
-    CELL.BARS,
-    CELL.PIT,
-    CELL.LEVER,
-    CELL.TRAP,
-    CELL.WATER,
-    CELL.TREASURE,
-    CELL.COLLAPSED,
-    CELL.CURTAIN,
-    CELL.RUBBLE,
-  ].filter((t) => usedFeatures.has(t));
-
-  let legendH = 0;
-  if (showLegend && legendItems.length > 0) {
-    const cols = Math.min(4, legendItems.length);
-    const rows = Math.ceil(legendItems.length / cols);
-    legendH = rows * cs * 1.2 + cs * 1.0 + cs * 1.0 + cs;
-  }
+  const activeLegendItems = LEGEND_ITEM_DEFS.filter(([type]) =>
+    usedFeatures.has(type),
+  );
+  const legendLayout =
+    showLegend && activeLegendItems.length > 0
+      ? computeLegendLayout(activeLegendItems.length, cs)
+      : null;
+  const legendH = legendLayout ? cs * 0.5 + legendLayout.boxH + cs * 0.5 : 0;
+  const titleH = cs * 2.75;
+  const titleBandH = cs * 0.45 + titleH + cs * 0.55;
 
   const svgW = mapW;
-  const svgH = mapH + legendH;
+  const svgH = mapH + legendH + titleBandH;
+  const titleW = Math.max(120, Math.min(mapW - cs * 1.6, cs * 20));
+  const titleX = Math.max(cs * 0.5, mapW - titleW - cs * 0.6);
+  const titleY = mapH + legendH + cs * 0.45;
 
   const parts = [];
 
@@ -872,6 +1057,12 @@ function renderSvg(geometry, graph, intent, options) {
 
   // Background
   parts.push(`  <rect class="bg" width="${svgW}" height="${svgH}"/>`);
+  parts.push(`  <g class="bg-wash-layer">`);
+  parts.push(`    ${renderBlueprintWash(svgW, mapH, colorScheme)}`);
+  parts.push(`  </g>`);
+  parts.push(`  <g class="paper-grain-layer">`);
+  parts.push(`    ${renderPaperGrain(svgW, svgH, cs)}`);
+  parts.push(`  </g>`);
 
   // Rock hatching (optional, before floors so floors draw on top)
   if (showRockHatch) {
@@ -927,10 +1118,19 @@ function renderSvg(geometry, graph, intent, options) {
   parts.push(`  <g class="walls">`);
   for (const seg of wallSegments) {
     parts.push(
+      `    <line class="wall-under" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
+    );
+    parts.push(
       `    <line class="wall" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
+    );
+    parts.push(
+      `    <line class="wall-highlight" x1="${seg.x1 * cs}" y1="${seg.y1 * cs}" x2="${seg.x2 * cs}" y2="${seg.y2 * cs}"/>`,
     );
   }
   parts.push(`  </g>`);
+
+  // Map frame after walls and floors
+  parts.push(`  ${renderMapFrame(mapW, mapH, cs)}`);
 
   // Features (doors, stairs, pillars, traps, treasure, water)
   parts.push(`  <g class="features">`);
@@ -964,14 +1164,19 @@ function renderSvg(geometry, graph, intent, options) {
     parts.push(`  <g class="labels">`);
     for (let i = 0; i < geometry.rooms.length; i++) {
       const room = geometry.rooms[i];
-      // Position in the top-left area of the room
-      const lx = (room.x + 0.3) * cs;
-      const ly = (room.y + 0.75) * cs;
-
       // Room number only (no names on the map - those go in a separate key)
       const num = roomLabelFromIndex(i);
+      const tagX = (room.x + 0.08) * cs;
+      const tagY = (room.y + 0.18) * cs;
+      const tagW = Math.max(cs * 0.64, cs * (0.36 + num.length * 0.33));
+      const tagH = cs * 0.56;
+      const lx = tagX + tagW / 2;
+      const ly = tagY + tagH * 0.58;
       parts.push(
-        `    <text class="room-number" x="${lx}" y="${ly}">${num}</text>`,
+        `    <rect class="room-tag" x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="${Math.max(1, cs * 0.08)}"/>`,
+      );
+      parts.push(
+        `    <text class="room-number" x="${lx}" y="${ly}">${escapeXml(num)}</text>`,
       );
     }
     parts.push(`  </g>`);
@@ -985,11 +1190,19 @@ function renderSvg(geometry, graph, intent, options) {
   }
 
   // Legend box below map
-  if (showLegend && legendItems.length > 0) {
+  if (legendLayout) {
     const legendX = cs;
     const legendY = mapH + cs * 0.5;
     parts.push(`  ${renderLegend(usedFeatures, legendX, legendY, cs)}`);
   }
+
+  // Map metadata title block in the lower sheet area
+  parts.push(`  <g class="title-block-group">`);
+  parts.push(`    ${renderTitleBlock(intent, titleX, titleY, titleW, titleH)}`);
+  parts.push(`  </g>`);
+
+  // Sheet frame around the full map + legend/title area.
+  parts.push(`  ${renderSheetBorder(svgW, svgH, cs)}`);
 
   parts.push(`</svg>`);
   return parts.join("\n");

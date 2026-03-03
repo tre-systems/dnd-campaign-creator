@@ -1,0 +1,2565 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 1122.8" width="880" height="1122.8">
+<style>
+    .bg { fill: #4a90b8; }
+    .bg-wash { fill: #6ea8c8; opacity: 0.22; }
+    .paper-grain { fill: #75aac9; opacity: 0.16; }
+    .frame-outer { fill: none; stroke: #0f4158; stroke-width: 2.6; }
+    .frame-inner { fill: none; stroke: #9ec3d9; stroke-width: 1.1; opacity: 0.75; }
+    .floor { fill: #eef6fb; }
+    .corridor { fill: #eef6fb; }
+    .grid-line { stroke: #d0e0ec; stroke-width: 0.5; }
+    .grid-line-major { stroke: #a9c5d8; stroke-width: 0.9; }
+    .wall-under { stroke: #0f4966; stroke-width: 5.4; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #16516d; stroke-width: 4; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #8fb7cd; stroke-width: 1.32; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.45; }
+    .door { fill: #f0f6fa; stroke: #3b7a9e; stroke-width: 2; }
+    .door-locked { fill: #f0f6fa; stroke: #3b7a9e; stroke-width: 2; }
+    .door-locked-key { fill: #3b7a9e; stroke: none; }
+    .door-secret { fill: none; stroke: #3b7a9e; stroke-width: 1.8; stroke-dasharray: 2,2; }
+    .secret-label { font-family: Georgia, serif; font-weight: bold; fill: #3b7a9e; }
+    .stairs { fill: none; stroke: #3b7a9e; stroke-width: 1.8; }
+    .stairs-arrow { fill: #3b7a9e; stroke: none; }
+    .pillar { fill: #3b7a9e; stroke: none; }
+    .trap { fill: none; stroke: #3b7a9e; stroke-width: 1.8; }
+    .water { fill: #dce9f2; stroke: #3b7a9e; stroke-width: 0.8; }
+    .treasure { fill: none; stroke: #3b7a9e; stroke-width: 1.5; }
+    .rubble { fill: #e4edf3; }
+    .portcullis { fill: none; stroke: #3b7a9e; stroke-width: 1.5; }
+    .archway { fill: none; stroke: #3b7a9e; stroke-width: 1.6; }
+    .archway-base { fill: #3b7a9e; stroke: none; }
+    .curtain { fill: none; stroke: #3b7a9e; stroke-width: 1.5; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .statue { fill: #3b7a9e; stroke: none; }
+    .altar { fill: none; stroke: #3b7a9e; stroke-width: 1.5; }
+    .altar-cross { stroke: #3b7a9e; stroke-width: 1.5; }
+    .well-outer { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .well-inner { fill: none; stroke: #3b7a9e; stroke-width: 1; }
+    .fountain-outer { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .fountain-inner { fill: none; stroke: #3b7a9e; stroke-width: 1; }
+    .fountain-jet { stroke: #3b7a9e; stroke-width: 1; }
+    .firepit { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .firepit-flame { fill: #3b7a9e; stroke: none; opacity: 0.4; }
+    .throne { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .throne-seat { fill: #3b7a9e; stroke: none; opacity: 0.25; }
+    .throne-arm { stroke: #3b7a9e; stroke-width: 1.4; }
+    .sarcophagus { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .sarcophagus-lid { fill: none; stroke: #3b7a9e; stroke-width: 1; opacity: 0.9; }
+    .bars { stroke: #3b7a9e; stroke-width: 1.4; }
+    .pit { fill: none; stroke: #3b7a9e; stroke-width: 1.4; }
+    .pit-hatch { stroke: #3b7a9e; stroke-width: 1; }
+    .lever-base { fill: #3b7a9e; stroke: #3b7a9e; stroke-width: 1; }
+    .lever-arm { stroke: #3b7a9e; stroke-width: 1.4; }
+    .lever-handle { fill: #3b7a9e; stroke: none; }
+    .collapsed { fill: #dae6ee; stroke: none; }
+    .rubble-dot { fill: #7eaec8; stroke: none; }
+    .water-wave { fill: none; stroke: #3b7a9e; stroke-width: 0.8; opacity: 0.5; }
+    .room-tag { fill: #f0f6fa; stroke: #3c7392; stroke-width: 1; }
+    .room-number { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: 1; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .title-text { font-family: Georgia, serif; font-size: 12px; fill: #f3fbff; }
+    .compass-fill { fill: #f0f6fa; }
+    .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.5; }
+    .compass-dark { fill: #1b5a78; }
+    .compass-light { fill: #f0f6fa; }
+    .compass-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; fill: #f0f6fa; text-anchor: middle; }
+    .legend-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 2; }
+    .legend-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #1b5a78; }
+    .legend-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 9.200000000000001px; fill: #1b5a78; }
+    .legend-sym { stroke: #3b7a9e; stroke-width: 1.5; fill: none; }
+    .legend-sym-filled { fill: #3b7a9e; stroke: none; }
+    .scale-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1; }
+    .rock-hatch { stroke: #67a0c2; stroke-width: 0.5; }
+    .title-block-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1.8; }
+    .title-block-divider { stroke: #95b9cf; stroke-width: 1; }
+    .title-label { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 7px; fill: #5f90ac; letter-spacing: 0.5px; }
+    .title-value { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 9px; fill: #1b5a78; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #1b5a78; stroke-width: 1.4; }
+    .sheet-border-inner { fill: none; stroke: #8fb4cb; stroke-width: 0.9; }
+    .sheet-tick { stroke: #8fb4cb; stroke-width: 0.8; }
+  </style>
+  <rect class="bg" width="880" height="1122.8"/>
+  <g class="bg-wash-layer">
+    <defs>
+      <radialGradient id="blueprint-wash" cx="50%" cy="42%" r="70%">
+        <stop offset="0%" stop-color="#78b0cd" stop-opacity="0.85"/>
+        <stop offset="62%" stop-color="#78b0cd" stop-opacity="0.38"/>
+        <stop offset="100%" stop-color="#205b79" stop-opacity="0.7"/>
+      </radialGradient>
+    </defs>
+    <rect class="bg-wash" x="0" y="0" width="880" height="880" fill="url(#blueprint-wash)"/>
+  </g>
+  <g class="paper-grain-layer">
+    <defs>
+      <pattern id="blueprint-grain" width="12" height="12" patternUnits="userSpaceOnUse">
+        <circle cx="3" cy="3" r="0.6" fill="#fff" opacity="0.35"/>
+        <circle cx="8" cy="9" r="0.5" fill="#fff" opacity="0.28"/>
+      </pattern>
+    </defs>
+    <rect class="paper-grain" x="0" y="0" width="880" height="1122.8" fill="url(#blueprint-grain)"/>
+  </g>
+  <g class="rock-hatch-layer">
+    <defs>
+    <pattern id="rock-hatch" width="9" height="9" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch" x1="0" y1="9" x2="9" y2="0"/>
+    </pattern>
+  </defs>
+    <rect x="420" y="0" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="0" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="20" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="40" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="60" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="640" y="80" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="780" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="800" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="100" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="120" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="140" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="160" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="640" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="180" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="200" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="220" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="640" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="240" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="260" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="840" y="280" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="20" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="780" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="800" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="300" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="320" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="340" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="780" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="800" y="360" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="380" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="400" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="420" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="440" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="460" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="480" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="500" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="520" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="820" y="540" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="780" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="800" y="560" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="580" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="600" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="40" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="620" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="60" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="80" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="640" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="660" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="680" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="700" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="720" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="740" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="760" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="780" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="800" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="800" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="100" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="200" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="220" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="240" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="260" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="300" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="320" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="340" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="360" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="380" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="400" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="440" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="540" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="560" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="580" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="600" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="760" y="820" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="120" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="140" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="160" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="180" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="520" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="620" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="640" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="660" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="680" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="700" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="720" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="740" y="840" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+    <rect x="500" y="860" width="20" height="20" fill="url(#rock-hatch)" opacity="0.3"/>
+  </g>
+  <g class="floors">
+    <rect class="corridor" x="440" y="0" width="20" height="20"/>
+    <rect class="corridor" x="460" y="0" width="20" height="20"/>
+    <rect class="corridor" x="440" y="20" width="20" height="20"/>
+    <rect class="corridor" x="460" y="20" width="20" height="20"/>
+    <rect class="corridor" x="480" y="20" width="20" height="20"/>
+    <rect class="floor" x="180" y="40" width="20" height="20"/>
+    <rect class="floor" x="200" y="40" width="20" height="20"/>
+    <rect class="floor" x="220" y="40" width="20" height="20"/>
+    <rect class="floor" x="240" y="40" width="20" height="20"/>
+    <rect class="corridor" x="440" y="40" width="20" height="20"/>
+    <rect class="floor" x="460" y="40" width="20" height="20"/>
+    <rect class="floor" x="480" y="40" width="20" height="20"/>
+    <rect class="floor" x="500" y="40" width="20" height="20"/>
+    <rect class="floor" x="520" y="40" width="20" height="20"/>
+    <rect class="floor" x="40" y="60" width="20" height="20"/>
+    <rect class="floor" x="60" y="60" width="20" height="20"/>
+    <rect class="floor" x="180" y="60" width="20" height="20"/>
+    <rect class="floor" x="200" y="60" width="20" height="20"/>
+    <rect class="floor" x="220" y="60" width="20" height="20"/>
+    <rect class="floor" x="240" y="60" width="20" height="20"/>
+    <rect class="floor" x="460" y="60" width="20" height="20"/>
+    <rect class="floor" x="480" y="60" width="20" height="20"/>
+    <rect class="floor" x="500" y="60" width="20" height="20"/>
+    <rect class="floor" x="520" y="60" width="20" height="20"/>
+    <rect class="floor" x="40" y="80" width="20" height="20"/>
+    <rect class="floor" x="60" y="80" width="20" height="20"/>
+    <rect class="corridor" x="80" y="80" width="20" height="20"/>
+    <rect class="floor" x="180" y="80" width="20" height="20"/>
+    <rect class="floor" x="200" y="80" width="20" height="20"/>
+    <rect class="floor" x="220" y="80" width="20" height="20"/>
+    <rect class="floor" x="240" y="80" width="20" height="20"/>
+    <rect class="corridor" x="440" y="80" width="20" height="20"/>
+    <rect class="floor" x="460" y="80" width="20" height="20"/>
+    <rect class="floor" x="480" y="80" width="20" height="20"/>
+    <rect class="floor" x="500" y="80" width="20" height="20"/>
+    <rect class="floor" x="520" y="80" width="20" height="20"/>
+    <rect class="corridor" x="60" y="100" width="20" height="20"/>
+    <rect class="corridor" x="80" y="100" width="20" height="20"/>
+    <rect class="floor" x="180" y="100" width="20" height="20"/>
+    <rect class="floor" x="200" y="100" width="20" height="20"/>
+    <rect class="floor" x="220" y="100" width="20" height="20"/>
+    <rect class="floor" x="240" y="100" width="20" height="20"/>
+    <rect class="floor" x="260" y="100" width="20" height="20"/>
+    <rect class="corridor" x="280" y="100" width="20" height="20"/>
+    <rect class="corridor" x="300" y="100" width="20" height="20"/>
+    <rect class="corridor" x="320" y="100" width="20" height="20"/>
+    <rect class="corridor" x="340" y="100" width="20" height="20"/>
+    <rect class="corridor" x="360" y="100" width="20" height="20"/>
+    <rect class="corridor" x="380" y="100" width="20" height="20"/>
+    <rect class="corridor" x="400" y="100" width="20" height="20"/>
+    <rect class="corridor" x="420" y="100" width="20" height="20"/>
+    <rect class="corridor" x="440" y="100" width="20" height="20"/>
+    <rect class="floor" x="460" y="100" width="20" height="20"/>
+    <rect class="floor" x="480" y="100" width="20" height="20"/>
+    <rect class="floor" x="500" y="100" width="20" height="20"/>
+    <rect class="corridor" x="580" y="100" width="20" height="20"/>
+    <rect class="floor" x="600" y="100" width="20" height="20"/>
+    <rect class="floor" x="620" y="100" width="20" height="20"/>
+    <rect class="floor" x="640" y="100" width="20" height="20"/>
+    <rect class="corridor" x="60" y="120" width="20" height="20"/>
+    <rect class="corridor" x="80" y="120" width="20" height="20"/>
+    <rect class="corridor" x="100" y="120" width="20" height="20"/>
+    <rect class="corridor" x="120" y="120" width="20" height="20"/>
+    <rect class="floor" x="180" y="120" width="20" height="20"/>
+    <rect class="floor" x="200" y="120" width="20" height="20"/>
+    <rect class="floor" x="220" y="120" width="20" height="20"/>
+    <rect class="floor" x="240" y="120" width="20" height="20"/>
+    <rect class="corridor" x="340" y="120" width="20" height="20"/>
+    <rect class="corridor" x="440" y="120" width="20" height="20"/>
+    <rect class="corridor" x="460" y="120" width="20" height="20"/>
+    <rect class="floor" x="480" y="120" width="20" height="20"/>
+    <rect class="corridor" x="500" y="120" width="20" height="20"/>
+    <rect class="corridor" x="520" y="120" width="20" height="20"/>
+    <rect class="corridor" x="540" y="120" width="20" height="20"/>
+    <rect class="corridor" x="560" y="120" width="20" height="20"/>
+    <rect class="corridor" x="580" y="120" width="20" height="20"/>
+    <rect class="floor" x="600" y="120" width="20" height="20"/>
+    <rect class="floor" x="620" y="120" width="20" height="20"/>
+    <rect class="floor" x="640" y="120" width="20" height="20"/>
+    <rect class="floor" x="720" y="120" width="20" height="20"/>
+    <rect class="floor" x="740" y="120" width="20" height="20"/>
+    <rect class="floor" x="760" y="120" width="20" height="20"/>
+    <rect class="floor" x="780" y="120" width="20" height="20"/>
+    <rect class="floor" x="800" y="120" width="20" height="20"/>
+    <rect class="floor" x="820" y="120" width="20" height="20"/>
+    <rect class="corridor" x="60" y="140" width="20" height="20"/>
+    <rect class="floor" x="80" y="140" width="20" height="20"/>
+    <rect class="floor" x="100" y="140" width="20" height="20"/>
+    <rect class="corridor" x="120" y="140" width="20" height="20"/>
+    <rect class="floor" x="200" y="140" width="20" height="20"/>
+    <rect class="corridor" x="220" y="140" width="20" height="20"/>
+    <rect class="corridor" x="340" y="140" width="20" height="20"/>
+    <rect class="corridor" x="460" y="140" width="20" height="20"/>
+    <rect class="corridor" x="500" y="140" width="20" height="20"/>
+    <rect class="corridor" x="580" y="140" width="20" height="20"/>
+    <rect class="floor" x="600" y="140" width="20" height="20"/>
+    <rect class="floor" x="620" y="140" width="20" height="20"/>
+    <rect class="floor" x="640" y="140" width="20" height="20"/>
+    <rect class="floor" x="720" y="140" width="20" height="20"/>
+    <rect class="floor" x="740" y="140" width="20" height="20"/>
+    <rect class="floor" x="760" y="140" width="20" height="20"/>
+    <rect class="floor" x="780" y="140" width="20" height="20"/>
+    <rect class="floor" x="800" y="140" width="20" height="20"/>
+    <rect class="floor" x="820" y="140" width="20" height="20"/>
+    <rect class="corridor" x="60" y="160" width="20" height="20"/>
+    <rect class="floor" x="80" y="160" width="20" height="20"/>
+    <rect class="floor" x="100" y="160" width="20" height="20"/>
+    <rect class="corridor" x="120" y="160" width="20" height="20"/>
+    <rect class="corridor" x="140" y="160" width="20" height="20"/>
+    <rect class="corridor" x="160" y="160" width="20" height="20"/>
+    <rect class="corridor" x="180" y="160" width="20" height="20"/>
+    <rect class="corridor" x="200" y="160" width="20" height="20"/>
+    <rect class="corridor" x="220" y="160" width="20" height="20"/>
+    <rect class="corridor" x="240" y="160" width="20" height="20"/>
+    <rect class="corridor" x="260" y="160" width="20" height="20"/>
+    <rect class="corridor" x="280" y="160" width="20" height="20"/>
+    <rect class="corridor" x="300" y="160" width="20" height="20"/>
+    <rect class="corridor" x="320" y="160" width="20" height="20"/>
+    <rect class="corridor" x="340" y="160" width="20" height="20"/>
+    <rect class="corridor" x="460" y="160" width="20" height="20"/>
+    <rect class="corridor" x="500" y="160" width="20" height="20"/>
+    <rect class="corridor" x="580" y="160" width="20" height="20"/>
+    <rect class="corridor" x="600" y="160" width="20" height="20"/>
+    <rect class="corridor" x="620" y="160" width="20" height="20"/>
+    <rect class="corridor" x="640" y="160" width="20" height="20"/>
+    <rect class="corridor" x="660" y="160" width="20" height="20"/>
+    <rect class="corridor" x="680" y="160" width="20" height="20"/>
+    <rect class="floor" x="700" y="160" width="20" height="20"/>
+    <rect class="floor" x="720" y="160" width="20" height="20"/>
+    <rect class="floor" x="740" y="160" width="20" height="20"/>
+    <rect class="floor" x="760" y="160" width="20" height="20"/>
+    <rect class="floor" x="780" y="160" width="20" height="20"/>
+    <rect class="floor" x="800" y="160" width="20" height="20"/>
+    <rect class="floor" x="820" y="160" width="20" height="20"/>
+    <rect class="corridor" x="60" y="180" width="20" height="20"/>
+    <rect class="corridor" x="220" y="180" width="20" height="20"/>
+    <rect class="corridor" x="340" y="180" width="20" height="20"/>
+    <rect class="corridor" x="460" y="180" width="20" height="20"/>
+    <rect class="corridor" x="500" y="180" width="20" height="20"/>
+    <rect class="floor" x="720" y="180" width="20" height="20"/>
+    <rect class="floor" x="740" y="180" width="20" height="20"/>
+    <rect class="floor" x="760" y="180" width="20" height="20"/>
+    <rect class="floor" x="780" y="180" width="20" height="20"/>
+    <rect class="floor" x="800" y="180" width="20" height="20"/>
+    <rect class="floor" x="820" y="180" width="20" height="20"/>
+    <rect class="corridor" x="60" y="200" width="20" height="20"/>
+    <rect class="corridor" x="220" y="200" width="20" height="20"/>
+    <rect class="corridor" x="340" y="200" width="20" height="20"/>
+    <rect class="corridor" x="460" y="200" width="20" height="20"/>
+    <rect class="corridor" x="500" y="200" width="20" height="20"/>
+    <rect class="floor" x="720" y="200" width="20" height="20"/>
+    <rect class="floor" x="740" y="200" width="20" height="20"/>
+    <rect class="floor" x="760" y="200" width="20" height="20"/>
+    <rect class="floor" x="780" y="200" width="20" height="20"/>
+    <rect class="floor" x="800" y="200" width="20" height="20"/>
+    <rect class="floor" x="820" y="200" width="20" height="20"/>
+    <rect class="floor" x="60" y="220" width="20" height="20"/>
+    <rect class="corridor" x="220" y="220" width="20" height="20"/>
+    <rect class="corridor" x="340" y="220" width="20" height="20"/>
+    <rect class="floor" x="420" y="220" width="20" height="20"/>
+    <rect class="floor" x="440" y="220" width="20" height="20"/>
+    <rect class="floor" x="460" y="220" width="20" height="20"/>
+    <rect class="corridor" x="500" y="220" width="20" height="20"/>
+    <rect class="floor" x="720" y="220" width="20" height="20"/>
+    <rect class="floor" x="740" y="220" width="20" height="20"/>
+    <rect class="floor" x="760" y="220" width="20" height="20"/>
+    <rect class="floor" x="780" y="220" width="20" height="20"/>
+    <rect class="floor" x="800" y="220" width="20" height="20"/>
+    <rect class="floor" x="820" y="220" width="20" height="20"/>
+    <rect class="floor" x="40" y="240" width="20" height="20"/>
+    <rect class="floor" x="60" y="240" width="20" height="20"/>
+    <rect class="floor" x="80" y="240" width="20" height="20"/>
+    <rect class="floor" x="100" y="240" width="20" height="20"/>
+    <rect class="corridor" x="220" y="240" width="20" height="20"/>
+    <rect class="floor" x="280" y="240" width="20" height="20"/>
+    <rect class="floor" x="300" y="240" width="20" height="20"/>
+    <rect class="floor" x="320" y="240" width="20" height="20"/>
+    <rect class="corridor" x="340" y="240" width="20" height="20"/>
+    <rect class="corridor" x="360" y="240" width="20" height="20"/>
+    <rect class="corridor" x="380" y="240" width="20" height="20"/>
+    <rect class="corridor" x="400" y="240" width="20" height="20"/>
+    <rect class="floor" x="420" y="240" width="20" height="20"/>
+    <rect class="floor" x="440" y="240" width="20" height="20"/>
+    <rect class="floor" x="460" y="240" width="20" height="20"/>
+    <rect class="floor" x="480" y="240" width="20" height="20"/>
+    <rect class="corridor" x="500" y="240" width="20" height="20"/>
+    <rect class="floor" x="720" y="240" width="20" height="20"/>
+    <rect class="floor" x="740" y="240" width="20" height="20"/>
+    <rect class="floor" x="760" y="240" width="20" height="20"/>
+    <rect class="floor" x="780" y="240" width="20" height="20"/>
+    <rect class="floor" x="800" y="240" width="20" height="20"/>
+    <rect class="floor" x="820" y="240" width="20" height="20"/>
+    <rect class="floor" x="40" y="260" width="20" height="20"/>
+    <rect class="floor" x="60" y="260" width="20" height="20"/>
+    <rect class="floor" x="80" y="260" width="20" height="20"/>
+    <rect class="floor" x="100" y="260" width="20" height="20"/>
+    <rect class="corridor" x="120" y="260" width="20" height="20"/>
+    <rect class="corridor" x="140" y="260" width="20" height="20"/>
+    <rect class="corridor" x="160" y="260" width="20" height="20"/>
+    <rect class="corridor" x="180" y="260" width="20" height="20"/>
+    <rect class="corridor" x="200" y="260" width="20" height="20"/>
+    <rect class="corridor" x="220" y="260" width="20" height="20"/>
+    <rect class="floor" x="280" y="260" width="20" height="20"/>
+    <rect class="floor" x="300" y="260" width="20" height="20"/>
+    <rect class="floor" x="320" y="260" width="20" height="20"/>
+    <rect class="corridor" x="340" y="260" width="20" height="20"/>
+    <rect class="corridor" x="360" y="260" width="20" height="20"/>
+    <rect class="corridor" x="380" y="260" width="20" height="20"/>
+    <rect class="floor" x="400" y="260" width="20" height="20"/>
+    <rect class="floor" x="420" y="260" width="20" height="20"/>
+    <rect class="floor" x="440" y="260" width="20" height="20"/>
+    <rect class="floor" x="460" y="260" width="20" height="20"/>
+    <rect class="floor" x="480" y="260" width="20" height="20"/>
+    <rect class="corridor" x="500" y="260" width="20" height="20"/>
+    <rect class="floor" x="620" y="260" width="20" height="20"/>
+    <rect class="floor" x="640" y="260" width="20" height="20"/>
+    <rect class="floor" x="660" y="260" width="20" height="20"/>
+    <rect class="floor" x="700" y="260" width="20" height="20"/>
+    <rect class="floor" x="720" y="260" width="20" height="20"/>
+    <rect class="floor" x="740" y="260" width="20" height="20"/>
+    <rect class="floor" x="760" y="260" width="20" height="20"/>
+    <rect class="floor" x="780" y="260" width="20" height="20"/>
+    <rect class="floor" x="800" y="260" width="20" height="20"/>
+    <rect class="floor" x="820" y="260" width="20" height="20"/>
+    <rect class="floor" x="40" y="280" width="20" height="20"/>
+    <rect class="floor" x="60" y="280" width="20" height="20"/>
+    <rect class="floor" x="80" y="280" width="20" height="20"/>
+    <rect class="floor" x="100" y="280" width="20" height="20"/>
+    <rect class="corridor" x="220" y="280" width="20" height="20"/>
+    <rect class="corridor" x="240" y="280" width="20" height="20"/>
+    <rect class="corridor" x="260" y="280" width="20" height="20"/>
+    <rect class="corridor" x="280" y="280" width="20" height="20"/>
+    <rect class="corridor" x="300" y="280" width="20" height="20"/>
+    <rect class="corridor" x="320" y="280" width="20" height="20"/>
+    <rect class="corridor" x="340" y="280" width="20" height="20"/>
+    <rect class="floor" x="420" y="280" width="20" height="20"/>
+    <rect class="floor" x="440" y="280" width="20" height="20"/>
+    <rect class="floor" x="460" y="280" width="20" height="20"/>
+    <rect class="floor" x="480" y="280" width="20" height="20"/>
+    <rect class="corridor" x="500" y="280" width="20" height="20"/>
+    <rect class="floor" x="620" y="280" width="20" height="20"/>
+    <rect class="floor" x="640" y="280" width="20" height="20"/>
+    <rect class="floor" x="660" y="280" width="20" height="20"/>
+    <rect class="corridor" x="700" y="280" width="20" height="20"/>
+    <rect class="floor" x="720" y="280" width="20" height="20"/>
+    <rect class="floor" x="740" y="280" width="20" height="20"/>
+    <rect class="floor" x="760" y="280" width="20" height="20"/>
+    <rect class="floor" x="780" y="280" width="20" height="20"/>
+    <rect class="floor" x="800" y="280" width="20" height="20"/>
+    <rect class="floor" x="820" y="280" width="20" height="20"/>
+    <rect class="floor" x="40" y="300" width="20" height="20"/>
+    <rect class="floor" x="60" y="300" width="20" height="20"/>
+    <rect class="floor" x="80" y="300" width="20" height="20"/>
+    <rect class="floor" x="100" y="300" width="20" height="20"/>
+    <rect class="floor" x="200" y="300" width="20" height="20"/>
+    <rect class="floor" x="220" y="300" width="20" height="20"/>
+    <rect class="corridor" x="240" y="300" width="20" height="20"/>
+    <rect class="corridor" x="340" y="300" width="20" height="20"/>
+    <rect class="corridor" x="360" y="300" width="20" height="20"/>
+    <rect class="corridor" x="380" y="300" width="20" height="20"/>
+    <rect class="corridor" x="400" y="300" width="20" height="20"/>
+    <rect class="corridor" x="420" y="300" width="20" height="20"/>
+    <rect class="corridor" x="440" y="300" width="20" height="20"/>
+    <rect class="floor" x="460" y="300" width="20" height="20"/>
+    <rect class="corridor" x="480" y="300" width="20" height="20"/>
+    <rect class="corridor" x="500" y="300" width="20" height="20"/>
+    <rect class="corridor" x="520" y="300" width="20" height="20"/>
+    <rect class="corridor" x="540" y="300" width="20" height="20"/>
+    <rect class="corridor" x="560" y="300" width="20" height="20"/>
+    <rect class="corridor" x="580" y="300" width="20" height="20"/>
+    <rect class="corridor" x="600" y="300" width="20" height="20"/>
+    <rect class="corridor" x="620" y="300" width="20" height="20"/>
+    <rect class="corridor" x="640" y="300" width="20" height="20"/>
+    <rect class="corridor" x="660" y="300" width="20" height="20"/>
+    <rect class="corridor" x="680" y="300" width="20" height="20"/>
+    <rect class="corridor" x="700" y="300" width="20" height="20"/>
+    <rect class="corridor" x="720" y="300" width="20" height="20"/>
+    <rect class="floor" x="740" y="300" width="20" height="20"/>
+    <rect class="floor" x="200" y="320" width="20" height="20"/>
+    <rect class="floor" x="220" y="320" width="20" height="20"/>
+    <rect class="corridor" x="240" y="320" width="20" height="20"/>
+    <rect class="corridor" x="440" y="320" width="20" height="20"/>
+    <rect class="corridor" x="460" y="320" width="20" height="20"/>
+    <rect class="corridor" x="480" y="320" width="20" height="20"/>
+    <rect class="corridor" x="500" y="320" width="20" height="20"/>
+    <rect class="corridor" x="620" y="320" width="20" height="20"/>
+    <rect class="corridor" x="640" y="320" width="20" height="20"/>
+    <rect class="corridor" x="660" y="320" width="20" height="20"/>
+    <rect class="corridor" x="680" y="320" width="20" height="20"/>
+    <rect class="corridor" x="700" y="320" width="20" height="20"/>
+    <rect class="corridor" x="720" y="320" width="20" height="20"/>
+    <rect class="corridor" x="740" y="320" width="20" height="20"/>
+    <rect class="floor" x="200" y="340" width="20" height="20"/>
+    <rect class="floor" x="220" y="340" width="20" height="20"/>
+    <rect class="corridor" x="240" y="340" width="20" height="20"/>
+    <rect class="corridor" x="500" y="340" width="20" height="20"/>
+    <rect class="corridor" x="620" y="340" width="20" height="20"/>
+    <rect class="corridor" x="640" y="340" width="20" height="20"/>
+    <rect class="corridor" x="220" y="360" width="20" height="20"/>
+    <rect class="corridor" x="240" y="360" width="20" height="20"/>
+    <rect class="corridor" x="500" y="360" width="20" height="20"/>
+    <rect class="corridor" x="620" y="360" width="20" height="20"/>
+    <rect class="corridor" x="640" y="360" width="20" height="20"/>
+    <rect class="corridor" x="220" y="380" width="20" height="20"/>
+    <rect class="corridor" x="500" y="380" width="20" height="20"/>
+    <rect class="corridor" x="620" y="380" width="20" height="20"/>
+    <rect class="corridor" x="640" y="380" width="20" height="20"/>
+    <rect class="floor" x="700" y="380" width="20" height="20"/>
+    <rect class="floor" x="720" y="380" width="20" height="20"/>
+    <rect class="floor" x="740" y="380" width="20" height="20"/>
+    <rect class="floor" x="760" y="380" width="20" height="20"/>
+    <rect class="floor" x="780" y="380" width="20" height="20"/>
+    <rect class="floor" x="800" y="380" width="20" height="20"/>
+    <rect class="corridor" x="200" y="400" width="20" height="20"/>
+    <rect class="corridor" x="220" y="400" width="20" height="20"/>
+    <rect class="corridor" x="500" y="400" width="20" height="20"/>
+    <rect class="corridor" x="600" y="400" width="20" height="20"/>
+    <rect class="corridor" x="620" y="400" width="20" height="20"/>
+    <rect class="corridor" x="640" y="400" width="20" height="20"/>
+    <rect class="corridor" x="660" y="400" width="20" height="20"/>
+    <rect class="floor" x="700" y="400" width="20" height="20"/>
+    <rect class="floor" x="720" y="400" width="20" height="20"/>
+    <rect class="floor" x="740" y="400" width="20" height="20"/>
+    <rect class="floor" x="760" y="400" width="20" height="20"/>
+    <rect class="floor" x="780" y="400" width="20" height="20"/>
+    <rect class="floor" x="800" y="400" width="20" height="20"/>
+    <rect class="floor" x="80" y="420" width="20" height="20"/>
+    <rect class="floor" x="100" y="420" width="20" height="20"/>
+    <rect class="corridor" x="200" y="420" width="20" height="20"/>
+    <rect class="floor" x="220" y="420" width="20" height="20"/>
+    <rect class="floor" x="240" y="420" width="20" height="20"/>
+    <rect class="floor" x="260" y="420" width="20" height="20"/>
+    <rect class="floor" x="280" y="420" width="20" height="20"/>
+    <rect class="floor" x="440" y="420" width="20" height="20"/>
+    <rect class="floor" x="460" y="420" width="20" height="20"/>
+    <rect class="floor" x="480" y="420" width="20" height="20"/>
+    <rect class="corridor" x="500" y="420" width="20" height="20"/>
+    <rect class="floor" x="580" y="420" width="20" height="20"/>
+    <rect class="floor" x="600" y="420" width="20" height="20"/>
+    <rect class="corridor" x="640" y="420" width="20" height="20"/>
+    <rect class="corridor" x="660" y="420" width="20" height="20"/>
+    <rect class="floor" x="700" y="420" width="20" height="20"/>
+    <rect class="floor" x="720" y="420" width="20" height="20"/>
+    <rect class="floor" x="740" y="420" width="20" height="20"/>
+    <rect class="floor" x="760" y="420" width="20" height="20"/>
+    <rect class="floor" x="780" y="420" width="20" height="20"/>
+    <rect class="floor" x="800" y="420" width="20" height="20"/>
+    <rect class="floor" x="80" y="440" width="20" height="20"/>
+    <rect class="floor" x="100" y="440" width="20" height="20"/>
+    <rect class="corridor" x="200" y="440" width="20" height="20"/>
+    <rect class="floor" x="220" y="440" width="20" height="20"/>
+    <rect class="floor" x="240" y="440" width="20" height="20"/>
+    <rect class="floor" x="260" y="440" width="20" height="20"/>
+    <rect class="floor" x="280" y="440" width="20" height="20"/>
+    <rect class="corridor" x="300" y="440" width="20" height="20"/>
+    <rect class="corridor" x="320" y="440" width="20" height="20"/>
+    <rect class="corridor" x="340" y="440" width="20" height="20"/>
+    <rect class="corridor" x="360" y="440" width="20" height="20"/>
+    <rect class="corridor" x="380" y="440" width="20" height="20"/>
+    <rect class="corridor" x="400" y="440" width="20" height="20"/>
+    <rect class="corridor" x="420" y="440" width="20" height="20"/>
+    <rect class="floor" x="440" y="440" width="20" height="20"/>
+    <rect class="floor" x="460" y="440" width="20" height="20"/>
+    <rect class="floor" x="480" y="440" width="20" height="20"/>
+    <rect class="corridor" x="500" y="440" width="20" height="20"/>
+    <rect class="floor" x="580" y="440" width="20" height="20"/>
+    <rect class="floor" x="600" y="440" width="20" height="20"/>
+    <rect class="corridor" x="640" y="440" width="20" height="20"/>
+    <rect class="corridor" x="660" y="440" width="20" height="20"/>
+    <rect class="floor" x="680" y="440" width="20" height="20"/>
+    <rect class="floor" x="700" y="440" width="20" height="20"/>
+    <rect class="floor" x="720" y="440" width="20" height="20"/>
+    <rect class="floor" x="740" y="440" width="20" height="20"/>
+    <rect class="floor" x="760" y="440" width="20" height="20"/>
+    <rect class="floor" x="780" y="440" width="20" height="20"/>
+    <rect class="floor" x="800" y="440" width="20" height="20"/>
+    <rect class="floor" x="80" y="460" width="20" height="20"/>
+    <rect class="floor" x="100" y="460" width="20" height="20"/>
+    <rect class="corridor" x="120" y="460" width="20" height="20"/>
+    <rect class="corridor" x="200" y="460" width="20" height="20"/>
+    <rect class="floor" x="220" y="460" width="20" height="20"/>
+    <rect class="floor" x="240" y="460" width="20" height="20"/>
+    <rect class="floor" x="260" y="460" width="20" height="20"/>
+    <rect class="floor" x="280" y="460" width="20" height="20"/>
+    <rect class="corridor" x="300" y="460" width="20" height="20"/>
+    <rect class="corridor" x="480" y="460" width="20" height="20"/>
+    <rect class="corridor" x="500" y="460" width="20" height="20"/>
+    <rect class="floor" x="580" y="460" width="20" height="20"/>
+    <rect class="floor" x="600" y="460" width="20" height="20"/>
+    <rect class="corridor" x="640" y="460" width="20" height="20"/>
+    <rect class="floor" x="660" y="460" width="20" height="20"/>
+    <rect class="floor" x="680" y="460" width="20" height="20"/>
+    <rect class="floor" x="700" y="460" width="20" height="20"/>
+    <rect class="floor" x="720" y="460" width="20" height="20"/>
+    <rect class="floor" x="740" y="460" width="20" height="20"/>
+    <rect class="floor" x="760" y="460" width="20" height="20"/>
+    <rect class="floor" x="780" y="460" width="20" height="20"/>
+    <rect class="floor" x="800" y="460" width="20" height="20"/>
+    <rect class="corridor" x="120" y="480" width="20" height="20"/>
+    <rect class="corridor" x="200" y="480" width="20" height="20"/>
+    <rect class="floor" x="220" y="480" width="20" height="20"/>
+    <rect class="floor" x="240" y="480" width="20" height="20"/>
+    <rect class="floor" x="260" y="480" width="20" height="20"/>
+    <rect class="corridor" x="300" y="480" width="20" height="20"/>
+    <rect class="corridor" x="480" y="480" width="20" height="20"/>
+    <rect class="corridor" x="640" y="480" width="20" height="20"/>
+    <rect class="corridor" x="660" y="480" width="20" height="20"/>
+    <rect class="floor" x="680" y="480" width="20" height="20"/>
+    <rect class="floor" x="700" y="480" width="20" height="20"/>
+    <rect class="floor" x="720" y="480" width="20" height="20"/>
+    <rect class="floor" x="740" y="480" width="20" height="20"/>
+    <rect class="floor" x="760" y="480" width="20" height="20"/>
+    <rect class="floor" x="780" y="480" width="20" height="20"/>
+    <rect class="floor" x="800" y="480" width="20" height="20"/>
+    <rect class="corridor" x="100" y="500" width="20" height="20"/>
+    <rect class="corridor" x="120" y="500" width="20" height="20"/>
+    <rect class="corridor" x="140" y="500" width="20" height="20"/>
+    <rect class="corridor" x="160" y="500" width="20" height="20"/>
+    <rect class="corridor" x="180" y="500" width="20" height="20"/>
+    <rect class="corridor" x="200" y="500" width="20" height="20"/>
+    <rect class="corridor" x="220" y="500" width="20" height="20"/>
+    <rect class="corridor" x="300" y="500" width="20" height="20"/>
+    <rect class="corridor" x="480" y="500" width="20" height="20"/>
+    <rect class="corridor" x="640" y="500" width="20" height="20"/>
+    <rect class="corridor" x="660" y="500" width="20" height="20"/>
+    <rect class="floor" x="680" y="500" width="20" height="20"/>
+    <rect class="floor" x="700" y="500" width="20" height="20"/>
+    <rect class="floor" x="720" y="500" width="20" height="20"/>
+    <rect class="floor" x="740" y="500" width="20" height="20"/>
+    <rect class="floor" x="760" y="500" width="20" height="20"/>
+    <rect class="floor" x="780" y="500" width="20" height="20"/>
+    <rect class="floor" x="800" y="500" width="20" height="20"/>
+    <rect class="corridor" x="100" y="520" width="20" height="20"/>
+    <rect class="corridor" x="220" y="520" width="20" height="20"/>
+    <rect class="corridor" x="300" y="520" width="20" height="20"/>
+    <rect class="corridor" x="320" y="520" width="20" height="20"/>
+    <rect class="corridor" x="340" y="520" width="20" height="20"/>
+    <rect class="corridor" x="360" y="520" width="20" height="20"/>
+    <rect class="corridor" x="380" y="520" width="20" height="20"/>
+    <rect class="corridor" x="400" y="520" width="20" height="20"/>
+    <rect class="corridor" x="420" y="520" width="20" height="20"/>
+    <rect class="corridor" x="440" y="520" width="20" height="20"/>
+    <rect class="corridor" x="460" y="520" width="20" height="20"/>
+    <rect class="corridor" x="480" y="520" width="20" height="20"/>
+    <rect class="corridor" x="500" y="520" width="20" height="20"/>
+    <rect class="corridor" x="520" y="520" width="20" height="20"/>
+    <rect class="corridor" x="540" y="520" width="20" height="20"/>
+    <rect class="corridor" x="560" y="520" width="20" height="20"/>
+    <rect class="corridor" x="580" y="520" width="20" height="20"/>
+    <rect class="corridor" x="600" y="520" width="20" height="20"/>
+    <rect class="corridor" x="620" y="520" width="20" height="20"/>
+    <rect class="corridor" x="640" y="520" width="20" height="20"/>
+    <rect class="floor" x="660" y="520" width="20" height="20"/>
+    <rect class="floor" x="680" y="520" width="20" height="20"/>
+    <rect class="floor" x="700" y="520" width="20" height="20"/>
+    <rect class="floor" x="720" y="520" width="20" height="20"/>
+    <rect class="floor" x="740" y="520" width="20" height="20"/>
+    <rect class="floor" x="760" y="520" width="20" height="20"/>
+    <rect class="floor" x="780" y="520" width="20" height="20"/>
+    <rect class="floor" x="800" y="520" width="20" height="20"/>
+    <rect class="corridor" x="100" y="540" width="20" height="20"/>
+    <rect class="corridor" x="220" y="540" width="20" height="20"/>
+    <rect class="corridor" x="420" y="540" width="20" height="20"/>
+    <rect class="floor" x="440" y="540" width="20" height="20"/>
+    <rect class="floor" x="460" y="540" width="20" height="20"/>
+    <rect class="floor" x="480" y="540" width="20" height="20"/>
+    <rect class="floor" x="500" y="540" width="20" height="20"/>
+    <rect class="corridor" x="520" y="540" width="20" height="20"/>
+    <rect class="corridor" x="540" y="540" width="20" height="20"/>
+    <rect class="corridor" x="560" y="540" width="20" height="20"/>
+    <rect class="corridor" x="580" y="540" width="20" height="20"/>
+    <rect class="corridor" x="600" y="540" width="20" height="20"/>
+    <rect class="corridor" x="620" y="540" width="20" height="20"/>
+    <rect class="corridor" x="640" y="540" width="20" height="20"/>
+    <rect class="corridor" x="660" y="540" width="20" height="20"/>
+    <rect class="floor" x="680" y="540" width="20" height="20"/>
+    <rect class="floor" x="700" y="540" width="20" height="20"/>
+    <rect class="floor" x="720" y="540" width="20" height="20"/>
+    <rect class="floor" x="740" y="540" width="20" height="20"/>
+    <rect class="floor" x="760" y="540" width="20" height="20"/>
+    <rect class="floor" x="780" y="540" width="20" height="20"/>
+    <rect class="floor" x="800" y="540" width="20" height="20"/>
+    <rect class="floor" x="100" y="560" width="20" height="20"/>
+    <rect class="corridor" x="220" y="560" width="20" height="20"/>
+    <rect class="corridor" x="400" y="560" width="20" height="20"/>
+    <rect class="corridor" x="420" y="560" width="20" height="20"/>
+    <rect class="floor" x="440" y="560" width="20" height="20"/>
+    <rect class="floor" x="460" y="560" width="20" height="20"/>
+    <rect class="floor" x="480" y="560" width="20" height="20"/>
+    <rect class="floor" x="500" y="560" width="20" height="20"/>
+    <rect class="corridor" x="540" y="560" width="20" height="20"/>
+    <rect class="corridor" x="640" y="560" width="20" height="20"/>
+    <rect class="corridor" x="660" y="560" width="20" height="20"/>
+    <rect class="floor" x="60" y="580" width="20" height="20"/>
+    <rect class="floor" x="80" y="580" width="20" height="20"/>
+    <rect class="floor" x="100" y="580" width="20" height="20"/>
+    <rect class="corridor" x="220" y="580" width="20" height="20"/>
+    <rect class="corridor" x="360" y="580" width="20" height="20"/>
+    <rect class="corridor" x="380" y="580" width="20" height="20"/>
+    <rect class="corridor" x="400" y="580" width="20" height="20"/>
+    <rect class="floor" x="420" y="580" width="20" height="20"/>
+    <rect class="floor" x="440" y="580" width="20" height="20"/>
+    <rect class="floor" x="460" y="580" width="20" height="20"/>
+    <rect class="floor" x="480" y="580" width="20" height="20"/>
+    <rect class="floor" x="500" y="580" width="20" height="20"/>
+    <rect class="corridor" x="540" y="580" width="20" height="20"/>
+    <rect class="corridor" x="640" y="580" width="20" height="20"/>
+    <rect class="corridor" x="660" y="580" width="20" height="20"/>
+    <rect class="floor" x="60" y="600" width="20" height="20"/>
+    <rect class="floor" x="80" y="600" width="20" height="20"/>
+    <rect class="floor" x="100" y="600" width="20" height="20"/>
+    <rect class="corridor" x="220" y="600" width="20" height="20"/>
+    <rect class="corridor" x="240" y="600" width="20" height="20"/>
+    <rect class="corridor" x="260" y="600" width="20" height="20"/>
+    <rect class="corridor" x="280" y="600" width="20" height="20"/>
+    <rect class="corridor" x="300" y="600" width="20" height="20"/>
+    <rect class="floor" x="320" y="600" width="20" height="20"/>
+    <rect class="corridor" x="340" y="600" width="20" height="20"/>
+    <rect class="corridor" x="360" y="600" width="20" height="20"/>
+    <rect class="corridor" x="380" y="600" width="20" height="20"/>
+    <rect class="corridor" x="400" y="600" width="20" height="20"/>
+    <rect class="corridor" x="420" y="600" width="20" height="20"/>
+    <rect class="floor" x="440" y="600" width="20" height="20"/>
+    <rect class="floor" x="460" y="600" width="20" height="20"/>
+    <rect class="floor" x="480" y="600" width="20" height="20"/>
+    <rect class="floor" x="500" y="600" width="20" height="20"/>
+    <rect class="corridor" x="540" y="600" width="20" height="20"/>
+    <rect class="corridor" x="640" y="600" width="20" height="20"/>
+    <rect class="corridor" x="660" y="600" width="20" height="20"/>
+    <rect class="floor" x="60" y="620" width="20" height="20"/>
+    <rect class="floor" x="80" y="620" width="20" height="20"/>
+    <rect class="floor" x="100" y="620" width="20" height="20"/>
+    <rect class="floor" x="240" y="620" width="20" height="20"/>
+    <rect class="floor" x="260" y="620" width="20" height="20"/>
+    <rect class="floor" x="280" y="620" width="20" height="20"/>
+    <rect class="floor" x="300" y="620" width="20" height="20"/>
+    <rect class="floor" x="320" y="620" width="20" height="20"/>
+    <rect class="floor" x="340" y="620" width="20" height="20"/>
+    <rect class="corridor" x="360" y="620" width="20" height="20"/>
+    <rect class="corridor" x="380" y="620" width="20" height="20"/>
+    <rect class="corridor" x="400" y="620" width="20" height="20"/>
+    <rect class="corridor" x="540" y="620" width="20" height="20"/>
+    <rect class="corridor" x="640" y="620" width="20" height="20"/>
+    <rect class="corridor" x="660" y="620" width="20" height="20"/>
+    <rect class="floor" x="240" y="640" width="20" height="20"/>
+    <rect class="floor" x="260" y="640" width="20" height="20"/>
+    <rect class="floor" x="280" y="640" width="20" height="20"/>
+    <rect class="floor" x="300" y="640" width="20" height="20"/>
+    <rect class="floor" x="320" y="640" width="20" height="20"/>
+    <rect class="floor" x="340" y="640" width="20" height="20"/>
+    <rect class="corridor" x="360" y="640" width="20" height="20"/>
+    <rect class="corridor" x="380" y="640" width="20" height="20"/>
+    <rect class="corridor" x="400" y="640" width="20" height="20"/>
+    <rect class="corridor" x="540" y="640" width="20" height="20"/>
+    <rect class="corridor" x="640" y="640" width="20" height="20"/>
+    <rect class="corridor" x="660" y="640" width="20" height="20"/>
+    <rect class="corridor" x="680" y="640" width="20" height="20"/>
+    <rect class="corridor" x="700" y="640" width="20" height="20"/>
+    <rect class="floor" x="720" y="640" width="20" height="20"/>
+    <rect class="floor" x="240" y="660" width="20" height="20"/>
+    <rect class="floor" x="260" y="660" width="20" height="20"/>
+    <rect class="floor" x="280" y="660" width="20" height="20"/>
+    <rect class="floor" x="300" y="660" width="20" height="20"/>
+    <rect class="floor" x="320" y="660" width="20" height="20"/>
+    <rect class="floor" x="340" y="660" width="20" height="20"/>
+    <rect class="corridor" x="360" y="660" width="20" height="20"/>
+    <rect class="corridor" x="400" y="660" width="20" height="20"/>
+    <rect class="floor" x="460" y="660" width="20" height="20"/>
+    <rect class="floor" x="480" y="660" width="20" height="20"/>
+    <rect class="floor" x="500" y="660" width="20" height="20"/>
+    <rect class="floor" x="520" y="660" width="20" height="20"/>
+    <rect class="corridor" x="540" y="660" width="20" height="20"/>
+    <rect class="floor" x="640" y="660" width="20" height="20"/>
+    <rect class="floor" x="660" y="660" width="20" height="20"/>
+    <rect class="floor" x="680" y="660" width="20" height="20"/>
+    <rect class="floor" x="700" y="660" width="20" height="20"/>
+    <rect class="floor" x="720" y="660" width="20" height="20"/>
+    <rect class="floor" x="740" y="660" width="20" height="20"/>
+    <rect class="floor" x="240" y="680" width="20" height="20"/>
+    <rect class="floor" x="260" y="680" width="20" height="20"/>
+    <rect class="floor" x="280" y="680" width="20" height="20"/>
+    <rect class="floor" x="300" y="680" width="20" height="20"/>
+    <rect class="floor" x="320" y="680" width="20" height="20"/>
+    <rect class="floor" x="340" y="680" width="20" height="20"/>
+    <rect class="corridor" x="400" y="680" width="20" height="20"/>
+    <rect class="corridor" x="420" y="680" width="20" height="20"/>
+    <rect class="corridor" x="440" y="680" width="20" height="20"/>
+    <rect class="floor" x="460" y="680" width="20" height="20"/>
+    <rect class="floor" x="480" y="680" width="20" height="20"/>
+    <rect class="floor" x="500" y="680" width="20" height="20"/>
+    <rect class="floor" x="520" y="680" width="20" height="20"/>
+    <rect class="corridor" x="540" y="680" width="20" height="20"/>
+    <rect class="floor" x="640" y="680" width="20" height="20"/>
+    <rect class="floor" x="660" y="680" width="20" height="20"/>
+    <rect class="floor" x="680" y="680" width="20" height="20"/>
+    <rect class="floor" x="700" y="680" width="20" height="20"/>
+    <rect class="floor" x="720" y="680" width="20" height="20"/>
+    <rect class="floor" x="740" y="680" width="20" height="20"/>
+    <rect class="floor" x="240" y="700" width="20" height="20"/>
+    <rect class="floor" x="260" y="700" width="20" height="20"/>
+    <rect class="floor" x="280" y="700" width="20" height="20"/>
+    <rect class="floor" x="300" y="700" width="20" height="20"/>
+    <rect class="floor" x="320" y="700" width="20" height="20"/>
+    <rect class="floor" x="340" y="700" width="20" height="20"/>
+    <rect class="floor" x="460" y="700" width="20" height="20"/>
+    <rect class="floor" x="480" y="700" width="20" height="20"/>
+    <rect class="floor" x="500" y="700" width="20" height="20"/>
+    <rect class="floor" x="520" y="700" width="20" height="20"/>
+    <rect class="floor" x="620" y="700" width="20" height="20"/>
+    <rect class="floor" x="640" y="700" width="20" height="20"/>
+    <rect class="floor" x="660" y="700" width="20" height="20"/>
+    <rect class="floor" x="680" y="700" width="20" height="20"/>
+    <rect class="floor" x="700" y="700" width="20" height="20"/>
+    <rect class="floor" x="720" y="700" width="20" height="20"/>
+    <rect class="floor" x="740" y="700" width="20" height="20"/>
+    <rect class="floor" x="240" y="720" width="20" height="20"/>
+    <rect class="floor" x="260" y="720" width="20" height="20"/>
+    <rect class="floor" x="280" y="720" width="20" height="20"/>
+    <rect class="floor" x="300" y="720" width="20" height="20"/>
+    <rect class="floor" x="320" y="720" width="20" height="20"/>
+    <rect class="floor" x="340" y="720" width="20" height="20"/>
+    <rect class="floor" x="460" y="720" width="20" height="20"/>
+    <rect class="floor" x="480" y="720" width="20" height="20"/>
+    <rect class="floor" x="500" y="720" width="20" height="20"/>
+    <rect class="floor" x="520" y="720" width="20" height="20"/>
+    <rect class="floor" x="620" y="720" width="20" height="20"/>
+    <rect class="floor" x="640" y="720" width="20" height="20"/>
+    <rect class="floor" x="660" y="720" width="20" height="20"/>
+    <rect class="floor" x="680" y="720" width="20" height="20"/>
+    <rect class="floor" x="700" y="720" width="20" height="20"/>
+    <rect class="floor" x="720" y="720" width="20" height="20"/>
+    <rect class="floor" x="740" y="720" width="20" height="20"/>
+    <rect class="floor" x="120" y="740" width="20" height="20"/>
+    <rect class="floor" x="140" y="740" width="20" height="20"/>
+    <rect class="floor" x="160" y="740" width="20" height="20"/>
+    <rect class="floor" x="180" y="740" width="20" height="20"/>
+    <rect class="floor" x="240" y="740" width="20" height="20"/>
+    <rect class="floor" x="260" y="740" width="20" height="20"/>
+    <rect class="floor" x="280" y="740" width="20" height="20"/>
+    <rect class="floor" x="300" y="740" width="20" height="20"/>
+    <rect class="floor" x="320" y="740" width="20" height="20"/>
+    <rect class="floor" x="340" y="740" width="20" height="20"/>
+    <rect class="floor" x="460" y="740" width="20" height="20"/>
+    <rect class="floor" x="480" y="740" width="20" height="20"/>
+    <rect class="floor" x="500" y="740" width="20" height="20"/>
+    <rect class="floor" x="520" y="740" width="20" height="20"/>
+    <rect class="floor" x="620" y="740" width="20" height="20"/>
+    <rect class="floor" x="640" y="740" width="20" height="20"/>
+    <rect class="floor" x="660" y="740" width="20" height="20"/>
+    <rect class="floor" x="680" y="740" width="20" height="20"/>
+    <rect class="floor" x="700" y="740" width="20" height="20"/>
+    <rect class="floor" x="720" y="740" width="20" height="20"/>
+    <rect class="floor" x="740" y="740" width="20" height="20"/>
+    <rect class="floor" x="120" y="760" width="20" height="20"/>
+    <rect class="floor" x="140" y="760" width="20" height="20"/>
+    <rect class="floor" x="160" y="760" width="20" height="20"/>
+    <rect class="floor" x="180" y="760" width="20" height="20"/>
+    <rect class="corridor" x="200" y="760" width="20" height="20"/>
+    <rect class="corridor" x="480" y="760" width="20" height="20"/>
+    <rect class="corridor" x="500" y="760" width="20" height="20"/>
+    <rect class="floor" x="620" y="760" width="20" height="20"/>
+    <rect class="floor" x="640" y="760" width="20" height="20"/>
+    <rect class="floor" x="660" y="760" width="20" height="20"/>
+    <rect class="floor" x="680" y="760" width="20" height="20"/>
+    <rect class="floor" x="700" y="760" width="20" height="20"/>
+    <rect class="floor" x="720" y="760" width="20" height="20"/>
+    <rect class="floor" x="740" y="760" width="20" height="20"/>
+    <rect class="floor" x="120" y="780" width="20" height="20"/>
+    <rect class="floor" x="140" y="780" width="20" height="20"/>
+    <rect class="floor" x="160" y="780" width="20" height="20"/>
+    <rect class="floor" x="180" y="780" width="20" height="20"/>
+    <rect class="corridor" x="200" y="780" width="20" height="20"/>
+    <rect class="corridor" x="480" y="780" width="20" height="20"/>
+    <rect class="corridor" x="500" y="780" width="20" height="20"/>
+    <rect class="floor" x="620" y="780" width="20" height="20"/>
+    <rect class="floor" x="640" y="780" width="20" height="20"/>
+    <rect class="floor" x="660" y="780" width="20" height="20"/>
+    <rect class="floor" x="680" y="780" width="20" height="20"/>
+    <rect class="floor" x="700" y="780" width="20" height="20"/>
+    <rect class="floor" x="720" y="780" width="20" height="20"/>
+    <rect class="floor" x="740" y="780" width="20" height="20"/>
+    <rect class="floor" x="120" y="800" width="20" height="20"/>
+    <rect class="floor" x="140" y="800" width="20" height="20"/>
+    <rect class="floor" x="160" y="800" width="20" height="20"/>
+    <rect class="floor" x="180" y="800" width="20" height="20"/>
+    <rect class="corridor" x="200" y="800" width="20" height="20"/>
+    <rect class="corridor" x="220" y="800" width="20" height="20"/>
+    <rect class="corridor" x="240" y="800" width="20" height="20"/>
+    <rect class="corridor" x="260" y="800" width="20" height="20"/>
+    <rect class="corridor" x="280" y="800" width="20" height="20"/>
+    <rect class="corridor" x="300" y="800" width="20" height="20"/>
+    <rect class="corridor" x="320" y="800" width="20" height="20"/>
+    <rect class="corridor" x="340" y="800" width="20" height="20"/>
+    <rect class="corridor" x="360" y="800" width="20" height="20"/>
+    <rect class="corridor" x="380" y="800" width="20" height="20"/>
+    <rect class="corridor" x="400" y="800" width="20" height="20"/>
+    <rect class="corridor" x="420" y="800" width="20" height="20"/>
+    <rect class="corridor" x="440" y="800" width="20" height="20"/>
+    <rect class="corridor" x="460" y="800" width="20" height="20"/>
+    <rect class="corridor" x="480" y="800" width="20" height="20"/>
+    <rect class="corridor" x="500" y="800" width="20" height="20"/>
+    <rect class="corridor" x="520" y="800" width="20" height="20"/>
+    <rect class="corridor" x="540" y="800" width="20" height="20"/>
+    <rect class="corridor" x="560" y="800" width="20" height="20"/>
+    <rect class="corridor" x="580" y="800" width="20" height="20"/>
+    <rect class="corridor" x="600" y="800" width="20" height="20"/>
+    <rect class="floor" x="620" y="800" width="20" height="20"/>
+    <rect class="floor" x="640" y="800" width="20" height="20"/>
+    <rect class="floor" x="660" y="800" width="20" height="20"/>
+    <rect class="floor" x="680" y="800" width="20" height="20"/>
+    <rect class="floor" x="700" y="800" width="20" height="20"/>
+    <rect class="floor" x="720" y="800" width="20" height="20"/>
+    <rect class="floor" x="740" y="800" width="20" height="20"/>
+    <rect class="floor" x="120" y="820" width="20" height="20"/>
+    <rect class="floor" x="140" y="820" width="20" height="20"/>
+    <rect class="floor" x="160" y="820" width="20" height="20"/>
+    <rect class="floor" x="180" y="820" width="20" height="20"/>
+    <rect class="corridor" x="480" y="820" width="20" height="20"/>
+    <rect class="corridor" x="500" y="820" width="20" height="20"/>
+    <rect class="floor" x="620" y="820" width="20" height="20"/>
+    <rect class="floor" x="640" y="820" width="20" height="20"/>
+    <rect class="floor" x="660" y="820" width="20" height="20"/>
+    <rect class="floor" x="680" y="820" width="20" height="20"/>
+    <rect class="floor" x="700" y="820" width="20" height="20"/>
+    <rect class="floor" x="720" y="820" width="20" height="20"/>
+    <rect class="floor" x="740" y="820" width="20" height="20"/>
+    <rect class="corridor" x="440" y="840" width="20" height="20"/>
+    <rect class="corridor" x="460" y="840" width="20" height="20"/>
+    <rect class="corridor" x="480" y="840" width="20" height="20"/>
+    <rect class="corridor" x="500" y="840" width="20" height="20"/>
+    <rect class="corridor" x="440" y="860" width="20" height="20"/>
+    <rect class="corridor" x="460" y="860" width="20" height="20"/>
+  </g>
+  <g class="grid">
+    <line class="grid-line-major" x1="440" y1="0" x2="480" y2="0"/>
+    <line class="grid-line" x1="440" y1="20" x2="500" y2="20"/>
+    <line class="grid-line" x1="180" y1="40" x2="260" y2="40"/>
+    <line class="grid-line" x1="440" y1="40" x2="540" y2="40"/>
+    <line class="grid-line" x1="40" y1="60" x2="80" y2="60"/>
+    <line class="grid-line" x1="180" y1="60" x2="260" y2="60"/>
+    <line class="grid-line" x1="440" y1="60" x2="540" y2="60"/>
+    <line class="grid-line" x1="40" y1="80" x2="100" y2="80"/>
+    <line class="grid-line" x1="180" y1="80" x2="260" y2="80"/>
+    <line class="grid-line" x1="440" y1="80" x2="540" y2="80"/>
+    <line class="grid-line-major" x1="40" y1="100" x2="100" y2="100"/>
+    <line class="grid-line-major" x1="180" y1="100" x2="540" y2="100"/>
+    <line class="grid-line-major" x1="580" y1="100" x2="660" y2="100"/>
+    <line class="grid-line" x1="60" y1="120" x2="140" y2="120"/>
+    <line class="grid-line" x1="180" y1="120" x2="660" y2="120"/>
+    <line class="grid-line" x1="720" y1="120" x2="840" y2="120"/>
+    <line class="grid-line" x1="60" y1="140" x2="140" y2="140"/>
+    <line class="grid-line" x1="180" y1="140" x2="260" y2="140"/>
+    <line class="grid-line" x1="340" y1="140" x2="360" y2="140"/>
+    <line class="grid-line" x1="440" y1="140" x2="660" y2="140"/>
+    <line class="grid-line" x1="720" y1="140" x2="840" y2="140"/>
+    <line class="grid-line" x1="60" y1="160" x2="360" y2="160"/>
+    <line class="grid-line" x1="460" y1="160" x2="480" y2="160"/>
+    <line class="grid-line" x1="500" y1="160" x2="520" y2="160"/>
+    <line class="grid-line" x1="580" y1="160" x2="840" y2="160"/>
+    <line class="grid-line" x1="60" y1="180" x2="360" y2="180"/>
+    <line class="grid-line" x1="460" y1="180" x2="480" y2="180"/>
+    <line class="grid-line" x1="500" y1="180" x2="520" y2="180"/>
+    <line class="grid-line" x1="580" y1="180" x2="840" y2="180"/>
+    <line class="grid-line-major" x1="60" y1="200" x2="80" y2="200"/>
+    <line class="grid-line-major" x1="220" y1="200" x2="240" y2="200"/>
+    <line class="grid-line-major" x1="340" y1="200" x2="360" y2="200"/>
+    <line class="grid-line-major" x1="460" y1="200" x2="480" y2="200"/>
+    <line class="grid-line-major" x1="500" y1="200" x2="520" y2="200"/>
+    <line class="grid-line-major" x1="720" y1="200" x2="840" y2="200"/>
+    <line class="grid-line" x1="60" y1="220" x2="80" y2="220"/>
+    <line class="grid-line" x1="220" y1="220" x2="240" y2="220"/>
+    <line class="grid-line" x1="340" y1="220" x2="360" y2="220"/>
+    <line class="grid-line" x1="420" y1="220" x2="480" y2="220"/>
+    <line class="grid-line" x1="500" y1="220" x2="520" y2="220"/>
+    <line class="grid-line" x1="720" y1="220" x2="840" y2="220"/>
+    <line class="grid-line" x1="40" y1="240" x2="120" y2="240"/>
+    <line class="grid-line" x1="220" y1="240" x2="240" y2="240"/>
+    <line class="grid-line" x1="280" y1="240" x2="520" y2="240"/>
+    <line class="grid-line" x1="720" y1="240" x2="840" y2="240"/>
+    <line class="grid-line" x1="40" y1="260" x2="240" y2="260"/>
+    <line class="grid-line" x1="280" y1="260" x2="520" y2="260"/>
+    <line class="grid-line" x1="620" y1="260" x2="680" y2="260"/>
+    <line class="grid-line" x1="700" y1="260" x2="840" y2="260"/>
+    <line class="grid-line" x1="40" y1="280" x2="520" y2="280"/>
+    <line class="grid-line" x1="620" y1="280" x2="680" y2="280"/>
+    <line class="grid-line" x1="700" y1="280" x2="840" y2="280"/>
+    <line class="grid-line-major" x1="40" y1="300" x2="120" y2="300"/>
+    <line class="grid-line-major" x1="200" y1="300" x2="840" y2="300"/>
+    <line class="grid-line" x1="40" y1="320" x2="120" y2="320"/>
+    <line class="grid-line" x1="200" y1="320" x2="260" y2="320"/>
+    <line class="grid-line" x1="340" y1="320" x2="760" y2="320"/>
+    <line class="grid-line" x1="200" y1="340" x2="260" y2="340"/>
+    <line class="grid-line" x1="440" y1="340" x2="520" y2="340"/>
+    <line class="grid-line" x1="620" y1="340" x2="760" y2="340"/>
+    <line class="grid-line" x1="200" y1="360" x2="260" y2="360"/>
+    <line class="grid-line" x1="500" y1="360" x2="520" y2="360"/>
+    <line class="grid-line" x1="620" y1="360" x2="660" y2="360"/>
+    <line class="grid-line" x1="220" y1="380" x2="260" y2="380"/>
+    <line class="grid-line" x1="500" y1="380" x2="520" y2="380"/>
+    <line class="grid-line" x1="620" y1="380" x2="660" y2="380"/>
+    <line class="grid-line" x1="700" y1="380" x2="820" y2="380"/>
+    <line class="grid-line-major" x1="200" y1="400" x2="240" y2="400"/>
+    <line class="grid-line-major" x1="500" y1="400" x2="520" y2="400"/>
+    <line class="grid-line-major" x1="600" y1="400" x2="680" y2="400"/>
+    <line class="grid-line-major" x1="700" y1="400" x2="820" y2="400"/>
+    <line class="grid-line" x1="80" y1="420" x2="120" y2="420"/>
+    <line class="grid-line" x1="200" y1="420" x2="300" y2="420"/>
+    <line class="grid-line" x1="440" y1="420" x2="520" y2="420"/>
+    <line class="grid-line" x1="580" y1="420" x2="680" y2="420"/>
+    <line class="grid-line" x1="700" y1="420" x2="820" y2="420"/>
+    <line class="grid-line" x1="80" y1="440" x2="120" y2="440"/>
+    <line class="grid-line" x1="200" y1="440" x2="520" y2="440"/>
+    <line class="grid-line" x1="580" y1="440" x2="620" y2="440"/>
+    <line class="grid-line" x1="640" y1="440" x2="820" y2="440"/>
+    <line class="grid-line" x1="80" y1="460" x2="140" y2="460"/>
+    <line class="grid-line" x1="200" y1="460" x2="520" y2="460"/>
+    <line class="grid-line" x1="580" y1="460" x2="620" y2="460"/>
+    <line class="grid-line" x1="640" y1="460" x2="820" y2="460"/>
+    <line class="grid-line" x1="80" y1="480" x2="140" y2="480"/>
+    <line class="grid-line" x1="200" y1="480" x2="320" y2="480"/>
+    <line class="grid-line" x1="480" y1="480" x2="520" y2="480"/>
+    <line class="grid-line" x1="580" y1="480" x2="620" y2="480"/>
+    <line class="grid-line" x1="640" y1="480" x2="820" y2="480"/>
+    <line class="grid-line-major" x1="100" y1="500" x2="280" y2="500"/>
+    <line class="grid-line-major" x1="300" y1="500" x2="320" y2="500"/>
+    <line class="grid-line-major" x1="480" y1="500" x2="500" y2="500"/>
+    <line class="grid-line-major" x1="640" y1="500" x2="820" y2="500"/>
+    <line class="grid-line" x1="100" y1="520" x2="240" y2="520"/>
+    <line class="grid-line" x1="300" y1="520" x2="820" y2="520"/>
+    <line class="grid-line" x1="100" y1="540" x2="120" y2="540"/>
+    <line class="grid-line" x1="220" y1="540" x2="240" y2="540"/>
+    <line class="grid-line" x1="300" y1="540" x2="820" y2="540"/>
+    <line class="grid-line" x1="100" y1="560" x2="120" y2="560"/>
+    <line class="grid-line" x1="220" y1="560" x2="240" y2="560"/>
+    <line class="grid-line" x1="400" y1="560" x2="820" y2="560"/>
+    <line class="grid-line" x1="60" y1="580" x2="120" y2="580"/>
+    <line class="grid-line" x1="220" y1="580" x2="240" y2="580"/>
+    <line class="grid-line" x1="360" y1="580" x2="520" y2="580"/>
+    <line class="grid-line" x1="540" y1="580" x2="560" y2="580"/>
+    <line class="grid-line" x1="640" y1="580" x2="680" y2="580"/>
+    <line class="grid-line-major" x1="60" y1="600" x2="120" y2="600"/>
+    <line class="grid-line-major" x1="220" y1="600" x2="520" y2="600"/>
+    <line class="grid-line-major" x1="540" y1="600" x2="560" y2="600"/>
+    <line class="grid-line-major" x1="640" y1="600" x2="680" y2="600"/>
+    <line class="grid-line" x1="60" y1="620" x2="120" y2="620"/>
+    <line class="grid-line" x1="220" y1="620" x2="520" y2="620"/>
+    <line class="grid-line" x1="540" y1="620" x2="560" y2="620"/>
+    <line class="grid-line" x1="640" y1="620" x2="680" y2="620"/>
+    <line class="grid-line" x1="60" y1="640" x2="120" y2="640"/>
+    <line class="grid-line" x1="240" y1="640" x2="420" y2="640"/>
+    <line class="grid-line" x1="540" y1="640" x2="560" y2="640"/>
+    <line class="grid-line" x1="640" y1="640" x2="740" y2="640"/>
+    <line class="grid-line" x1="240" y1="660" x2="420" y2="660"/>
+    <line class="grid-line" x1="460" y1="660" x2="560" y2="660"/>
+    <line class="grid-line" x1="640" y1="660" x2="760" y2="660"/>
+    <line class="grid-line" x1="240" y1="680" x2="380" y2="680"/>
+    <line class="grid-line" x1="400" y1="680" x2="560" y2="680"/>
+    <line class="grid-line" x1="640" y1="680" x2="760" y2="680"/>
+    <line class="grid-line-major" x1="240" y1="700" x2="360" y2="700"/>
+    <line class="grid-line-major" x1="400" y1="700" x2="560" y2="700"/>
+    <line class="grid-line-major" x1="620" y1="700" x2="760" y2="700"/>
+    <line class="grid-line" x1="240" y1="720" x2="360" y2="720"/>
+    <line class="grid-line" x1="460" y1="720" x2="540" y2="720"/>
+    <line class="grid-line" x1="620" y1="720" x2="760" y2="720"/>
+    <line class="grid-line" x1="120" y1="740" x2="200" y2="740"/>
+    <line class="grid-line" x1="240" y1="740" x2="360" y2="740"/>
+    <line class="grid-line" x1="460" y1="740" x2="540" y2="740"/>
+    <line class="grid-line" x1="620" y1="740" x2="760" y2="740"/>
+    <line class="grid-line" x1="120" y1="760" x2="220" y2="760"/>
+    <line class="grid-line" x1="240" y1="760" x2="360" y2="760"/>
+    <line class="grid-line" x1="460" y1="760" x2="540" y2="760"/>
+    <line class="grid-line" x1="620" y1="760" x2="760" y2="760"/>
+    <line class="grid-line" x1="120" y1="780" x2="220" y2="780"/>
+    <line class="grid-line" x1="480" y1="780" x2="520" y2="780"/>
+    <line class="grid-line" x1="620" y1="780" x2="760" y2="780"/>
+    <line class="grid-line-major" x1="120" y1="800" x2="760" y2="800"/>
+    <line class="grid-line" x1="120" y1="820" x2="760" y2="820"/>
+    <line class="grid-line" x1="120" y1="840" x2="200" y2="840"/>
+    <line class="grid-line" x1="440" y1="840" x2="520" y2="840"/>
+    <line class="grid-line" x1="620" y1="840" x2="760" y2="840"/>
+    <line class="grid-line" x1="440" y1="860" x2="520" y2="860"/>
+    <line class="grid-line" x1="440" y1="880" x2="480" y2="880"/>
+    <line class="grid-line" x1="40" y1="60" x2="40" y2="100"/>
+    <line class="grid-line" x1="40" y1="240" x2="40" y2="320"/>
+    <line class="grid-line" x1="60" y1="60" x2="60" y2="320"/>
+    <line class="grid-line" x1="60" y1="580" x2="60" y2="640"/>
+    <line class="grid-line" x1="80" y1="60" x2="80" y2="320"/>
+    <line class="grid-line" x1="80" y1="420" x2="80" y2="480"/>
+    <line class="grid-line" x1="80" y1="580" x2="80" y2="640"/>
+    <line class="grid-line-major" x1="100" y1="80" x2="100" y2="180"/>
+    <line class="grid-line-major" x1="100" y1="240" x2="100" y2="320"/>
+    <line class="grid-line-major" x1="100" y1="420" x2="100" y2="480"/>
+    <line class="grid-line-major" x1="100" y1="500" x2="100" y2="640"/>
+    <line class="grid-line" x1="120" y1="120" x2="120" y2="180"/>
+    <line class="grid-line" x1="120" y1="240" x2="120" y2="320"/>
+    <line class="grid-line" x1="120" y1="420" x2="120" y2="640"/>
+    <line class="grid-line" x1="120" y1="740" x2="120" y2="840"/>
+    <line class="grid-line" x1="140" y1="120" x2="140" y2="180"/>
+    <line class="grid-line" x1="140" y1="260" x2="140" y2="280"/>
+    <line class="grid-line" x1="140" y1="460" x2="140" y2="520"/>
+    <line class="grid-line" x1="140" y1="740" x2="140" y2="840"/>
+    <line class="grid-line" x1="160" y1="160" x2="160" y2="180"/>
+    <line class="grid-line" x1="160" y1="260" x2="160" y2="280"/>
+    <line class="grid-line" x1="160" y1="500" x2="160" y2="520"/>
+    <line class="grid-line" x1="160" y1="740" x2="160" y2="840"/>
+    <line class="grid-line" x1="180" y1="40" x2="180" y2="140"/>
+    <line class="grid-line" x1="180" y1="160" x2="180" y2="180"/>
+    <line class="grid-line" x1="180" y1="260" x2="180" y2="280"/>
+    <line class="grid-line" x1="180" y1="500" x2="180" y2="520"/>
+    <line class="grid-line" x1="180" y1="740" x2="180" y2="840"/>
+    <line class="grid-line-major" x1="200" y1="40" x2="200" y2="180"/>
+    <line class="grid-line-major" x1="200" y1="260" x2="200" y2="280"/>
+    <line class="grid-line-major" x1="200" y1="300" x2="200" y2="360"/>
+    <line class="grid-line-major" x1="200" y1="400" x2="200" y2="520"/>
+    <line class="grid-line-major" x1="200" y1="740" x2="200" y2="840"/>
+    <line class="grid-line" x1="220" y1="40" x2="220" y2="620"/>
+    <line class="grid-line" x1="220" y1="760" x2="220" y2="820"/>
+    <line class="grid-line" x1="240" y1="40" x2="240" y2="760"/>
+    <line class="grid-line" x1="240" y1="800" x2="240" y2="820"/>
+    <line class="grid-line" x1="260" y1="40" x2="260" y2="140"/>
+    <line class="grid-line" x1="260" y1="160" x2="260" y2="180"/>
+    <line class="grid-line" x1="260" y1="280" x2="260" y2="380"/>
+    <line class="grid-line" x1="260" y1="420" x2="260" y2="500"/>
+    <line class="grid-line" x1="260" y1="600" x2="260" y2="760"/>
+    <line class="grid-line" x1="260" y1="800" x2="260" y2="820"/>
+    <line class="grid-line" x1="280" y1="100" x2="280" y2="120"/>
+    <line class="grid-line" x1="280" y1="160" x2="280" y2="180"/>
+    <line class="grid-line" x1="280" y1="240" x2="280" y2="300"/>
+    <line class="grid-line" x1="280" y1="420" x2="280" y2="500"/>
+    <line class="grid-line" x1="280" y1="600" x2="280" y2="760"/>
+    <line class="grid-line" x1="280" y1="800" x2="280" y2="820"/>
+    <line class="grid-line-major" x1="300" y1="100" x2="300" y2="120"/>
+    <line class="grid-line-major" x1="300" y1="160" x2="300" y2="180"/>
+    <line class="grid-line-major" x1="300" y1="240" x2="300" y2="300"/>
+    <line class="grid-line-major" x1="300" y1="420" x2="300" y2="540"/>
+    <line class="grid-line-major" x1="300" y1="600" x2="300" y2="760"/>
+    <line class="grid-line-major" x1="300" y1="800" x2="300" y2="820"/>
+    <line class="grid-line" x1="320" y1="100" x2="320" y2="120"/>
+    <line class="grid-line" x1="320" y1="160" x2="320" y2="180"/>
+    <line class="grid-line" x1="320" y1="240" x2="320" y2="300"/>
+    <line class="grid-line" x1="320" y1="440" x2="320" y2="540"/>
+    <line class="grid-line" x1="320" y1="600" x2="320" y2="760"/>
+    <line class="grid-line" x1="320" y1="800" x2="320" y2="820"/>
+    <line class="grid-line" x1="340" y1="100" x2="340" y2="320"/>
+    <line class="grid-line" x1="340" y1="440" x2="340" y2="460"/>
+    <line class="grid-line" x1="340" y1="520" x2="340" y2="540"/>
+    <line class="grid-line" x1="340" y1="600" x2="340" y2="760"/>
+    <line class="grid-line" x1="340" y1="800" x2="340" y2="820"/>
+    <line class="grid-line" x1="360" y1="100" x2="360" y2="320"/>
+    <line class="grid-line" x1="360" y1="440" x2="360" y2="460"/>
+    <line class="grid-line" x1="360" y1="520" x2="360" y2="540"/>
+    <line class="grid-line" x1="360" y1="580" x2="360" y2="760"/>
+    <line class="grid-line" x1="360" y1="800" x2="360" y2="820"/>
+    <line class="grid-line" x1="380" y1="100" x2="380" y2="120"/>
+    <line class="grid-line" x1="380" y1="240" x2="380" y2="280"/>
+    <line class="grid-line" x1="380" y1="300" x2="380" y2="320"/>
+    <line class="grid-line" x1="380" y1="440" x2="380" y2="460"/>
+    <line class="grid-line" x1="380" y1="520" x2="380" y2="540"/>
+    <line class="grid-line" x1="380" y1="580" x2="380" y2="680"/>
+    <line class="grid-line" x1="380" y1="800" x2="380" y2="820"/>
+    <line class="grid-line-major" x1="400" y1="100" x2="400" y2="120"/>
+    <line class="grid-line-major" x1="400" y1="240" x2="400" y2="280"/>
+    <line class="grid-line-major" x1="400" y1="300" x2="400" y2="320"/>
+    <line class="grid-line-major" x1="400" y1="440" x2="400" y2="460"/>
+    <line class="grid-line-major" x1="400" y1="520" x2="400" y2="540"/>
+    <line class="grid-line-major" x1="400" y1="560" x2="400" y2="700"/>
+    <line class="grid-line-major" x1="400" y1="800" x2="400" y2="820"/>
+    <line class="grid-line" x1="420" y1="100" x2="420" y2="120"/>
+    <line class="grid-line" x1="420" y1="220" x2="420" y2="320"/>
+    <line class="grid-line" x1="420" y1="440" x2="420" y2="460"/>
+    <line class="grid-line" x1="420" y1="520" x2="420" y2="700"/>
+    <line class="grid-line" x1="420" y1="800" x2="420" y2="820"/>
+    <line class="grid-line" x1="440" y1="0" x2="440" y2="60"/>
+    <line class="grid-line" x1="440" y1="80" x2="440" y2="140"/>
+    <line class="grid-line" x1="440" y1="220" x2="440" y2="340"/>
+    <line class="grid-line" x1="440" y1="420" x2="440" y2="460"/>
+    <line class="grid-line" x1="440" y1="520" x2="440" y2="620"/>
+    <line class="grid-line" x1="440" y1="680" x2="440" y2="700"/>
+    <line class="grid-line" x1="440" y1="800" x2="440" y2="820"/>
+    <line class="grid-line" x1="440" y1="840" x2="440" y2="880"/>
+    <line class="grid-line" x1="460" y1="0" x2="460" y2="340"/>
+    <line class="grid-line" x1="460" y1="420" x2="460" y2="460"/>
+    <line class="grid-line" x1="460" y1="520" x2="460" y2="620"/>
+    <line class="grid-line" x1="460" y1="660" x2="460" y2="760"/>
+    <line class="grid-line" x1="460" y1="800" x2="460" y2="820"/>
+    <line class="grid-line" x1="460" y1="840" x2="460" y2="880"/>
+    <line class="grid-line" x1="480" y1="0" x2="480" y2="340"/>
+    <line class="grid-line" x1="480" y1="420" x2="480" y2="620"/>
+    <line class="grid-line" x1="480" y1="660" x2="480" y2="880"/>
+    <line class="grid-line-major" x1="500" y1="20" x2="500" y2="620"/>
+    <line class="grid-line-major" x1="500" y1="660" x2="500" y2="860"/>
+    <line class="grid-line" x1="520" y1="40" x2="520" y2="480"/>
+    <line class="grid-line" x1="520" y1="520" x2="520" y2="620"/>
+    <line class="grid-line" x1="520" y1="660" x2="520" y2="860"/>
+    <line class="grid-line" x1="540" y1="40" x2="540" y2="100"/>
+    <line class="grid-line" x1="540" y1="120" x2="540" y2="140"/>
+    <line class="grid-line" x1="540" y1="300" x2="540" y2="320"/>
+    <line class="grid-line" x1="540" y1="520" x2="540" y2="760"/>
+    <line class="grid-line" x1="540" y1="800" x2="540" y2="820"/>
+    <line class="grid-line" x1="560" y1="120" x2="560" y2="140"/>
+    <line class="grid-line" x1="560" y1="300" x2="560" y2="320"/>
+    <line class="grid-line" x1="560" y1="520" x2="560" y2="700"/>
+    <line class="grid-line" x1="560" y1="800" x2="560" y2="820"/>
+    <line class="grid-line" x1="580" y1="100" x2="580" y2="180"/>
+    <line class="grid-line" x1="580" y1="300" x2="580" y2="320"/>
+    <line class="grid-line" x1="580" y1="420" x2="580" y2="480"/>
+    <line class="grid-line" x1="580" y1="520" x2="580" y2="560"/>
+    <line class="grid-line" x1="580" y1="800" x2="580" y2="820"/>
+    <line class="grid-line-major" x1="600" y1="100" x2="600" y2="180"/>
+    <line class="grid-line-major" x1="600" y1="300" x2="600" y2="320"/>
+    <line class="grid-line-major" x1="600" y1="400" x2="600" y2="480"/>
+    <line class="grid-line-major" x1="600" y1="520" x2="600" y2="560"/>
+    <line class="grid-line-major" x1="600" y1="800" x2="600" y2="820"/>
+    <line class="grid-line" x1="620" y1="100" x2="620" y2="180"/>
+    <line class="grid-line" x1="620" y1="260" x2="620" y2="480"/>
+    <line class="grid-line" x1="620" y1="520" x2="620" y2="560"/>
+    <line class="grid-line" x1="620" y1="700" x2="620" y2="840"/>
+    <line class="grid-line" x1="640" y1="100" x2="640" y2="180"/>
+    <line class="grid-line" x1="640" y1="260" x2="640" y2="840"/>
+    <line class="grid-line" x1="660" y1="100" x2="660" y2="180"/>
+    <line class="grid-line" x1="660" y1="260" x2="660" y2="840"/>
+    <line class="grid-line" x1="680" y1="160" x2="680" y2="180"/>
+    <line class="grid-line" x1="680" y1="260" x2="680" y2="340"/>
+    <line class="grid-line" x1="680" y1="400" x2="680" y2="840"/>
+    <line class="grid-line-major" x1="700" y1="160" x2="700" y2="180"/>
+    <line class="grid-line-major" x1="700" y1="260" x2="700" y2="340"/>
+    <line class="grid-line-major" x1="700" y1="380" x2="700" y2="560"/>
+    <line class="grid-line-major" x1="700" y1="640" x2="700" y2="840"/>
+    <line class="grid-line" x1="720" y1="120" x2="720" y2="340"/>
+    <line class="grid-line" x1="720" y1="380" x2="720" y2="560"/>
+    <line class="grid-line" x1="720" y1="640" x2="720" y2="840"/>
+    <line class="grid-line" x1="740" y1="120" x2="740" y2="340"/>
+    <line class="grid-line" x1="740" y1="380" x2="740" y2="560"/>
+    <line class="grid-line" x1="740" y1="640" x2="740" y2="840"/>
+    <line class="grid-line" x1="760" y1="120" x2="760" y2="340"/>
+    <line class="grid-line" x1="760" y1="380" x2="760" y2="560"/>
+    <line class="grid-line" x1="760" y1="660" x2="760" y2="840"/>
+    <line class="grid-line" x1="780" y1="120" x2="780" y2="300"/>
+    <line class="grid-line" x1="780" y1="380" x2="780" y2="560"/>
+    <line class="grid-line-major" x1="800" y1="120" x2="800" y2="300"/>
+    <line class="grid-line-major" x1="800" y1="380" x2="800" y2="560"/>
+    <line class="grid-line" x1="820" y1="120" x2="820" y2="300"/>
+    <line class="grid-line" x1="820" y1="380" x2="820" y2="560"/>
+    <line class="grid-line" x1="840" y1="120" x2="840" y2="300"/>
+  </g>
+  <g class="walls">
+    <line class="wall-under" x1="440" y1="0" x2="480" y2="0"/>
+    <line class="wall" x1="440" y1="0" x2="480" y2="0"/>
+    <line class="wall-highlight" x1="440" y1="0" x2="480" y2="0"/>
+    <line class="wall-under" x1="480" y1="20" x2="500" y2="20"/>
+    <line class="wall" x1="480" y1="20" x2="500" y2="20"/>
+    <line class="wall-highlight" x1="480" y1="20" x2="500" y2="20"/>
+    <line class="wall-under" x1="180" y1="40" x2="260" y2="40"/>
+    <line class="wall" x1="180" y1="40" x2="260" y2="40"/>
+    <line class="wall-highlight" x1="180" y1="40" x2="260" y2="40"/>
+    <line class="wall-under" x1="500" y1="40" x2="540" y2="40"/>
+    <line class="wall" x1="500" y1="40" x2="540" y2="40"/>
+    <line class="wall-highlight" x1="500" y1="40" x2="540" y2="40"/>
+    <line class="wall-under" x1="40" y1="60" x2="80" y2="60"/>
+    <line class="wall" x1="40" y1="60" x2="80" y2="60"/>
+    <line class="wall-highlight" x1="40" y1="60" x2="80" y2="60"/>
+    <line class="wall-under" x1="440" y1="60" x2="460" y2="60"/>
+    <line class="wall" x1="440" y1="60" x2="460" y2="60"/>
+    <line class="wall-highlight" x1="440" y1="60" x2="460" y2="60"/>
+    <line class="wall-under" x1="40" y1="100" x2="60" y2="100"/>
+    <line class="wall" x1="40" y1="100" x2="60" y2="100"/>
+    <line class="wall-highlight" x1="40" y1="100" x2="60" y2="100"/>
+    <line class="wall-under" x1="260" y1="100" x2="440" y2="100"/>
+    <line class="wall" x1="260" y1="100" x2="440" y2="100"/>
+    <line class="wall-highlight" x1="260" y1="100" x2="440" y2="100"/>
+    <line class="wall-under" x1="520" y1="100" x2="540" y2="100"/>
+    <line class="wall" x1="520" y1="100" x2="540" y2="100"/>
+    <line class="wall-highlight" x1="520" y1="100" x2="540" y2="100"/>
+    <line class="wall-under" x1="580" y1="100" x2="660" y2="100"/>
+    <line class="wall" x1="580" y1="100" x2="660" y2="100"/>
+    <line class="wall-highlight" x1="580" y1="100" x2="660" y2="100"/>
+    <line class="wall-under" x1="80" y1="80" x2="100" y2="80"/>
+    <line class="wall" x1="80" y1="80" x2="100" y2="80"/>
+    <line class="wall-highlight" x1="80" y1="80" x2="100" y2="80"/>
+    <line class="wall-under" x1="440" y1="80" x2="460" y2="80"/>
+    <line class="wall" x1="440" y1="80" x2="460" y2="80"/>
+    <line class="wall-highlight" x1="440" y1="80" x2="460" y2="80"/>
+    <line class="wall-under" x1="100" y1="120" x2="140" y2="120"/>
+    <line class="wall" x1="100" y1="120" x2="140" y2="120"/>
+    <line class="wall-highlight" x1="100" y1="120" x2="140" y2="120"/>
+    <line class="wall-under" x1="260" y1="120" x2="340" y2="120"/>
+    <line class="wall" x1="260" y1="120" x2="340" y2="120"/>
+    <line class="wall-highlight" x1="260" y1="120" x2="340" y2="120"/>
+    <line class="wall-under" x1="360" y1="120" x2="440" y2="120"/>
+    <line class="wall" x1="360" y1="120" x2="440" y2="120"/>
+    <line class="wall-highlight" x1="360" y1="120" x2="440" y2="120"/>
+    <line class="wall-under" x1="520" y1="120" x2="580" y2="120"/>
+    <line class="wall" x1="520" y1="120" x2="580" y2="120"/>
+    <line class="wall-highlight" x1="520" y1="120" x2="580" y2="120"/>
+    <line class="wall-under" x1="720" y1="120" x2="840" y2="120"/>
+    <line class="wall" x1="720" y1="120" x2="840" y2="120"/>
+    <line class="wall-highlight" x1="720" y1="120" x2="840" y2="120"/>
+    <line class="wall-under" x1="180" y1="140" x2="200" y2="140"/>
+    <line class="wall" x1="180" y1="140" x2="200" y2="140"/>
+    <line class="wall-highlight" x1="180" y1="140" x2="200" y2="140"/>
+    <line class="wall-under" x1="240" y1="140" x2="260" y2="140"/>
+    <line class="wall" x1="240" y1="140" x2="260" y2="140"/>
+    <line class="wall-highlight" x1="240" y1="140" x2="260" y2="140"/>
+    <line class="wall-under" x1="440" y1="140" x2="460" y2="140"/>
+    <line class="wall" x1="440" y1="140" x2="460" y2="140"/>
+    <line class="wall-highlight" x1="440" y1="140" x2="460" y2="140"/>
+    <line class="wall-under" x1="480" y1="140" x2="500" y2="140"/>
+    <line class="wall" x1="480" y1="140" x2="500" y2="140"/>
+    <line class="wall-highlight" x1="480" y1="140" x2="500" y2="140"/>
+    <line class="wall-under" x1="520" y1="140" x2="580" y2="140"/>
+    <line class="wall" x1="520" y1="140" x2="580" y2="140"/>
+    <line class="wall-highlight" x1="520" y1="140" x2="580" y2="140"/>
+    <line class="wall-under" x1="80" y1="180" x2="220" y2="180"/>
+    <line class="wall" x1="80" y1="180" x2="220" y2="180"/>
+    <line class="wall-highlight" x1="80" y1="180" x2="220" y2="180"/>
+    <line class="wall-under" x1="240" y1="180" x2="340" y2="180"/>
+    <line class="wall" x1="240" y1="180" x2="340" y2="180"/>
+    <line class="wall-highlight" x1="240" y1="180" x2="340" y2="180"/>
+    <line class="wall-under" x1="580" y1="180" x2="720" y2="180"/>
+    <line class="wall" x1="580" y1="180" x2="720" y2="180"/>
+    <line class="wall-highlight" x1="580" y1="180" x2="720" y2="180"/>
+    <line class="wall-under" x1="140" y1="160" x2="200" y2="160"/>
+    <line class="wall" x1="140" y1="160" x2="200" y2="160"/>
+    <line class="wall-highlight" x1="140" y1="160" x2="200" y2="160"/>
+    <line class="wall-under" x1="240" y1="160" x2="340" y2="160"/>
+    <line class="wall" x1="240" y1="160" x2="340" y2="160"/>
+    <line class="wall-highlight" x1="240" y1="160" x2="340" y2="160"/>
+    <line class="wall-under" x1="660" y1="160" x2="720" y2="160"/>
+    <line class="wall" x1="660" y1="160" x2="720" y2="160"/>
+    <line class="wall-highlight" x1="660" y1="160" x2="720" y2="160"/>
+    <line class="wall-under" x1="420" y1="220" x2="460" y2="220"/>
+    <line class="wall" x1="420" y1="220" x2="460" y2="220"/>
+    <line class="wall-highlight" x1="420" y1="220" x2="460" y2="220"/>
+    <line class="wall-under" x1="40" y1="240" x2="60" y2="240"/>
+    <line class="wall" x1="40" y1="240" x2="60" y2="240"/>
+    <line class="wall-highlight" x1="40" y1="240" x2="60" y2="240"/>
+    <line class="wall-under" x1="80" y1="240" x2="120" y2="240"/>
+    <line class="wall" x1="80" y1="240" x2="120" y2="240"/>
+    <line class="wall-highlight" x1="80" y1="240" x2="120" y2="240"/>
+    <line class="wall-under" x1="280" y1="240" x2="340" y2="240"/>
+    <line class="wall" x1="280" y1="240" x2="340" y2="240"/>
+    <line class="wall-highlight" x1="280" y1="240" x2="340" y2="240"/>
+    <line class="wall-under" x1="360" y1="240" x2="420" y2="240"/>
+    <line class="wall" x1="360" y1="240" x2="420" y2="240"/>
+    <line class="wall-highlight" x1="360" y1="240" x2="420" y2="240"/>
+    <line class="wall-under" x1="480" y1="240" x2="500" y2="240"/>
+    <line class="wall" x1="480" y1="240" x2="500" y2="240"/>
+    <line class="wall-highlight" x1="480" y1="240" x2="500" y2="240"/>
+    <line class="wall-under" x1="120" y1="260" x2="220" y2="260"/>
+    <line class="wall" x1="120" y1="260" x2="220" y2="260"/>
+    <line class="wall-highlight" x1="120" y1="260" x2="220" y2="260"/>
+    <line class="wall-under" x1="620" y1="260" x2="680" y2="260"/>
+    <line class="wall" x1="620" y1="260" x2="680" y2="260"/>
+    <line class="wall-highlight" x1="620" y1="260" x2="680" y2="260"/>
+    <line class="wall-under" x1="700" y1="260" x2="720" y2="260"/>
+    <line class="wall" x1="700" y1="260" x2="720" y2="260"/>
+    <line class="wall-highlight" x1="700" y1="260" x2="720" y2="260"/>
+    <line class="wall-under" x1="120" y1="280" x2="220" y2="280"/>
+    <line class="wall" x1="120" y1="280" x2="220" y2="280"/>
+    <line class="wall-highlight" x1="120" y1="280" x2="220" y2="280"/>
+    <line class="wall-under" x1="240" y1="280" x2="280" y2="280"/>
+    <line class="wall" x1="240" y1="280" x2="280" y2="280"/>
+    <line class="wall-highlight" x1="240" y1="280" x2="280" y2="280"/>
+    <line class="wall-under" x1="360" y1="280" x2="420" y2="280"/>
+    <line class="wall" x1="360" y1="280" x2="420" y2="280"/>
+    <line class="wall-highlight" x1="360" y1="280" x2="420" y2="280"/>
+    <line class="wall-under" x1="200" y1="300" x2="220" y2="300"/>
+    <line class="wall" x1="200" y1="300" x2="220" y2="300"/>
+    <line class="wall-highlight" x1="200" y1="300" x2="220" y2="300"/>
+    <line class="wall-under" x1="260" y1="300" x2="340" y2="300"/>
+    <line class="wall" x1="260" y1="300" x2="340" y2="300"/>
+    <line class="wall-highlight" x1="260" y1="300" x2="340" y2="300"/>
+    <line class="wall-under" x1="360" y1="300" x2="420" y2="300"/>
+    <line class="wall" x1="360" y1="300" x2="420" y2="300"/>
+    <line class="wall-highlight" x1="360" y1="300" x2="420" y2="300"/>
+    <line class="wall-under" x1="520" y1="300" x2="620" y2="300"/>
+    <line class="wall" x1="520" y1="300" x2="620" y2="300"/>
+    <line class="wall-highlight" x1="520" y1="300" x2="620" y2="300"/>
+    <line class="wall-under" x1="680" y1="300" x2="700" y2="300"/>
+    <line class="wall" x1="680" y1="300" x2="700" y2="300"/>
+    <line class="wall-highlight" x1="680" y1="300" x2="700" y2="300"/>
+    <line class="wall-under" x1="760" y1="300" x2="840" y2="300"/>
+    <line class="wall" x1="760" y1="300" x2="840" y2="300"/>
+    <line class="wall-highlight" x1="760" y1="300" x2="840" y2="300"/>
+    <line class="wall-under" x1="40" y1="320" x2="120" y2="320"/>
+    <line class="wall" x1="40" y1="320" x2="120" y2="320"/>
+    <line class="wall-highlight" x1="40" y1="320" x2="120" y2="320"/>
+    <line class="wall-under" x1="340" y1="320" x2="440" y2="320"/>
+    <line class="wall" x1="340" y1="320" x2="440" y2="320"/>
+    <line class="wall-highlight" x1="340" y1="320" x2="440" y2="320"/>
+    <line class="wall-under" x1="520" y1="320" x2="620" y2="320"/>
+    <line class="wall" x1="520" y1="320" x2="620" y2="320"/>
+    <line class="wall-highlight" x1="520" y1="320" x2="620" y2="320"/>
+    <line class="wall-under" x1="440" y1="340" x2="500" y2="340"/>
+    <line class="wall" x1="440" y1="340" x2="500" y2="340"/>
+    <line class="wall-highlight" x1="440" y1="340" x2="500" y2="340"/>
+    <line class="wall-under" x1="660" y1="340" x2="760" y2="340"/>
+    <line class="wall" x1="660" y1="340" x2="760" y2="340"/>
+    <line class="wall-highlight" x1="660" y1="340" x2="760" y2="340"/>
+    <line class="wall-under" x1="200" y1="360" x2="220" y2="360"/>
+    <line class="wall" x1="200" y1="360" x2="220" y2="360"/>
+    <line class="wall-highlight" x1="200" y1="360" x2="220" y2="360"/>
+    <line class="wall-under" x1="240" y1="380" x2="260" y2="380"/>
+    <line class="wall" x1="240" y1="380" x2="260" y2="380"/>
+    <line class="wall-highlight" x1="240" y1="380" x2="260" y2="380"/>
+    <line class="wall-under" x1="700" y1="380" x2="820" y2="380"/>
+    <line class="wall" x1="700" y1="380" x2="820" y2="380"/>
+    <line class="wall-highlight" x1="700" y1="380" x2="820" y2="380"/>
+    <line class="wall-under" x1="200" y1="400" x2="220" y2="400"/>
+    <line class="wall" x1="200" y1="400" x2="220" y2="400"/>
+    <line class="wall-highlight" x1="200" y1="400" x2="220" y2="400"/>
+    <line class="wall-under" x1="600" y1="400" x2="620" y2="400"/>
+    <line class="wall" x1="600" y1="400" x2="620" y2="400"/>
+    <line class="wall-highlight" x1="600" y1="400" x2="620" y2="400"/>
+    <line class="wall-under" x1="660" y1="400" x2="680" y2="400"/>
+    <line class="wall" x1="660" y1="400" x2="680" y2="400"/>
+    <line class="wall-highlight" x1="660" y1="400" x2="680" y2="400"/>
+    <line class="wall-under" x1="80" y1="420" x2="120" y2="420"/>
+    <line class="wall" x1="80" y1="420" x2="120" y2="420"/>
+    <line class="wall-highlight" x1="80" y1="420" x2="120" y2="420"/>
+    <line class="wall-under" x1="240" y1="420" x2="300" y2="420"/>
+    <line class="wall" x1="240" y1="420" x2="300" y2="420"/>
+    <line class="wall-highlight" x1="240" y1="420" x2="300" y2="420"/>
+    <line class="wall-under" x1="440" y1="420" x2="500" y2="420"/>
+    <line class="wall" x1="440" y1="420" x2="500" y2="420"/>
+    <line class="wall-highlight" x1="440" y1="420" x2="500" y2="420"/>
+    <line class="wall-under" x1="580" y1="420" x2="600" y2="420"/>
+    <line class="wall" x1="580" y1="420" x2="600" y2="420"/>
+    <line class="wall-highlight" x1="580" y1="420" x2="600" y2="420"/>
+    <line class="wall-under" x1="620" y1="420" x2="640" y2="420"/>
+    <line class="wall" x1="620" y1="420" x2="640" y2="420"/>
+    <line class="wall-highlight" x1="620" y1="420" x2="640" y2="420"/>
+    <line class="wall-under" x1="300" y1="440" x2="440" y2="440"/>
+    <line class="wall" x1="300" y1="440" x2="440" y2="440"/>
+    <line class="wall-highlight" x1="300" y1="440" x2="440" y2="440"/>
+    <line class="wall-under" x1="680" y1="440" x2="700" y2="440"/>
+    <line class="wall" x1="680" y1="440" x2="700" y2="440"/>
+    <line class="wall-highlight" x1="680" y1="440" x2="700" y2="440"/>
+    <line class="wall-under" x1="120" y1="460" x2="140" y2="460"/>
+    <line class="wall" x1="120" y1="460" x2="140" y2="460"/>
+    <line class="wall-highlight" x1="120" y1="460" x2="140" y2="460"/>
+    <line class="wall-under" x1="320" y1="460" x2="480" y2="460"/>
+    <line class="wall" x1="320" y1="460" x2="480" y2="460"/>
+    <line class="wall-highlight" x1="320" y1="460" x2="480" y2="460"/>
+    <line class="wall-under" x1="80" y1="480" x2="120" y2="480"/>
+    <line class="wall" x1="80" y1="480" x2="120" y2="480"/>
+    <line class="wall-highlight" x1="80" y1="480" x2="120" y2="480"/>
+    <line class="wall-under" x1="280" y1="480" x2="300" y2="480"/>
+    <line class="wall" x1="280" y1="480" x2="300" y2="480"/>
+    <line class="wall-highlight" x1="280" y1="480" x2="300" y2="480"/>
+    <line class="wall-under" x1="500" y1="480" x2="520" y2="480"/>
+    <line class="wall" x1="500" y1="480" x2="520" y2="480"/>
+    <line class="wall-highlight" x1="500" y1="480" x2="520" y2="480"/>
+    <line class="wall-under" x1="580" y1="480" x2="620" y2="480"/>
+    <line class="wall" x1="580" y1="480" x2="620" y2="480"/>
+    <line class="wall-highlight" x1="580" y1="480" x2="620" y2="480"/>
+    <line class="wall-under" x1="100" y1="500" x2="120" y2="500"/>
+    <line class="wall" x1="100" y1="500" x2="120" y2="500"/>
+    <line class="wall-highlight" x1="100" y1="500" x2="120" y2="500"/>
+    <line class="wall-under" x1="140" y1="500" x2="200" y2="500"/>
+    <line class="wall" x1="140" y1="500" x2="200" y2="500"/>
+    <line class="wall-highlight" x1="140" y1="500" x2="200" y2="500"/>
+    <line class="wall-under" x1="240" y1="500" x2="280" y2="500"/>
+    <line class="wall" x1="240" y1="500" x2="280" y2="500"/>
+    <line class="wall-highlight" x1="240" y1="500" x2="280" y2="500"/>
+    <line class="wall-under" x1="120" y1="520" x2="220" y2="520"/>
+    <line class="wall" x1="120" y1="520" x2="220" y2="520"/>
+    <line class="wall-highlight" x1="120" y1="520" x2="220" y2="520"/>
+    <line class="wall-under" x1="320" y1="520" x2="480" y2="520"/>
+    <line class="wall" x1="320" y1="520" x2="480" y2="520"/>
+    <line class="wall-highlight" x1="320" y1="520" x2="480" y2="520"/>
+    <line class="wall-under" x1="500" y1="520" x2="640" y2="520"/>
+    <line class="wall" x1="500" y1="520" x2="640" y2="520"/>
+    <line class="wall-highlight" x1="500" y1="520" x2="640" y2="520"/>
+    <line class="wall-under" x1="300" y1="540" x2="420" y2="540"/>
+    <line class="wall" x1="300" y1="540" x2="420" y2="540"/>
+    <line class="wall-highlight" x1="300" y1="540" x2="420" y2="540"/>
+    <line class="wall-under" x1="400" y1="560" x2="420" y2="560"/>
+    <line class="wall" x1="400" y1="560" x2="420" y2="560"/>
+    <line class="wall-highlight" x1="400" y1="560" x2="420" y2="560"/>
+    <line class="wall-under" x1="520" y1="560" x2="540" y2="560"/>
+    <line class="wall" x1="520" y1="560" x2="540" y2="560"/>
+    <line class="wall-highlight" x1="520" y1="560" x2="540" y2="560"/>
+    <line class="wall-under" x1="560" y1="560" x2="640" y2="560"/>
+    <line class="wall" x1="560" y1="560" x2="640" y2="560"/>
+    <line class="wall-highlight" x1="560" y1="560" x2="640" y2="560"/>
+    <line class="wall-under" x1="680" y1="560" x2="820" y2="560"/>
+    <line class="wall" x1="680" y1="560" x2="820" y2="560"/>
+    <line class="wall-highlight" x1="680" y1="560" x2="820" y2="560"/>
+    <line class="wall-under" x1="60" y1="580" x2="100" y2="580"/>
+    <line class="wall" x1="60" y1="580" x2="100" y2="580"/>
+    <line class="wall-highlight" x1="60" y1="580" x2="100" y2="580"/>
+    <line class="wall-under" x1="360" y1="580" x2="400" y2="580"/>
+    <line class="wall" x1="360" y1="580" x2="400" y2="580"/>
+    <line class="wall-highlight" x1="360" y1="580" x2="400" y2="580"/>
+    <line class="wall-under" x1="220" y1="620" x2="240" y2="620"/>
+    <line class="wall" x1="220" y1="620" x2="240" y2="620"/>
+    <line class="wall-highlight" x1="220" y1="620" x2="240" y2="620"/>
+    <line class="wall-under" x1="420" y1="620" x2="520" y2="620"/>
+    <line class="wall" x1="420" y1="620" x2="520" y2="620"/>
+    <line class="wall-highlight" x1="420" y1="620" x2="520" y2="620"/>
+    <line class="wall-under" x1="240" y1="600" x2="360" y2="600"/>
+    <line class="wall" x1="240" y1="600" x2="360" y2="600"/>
+    <line class="wall-highlight" x1="240" y1="600" x2="360" y2="600"/>
+    <line class="wall-under" x1="60" y1="640" x2="120" y2="640"/>
+    <line class="wall" x1="60" y1="640" x2="120" y2="640"/>
+    <line class="wall-highlight" x1="60" y1="640" x2="120" y2="640"/>
+    <line class="wall-under" x1="680" y1="640" x2="740" y2="640"/>
+    <line class="wall" x1="680" y1="640" x2="740" y2="640"/>
+    <line class="wall-highlight" x1="680" y1="640" x2="740" y2="640"/>
+    <line class="wall-under" x1="380" y1="660" x2="400" y2="660"/>
+    <line class="wall" x1="380" y1="660" x2="400" y2="660"/>
+    <line class="wall-highlight" x1="380" y1="660" x2="400" y2="660"/>
+    <line class="wall-under" x1="460" y1="660" x2="540" y2="660"/>
+    <line class="wall" x1="460" y1="660" x2="540" y2="660"/>
+    <line class="wall-highlight" x1="460" y1="660" x2="540" y2="660"/>
+    <line class="wall-under" x1="740" y1="660" x2="760" y2="660"/>
+    <line class="wall" x1="740" y1="660" x2="760" y2="660"/>
+    <line class="wall-highlight" x1="740" y1="660" x2="760" y2="660"/>
+    <line class="wall-under" x1="360" y1="680" x2="380" y2="680"/>
+    <line class="wall" x1="360" y1="680" x2="380" y2="680"/>
+    <line class="wall-highlight" x1="360" y1="680" x2="380" y2="680"/>
+    <line class="wall-under" x1="420" y1="680" x2="460" y2="680"/>
+    <line class="wall" x1="420" y1="680" x2="460" y2="680"/>
+    <line class="wall-highlight" x1="420" y1="680" x2="460" y2="680"/>
+    <line class="wall-under" x1="400" y1="700" x2="460" y2="700"/>
+    <line class="wall" x1="400" y1="700" x2="460" y2="700"/>
+    <line class="wall-highlight" x1="400" y1="700" x2="460" y2="700"/>
+    <line class="wall-under" x1="540" y1="700" x2="560" y2="700"/>
+    <line class="wall" x1="540" y1="700" x2="560" y2="700"/>
+    <line class="wall-highlight" x1="540" y1="700" x2="560" y2="700"/>
+    <line class="wall-under" x1="620" y1="700" x2="640" y2="700"/>
+    <line class="wall" x1="620" y1="700" x2="640" y2="700"/>
+    <line class="wall-highlight" x1="620" y1="700" x2="640" y2="700"/>
+    <line class="wall-under" x1="120" y1="740" x2="200" y2="740"/>
+    <line class="wall" x1="120" y1="740" x2="200" y2="740"/>
+    <line class="wall-highlight" x1="120" y1="740" x2="200" y2="740"/>
+    <line class="wall-under" x1="200" y1="760" x2="220" y2="760"/>
+    <line class="wall" x1="200" y1="760" x2="220" y2="760"/>
+    <line class="wall-highlight" x1="200" y1="760" x2="220" y2="760"/>
+    <line class="wall-under" x1="240" y1="760" x2="360" y2="760"/>
+    <line class="wall" x1="240" y1="760" x2="360" y2="760"/>
+    <line class="wall-highlight" x1="240" y1="760" x2="360" y2="760"/>
+    <line class="wall-under" x1="460" y1="760" x2="480" y2="760"/>
+    <line class="wall" x1="460" y1="760" x2="480" y2="760"/>
+    <line class="wall-highlight" x1="460" y1="760" x2="480" y2="760"/>
+    <line class="wall-under" x1="520" y1="760" x2="540" y2="760"/>
+    <line class="wall" x1="520" y1="760" x2="540" y2="760"/>
+    <line class="wall-highlight" x1="520" y1="760" x2="540" y2="760"/>
+    <line class="wall-under" x1="200" y1="820" x2="480" y2="820"/>
+    <line class="wall" x1="200" y1="820" x2="480" y2="820"/>
+    <line class="wall-highlight" x1="200" y1="820" x2="480" y2="820"/>
+    <line class="wall-under" x1="520" y1="820" x2="620" y2="820"/>
+    <line class="wall" x1="520" y1="820" x2="620" y2="820"/>
+    <line class="wall-highlight" x1="520" y1="820" x2="620" y2="820"/>
+    <line class="wall-under" x1="220" y1="800" x2="480" y2="800"/>
+    <line class="wall" x1="220" y1="800" x2="480" y2="800"/>
+    <line class="wall-highlight" x1="220" y1="800" x2="480" y2="800"/>
+    <line class="wall-under" x1="520" y1="800" x2="620" y2="800"/>
+    <line class="wall" x1="520" y1="800" x2="620" y2="800"/>
+    <line class="wall-highlight" x1="520" y1="800" x2="620" y2="800"/>
+    <line class="wall-under" x1="120" y1="840" x2="200" y2="840"/>
+    <line class="wall" x1="120" y1="840" x2="200" y2="840"/>
+    <line class="wall-highlight" x1="120" y1="840" x2="200" y2="840"/>
+    <line class="wall-under" x1="440" y1="840" x2="480" y2="840"/>
+    <line class="wall" x1="440" y1="840" x2="480" y2="840"/>
+    <line class="wall-highlight" x1="440" y1="840" x2="480" y2="840"/>
+    <line class="wall-under" x1="620" y1="840" x2="760" y2="840"/>
+    <line class="wall" x1="620" y1="840" x2="760" y2="840"/>
+    <line class="wall-highlight" x1="620" y1="840" x2="760" y2="840"/>
+    <line class="wall-under" x1="480" y1="860" x2="520" y2="860"/>
+    <line class="wall" x1="480" y1="860" x2="520" y2="860"/>
+    <line class="wall-highlight" x1="480" y1="860" x2="520" y2="860"/>
+    <line class="wall-under" x1="440" y1="880" x2="480" y2="880"/>
+    <line class="wall" x1="440" y1="880" x2="480" y2="880"/>
+    <line class="wall-highlight" x1="440" y1="880" x2="480" y2="880"/>
+    <line class="wall-under" x1="440" y1="0" x2="440" y2="60"/>
+    <line class="wall" x1="440" y1="0" x2="440" y2="60"/>
+    <line class="wall-highlight" x1="440" y1="0" x2="440" y2="60"/>
+    <line class="wall-under" x1="440" y1="80" x2="440" y2="100"/>
+    <line class="wall" x1="440" y1="80" x2="440" y2="100"/>
+    <line class="wall-highlight" x1="440" y1="80" x2="440" y2="100"/>
+    <line class="wall-under" x1="440" y1="120" x2="440" y2="140"/>
+    <line class="wall" x1="440" y1="120" x2="440" y2="140"/>
+    <line class="wall-highlight" x1="440" y1="120" x2="440" y2="140"/>
+    <line class="wall-under" x1="440" y1="320" x2="440" y2="340"/>
+    <line class="wall" x1="440" y1="320" x2="440" y2="340"/>
+    <line class="wall-highlight" x1="440" y1="320" x2="440" y2="340"/>
+    <line class="wall-under" x1="440" y1="420" x2="440" y2="440"/>
+    <line class="wall" x1="440" y1="420" x2="440" y2="440"/>
+    <line class="wall-highlight" x1="440" y1="420" x2="440" y2="440"/>
+    <line class="wall-under" x1="440" y1="840" x2="440" y2="880"/>
+    <line class="wall" x1="440" y1="840" x2="440" y2="880"/>
+    <line class="wall-highlight" x1="440" y1="840" x2="440" y2="880"/>
+    <line class="wall-under" x1="480" y1="0" x2="480" y2="20"/>
+    <line class="wall" x1="480" y1="0" x2="480" y2="20"/>
+    <line class="wall-highlight" x1="480" y1="0" x2="480" y2="20"/>
+    <line class="wall-under" x1="480" y1="140" x2="480" y2="240"/>
+    <line class="wall" x1="480" y1="140" x2="480" y2="240"/>
+    <line class="wall-highlight" x1="480" y1="140" x2="480" y2="240"/>
+    <line class="wall-under" x1="480" y1="460" x2="480" y2="520"/>
+    <line class="wall" x1="480" y1="460" x2="480" y2="520"/>
+    <line class="wall-highlight" x1="480" y1="460" x2="480" y2="520"/>
+    <line class="wall-under" x1="480" y1="760" x2="480" y2="800"/>
+    <line class="wall" x1="480" y1="760" x2="480" y2="800"/>
+    <line class="wall-highlight" x1="480" y1="760" x2="480" y2="800"/>
+    <line class="wall-under" x1="480" y1="820" x2="480" y2="840"/>
+    <line class="wall" x1="480" y1="820" x2="480" y2="840"/>
+    <line class="wall-highlight" x1="480" y1="820" x2="480" y2="840"/>
+    <line class="wall-under" x1="480" y1="860" x2="480" y2="880"/>
+    <line class="wall" x1="480" y1="860" x2="480" y2="880"/>
+    <line class="wall-highlight" x1="480" y1="860" x2="480" y2="880"/>
+    <line class="wall-under" x1="500" y1="20" x2="500" y2="40"/>
+    <line class="wall" x1="500" y1="20" x2="500" y2="40"/>
+    <line class="wall-highlight" x1="500" y1="20" x2="500" y2="40"/>
+    <line class="wall-under" x1="500" y1="140" x2="500" y2="240"/>
+    <line class="wall" x1="500" y1="140" x2="500" y2="240"/>
+    <line class="wall-highlight" x1="500" y1="140" x2="500" y2="240"/>
+    <line class="wall-under" x1="500" y1="340" x2="500" y2="420"/>
+    <line class="wall" x1="500" y1="340" x2="500" y2="420"/>
+    <line class="wall-highlight" x1="500" y1="340" x2="500" y2="420"/>
+    <line class="wall-under" x1="500" y1="480" x2="500" y2="520"/>
+    <line class="wall" x1="500" y1="480" x2="500" y2="520"/>
+    <line class="wall-highlight" x1="500" y1="480" x2="500" y2="520"/>
+    <line class="wall-under" x1="180" y1="40" x2="180" y2="140"/>
+    <line class="wall" x1="180" y1="40" x2="180" y2="140"/>
+    <line class="wall-highlight" x1="180" y1="40" x2="180" y2="140"/>
+    <line class="wall-under" x1="260" y1="40" x2="260" y2="100"/>
+    <line class="wall" x1="260" y1="40" x2="260" y2="100"/>
+    <line class="wall-highlight" x1="260" y1="40" x2="260" y2="100"/>
+    <line class="wall-under" x1="260" y1="120" x2="260" y2="140"/>
+    <line class="wall" x1="260" y1="120" x2="260" y2="140"/>
+    <line class="wall-highlight" x1="260" y1="120" x2="260" y2="140"/>
+    <line class="wall-under" x1="260" y1="300" x2="260" y2="380"/>
+    <line class="wall" x1="260" y1="300" x2="260" y2="380"/>
+    <line class="wall-highlight" x1="260" y1="300" x2="260" y2="380"/>
+    <line class="wall-under" x1="540" y1="40" x2="540" y2="100"/>
+    <line class="wall" x1="540" y1="40" x2="540" y2="100"/>
+    <line class="wall-highlight" x1="540" y1="40" x2="540" y2="100"/>
+    <line class="wall-under" x1="540" y1="560" x2="540" y2="660"/>
+    <line class="wall" x1="540" y1="560" x2="540" y2="660"/>
+    <line class="wall-highlight" x1="540" y1="560" x2="540" y2="660"/>
+    <line class="wall-under" x1="540" y1="700" x2="540" y2="760"/>
+    <line class="wall" x1="540" y1="700" x2="540" y2="760"/>
+    <line class="wall-highlight" x1="540" y1="700" x2="540" y2="760"/>
+    <line class="wall-under" x1="40" y1="60" x2="40" y2="100"/>
+    <line class="wall" x1="40" y1="60" x2="40" y2="100"/>
+    <line class="wall-highlight" x1="40" y1="60" x2="40" y2="100"/>
+    <line class="wall-under" x1="40" y1="240" x2="40" y2="320"/>
+    <line class="wall" x1="40" y1="240" x2="40" y2="320"/>
+    <line class="wall-highlight" x1="40" y1="240" x2="40" y2="320"/>
+    <line class="wall-under" x1="80" y1="60" x2="80" y2="80"/>
+    <line class="wall" x1="80" y1="60" x2="80" y2="80"/>
+    <line class="wall-highlight" x1="80" y1="60" x2="80" y2="80"/>
+    <line class="wall-under" x1="80" y1="180" x2="80" y2="240"/>
+    <line class="wall" x1="80" y1="180" x2="80" y2="240"/>
+    <line class="wall-highlight" x1="80" y1="180" x2="80" y2="240"/>
+    <line class="wall-under" x1="80" y1="420" x2="80" y2="480"/>
+    <line class="wall" x1="80" y1="420" x2="80" y2="480"/>
+    <line class="wall-highlight" x1="80" y1="420" x2="80" y2="480"/>
+    <line class="wall-under" x1="460" y1="60" x2="460" y2="80"/>
+    <line class="wall" x1="460" y1="60" x2="460" y2="80"/>
+    <line class="wall-highlight" x1="460" y1="60" x2="460" y2="80"/>
+    <line class="wall-under" x1="460" y1="140" x2="460" y2="220"/>
+    <line class="wall" x1="460" y1="140" x2="460" y2="220"/>
+    <line class="wall-highlight" x1="460" y1="140" x2="460" y2="220"/>
+    <line class="wall-under" x1="460" y1="660" x2="460" y2="680"/>
+    <line class="wall" x1="460" y1="660" x2="460" y2="680"/>
+    <line class="wall-highlight" x1="460" y1="660" x2="460" y2="680"/>
+    <line class="wall-under" x1="460" y1="700" x2="460" y2="760"/>
+    <line class="wall" x1="460" y1="700" x2="460" y2="760"/>
+    <line class="wall-highlight" x1="460" y1="700" x2="460" y2="760"/>
+    <line class="wall-under" x1="100" y1="80" x2="100" y2="120"/>
+    <line class="wall" x1="100" y1="80" x2="100" y2="120"/>
+    <line class="wall-highlight" x1="100" y1="80" x2="100" y2="120"/>
+    <line class="wall-under" x1="100" y1="500" x2="100" y2="580"/>
+    <line class="wall" x1="100" y1="500" x2="100" y2="580"/>
+    <line class="wall-highlight" x1="100" y1="500" x2="100" y2="580"/>
+    <line class="wall-under" x1="60" y1="100" x2="60" y2="240"/>
+    <line class="wall" x1="60" y1="100" x2="60" y2="240"/>
+    <line class="wall-highlight" x1="60" y1="100" x2="60" y2="240"/>
+    <line class="wall-under" x1="60" y1="580" x2="60" y2="640"/>
+    <line class="wall" x1="60" y1="580" x2="60" y2="640"/>
+    <line class="wall-highlight" x1="60" y1="580" x2="60" y2="640"/>
+    <line class="wall-under" x1="520" y1="100" x2="520" y2="120"/>
+    <line class="wall" x1="520" y1="100" x2="520" y2="120"/>
+    <line class="wall-highlight" x1="520" y1="100" x2="520" y2="120"/>
+    <line class="wall-under" x1="520" y1="140" x2="520" y2="300"/>
+    <line class="wall" x1="520" y1="140" x2="520" y2="300"/>
+    <line class="wall-highlight" x1="520" y1="140" x2="520" y2="300"/>
+    <line class="wall-under" x1="520" y1="320" x2="520" y2="480"/>
+    <line class="wall" x1="520" y1="320" x2="520" y2="480"/>
+    <line class="wall-highlight" x1="520" y1="320" x2="520" y2="480"/>
+    <line class="wall-under" x1="520" y1="560" x2="520" y2="620"/>
+    <line class="wall" x1="520" y1="560" x2="520" y2="620"/>
+    <line class="wall-highlight" x1="520" y1="560" x2="520" y2="620"/>
+    <line class="wall-under" x1="520" y1="760" x2="520" y2="800"/>
+    <line class="wall" x1="520" y1="760" x2="520" y2="800"/>
+    <line class="wall-highlight" x1="520" y1="760" x2="520" y2="800"/>
+    <line class="wall-under" x1="520" y1="820" x2="520" y2="860"/>
+    <line class="wall" x1="520" y1="820" x2="520" y2="860"/>
+    <line class="wall-highlight" x1="520" y1="820" x2="520" y2="860"/>
+    <line class="wall-under" x1="580" y1="100" x2="580" y2="120"/>
+    <line class="wall" x1="580" y1="100" x2="580" y2="120"/>
+    <line class="wall-highlight" x1="580" y1="100" x2="580" y2="120"/>
+    <line class="wall-under" x1="580" y1="140" x2="580" y2="180"/>
+    <line class="wall" x1="580" y1="140" x2="580" y2="180"/>
+    <line class="wall-highlight" x1="580" y1="140" x2="580" y2="180"/>
+    <line class="wall-under" x1="580" y1="420" x2="580" y2="480"/>
+    <line class="wall" x1="580" y1="420" x2="580" y2="480"/>
+    <line class="wall-highlight" x1="580" y1="420" x2="580" y2="480"/>
+    <line class="wall-under" x1="660" y1="100" x2="660" y2="160"/>
+    <line class="wall" x1="660" y1="100" x2="660" y2="160"/>
+    <line class="wall-highlight" x1="660" y1="100" x2="660" y2="160"/>
+    <line class="wall-under" x1="660" y1="340" x2="660" y2="400"/>
+    <line class="wall" x1="660" y1="340" x2="660" y2="400"/>
+    <line class="wall-highlight" x1="660" y1="340" x2="660" y2="400"/>
+    <line class="wall-under" x1="140" y1="120" x2="140" y2="160"/>
+    <line class="wall" x1="140" y1="120" x2="140" y2="160"/>
+    <line class="wall-highlight" x1="140" y1="120" x2="140" y2="160"/>
+    <line class="wall-under" x1="140" y1="460" x2="140" y2="500"/>
+    <line class="wall" x1="140" y1="460" x2="140" y2="500"/>
+    <line class="wall-highlight" x1="140" y1="460" x2="140" y2="500"/>
+    <line class="wall-under" x1="340" y1="120" x2="340" y2="160"/>
+    <line class="wall" x1="340" y1="120" x2="340" y2="160"/>
+    <line class="wall-highlight" x1="340" y1="120" x2="340" y2="160"/>
+    <line class="wall-under" x1="340" y1="180" x2="340" y2="240"/>
+    <line class="wall" x1="340" y1="180" x2="340" y2="240"/>
+    <line class="wall-highlight" x1="340" y1="180" x2="340" y2="240"/>
+    <line class="wall-under" x1="340" y1="300" x2="340" y2="320"/>
+    <line class="wall" x1="340" y1="300" x2="340" y2="320"/>
+    <line class="wall-highlight" x1="340" y1="300" x2="340" y2="320"/>
+    <line class="wall-under" x1="360" y1="120" x2="360" y2="240"/>
+    <line class="wall" x1="360" y1="120" x2="360" y2="240"/>
+    <line class="wall-highlight" x1="360" y1="120" x2="360" y2="240"/>
+    <line class="wall-under" x1="360" y1="280" x2="360" y2="300"/>
+    <line class="wall" x1="360" y1="280" x2="360" y2="300"/>
+    <line class="wall-highlight" x1="360" y1="280" x2="360" y2="300"/>
+    <line class="wall-under" x1="360" y1="580" x2="360" y2="600"/>
+    <line class="wall" x1="360" y1="580" x2="360" y2="600"/>
+    <line class="wall-highlight" x1="360" y1="580" x2="360" y2="600"/>
+    <line class="wall-under" x1="360" y1="680" x2="360" y2="760"/>
+    <line class="wall" x1="360" y1="680" x2="360" y2="760"/>
+    <line class="wall-highlight" x1="360" y1="680" x2="360" y2="760"/>
+    <line class="wall-under" x1="720" y1="120" x2="720" y2="160"/>
+    <line class="wall" x1="720" y1="120" x2="720" y2="160"/>
+    <line class="wall-highlight" x1="720" y1="120" x2="720" y2="160"/>
+    <line class="wall-under" x1="720" y1="180" x2="720" y2="260"/>
+    <line class="wall" x1="720" y1="180" x2="720" y2="260"/>
+    <line class="wall-highlight" x1="720" y1="180" x2="720" y2="260"/>
+    <line class="wall-under" x1="840" y1="120" x2="840" y2="300"/>
+    <line class="wall" x1="840" y1="120" x2="840" y2="300"/>
+    <line class="wall-highlight" x1="840" y1="120" x2="840" y2="300"/>
+    <line class="wall-under" x1="200" y1="140" x2="200" y2="160"/>
+    <line class="wall" x1="200" y1="140" x2="200" y2="160"/>
+    <line class="wall-highlight" x1="200" y1="140" x2="200" y2="160"/>
+    <line class="wall-under" x1="200" y1="300" x2="200" y2="360"/>
+    <line class="wall" x1="200" y1="300" x2="200" y2="360"/>
+    <line class="wall-highlight" x1="200" y1="300" x2="200" y2="360"/>
+    <line class="wall-under" x1="200" y1="400" x2="200" y2="500"/>
+    <line class="wall" x1="200" y1="400" x2="200" y2="500"/>
+    <line class="wall-highlight" x1="200" y1="400" x2="200" y2="500"/>
+    <line class="wall-under" x1="200" y1="740" x2="200" y2="760"/>
+    <line class="wall" x1="200" y1="740" x2="200" y2="760"/>
+    <line class="wall-highlight" x1="200" y1="740" x2="200" y2="760"/>
+    <line class="wall-under" x1="200" y1="820" x2="200" y2="840"/>
+    <line class="wall" x1="200" y1="820" x2="200" y2="840"/>
+    <line class="wall-highlight" x1="200" y1="820" x2="200" y2="840"/>
+    <line class="wall-under" x1="240" y1="140" x2="240" y2="160"/>
+    <line class="wall" x1="240" y1="140" x2="240" y2="160"/>
+    <line class="wall-highlight" x1="240" y1="140" x2="240" y2="160"/>
+    <line class="wall-under" x1="240" y1="180" x2="240" y2="280"/>
+    <line class="wall" x1="240" y1="180" x2="240" y2="280"/>
+    <line class="wall-highlight" x1="240" y1="180" x2="240" y2="280"/>
+    <line class="wall-under" x1="240" y1="380" x2="240" y2="420"/>
+    <line class="wall" x1="240" y1="380" x2="240" y2="420"/>
+    <line class="wall-highlight" x1="240" y1="380" x2="240" y2="420"/>
+    <line class="wall-under" x1="240" y1="500" x2="240" y2="600"/>
+    <line class="wall" x1="240" y1="500" x2="240" y2="600"/>
+    <line class="wall-highlight" x1="240" y1="500" x2="240" y2="600"/>
+    <line class="wall-under" x1="240" y1="620" x2="240" y2="760"/>
+    <line class="wall" x1="240" y1="620" x2="240" y2="760"/>
+    <line class="wall-highlight" x1="240" y1="620" x2="240" y2="760"/>
+    <line class="wall-under" x1="220" y1="180" x2="220" y2="260"/>
+    <line class="wall" x1="220" y1="180" x2="220" y2="260"/>
+    <line class="wall-highlight" x1="220" y1="180" x2="220" y2="260"/>
+    <line class="wall-under" x1="220" y1="280" x2="220" y2="300"/>
+    <line class="wall" x1="220" y1="280" x2="220" y2="300"/>
+    <line class="wall-highlight" x1="220" y1="280" x2="220" y2="300"/>
+    <line class="wall-under" x1="220" y1="360" x2="220" y2="400"/>
+    <line class="wall" x1="220" y1="360" x2="220" y2="400"/>
+    <line class="wall-highlight" x1="220" y1="360" x2="220" y2="400"/>
+    <line class="wall-under" x1="220" y1="520" x2="220" y2="620"/>
+    <line class="wall" x1="220" y1="520" x2="220" y2="620"/>
+    <line class="wall-highlight" x1="220" y1="520" x2="220" y2="620"/>
+    <line class="wall-under" x1="220" y1="760" x2="220" y2="800"/>
+    <line class="wall" x1="220" y1="760" x2="220" y2="800"/>
+    <line class="wall-highlight" x1="220" y1="760" x2="220" y2="800"/>
+    <line class="wall-under" x1="420" y1="220" x2="420" y2="240"/>
+    <line class="wall" x1="420" y1="220" x2="420" y2="240"/>
+    <line class="wall-highlight" x1="420" y1="220" x2="420" y2="240"/>
+    <line class="wall-under" x1="420" y1="280" x2="420" y2="300"/>
+    <line class="wall" x1="420" y1="280" x2="420" y2="300"/>
+    <line class="wall-highlight" x1="420" y1="280" x2="420" y2="300"/>
+    <line class="wall-under" x1="420" y1="540" x2="420" y2="560"/>
+    <line class="wall" x1="420" y1="540" x2="420" y2="560"/>
+    <line class="wall-highlight" x1="420" y1="540" x2="420" y2="560"/>
+    <line class="wall-under" x1="420" y1="620" x2="420" y2="680"/>
+    <line class="wall" x1="420" y1="620" x2="420" y2="680"/>
+    <line class="wall-highlight" x1="420" y1="620" x2="420" y2="680"/>
+    <line class="wall-under" x1="120" y1="240" x2="120" y2="260"/>
+    <line class="wall" x1="120" y1="240" x2="120" y2="260"/>
+    <line class="wall-highlight" x1="120" y1="240" x2="120" y2="260"/>
+    <line class="wall-under" x1="120" y1="280" x2="120" y2="320"/>
+    <line class="wall" x1="120" y1="280" x2="120" y2="320"/>
+    <line class="wall-highlight" x1="120" y1="280" x2="120" y2="320"/>
+    <line class="wall-under" x1="120" y1="420" x2="120" y2="460"/>
+    <line class="wall" x1="120" y1="420" x2="120" y2="460"/>
+    <line class="wall-highlight" x1="120" y1="420" x2="120" y2="460"/>
+    <line class="wall-under" x1="120" y1="480" x2="120" y2="500"/>
+    <line class="wall" x1="120" y1="480" x2="120" y2="500"/>
+    <line class="wall-highlight" x1="120" y1="480" x2="120" y2="500"/>
+    <line class="wall-under" x1="120" y1="520" x2="120" y2="640"/>
+    <line class="wall" x1="120" y1="520" x2="120" y2="640"/>
+    <line class="wall-highlight" x1="120" y1="520" x2="120" y2="640"/>
+    <line class="wall-under" x1="120" y1="740" x2="120" y2="840"/>
+    <line class="wall" x1="120" y1="740" x2="120" y2="840"/>
+    <line class="wall-highlight" x1="120" y1="740" x2="120" y2="840"/>
+    <line class="wall-under" x1="280" y1="240" x2="280" y2="280"/>
+    <line class="wall" x1="280" y1="240" x2="280" y2="280"/>
+    <line class="wall-highlight" x1="280" y1="240" x2="280" y2="280"/>
+    <line class="wall-under" x1="280" y1="480" x2="280" y2="500"/>
+    <line class="wall" x1="280" y1="480" x2="280" y2="500"/>
+    <line class="wall-highlight" x1="280" y1="480" x2="280" y2="500"/>
+    <line class="wall-under" x1="620" y1="260" x2="620" y2="300"/>
+    <line class="wall" x1="620" y1="260" x2="620" y2="300"/>
+    <line class="wall-highlight" x1="620" y1="260" x2="620" y2="300"/>
+    <line class="wall-under" x1="620" y1="320" x2="620" y2="400"/>
+    <line class="wall" x1="620" y1="320" x2="620" y2="400"/>
+    <line class="wall-highlight" x1="620" y1="320" x2="620" y2="400"/>
+    <line class="wall-under" x1="620" y1="420" x2="620" y2="480"/>
+    <line class="wall" x1="620" y1="420" x2="620" y2="480"/>
+    <line class="wall-highlight" x1="620" y1="420" x2="620" y2="480"/>
+    <line class="wall-under" x1="620" y1="700" x2="620" y2="800"/>
+    <line class="wall" x1="620" y1="700" x2="620" y2="800"/>
+    <line class="wall-highlight" x1="620" y1="700" x2="620" y2="800"/>
+    <line class="wall-under" x1="620" y1="820" x2="620" y2="840"/>
+    <line class="wall" x1="620" y1="820" x2="620" y2="840"/>
+    <line class="wall-highlight" x1="620" y1="820" x2="620" y2="840"/>
+    <line class="wall-under" x1="680" y1="260" x2="680" y2="300"/>
+    <line class="wall" x1="680" y1="260" x2="680" y2="300"/>
+    <line class="wall-highlight" x1="680" y1="260" x2="680" y2="300"/>
+    <line class="wall-under" x1="680" y1="400" x2="680" y2="440"/>
+    <line class="wall" x1="680" y1="400" x2="680" y2="440"/>
+    <line class="wall-highlight" x1="680" y1="400" x2="680" y2="440"/>
+    <line class="wall-under" x1="680" y1="560" x2="680" y2="640"/>
+    <line class="wall" x1="680" y1="560" x2="680" y2="640"/>
+    <line class="wall-highlight" x1="680" y1="560" x2="680" y2="640"/>
+    <line class="wall-under" x1="700" y1="260" x2="700" y2="300"/>
+    <line class="wall" x1="700" y1="260" x2="700" y2="300"/>
+    <line class="wall-highlight" x1="700" y1="260" x2="700" y2="300"/>
+    <line class="wall-under" x1="700" y1="380" x2="700" y2="440"/>
+    <line class="wall" x1="700" y1="380" x2="700" y2="440"/>
+    <line class="wall-highlight" x1="700" y1="380" x2="700" y2="440"/>
+    <line class="wall-under" x1="760" y1="300" x2="760" y2="340"/>
+    <line class="wall" x1="760" y1="300" x2="760" y2="340"/>
+    <line class="wall-highlight" x1="760" y1="300" x2="760" y2="340"/>
+    <line class="wall-under" x1="760" y1="660" x2="760" y2="840"/>
+    <line class="wall" x1="760" y1="660" x2="760" y2="840"/>
+    <line class="wall-highlight" x1="760" y1="660" x2="760" y2="840"/>
+    <line class="wall-under" x1="820" y1="380" x2="820" y2="560"/>
+    <line class="wall" x1="820" y1="380" x2="820" y2="560"/>
+    <line class="wall-highlight" x1="820" y1="380" x2="820" y2="560"/>
+    <line class="wall-under" x1="600" y1="400" x2="600" y2="420"/>
+    <line class="wall" x1="600" y1="400" x2="600" y2="420"/>
+    <line class="wall-highlight" x1="600" y1="400" x2="600" y2="420"/>
+    <line class="wall-under" x1="300" y1="420" x2="300" y2="440"/>
+    <line class="wall" x1="300" y1="420" x2="300" y2="440"/>
+    <line class="wall-highlight" x1="300" y1="420" x2="300" y2="440"/>
+    <line class="wall-under" x1="300" y1="480" x2="300" y2="540"/>
+    <line class="wall" x1="300" y1="480" x2="300" y2="540"/>
+    <line class="wall-highlight" x1="300" y1="480" x2="300" y2="540"/>
+    <line class="wall-under" x1="640" y1="420" x2="640" y2="520"/>
+    <line class="wall" x1="640" y1="420" x2="640" y2="520"/>
+    <line class="wall-highlight" x1="640" y1="420" x2="640" y2="520"/>
+    <line class="wall-under" x1="640" y1="560" x2="640" y2="700"/>
+    <line class="wall" x1="640" y1="560" x2="640" y2="700"/>
+    <line class="wall-highlight" x1="640" y1="560" x2="640" y2="700"/>
+    <line class="wall-under" x1="320" y1="460" x2="320" y2="520"/>
+    <line class="wall" x1="320" y1="460" x2="320" y2="520"/>
+    <line class="wall-highlight" x1="320" y1="460" x2="320" y2="520"/>
+    <line class="wall-under" x1="400" y1="560" x2="400" y2="580"/>
+    <line class="wall" x1="400" y1="560" x2="400" y2="580"/>
+    <line class="wall-highlight" x1="400" y1="560" x2="400" y2="580"/>
+    <line class="wall-under" x1="400" y1="660" x2="400" y2="700"/>
+    <line class="wall" x1="400" y1="660" x2="400" y2="700"/>
+    <line class="wall-highlight" x1="400" y1="660" x2="400" y2="700"/>
+    <line class="wall-under" x1="560" y1="560" x2="560" y2="700"/>
+    <line class="wall" x1="560" y1="560" x2="560" y2="700"/>
+    <line class="wall-highlight" x1="560" y1="560" x2="560" y2="700"/>
+    <line class="wall-under" x1="740" y1="640" x2="740" y2="660"/>
+    <line class="wall" x1="740" y1="640" x2="740" y2="660"/>
+    <line class="wall-highlight" x1="740" y1="640" x2="740" y2="660"/>
+    <line class="wall-under" x1="380" y1="660" x2="380" y2="680"/>
+    <line class="wall" x1="380" y1="660" x2="380" y2="680"/>
+    <line class="wall-highlight" x1="380" y1="660" x2="380" y2="680"/>
+  </g>
+  <g class="map-frame">
+      <rect class="frame-outer" x="1.6" y="1.6" width="876.8" height="876.8" rx="1"/>
+      <rect class="frame-inner" x="4.4" y="4.4" width="871.2" height="871.2" rx="1"/>
+    </g>
+  <g class="features">
+    <circle class="well-outer" cx="70" cy="90" r="4.800000000000001"/>
+      <circle class="well-inner" cx="70" cy="90" r="2.4000000000000004"/>
+    <rect class="door" x="266.88" y="102.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <rect class="door" x="486.88" y="122.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <rect class="door" x="202.98" y="146.88" width="14.040000000000001" height="6.240000000000001" rx="1"/>
+    <circle class="pillar" cx="750" cy="150" r="3.5999999999999996"/>
+    <circle class="pillar" cx="810" cy="150" r="3.5999999999999996"/>
+    <rect class="door-locked" x="706.88" y="162.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+      <circle class="door-locked-key" cx="710" cy="170" r="1.4040000000000001"/>
+    <circle class="pillar" cx="750" cy="190" r="3.5999999999999996"/>
+    <circle class="pillar" cx="810" cy="190" r="3.5999999999999996"/>
+    <rect class="door" x="62.98" y="226.88" width="14.040000000000001" height="6.240000000000001" rx="1"/>
+    <circle class="pillar" cx="750" cy="230" r="3.5999999999999996"/>
+    <circle class="pillar" cx="810" cy="230" r="3.5999999999999996"/>
+    <rect class="sarcophagus" x="83.4" y="267" width="13.200000000000001" height="6" rx="2"/>
+      <rect class="sarcophagus-lid" x="85.2" y="268.2" width="9.600000000000001" height="3.5999999999999996" rx="1"/>
+    <rect class="door" x="406.88" y="262.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <rect class="door" x="706.88" y="262.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <circle class="pillar" cx="750" cy="290" r="3.5999999999999996"/>
+    <rect class="throne" x="786.4" y="285.2" width="7.199999999999999" height="9.600000000000001" rx="2"/>
+      <rect class="throne-seat" x="787" y="290" width="6" height="3.5999999999999996"/>
+      <line class="throne-arm" x1="786.4" y1="290" x2="786.4" y2="293"/>
+      <line class="throne-arm" x1="793.6" y1="290" x2="793.6" y2="293"/>
+    <circle class="pillar" cx="810" cy="290" r="3.5999999999999996"/>
+    <rect class="door-locked" x="466.88" y="302.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+      <circle class="door-locked-key" cx="470" cy="310" r="1.4040000000000001"/>
+    <line class="door-secret" x1="742" y1="310" x2="758" y2="310"/>
+      <text class="secret-label" x="750" y="311" font-size="9" text-anchor="middle" dominant-baseline="central">S</text>
+    <circle class="pillar" cx="710" cy="410" r="3.5999999999999996"/>
+    <circle class="pillar" cx="770" cy="410" r="3.5999999999999996"/>
+    <rect class="statue-base" x="225.8" y="425.8" width="8.399999999999999" height="8.399999999999999"/>
+      <circle class="statue" cx="230" cy="430" r="2.7"/>
+    <rect class="statue-base" x="265.8" y="425.8" width="8.399999999999999" height="8.399999999999999"/>
+      <circle class="statue" cx="270" cy="430" r="2.7"/>
+    <rect class="statue-base" x="445.8" y="425.8" width="8.399999999999999" height="8.399999999999999"/>
+      <circle class="statue" cx="450" cy="430" r="2.7"/>
+    <rect class="statue-base" x="485.8" y="425.8" width="8.399999999999999" height="8.399999999999999"/>
+      <circle class="statue" cx="490" cy="430" r="2.7"/>
+    <rect class="door" x="666.88" y="462.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <circle class="pillar" cx="710" cy="470" r="3.5999999999999996"/>
+    <circle class="pillar" cx="770" cy="470" r="3.5999999999999996"/>
+    <rect class="door" x="666.88" y="522.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <circle class="pillar" cx="710" cy="530" r="3.5999999999999996"/>
+    <circle class="pillar" cx="770" cy="530" r="3.5999999999999996"/>
+    <line class="door-secret" x1="102" y1="570" x2="118" y2="570"/>
+      <text class="secret-label" x="110" y="571" font-size="9" text-anchor="middle" dominant-baseline="central">S</text>
+    <rect class="door" x="426.88" y="582.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <rect class="door" x="326.88" y="602.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <circle class="pillar" cx="270" cy="650" r="3.5999999999999996"/>
+    <circle class="pillar" cx="330" cy="650" r="3.5999999999999996"/>
+    <rect class="door" x="726.88" y="642.98" width="6.240000000000001" height="14.040000000000001" rx="1"/>
+    <circle class="pillar" cx="470" cy="690" r="3.5999999999999996"/>
+    <circle class="pillar" cx="530" cy="690" r="3.5999999999999996"/>
+    <circle class="pillar" cx="270" cy="710" r="3.5999999999999996"/>
+    <circle class="pillar" cx="330" cy="710" r="3.5999999999999996"/>
+    <circle class="pillar" cx="470" cy="730" r="3.5999999999999996"/>
+    <circle class="pillar" cx="530" cy="730" r="3.5999999999999996"/>
+    <rect class="altar" x="504" y="747" width="12" height="7.199999999999999" rx="1"/>
+      <line class="altar-cross" x1="510" y1="748.2" x2="510" y2="751.8"/>
+      <line class="altar-cross" x1="508.2" y1="749.7" x2="511.8" y2="749.7"/>
+    <circle class="pillar" cx="630" cy="750" r="3.5999999999999996"/>
+    <circle class="firepit" cx="690" cy="750" r="4.199999999999999"/>
+      <polygon class="firepit-flame" points="690,747 688.8,750.6 691.2,750.6"/>
+      <polygon class="firepit-flame" points="688.2,748.8 687.3,751.2 689.1,751.2"/>
+      <polygon class="firepit-flame" points="691.8,748.8 690.9,751.2 692.7,751.2"/>
+    <circle class="pillar" cx="750" cy="750" r="3.5999999999999996"/>
+    <circle class="pillar" cx="130" cy="790" r="3.5999999999999996"/>
+    <circle class="firepit" cx="170" cy="790" r="4.199999999999999"/>
+      <polygon class="firepit-flame" points="170,787 168.8,790.6 171.2,790.6"/>
+      <polygon class="firepit-flame" points="168.2,788.8 167.3,791.2 169.1,791.2"/>
+      <polygon class="firepit-flame" points="171.8,788.8 170.9,791.2 172.7,791.2"/>
+    <circle class="pillar" cx="190" cy="790" r="3.5999999999999996"/>
+  </g>
+  <g class="labels">
+    <rect class="room-tag" x="681.5999999999999" y="383.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="688.4999999999999" y="390.096">1</text>
+    <rect class="room-tag" x="621.5999999999999" y="663.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="628.4999999999999" y="670.096">2</text>
+    <rect class="room-tag" x="721.5999999999999" y="123.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="728.4999999999999" y="130.096">3</text>
+    <rect class="room-tag" x="241.6" y="623.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="248.5" y="630.096">4</text>
+    <rect class="room-tag" x="181.6" y="43.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="188.5" y="50.096000000000004">5</text>
+    <rect class="room-tag" x="461.59999999999997" y="663.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="468.49999999999994" y="670.096">6</text>
+    <rect class="room-tag" x="121.6" y="743.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="128.5" y="750.096">7</text>
+    <rect class="room-tag" x="441.59999999999997" y="543.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="448.49999999999994" y="550.096">8</text>
+    <rect class="room-tag" x="461.59999999999997" y="43.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="468.49999999999994" y="50.096000000000004">9</text>
+    <rect class="room-tag" x="221.6" y="423.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="228.5" y="430.096">A</text>
+    <rect class="room-tag" x="421.59999999999997" y="223.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="428.49999999999994" y="230.096">B</text>
+    <rect class="room-tag" x="41.6" y="243.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="48.5" y="250.096">C</text>
+    <rect class="room-tag" x="601.5999999999999" y="103.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="608.4999999999999" y="110.09599999999999">D</text>
+    <rect class="room-tag" x="61.6" y="583.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="68.5" y="590.096">E</text>
+    <rect class="room-tag" x="621.5999999999999" y="263.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="628.4999999999999" y="270.096">F</text>
+    <rect class="room-tag" x="281.6" y="243.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="288.5" y="250.096">G</text>
+    <rect class="room-tag" x="81.6" y="423.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="88.5" y="430.096">H</text>
+    <rect class="room-tag" x="441.59999999999997" y="423.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="448.49999999999994" y="430.096">I</text>
+    <rect class="room-tag" x="201.6" y="303.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="208.5" y="310.096">J</text>
+    <rect class="room-tag" x="581.5999999999999" y="423.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="588.4999999999999" y="430.096">K</text>
+    <rect class="room-tag" x="41.6" y="63.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="48.5" y="70.096">L</text>
+    <rect class="room-tag" x="81.6" y="143.6" width="13.799999999999999" height="11.200000000000001" rx="1.6"/>
+    <text class="room-number" x="88.5" y="150.096">M</text>
+  </g>
+  <g class="compass-group">
+    <g class="compass" transform="translate(830,810)">
+      <circle class="compass-fill" cx="0" cy="0" r="19.95"/>
+      <circle class="compass-stroke" cx="0" cy="0" r="19.95"/>
+      <polygon class="compass-dark" points="0,-25.2 6.3,0 0,9.450000000000001 -6.3,0"/>
+      <polygon class="compass-light" points="-25.2,0 0,6.3 9.450000000000001,0 0,-6.3"/>
+      <polygon class="compass-stroke" points="0,-25.2 6.3,0 0,9.450000000000001 -6.3,0"/>
+      <polygon class="compass-stroke" points="-25.2,0 0,6.3 9.450000000000001,0 0,-6.3"/>
+      <circle class="compass-dark" cx="0" cy="28.35" r="2.9400000000000004"/>
+      <circle class="compass-fill" cx="0" cy="28.35" r="1.68"/>
+      <text class="compass-text" x="0" y="36.75" dominant-baseline="hanging">North</text>
+    </g>
+  </g>
+  <g class="legend" transform="translate(20,890)">
+      <rect class="legend-box" x="0" y="0" width="552.8" height="147.8" rx="3"/>
+      <text class="legend-title" x="12.4" y="29.950000000000003">LEGEND</text>
+      <rect class="scale-box" x="490.4" y="15.100000000000001" width="20" height="20"/>
+      <text class="legend-text" x="514.4" y="29.950000000000003">= 10ft.</text>
+      <line class="legend-sym" x1="12.4" y1="39.4" x2="540.4" y2="39.4" stroke-width="0.8"/>
+      <rect class="door" x="14.843600000000002" y="52.84160000000001" width="11.512799999999999" height="5.1168" rx="1"/>
+      <text class="legend-text" x="32.8" y="55.4" dominant-baseline="central">Door</text>
+      <rect class="door-locked" x="146.84359999999998" y="52.84160000000001" width="11.512799999999999" height="5.1168" rx="1"/>
+      <circle class="door-locked-key" cx="152.6" cy="55.400000000000006" r="1.1512799999999999"/>
+      <text class="legend-text" x="164.8" y="55.4" dominant-baseline="central">Locked Door</text>
+      <line class="door-secret" x1="278.4" y1="55.400000000000006" x2="290.79999999999995" y2="55.400000000000006"/>
+      <text class="secret-label" x="284.59999999999997" y="56.400000000000006" font-size="7.38" text-anchor="middle" dominant-baseline="central">S</text>
+      <text class="legend-text" x="296.79999999999995" y="55.4" dominant-baseline="central">Secret Door</text>
+      <circle class="pillar" cx="416.59999999999997" cy="55.400000000000006" r="2.9519999999999995"/>
+      <text class="legend-text" x="428.79999999999995" y="55.4" dominant-baseline="central">Column</text>
+      <rect class="statue-base" x="17.156000000000002" y="83.956" width="6.887999999999998" height="6.887999999999998"/>
+      <circle class="statue" cx="20.6" cy="87.4" r="2.2139999999999995"/>
+      <text class="legend-text" x="32.8" y="87.4" dominant-baseline="central">Statue</text>
+      <rect class="altar" x="147.68" y="84.94000000000001" width="9.839999999999998" height="5.903999999999999" rx="1"/>
+      <line class="altar-cross" x1="152.6" y1="85.924" x2="152.6" y2="88.876"/>
+      <line class="altar-cross" x1="151.124" y1="87.15400000000001" x2="154.076" y2="87.15400000000001"/>
+      <text class="legend-text" x="164.8" y="87.4" dominant-baseline="central">Altar</text>
+      <circle class="well-outer" cx="284.59999999999997" cy="87.4" r="3.9359999999999995"/>
+      <circle class="well-inner" cx="284.59999999999997" cy="87.4" r="1.9679999999999997"/>
+      <text class="legend-text" x="296.79999999999995" y="87.4" dominant-baseline="central">Well</text>
+      <circle class="firepit" cx="416.59999999999997" cy="87.4" r="3.443999999999999"/>
+      <polygon class="firepit-flame" points="416.59999999999997,84.94000000000001 415.616,87.89200000000001 417.58399999999995,87.89200000000001"/>
+      <polygon class="firepit-flame" points="415.12399999999997,86.41600000000001 414.38599999999997,88.384 415.86199999999997,88.384"/>
+      <polygon class="firepit-flame" points="418.07599999999996,86.41600000000001 417.33799999999997,88.384 418.81399999999996,88.384"/>
+      <text class="legend-text" x="428.79999999999995" y="87.4" dominant-baseline="central">Fire Pit</text>
+      <rect class="throne" x="17.648000000000003" y="115.46400000000001" width="5.903999999999999" height="7.871999999999999" rx="2"/>
+      <rect class="throne-seat" x="18.14" y="119.4" width="4.919999999999999" height="2.9519999999999995"/>
+      <line class="throne-arm" x1="17.648000000000003" y1="119.4" x2="17.648000000000003" y2="121.86"/>
+      <line class="throne-arm" x1="23.552" y1="119.4" x2="23.552" y2="121.86"/>
+      <text class="legend-text" x="32.8" y="119.4" dominant-baseline="central">Throne</text>
+      <rect class="sarcophagus" x="147.188" y="116.94000000000001" width="10.823999999999998" height="4.919999999999999" rx="2"/>
+      <rect class="sarcophagus-lid" x="148.664" y="117.924" width="7.871999999999999" height="2.9519999999999995" rx="1"/>
+      <text class="legend-text" x="164.8" y="119.4" dominant-baseline="central">Sarcophagus</text>
+    </g>
+  <g class="title-block-group">
+    <g class="title-block">
+      <rect class="title-block-box" x="468" y="1056.8" width="400" height="55" rx="3"/>
+      <line class="title-block-divider" x1="468" y1="1085.95" x2="868" y2="1085.95"/>
+      <line class="title-block-divider" x1="764" y1="1056.8" x2="764" y2="1111.8"/>
+      <text class="title-label" x="474.6" y="1064.72">SECTION</text>
+      <text class="title-value" x="474.6" y="1077.7" dominant-baseline="middle">DWARVEN HALLS BENEATH THE GATEHOUSE</text>
+      <text class="title-label" x="474.6" y="1093.8700000000001">ID / CHAPTER</text>
+      <text class="title-value" x="474.6" y="1101.8999999999999" dominant-baseline="middle">DWARVEN-COMPLEX · ACT II</text>
+      <text class="title-label" x="768.29" y="1064.72">LEVEL</text>
+      <text class="title-value" x="768.29" y="1075.5" dominant-baseline="middle">LEVEL 2</text>
+      <text class="title-label" x="768.29" y="1093.8700000000001">SCALE</text>
+      <text class="title-value" x="768.29" y="1101.8999999999999" dominant-baseline="middle">1 SQ = 10 FT</text>
+    </g>
+  </g>
+  <g class="sheet-border">
+      <rect class="sheet-border-outer" x="1.2" y="1.2" width="877.6" height="1120.3999999999999" rx="1"/>
+      <rect class="sheet-border-inner" x="4.4" y="4.4" width="871.2" height="1114" rx="1"/>
+      <line class="sheet-tick" x1="104.4" y1="4.4" x2="104.4" y2="10.4"/>
+      <line class="sheet-tick" x1="104.4" y1="1118.3999999999999" x2="104.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="204.4" y1="4.4" x2="204.4" y2="10.4"/>
+      <line class="sheet-tick" x1="204.4" y1="1118.3999999999999" x2="204.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="304.4" y1="4.4" x2="304.4" y2="10.4"/>
+      <line class="sheet-tick" x1="304.4" y1="1118.3999999999999" x2="304.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="404.4" y1="4.4" x2="404.4" y2="10.4"/>
+      <line class="sheet-tick" x1="404.4" y1="1118.3999999999999" x2="404.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="504.4" y1="4.4" x2="504.4" y2="10.4"/>
+      <line class="sheet-tick" x1="504.4" y1="1118.3999999999999" x2="504.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="604.4" y1="4.4" x2="604.4" y2="10.4"/>
+      <line class="sheet-tick" x1="604.4" y1="1118.3999999999999" x2="604.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="704.4" y1="4.4" x2="704.4" y2="10.4"/>
+      <line class="sheet-tick" x1="704.4" y1="1118.3999999999999" x2="704.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="804.4" y1="4.4" x2="804.4" y2="10.4"/>
+      <line class="sheet-tick" x1="804.4" y1="1118.3999999999999" x2="804.4" y2="1112.3999999999999"/>
+      <line class="sheet-tick" x1="4.4" y1="104.4" x2="10.4" y2="104.4"/>
+      <line class="sheet-tick" x1="875.6" y1="104.4" x2="869.6" y2="104.4"/>
+      <line class="sheet-tick" x1="4.4" y1="204.4" x2="10.4" y2="204.4"/>
+      <line class="sheet-tick" x1="875.6" y1="204.4" x2="869.6" y2="204.4"/>
+      <line class="sheet-tick" x1="4.4" y1="304.4" x2="10.4" y2="304.4"/>
+      <line class="sheet-tick" x1="875.6" y1="304.4" x2="869.6" y2="304.4"/>
+      <line class="sheet-tick" x1="4.4" y1="404.4" x2="10.4" y2="404.4"/>
+      <line class="sheet-tick" x1="875.6" y1="404.4" x2="869.6" y2="404.4"/>
+      <line class="sheet-tick" x1="4.4" y1="504.4" x2="10.4" y2="504.4"/>
+      <line class="sheet-tick" x1="875.6" y1="504.4" x2="869.6" y2="504.4"/>
+      <line class="sheet-tick" x1="4.4" y1="604.4" x2="10.4" y2="604.4"/>
+      <line class="sheet-tick" x1="875.6" y1="604.4" x2="869.6" y2="604.4"/>
+      <line class="sheet-tick" x1="4.4" y1="704.4" x2="10.4" y2="704.4"/>
+      <line class="sheet-tick" x1="875.6" y1="704.4" x2="869.6" y2="704.4"/>
+      <line class="sheet-tick" x1="4.4" y1="804.4" x2="10.4" y2="804.4"/>
+      <line class="sheet-tick" x1="875.6" y1="804.4" x2="869.6" y2="804.4"/>
+      <line class="sheet-tick" x1="4.4" y1="904.4" x2="10.4" y2="904.4"/>
+      <line class="sheet-tick" x1="875.6" y1="904.4" x2="869.6" y2="904.4"/>
+      <line class="sheet-tick" x1="4.4" y1="1004.4" x2="10.4" y2="1004.4"/>
+      <line class="sheet-tick" x1="875.6" y1="1004.4" x2="869.6" y2="1004.4"/>
+    </g>
+</svg>

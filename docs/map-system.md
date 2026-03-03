@@ -454,14 +454,18 @@ Produces old-school dungeon maps in the Paratime/TSR blue style.
 #### Rendering order
 
 1. Background fill
-2. Rock hatching (diagonal lines on wall cells adjacent to floors)
-3. Floor tiles (room floors and corridors)
-4. Grid lines (only over walkable areas)
-5. Wall segments (computed and merged for clean lines)
-6. Feature symbols (doors, stairs, pillars, altars, etc.)
-7. Room labels (small bold number in top-left corner, Paratime style)
-8. Compass rose (bottom-right)
-9. Legend box (only symbols actually used in the map)
+2. Background wash gradient (adds tonal depth to the map field)
+3. Paper grain texture (subtle blueprint speckle)
+4. Rock hatching (diagonal lines on wall cells adjacent to floors)
+5. Floor tiles (room floors and corridors)
+6. Grid lines (minor + major 5-square lines over walkable areas)
+7. Wall segments (computed and merged, then rendered as under/main/highlight strokes)
+8. Map frame (double-line cartographic border around map area)
+9. Feature symbols (doors, stairs, pillars, altars, etc.)
+10. Room labels (compact number tags in room top-left corners)
+11. Compass rose (bottom-right)
+12. Legend box (only symbols actually used in the map)
+13. Title block and full sheet border (registration/tick marks)
 
 #### Wall segment computation
 
@@ -474,6 +478,8 @@ on each edge adjacent to a wall cell. Segments are then merged by
 3. Repeat for vertical segments grouped by X
 
 This produces clean, continuous wall lines instead of per-cell fragments.
+Wall lines are rendered in three passes (`wall-under`, `wall`,
+`wall-highlight`) for a heavier old-school ink appearance.
 
 #### Color schemes
 
@@ -509,8 +515,8 @@ Door orientation is inferred from adjacent cell context by
 #### Room labels
 
 Rooms are labelled sequentially: `1-9`, then `A-Z`, then `AA`, `AB`, ... .
-Labels are placed in the top-left corner of each room at reduced font size
-with bold weight.
+Labels are placed in compact top-left number tags with reduced font size,
+bold weight, and a light stroke halo for readability.
 
 #### SVG structure
 
@@ -518,14 +524,19 @@ with bold weight.
 <svg viewBox="0 0 {W} {H}">
   <style>...</style>
   <rect class="bg"/>
+  <g class="bg-wash-layer">...</g>
+  <g class="paper-grain-layer">...</g>
   <g class="rock-hatch">...</g>
   <g class="floors">...</g>
   <g class="grid">...</g>
   <g class="walls">...</g>
+  <g class="map-frame">...</g>
   <g class="features">...</g>
   <g class="labels">...</g>
   <g class="compass-group">...</g>
   <g class="legend">...</g>
+  <g class="title-block-group">...</g>
+  <g class="sheet-border">...</g>
 </svg>
 ```
 
@@ -642,9 +653,11 @@ Three fixtures in `fixtures/gatehouse-ruin.js`:
 The map rendering has been through several iterations, tracked as versioned
 PNG/SVG artifacts in `docs/map-review/iteration/`.
 
-| Version | Key changes                                                        |
-| ------- | ------------------------------------------------------------------ |
-| v4      | Initial blue rendering, basic wall segments                        |
-| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements |
-| v6      | 22-room dwarven complex, dressing system, L-shaped rooms           |
-| v7      | A\* corridor routing, rock hatching default, thicker walls         |
+| Version | Key changes                                                                                                 |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| v4      | Initial blue rendering, basic wall segments                                                                 |
+| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                          |
+| v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                    |
+| v7      | A\* corridor routing, rock hatching default, thicker walls                                                  |
+| v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability       |
+| v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync |
