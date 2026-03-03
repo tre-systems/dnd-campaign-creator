@@ -596,14 +596,10 @@ const geoResult = validateGeometry(geometry, graph, section.connectors);
 // Render outputs
 const svg = renderSvg(geometry, graph, intent, { cellSize: 20 });
 const ascii = renderAscii(geometry, graph);
-const packet = renderPacket(
-  geometry,
-  graph,
-  intent,
-  ascii,
-  "map.svg",
-  { valid: topoResult.valid && geoResult.valid, results: [...topoResult.results, ...geoResult.results] },
-);
+const packet = renderPacket(geometry, graph, intent, ascii, "map.svg", {
+  valid: topoResult.valid && geoResult.valid,
+  results: [...topoResult.results, ...geoResult.results],
+});
 ```
 
 ---

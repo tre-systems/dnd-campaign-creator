@@ -7,7 +7,9 @@
  */
 function roomLabelFromIndex(index) {
   if (!Number.isInteger(index) || index < 0) {
-    throw new Error(`Room index must be a non-negative integer (got: ${index})`);
+    throw new Error(
+      `Room index must be a non-negative integer (got: ${index})`,
+    );
   }
 
   if (index < 9) {
