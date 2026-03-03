@@ -139,7 +139,12 @@ function routeAStar(from, to, cells, rng) {
   };
 
   const heuristic = (x, y) => Math.abs(x - to.x) + Math.abs(y - to.y);
-  const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  const dirs = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
 
   // Simple priority queue (array sorted on insert — fine for dungeon-scale grids)
   const open = [{ x: from.x, y: from.y, g: 0, f: heuristic(from.x, from.y) }];
@@ -184,7 +189,12 @@ function routeAStar(from, to, cells, rng) {
       if (!gScore.has(nk) || tentativeG < gScore.get(nk)) {
         gScore.set(nk, tentativeG);
         cameFrom.set(nk, { x: current.x, y: current.y });
-        open.push({ x: nx, y: ny, g: tentativeG, f: tentativeG + heuristic(nx, ny) });
+        open.push({
+          x: nx,
+          y: ny,
+          g: tentativeG,
+          f: tentativeG + heuristic(nx, ny),
+        });
       }
     }
   }

@@ -256,10 +256,23 @@ function fillRoomFloor(cells, room, rng) {
     const nh = 1 + Math.floor(rng() * Math.floor(room.h * 0.4));
     const corner = Math.floor(rng() * 4); // 0=TL, 1=TR, 2=BL, 3=BR
     switch (corner) {
-      case 0: notch = { x: room.x, y: room.y, w: nw, h: nh }; break;
-      case 1: notch = { x: room.x + room.w - nw, y: room.y, w: nw, h: nh }; break;
-      case 2: notch = { x: room.x, y: room.y + room.h - nh, w: nw, h: nh }; break;
-      case 3: notch = { x: room.x + room.w - nw, y: room.y + room.h - nh, w: nw, h: nh }; break;
+      case 0:
+        notch = { x: room.x, y: room.y, w: nw, h: nh };
+        break;
+      case 1:
+        notch = { x: room.x + room.w - nw, y: room.y, w: nw, h: nh };
+        break;
+      case 2:
+        notch = { x: room.x, y: room.y + room.h - nh, w: nw, h: nh };
+        break;
+      case 3:
+        notch = {
+          x: room.x + room.w - nw,
+          y: room.y + room.h - nh,
+          w: nw,
+          h: nh,
+        };
+        break;
     }
     room.notch = notch;
   }
@@ -267,7 +280,13 @@ function fillRoomFloor(cells, room, rng) {
   for (let y = room.y; y < room.y + room.h; y++) {
     for (let x = room.x; x < room.x + room.w; x++) {
       // Skip cells inside the notch
-      if (notch && x >= notch.x && x < notch.x + notch.w && y >= notch.y && y < notch.y + notch.h) {
+      if (
+        notch &&
+        x >= notch.x &&
+        x < notch.x + notch.w &&
+        y >= notch.y &&
+        y < notch.y + notch.h
+      ) {
         continue;
       }
       cells[y][x] = CELL.FLOOR;

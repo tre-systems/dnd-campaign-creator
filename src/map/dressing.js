@@ -131,7 +131,7 @@ const RECIPES = {
     const features = [];
     if (room.w < 3 || room.h < 3) return features;
     const pool = [CELL.PILLAR, CELL.STATUE, CELL.PILLAR, CELL.PILLAR];
-    const count = Math.min(2, Math.floor(room.w * room.h / 8));
+    const count = Math.min(2, Math.floor((room.w * room.h) / 8));
     for (let i = 0; i < count; i++) {
       const dx = 1 + Math.floor(rng() * (room.w - 2));
       const dy = 1 + Math.floor(rng() * (room.h - 2));
@@ -151,8 +151,14 @@ function pickRecipe(node) {
   if (name.includes("crypt") || name.includes("tomb")) return "crypt";
   if (name.includes("well")) return "well";
   if (name.includes("forge") || name.includes("smelt")) return "forge";
-  if (name.includes("gallery") || name.includes("great hall") || name.includes("hall") && node.sizeClass === "large") return "pillars";
-  if (name.includes("library") || name.includes("scriptorium")) return "library";
+  if (
+    name.includes("gallery") ||
+    name.includes("great hall") ||
+    (name.includes("hall") && node.sizeClass === "large")
+  )
+    return "pillars";
+  if (name.includes("library") || name.includes("scriptorium"))
+    return "library";
   // Large rooms get pillars by default
   if (node.sizeClass === "large") return "pillars";
   return null;
@@ -187,8 +193,10 @@ function applyDressing(geometry, graph, rng) {
       const gy = room.y + p.dy;
       // Only place on FLOOR cells (don't overwrite doors, corridors, etc.)
       if (
-        gy >= 0 && gy < geometry.height &&
-        gx >= 0 && gx < geometry.width &&
+        gy >= 0 &&
+        gy < geometry.height &&
+        gx >= 0 &&
+        gx < geometry.width &&
         geometry.cells[gy][gx] === CELL.FLOOR
       ) {
         geometry.cells[gy][gx] = p.cell;

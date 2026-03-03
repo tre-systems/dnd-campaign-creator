@@ -10,11 +10,17 @@ const { createDwarvenComplexSection } = require("./fixtures/gatehouse-ruin");
 describe("dressing", () => {
   describe("pickRecipe", () => {
     it("picks chapel for chapel rooms", () => {
-      assert.equal(pickRecipe({ name: "Chapel", sizeClass: "medium" }), "chapel");
+      assert.equal(
+        pickRecipe({ name: "Chapel", sizeClass: "medium" }),
+        "chapel",
+      );
     });
 
     it("picks throne for throne rooms", () => {
-      assert.equal(pickRecipe({ name: "Throne Room", sizeClass: "large" }), "throne");
+      assert.equal(
+        pickRecipe({ name: "Throne Room", sizeClass: "large" }),
+        "throne",
+      );
     });
 
     it("picks crypt for crypt rooms", () => {
@@ -22,7 +28,10 @@ describe("dressing", () => {
     });
 
     it("picks well for well rooms", () => {
-      assert.equal(pickRecipe({ name: "Well Room", sizeClass: "small" }), "well");
+      assert.equal(
+        pickRecipe({ name: "Well Room", sizeClass: "small" }),
+        "well",
+      );
     });
 
     it("picks forge for forge rooms", () => {
@@ -30,11 +39,17 @@ describe("dressing", () => {
     });
 
     it("picks pillars for gallery rooms", () => {
-      assert.equal(pickRecipe({ name: "Gallery", sizeClass: "large" }), "pillars");
+      assert.equal(
+        pickRecipe({ name: "Gallery", sizeClass: "large" }),
+        "pillars",
+      );
     });
 
     it("picks pillars for generic large rooms", () => {
-      assert.equal(pickRecipe({ name: "Some Room", sizeClass: "large" }), "pillars");
+      assert.equal(
+        pickRecipe({ name: "Some Room", sizeClass: "large" }),
+        "pillars",
+      );
     });
 
     it("returns null for small generic rooms", () => {
@@ -47,8 +62,14 @@ describe("dressing", () => {
       const rng = createRng(42);
       const room = { x: 2, y: 2, w: 5, h: 6 };
       const features = RECIPES.chapel(room, rng);
-      assert.ok(features.some((f) => f.cell === CELL.ALTAR), "Should place altar");
-      assert.ok(features.some((f) => f.cell === CELL.PILLAR), "Should place pillars");
+      assert.ok(
+        features.some((f) => f.cell === CELL.ALTAR),
+        "Should place altar",
+      );
+      assert.ok(
+        features.some((f) => f.cell === CELL.PILLAR),
+        "Should place pillars",
+      );
     });
 
     it("well places well at center", () => {
@@ -87,7 +108,10 @@ describe("dressing", () => {
           }
         }
       }
-      assert.ok(featureCount > 5, `Should have placed features, got ${featureCount}`);
+      assert.ok(
+        featureCount > 5,
+        `Should have placed features, got ${featureCount}`,
+      );
     });
 
     it("does not overwrite non-floor cells", () => {
@@ -98,9 +122,16 @@ describe("dressing", () => {
       // Place a door
       cells[2][4] = CELL.DOOR;
 
-      const geometry = { width: 10, height: 10, cells, rooms: [{ x: 2, y: 2, w: 6, h: 6, nodeId: "R09" }] };
+      const geometry = {
+        width: 10,
+        height: 10,
+        cells,
+        rooms: [{ x: 2, y: 2, w: 6, h: 6, nodeId: "R09" }],
+      };
       const graph = {
-        nodeMap: new Map([["R09", { id: "R09", name: "Chapel", sizeClass: "medium" }]]),
+        nodeMap: new Map([
+          ["R09", { id: "R09", name: "Chapel", sizeClass: "medium" }],
+        ]),
       };
       const rng = createRng(42);
 
