@@ -13,6 +13,8 @@ If you encounter a bug or have a feature request, please open an issue on the Gi
 
 ## Local Development
 
+Prerequisite: Node.js v20 or newer.
+
 1. Fork the repository and clone it to your local machine.
 2. Run `npm install` to install dependencies.
 3. You will need a valid `credentials.json` (OAuth) or `service-account-key.json` to test the Google API integrations locally. Do **not** commit these files.

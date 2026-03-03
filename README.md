@@ -12,7 +12,7 @@ This tool extracts the robust publishing scripts developed for the _Borderlands 
 
 ## Prerequisites
 
-- **Node.js**: v18 or newer
+- **Node.js**: v20 or newer
 - **Google Cloud Console Project**: You need an active Google Cloud Project with the **Google Docs API** and **Google Drive API** enabled.
 
 ## Authentication Setup
@@ -25,8 +25,8 @@ You have two options:
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
 2. Create a new project or select an existing one.
 3. Enable the **Google Docs API** and **Google Drive API**.
-4. Navigate to **APIs & Services** > **Credentials**.
-5. Click **Create Credentials** > **OAuth client ID**.
+4. Navigate to **Google Auth Platform** > **Clients**.
+5. Click **Create client**.
 6. Set the Application type to **Desktop app**.
 7. Download the resulting JSON file and save it exactly as `credentials.json` in the root of your new campaign repository.
 8. When you run the publisher for the first time, it will prompt you in your browser to grant access and will save a `token.json` file.

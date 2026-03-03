@@ -30,6 +30,9 @@
   "author": "Robert Gilks",
   "license": "MIT",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "bugs": {
     "url": "https://github.com/tre-systems/dnd-campaign-creator/issues"
   },
