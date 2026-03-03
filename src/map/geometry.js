@@ -41,7 +41,7 @@ const CELL = {
 };
 
 /** Minimum partition dimension to fit a room + walls + corridor space */
-const MIN_PARTITION_DIM = 5;
+const MIN_PARTITION_DIM = 4;
 
 /**
  * Size class dimension ranges (inclusive).
@@ -59,6 +59,7 @@ const ROOM_SHAPE = {
   CHAMFERED: "chamfered",
   CROSS: "cross",
   CAVE: "cave",
+  CIRCLE: "circle",
 };
 
 const CAVE_NAME_HINTS = [
@@ -75,6 +76,22 @@ const CAVE_NAME_HINTS = [
   "flood",
   "sanctum",
   "pit",
+];
+
+const CIRCLE_NAME_HINTS = [
+  "tower",
+  "rotunda",
+  "arena",
+  "well",
+  "pool",
+  "dome",
+  "apse",
+  "amphitheatre",
+  "amphitheater",
+  "observatory",
+  "font",
+  "spring",
+  "oubliette",
 ];
 
 const CROSS_NAME_HINTS = [
@@ -231,9 +248,12 @@ function placeRoomInPartition(roomSpec, partition, rng, density) {
   const maxW = partition.w - margin * 2;
   const maxH = partition.h - margin * 2;
 
-  // Clamp room dimensions to fit the partition
-  const w = Math.min(roomSpec.w, maxW);
-  const h = Math.min(roomSpec.h, maxH);
+  // Expand room dimensions toward available space (fills more of the partition).
+  // Keep at least the requested size but grow up to ~75% of partition space.
+  const expandW = Math.max(roomSpec.w, Math.min(maxW, Math.floor(maxW * 0.75)));
+  const expandH = Math.max(roomSpec.h, Math.min(maxH, Math.floor(maxH * 0.75)));
+  const w = Math.min(expandW, maxW);
+  const h = Math.min(expandH, maxH);
 
   if (w < 2 || h < 2) {
     return null;
@@ -315,6 +335,10 @@ function fillRoomFloor(cells, room, rng) {
   }
   if (room.shape === ROOM_SHAPE.CAVE) {
     carveCaveRoom(cells, room, rng);
+    return;
+  }
+  if (room.shape === ROOM_SHAPE.CIRCLE) {
+    carveCircleRoom(cells, room);
   }
 }
 
@@ -323,6 +347,20 @@ function pickRoomShape(roomSpec, rng) {
   const nodeName = (roomSpec.nodeName || "").toLowerCase();
   const hasCaveHint = CAVE_NAME_HINTS.some((hint) => nodeName.includes(hint));
   const hasCrossHint = CROSS_NAME_HINTS.some((hint) => nodeName.includes(hint));
+  const hasCircleHint = CIRCLE_NAME_HINTS.some((hint) =>
+    nodeName.includes(hint),
+  );
+
+  // Circular rooms: named hints or hubs/set-pieces with roughly square proportions
+  if (
+    roomSpec.w >= 4 &&
+    roomSpec.h >= 4 &&
+    hasCircleHint &&
+    !hasCaveHint &&
+    !hasCrossHint
+  ) {
+    return ROOM_SHAPE.CIRCLE;
+  }
 
   if (
     roomSpec.w >= 4 &&
@@ -348,7 +386,23 @@ function pickRoomShape(roomSpec, rng) {
       nodeType === "set-piece" ||
       nodeType === "faction-core")
   ) {
+    // Hubs / set-pieces with roughly square proportions sometimes get circle
+    const aspectRatio = Math.max(roomSpec.w, roomSpec.h) / Math.min(roomSpec.w, roomSpec.h);
+    if (rng && aspectRatio <= 1.35 && rng() < 0.35) {
+      return ROOM_SHAPE.CIRCLE;
+    }
     return ROOM_SHAPE.CHAMFERED;
+  }
+
+  // Random circle chance for squarish medium+ rooms
+  if (
+    rng &&
+    roomSpec.w >= 4 &&
+    roomSpec.h >= 4 &&
+    Math.abs(roomSpec.w - roomSpec.h) <= 1 &&
+    rng() < 0.15
+  ) {
+    return ROOM_SHAPE.CIRCLE;
   }
 
   if (rng && roomSpec.w >= 4 && roomSpec.h >= 4 && rng() < 0.28) {
@@ -427,6 +481,37 @@ function carveCrossRoom(cells, room) {
   cells[centerY][room.x + room.w - 1] = CELL.FLOOR;
   cells[room.y][centerX] = CELL.FLOOR;
   cells[room.y + room.h - 1][centerX] = CELL.FLOOR;
+}
+
+/**
+ * Carve a circular (elliptical) room inscribed within the bounding rectangle.
+ * Preserves wall anchor points at the cardinal midpoints for corridor connectivity.
+ */
+function carveCircleRoom(cells, room) {
+  const cx = room.x + (room.w - 1) / 2;
+  const cy = room.y + (room.h - 1) / 2;
+  const rx = (room.w - 1) / 2;
+  const ry = (room.h - 1) / 2;
+
+  for (let y = room.y; y < room.y + room.h; y++) {
+    for (let x = room.x; x < room.x + room.w; x++) {
+      const nx = (x - cx) / Math.max(1, rx);
+      const ny = (y - cy) / Math.max(1, ry);
+      if (nx * nx + ny * ny > 1.05) {
+        cells[y][x] = CELL.WALL;
+      }
+    }
+  }
+
+  // Preserve cardinal anchor points for corridor routing
+  const midX = Math.round(cx);
+  const midY = Math.round(cy);
+  cells[midY][room.x] = CELL.FLOOR;
+  cells[midY][room.x + room.w - 1] = CELL.FLOOR;
+  cells[room.y][midX] = CELL.FLOOR;
+  cells[room.y + room.h - 1][midX] = CELL.FLOOR;
+  // Keep center floor
+  cells[midY][midX] = CELL.FLOOR;
 }
 
 function roomKey(x, y) {

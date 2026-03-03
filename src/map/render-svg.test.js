@@ -116,15 +116,11 @@ describe("render-svg", () => {
       assert.ok(vertical.includes('class="door"'));
     });
 
-    it("renders locked door with keyhole", () => {
+    it("renders locked door with lock indicator", () => {
       const svg = renderFeatureSymbol(CELL.DOOR_LOCKED, 0, 0, 20);
       assert.ok(svg.includes("<rect"), "Locked door should have a rect");
-      assert.ok(svg.includes("<circle"), "Locked door should have keyhole");
-      assert.ok(svg.includes("door-hasp"), "Locked door should have hasp bar");
-      assert.ok(
-        svg.includes("door-locked-key-stem"),
-        "Locked door should have key stem",
-      );
+      assert.ok(svg.includes("<circle"), "Locked door should have lock circle");
+      assert.ok(svg.includes("door-tick"), "Locked door should have hinge tick");
     });
 
     it("renders secret door with dashed line", () => {

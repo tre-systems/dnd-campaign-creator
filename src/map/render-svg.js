@@ -223,48 +223,42 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
 
   switch (cellType) {
     case CELL.DOOR: {
-      // Door: narrow threshold bar with slit and hinge pin (closer to classic blue-map symbols).
+      // Door: compact white rectangle on wall with a hinge tick (classic Paratime style).
       if (orientation === "vertical") {
-        const dw = cs * 0.24;
-        const dh = cs * 0.9;
-        const pin = Math.max(0.8, cs * 0.09);
+        const dw = cs * 0.26;
+        const dh = cs * 0.54;
         return [
-          `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-          `<line class="door-slit" x1="${cx - dw * 0.4}" y1="${cy}" x2="${cx + dw * 0.4}" y2="${cy}"/>`,
-          `<rect class="door-pin" x="${cx - pin * 0.5}" y="${cy - dh * 0.5 + cs * 0.1}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
+          `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}"/>`,
+          `<line class="door-tick" x1="${cx + dw * 0.5}" y1="${cy - dh * 0.5}" x2="${cx + dw * 0.5 + cs * 0.16}" y2="${cy - dh * 0.5}"/>`,
         ].join("\n      ");
       }
-      const dw = cs * 0.9;
-      const dh = cs * 0.24;
-      const pin = Math.max(0.8, cs * 0.09);
+      const dw = cs * 0.54;
+      const dh = cs * 0.26;
       return [
-        `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.4}" x2="${cx}" y2="${cy + dh * 0.4}"/>`,
-        `<rect class="door-pin" x="${cx + dw * 0.5 - cs * 0.1 - pin}" y="${cy - pin * 0.5}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
+        `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}"/>`,
+        `<line class="door-tick" x1="${cx + dw * 0.5}" y1="${cy - dh * 0.5}" x2="${cx + dw * 0.5}" y2="${cy - dh * 0.5 - cs * 0.16}"/>`,
       ].join("\n      ");
     }
 
     case CELL.DOOR_LOCKED: {
-      // Locked door: threshold bar + hasp + key marker.
+      // Locked door: compact white rectangle with tick and small lock circle.
       if (orientation === "vertical") {
-        const dw = cs * 0.24;
-        const dh = cs * 0.9;
-        const keyR = Math.max(1, cs * 0.08);
+        const dw = cs * 0.26;
+        const dh = cs * 0.54;
+        const lockR = Math.max(1, cs * 0.07);
         return [
-          `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-          `<line class="door-hasp" x1="${cx - dw * 0.38}" y1="${cy}" x2="${cx + dw * 0.38}" y2="${cy}"/>`,
-          `<circle class="door-locked-key" cx="${cx}" cy="${cy + keyR * 0.55}" r="${keyR}"/>`,
-          `<line class="door-locked-key-stem" x1="${cx}" y1="${cy + keyR * 1.45}" x2="${cx}" y2="${cy + keyR * 2.45}"/>`,
+          `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}"/>`,
+          `<line class="door-tick" x1="${cx + dw * 0.5}" y1="${cy - dh * 0.5}" x2="${cx + dw * 0.5 + cs * 0.16}" y2="${cy - dh * 0.5}"/>`,
+          `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${lockR}"/>`,
         ].join("\n      ");
       }
-      const dw = cs * 0.9;
-      const dh = cs * 0.24;
-      const keyR = Math.max(1, cs * 0.08);
+      const dw = cs * 0.54;
+      const dh = cs * 0.26;
+      const lockR = Math.max(1, cs * 0.07);
       return [
-        `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-        `<line class="door-hasp" x1="${cx}" y1="${cy - dh * 0.38}" x2="${cx}" y2="${cy + dh * 0.38}"/>`,
-        `<circle class="door-locked-key" cx="${cx + keyR * 0.55}" cy="${cy}" r="${keyR}"/>`,
-        `<line class="door-locked-key-stem" x1="${cx + keyR * 1.45}" y1="${cy}" x2="${cx + keyR * 2.45}" y2="${cy}"/>`,
+        `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}"/>`,
+        `<line class="door-tick" x1="${cx + dw * 0.5}" y1="${cy - dh * 0.5}" x2="${cx + dw * 0.5}" y2="${cy - dh * 0.5 - cs * 0.16}"/>`,
+        `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${lockR}"/>`,
       ].join("\n      ");
     }
 
@@ -288,20 +282,22 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       ].join("\n      ");
 
     case CELL.DOUBLE_DOOR:
-      // Double door: two narrow leaves with center gap.
+      // Double door: two compact leaves side by side with center gap.
       if (orientation === "vertical") {
-        const leafW = r * 0.34;
-        const leafH = r * 1.9;
+        const leafW = cs * 0.24;
+        const leafH = cs * 0.24;
+        const gap = cs * 0.04;
         return [
-          `<rect class="door" x="${cx - leafW - r * 0.1}" y="${cy - leafH * 0.5}" width="${leafW}" height="${leafH}" rx="1"/>`,
-          `<rect class="door" x="${cx + r * 0.1}" y="${cy - leafH * 0.5}" width="${leafW}" height="${leafH}" rx="1"/>`,
+          `<rect class="door" x="${cx - leafW * 0.5}" y="${cy - leafH - gap * 0.5}" width="${leafW}" height="${leafH}"/>`,
+          `<rect class="door" x="${cx - leafW * 0.5}" y="${cy + gap * 0.5}" width="${leafW}" height="${leafH}"/>`,
         ].join("\n      ");
       }
-      const leafW = r * 1.9;
-      const leafH = r * 0.34;
+      const dLeafW = cs * 0.24;
+      const dLeafH = cs * 0.24;
+      const dGap = cs * 0.04;
       return [
-        `<rect class="door" x="${cx - leafW * 0.5}" y="${cy - leafH - r * 0.1}" width="${leafW}" height="${leafH}" rx="1"/>`,
-        `<rect class="door" x="${cx - leafW * 0.5}" y="${cy + r * 0.1}" width="${leafW}" height="${leafH}" rx="1"/>`,
+        `<rect class="door" x="${cx - dLeafW - dGap * 0.5}" y="${cy - dLeafH * 0.5}" width="${dLeafW}" height="${dLeafH}"/>`,
+        `<rect class="door" x="${cx + dGap * 0.5}" y="${cy - dLeafH * 0.5}" width="${dLeafW}" height="${dLeafH}"/>`,
       ].join("\n      ");
 
     case CELL.PORTCULLIS:
@@ -335,35 +331,41 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       // Curtain: wavy line across opening
       return `<path class="curtain" d="M ${px + cs * 0.1} ${cy} Q ${px + cs * 0.3} ${cy - r * 0.8} ${cx} ${cy} Q ${px + cs * 0.7} ${cy + r * 0.8} ${px + cs * 0.9} ${cy}"/>`;
 
-    case CELL.STAIRS_DOWN:
-      // Stairs down: broad top treads tapering downward with a clear down arrow.
-      return [
-        `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.2}" x2="${px + cs * 0.86}" y2="${py + cs * 0.2}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.36}" x2="${px + cs * 0.8}" y2="${py + cs * 0.36}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.27}" y1="${py + cs * 0.52}" x2="${px + cs * 0.73}" y2="${py + cs * 0.52}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.34}" y1="${py + cs * 0.68}" x2="${px + cs * 0.66}" y2="${py + cs * 0.68}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - cs * 0.17},${py + cs * 0.73} ${cx + cs * 0.17},${py + cs * 0.73} ${cx},${py + cs * 0.92}"/>`,
-      ].join("\n      ");
+    case CELL.STAIRS_DOWN: {
+      // Stairs down: uniform-width parallel treads with small down arrow (classic Paratime style).
+      const sxL = px + cs * 0.12;
+      const sxR = px + cs * 0.88;
+      const lines = [];
+      for (let i = 0; i < 6; i++) {
+        const sy = py + cs * 0.12 + i * (cs * 0.12);
+        lines.push(`<line class="stairs" x1="${sxL}" y1="${sy}" x2="${sxR}" y2="${sy}"/>`);
+      }
+      lines.push(`<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.82} ${cx + cs * 0.1},${py + cs * 0.82} ${cx},${py + cs * 0.94}"/>`);
+      return lines.join("\n      ");
+    }
 
-    case CELL.STAIRS_UP:
-      // Stairs up: broad bottom treads tapering upward with a clear up arrow.
-      return [
-        `<line class="stairs" x1="${px + cs * 0.34}" y1="${py + cs * 0.32}" x2="${px + cs * 0.66}" y2="${py + cs * 0.32}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.27}" y1="${py + cs * 0.48}" x2="${px + cs * 0.73}" y2="${py + cs * 0.48}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.64}" x2="${px + cs * 0.8}" y2="${py + cs * 0.64}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.8}" x2="${px + cs * 0.86}" y2="${py + cs * 0.8}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - cs * 0.17},${py + cs * 0.27} ${cx + cs * 0.17},${py + cs * 0.27} ${cx},${py + cs * 0.08}"/>`,
-      ].join("\n      ");
+    case CELL.STAIRS_UP: {
+      // Stairs up: uniform-width parallel treads with small up arrow (classic Paratime style).
+      const suL = px + cs * 0.12;
+      const suR = px + cs * 0.88;
+      const uLines = [];
+      uLines.push(`<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.18} ${cx + cs * 0.1},${py + cs * 0.18} ${cx},${py + cs * 0.06}"/>`);
+      for (let i = 0; i < 6; i++) {
+        const sy = py + cs * 0.28 + i * (cs * 0.12);
+        uLines.push(`<line class="stairs" x1="${suL}" y1="${sy}" x2="${suR}" y2="${sy}"/>`);
+      }
+      return uLines.join("\n      ");
+    }
 
     case CELL.PILLAR:
       // Pillar: filled circle (classic column symbol)
-      return `<circle class="pillar" cx="${cx}" cy="${cy}" r="${r * 0.6}"/>`;
+      return `<circle class="pillar" cx="${cx}" cy="${cy}" r="${r * 0.72}"/>`;
 
     case CELL.STATUE:
       // Statue: circle on a square base (classic statue symbol)
       return [
-        `<rect class="statue-base" x="${cx - r * 0.7}" y="${cy - r * 0.7}" width="${r * 1.4}" height="${r * 1.4}"/>`,
-        `<circle class="statue" cx="${cx}" cy="${cy}" r="${r * 0.45}"/>`,
+        `<rect class="statue-base" x="${cx - r * 0.78}" y="${cy - r * 0.78}" width="${r * 1.56}" height="${r * 1.56}"/>`,
+        `<circle class="statue" cx="${cx}" cy="${cy}" r="${r * 0.52}"/>`,
       ].join("\n      ");
 
     case CELL.ALTAR:
@@ -504,13 +506,10 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
     .wall-under { stroke: #1a1a1a; stroke-width: ${wallUnderWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall { stroke: #24211d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall-highlight { stroke: #8e7b67; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.35; }
-    .door { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1; }
-    .door-slit { stroke: #1a1a1a; stroke-width: 0.9; }
-    .door-pin { fill: #1a1a1a; stroke: none; }
+    .door { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1.2; }
+    .door-tick { stroke: #1a1a1a; stroke-width: 1.2; }
     .door-locked { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1.5; }
-    .door-hasp { stroke: #1a1a1a; stroke-width: 1; }
     .door-locked-key { fill: #1a1a1a; stroke: none; }
-    .door-locked-key-stem { stroke: #1a1a1a; stroke-width: 1; stroke-linecap: round; }
     .door-secret { fill: none; stroke: #888; stroke-width: 1.5; stroke-dasharray: 3,3; }
     .door-secret-tick { stroke: #888; stroke-width: 1.3; }
     .secret-ring { fill: none; stroke: #888; stroke-width: 1.1; }
@@ -583,98 +582,95 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
   }
 
   if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
-    const strictWall = cellSize < 15 ? 2.85 : 3.25;
-    const sym = "#3f7fa7";
+    const strictWall = cellSize < 15 ? 3.2 : 3.8;
+    const sym = "#296a8a";
     return `<style>
-    .bg { fill: #9cc9e8; }
-    .bg-wash { fill: #84bbdd; opacity: 0.12; }
-    .paper-grain { fill: #cfe2f0; opacity: 0.08; }
-    .frame-outer { fill: none; stroke: #4d7e9c; stroke-width: 1.6; }
-    .frame-inner { fill: none; stroke: #d5e6f2; stroke-width: 0.76; opacity: 0.72; }
-    .floor { fill: #f5fbff; }
-    .corridor { fill: #f3f9fe; }
-    .grid-line { stroke: #bfd4e2; stroke-width: 0.52; }
-    .grid-line-major { stroke: #9ebdce; stroke-width: 0.9; }
-    .wall-under { stroke: #2c688c; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall { stroke: #2c688c; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall-highlight { stroke: #2c688c; stroke-width: 0.1; opacity: 0; }
-    .door { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.62; }
-    .door-slit { stroke: ${sym}; stroke-width: 1.08; }
-    .door-pin { fill: ${sym}; stroke: none; }
-    .door-locked { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.72; }
-    .door-hasp { stroke: ${sym}; stroke-width: 1.22; }
+    .bg { fill: #4f96bc; }
+    .bg-wash { fill: #4088b0; opacity: 0.12; }
+    .paper-grain { fill: #6aadcc; opacity: 0.08; }
+    .frame-outer { fill: none; stroke: #1a5570; stroke-width: 1.8; }
+    .frame-inner { fill: none; stroke: #8fbdd5; stroke-width: 0.76; opacity: 0.72; }
+    .floor { fill: #f0f8fc; }
+    .corridor { fill: #eef6fb; }
+    .grid-line { stroke: #aecadb; stroke-width: 0.62; }
+    .grid-line-major { stroke: #8eb0c6; stroke-width: 1.0; }
+    .wall-under { stroke: #1a5570; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #1a5570; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #1a5570; stroke-width: 0.1; opacity: 0; }
+    .door { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.72; }
+    .door-tick { stroke: ${sym}; stroke-width: 1.5; }
+    .door-locked { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.82; }
     .door-locked-key { fill: ${sym}; stroke: none; }
-    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.08; stroke-linecap: round; }
-    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.56; stroke-dasharray: 2.5,2.15; }
-    .door-secret-tick { stroke: ${sym}; stroke-width: 1.3; }
-    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.24; }
-    .secret-box { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.08; }
+    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.62; stroke-dasharray: 2.5,2.15; }
+    .door-secret-tick { stroke: ${sym}; stroke-width: 1.36; }
+    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.28; }
+    .secret-box { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.14; }
     .secret-label { font-family: 'Times New Roman', Times, serif; font-weight: bold; fill: ${sym}; }
-    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.6; }
     .stairs-arrow { fill: ${sym}; stroke: none; }
     .pillar { fill: ${sym}; stroke: none; }
-    .trap { fill: none; stroke: ${sym}; stroke-width: 1.42; }
-    .water { fill: #e2eef7; stroke: ${sym}; stroke-width: 0.66; }
-    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.25; }
-    .rubble { fill: #e7f1f8; }
-    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.25; }
-    .archway { fill: none; stroke: ${sym}; stroke-width: 1.28; }
+    .trap { fill: none; stroke: ${sym}; stroke-width: 1.52; }
+    .water { fill: #d6e6f2; stroke: ${sym}; stroke-width: 0.72; }
+    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.35; }
+    .rubble { fill: #dfeaf2; }
+    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.35; }
+    .archway { fill: none; stroke: ${sym}; stroke-width: 1.38; }
     .archway-base { fill: ${sym}; stroke: none; }
-    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.24; stroke-dasharray: 4,2; }
-    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.14; }
+    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.32; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.22; }
     .statue { fill: ${sym}; stroke: none; }
-    .altar { fill: none; stroke: ${sym}; stroke-width: 1.22; }
-    .altar-cross { stroke: ${sym}; stroke-width: 1.22; }
-    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.18; }
-    .well-inner { fill: none; stroke: ${sym}; stroke-width: 0.92; }
-    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.18; }
-    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 0.92; }
-    .fountain-jet { stroke: ${sym}; stroke-width: 0.94; }
-    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.16; }
-    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.36; }
-    .throne { fill: none; stroke: ${sym}; stroke-width: 1.16; }
-    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.24; }
-    .throne-arm { stroke: ${sym}; stroke-width: 1.16; }
-    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.12; }
-    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 0.92; opacity: 0.84; }
-    .bars { stroke: ${sym}; stroke-width: 1.12; }
-    .pit { fill: none; stroke: ${sym}; stroke-width: 1.12; }
-    .pit-hatch { stroke: ${sym}; stroke-width: 0.92; }
+    .altar { fill: none; stroke: ${sym}; stroke-width: 1.32; }
+    .altar-cross { stroke: ${sym}; stroke-width: 1.32; }
+    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.28; }
+    .well-inner { fill: none; stroke: ${sym}; stroke-width: 1.0; }
+    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.28; }
+    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 1.0; }
+    .fountain-jet { stroke: ${sym}; stroke-width: 1.0; }
+    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.24; }
+    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.4; }
+    .throne { fill: none; stroke: ${sym}; stroke-width: 1.24; }
+    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.28; }
+    .throne-arm { stroke: ${sym}; stroke-width: 1.24; }
+    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.2; }
+    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 1.0; opacity: 0.84; }
+    .bars { stroke: ${sym}; stroke-width: 1.2; }
+    .pit { fill: none; stroke: ${sym}; stroke-width: 1.2; }
+    .pit-hatch { stroke: ${sym}; stroke-width: 1.0; }
     .lever-base { fill: ${sym}; stroke: ${sym}; stroke-width: 1; }
-    .lever-arm { stroke: ${sym}; stroke-width: 1.14; }
+    .lever-arm { stroke: ${sym}; stroke-width: 1.22; }
     .lever-handle { fill: ${sym}; stroke: none; }
-    .collapsed { fill: #e1edf6; stroke: none; }
-    .rubble-dot { fill: #7197b1; stroke: none; }
-    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.68; opacity: 0.46; }
-    .room-tag { fill: #f5fbff; stroke: #6b93ab; stroke-width: 0.74; }
-    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.58)}px; font-weight: bold; fill: #2f6789; stroke: #f5fbff; stroke-width: ${Math.max(0.82, cellSize * 0.046)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
-    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.64)}px; font-weight: bold; fill: #2f6789; stroke: #f5fbff; stroke-width: ${Math.max(0.85, cellSize * 0.048)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
-    .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
-    .compass-fill { fill: #f5fbff; }
-    .compass-stroke { fill: none; stroke: #2f6789; stroke-width: 1.2; }
-    .compass-dark { fill: #2f6789; }
-    .compass-light { fill: #f5fbff; }
-    .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #f0f7fc; text-anchor: middle; }
-    .legend-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 1.25; }
-    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #2f6789; }
-    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #2f6789; }
-    .legend-sym { stroke: ${sym}; stroke-width: 1.35; fill: none; }
+    .collapsed { fill: #d4e2ee; stroke: none; }
+    .rubble-dot { fill: #5a8ca8; stroke: none; }
+    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.72; opacity: 0.48; }
+    .room-tag { fill: #f0f8fc; stroke: #1a5570; stroke-width: 0.9; }
+    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.66)}px; font-weight: bold; fill: #1a5570; stroke: #f0f8fc; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(12, cellSize * 0.72)}px; font-weight: bold; fill: #1a5570; stroke: #f0f8fc; stroke-width: ${Math.max(0.95, cellSize * 0.052)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
+    .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f0f8fc; }
+    .compass-fill { fill: #f0f8fc; }
+    .compass-stroke { fill: none; stroke: #1a5570; stroke-width: 1.2; }
+    .compass-dark { fill: #1a5570; }
+    .compass-light { fill: #f0f8fc; }
+    .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #eaf4fa; text-anchor: middle; }
+    .legend-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.4; }
+    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #1a5570; }
+    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #1a5570; }
+    .legend-sym { stroke: ${sym}; stroke-width: 1.45; fill: none; }
     .legend-sym-filled { fill: ${sym}; stroke: none; }
-    .scale-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 0.95; }
-    .rock-tone { fill: #8fb6cb; }
-    .rock-hatch-major { stroke: #6f98b2; stroke-width: 0.6; }
-    .rock-hatch-minor { stroke: #82aac0; stroke-width: 0.5; }
-    .rock-stipple-dot { fill: #7099b3; opacity: 0.66; }
-    .rock-chisel-mark { stroke: #688fa8; stroke-width: 0.5; stroke-linecap: round; }
-    .title-block-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 1.45; }
-    .title-block-divider { stroke: #c0d4e2; stroke-width: 0.85; }
-    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #769bb1; letter-spacing: 0.4px; }
-    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #2f6789; font-weight: bold; }
-    .sheet-border-outer { fill: none; stroke: #2f6789; stroke-width: 1.08; }
-    .sheet-border-inner { fill: none; stroke: #a8c3d4; stroke-width: 0.68; }
-    .sheet-tick { stroke: #a8c3d4; stroke-width: 0.68; }
-    .strict-texture-line { stroke: #6f97af; stroke-width: 0.5; stroke-linecap: square; }
-    .strict-texture-dot { fill: #7da4bb; opacity: 0.74; }
+    .scale-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.0; }
+    .rock-tone { fill: #3c7c9e; }
+    .rock-hatch-major { stroke: #4a8aab; stroke-width: 0.62; }
+    .rock-hatch-minor { stroke: #5c96b2; stroke-width: 0.52; }
+    .rock-stipple-dot { fill: #4e8aaa; opacity: 0.7; }
+    .rock-chisel-mark { stroke: #3a7492; stroke-width: 0.52; stroke-linecap: round; }
+    .title-block-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.55; }
+    .title-block-divider { stroke: #a0c0d4; stroke-width: 0.9; }
+    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #5a8ca8; letter-spacing: 0.4px; }
+    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #1a5570; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #1a5570; stroke-width: 1.2; }
+    .sheet-border-inner { fill: none; stroke: #80aec5; stroke-width: 0.72; }
+    .sheet-tick { stroke: #80aec5; stroke-width: 0.72; }
+    .strict-texture-line { stroke: #4a88a6; stroke-width: 0.5; stroke-linecap: square; }
+    .strict-texture-dot { fill: #5696b4; opacity: 0.74; }
   </style>`;
   }
 
@@ -689,18 +685,15 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
     .frame-inner { fill: none; stroke: #9ec3d9; stroke-width: 1.1; opacity: 0.75; }
     .floor { fill: #eef6fb; }
     .corridor { fill: #eef6fb; }
-    .grid-line { stroke: #d0e0ec; stroke-width: 0.5; }
-    .grid-line-major { stroke: #a9c5d8; stroke-width: 0.9; }
+    .grid-line { stroke: #b8d2e4; stroke-width: 0.6; }
+    .grid-line-major { stroke: #96b6cc; stroke-width: 1.0; }
     .wall-under { stroke: #0f4966; stroke-width: ${wallUnderWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall { stroke: #16516d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall-highlight { stroke: #8fb7cd; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.45; }
     .door { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
-    .door-slit { stroke: ${sym}; stroke-width: 1.1; }
-    .door-pin { fill: ${sym}; stroke: none; }
+    .door-tick { stroke: ${sym}; stroke-width: 1.6; }
     .door-locked { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
-    .door-hasp { stroke: ${sym}; stroke-width: 1.15; }
     .door-locked-key { fill: ${sym}; stroke: none; }
-    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.2; stroke-linecap: round; }
     .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.8; stroke-dasharray: 2,2; }
     .door-secret-tick { stroke: ${sym}; stroke-width: 1.4; }
     .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.3; }

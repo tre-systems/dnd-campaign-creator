@@ -115,6 +115,53 @@ const RECIPES = {
   },
 
   /**
+   * Colonnade: two rows of columns lining the long walls of a hall.
+   */
+  colonnade(room, rng) {
+    const features = [];
+    if (room.w < 4 || room.h < 4) return features;
+    // Place columns one cell in from each long side
+    const isWide = room.w >= room.h;
+    if (isWide) {
+      const step = room.w <= 6 ? 2 : 3;
+      for (let x = 1; x < room.w - 1; x += step) {
+        features.push({ dx: x, dy: 1, cell: CELL.PILLAR });
+        features.push({ dx: x, dy: room.h - 2, cell: CELL.PILLAR });
+      }
+    } else {
+      const step = room.h <= 6 ? 2 : 3;
+      for (let y = 1; y < room.h - 1; y += step) {
+        features.push({ dx: 1, dy: y, cell: CELL.PILLAR });
+        features.push({ dx: room.w - 2, dy: y, cell: CELL.PILLAR });
+      }
+    }
+    return features;
+  },
+
+  /**
+   * Ring: columns arranged in a circle for round rooms.
+   */
+  ring(room, rng) {
+    const features = [];
+    const minDim = Math.min(room.w, room.h);
+    if (minDim < 5) return features;
+    const cx = (room.w - 1) / 2;
+    const cy = (room.h - 1) / 2;
+    const radius = Math.min(cx, cy) - 1;
+    // Place 4-8 pillars in a ring
+    const count = minDim >= 8 ? 8 : minDim >= 6 ? 6 : 4;
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2;
+      const dx = Math.round(cx + Math.cos(angle) * radius);
+      const dy = Math.round(cy + Math.sin(angle) * radius);
+      if (dx >= 1 && dx < room.w - 1 && dy >= 1 && dy < room.h - 1) {
+        features.push({ dx, dy, cell: CELL.PILLAR });
+      }
+    }
+    return features;
+  },
+
+  /**
    * Library: statue (bookcase proxy).
    */
   library(room, rng) {
@@ -273,17 +320,22 @@ const RECIPES = {
     if (room.w < 3 || room.h < 3) return features;
     const pool = [
       CELL.PILLAR,
+      CELL.PILLAR,
+      CELL.PILLAR,
       CELL.STATUE,
       CELL.TRAP,
       CELL.ARCHWAY,
       CELL.CURTAIN,
       CELL.LEVER,
-      CELL.PILLAR,
     ];
-    const count = Math.min(2, Math.floor((room.w * room.h) / 8));
+    const count = Math.min(4, Math.max(1, Math.floor((room.w * room.h) / 6)));
+    const placed = new Set();
     for (let i = 0; i < count; i++) {
-      const dx = 1 + Math.floor(rng() * (room.w - 2));
-      const dy = 1 + Math.floor(rng() * (room.h - 2));
+      const dx = 1 + Math.floor(rng() * Math.max(1, room.w - 2));
+      const dy = 1 + Math.floor(rng() * Math.max(1, room.h - 2));
+      const key = `${dx},${dy}`;
+      if (placed.has(key)) continue;
+      placed.add(key);
       features.push({ dx, dy, cell: pool[Math.floor(rng() * pool.length)] });
     }
     return features;
@@ -292,8 +344,10 @@ const RECIPES = {
 
 /**
  * Map node names / types to dressing recipes.
+ * @param {Object} node - Topology node
+ * @param {Object} [room] - Geometry room (optional, for shape/size info)
  */
-function pickRecipe(node) {
+function pickRecipe(node, room) {
   const name = (node.name || "").toLowerCase();
   const type = (node.type || "").toLowerCase();
   if (type === "guard" || name.includes("guard post")) return "guardpost";
@@ -328,8 +382,16 @@ function pickRecipe(node) {
   if (name.includes("library") || name.includes("scriptorium"))
     return "library";
   if (type === "secret") return "vault";
-  // Large rooms get pillars by default
+  // Circular rooms get ring of columns
+  if (room && room.shape === "circle" && node.sizeClass !== "small") return "ring";
+  // Large rooms: colonnade for elongated halls, pillar grid for square rooms
+  if (node.sizeClass === "large" && room) {
+    const ratio = Math.max(room.w, room.h) / Math.max(1, Math.min(room.w, room.h));
+    return ratio >= 1.5 ? "colonnade" : "pillars";
+  }
   if (node.sizeClass === "large") return "pillars";
+  // Medium rooms get scatter features to add visual interest
+  if (node.sizeClass === "medium") return "scatter";
   return null;
 }
 
@@ -515,7 +577,7 @@ function applyDressing(geometry, graph, rng) {
     const node = graph.nodeMap.get(room.nodeId);
     if (!node) continue;
 
-    let recipeName = pickRecipe(node);
+    let recipeName = pickRecipe(node, room);
     // Small chance of scatter dressing for rooms without a specific recipe
     if (!recipeName && room.w >= 3 && room.h >= 3 && rng() < 0.3) {
       recipeName = "scatter";

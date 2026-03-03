@@ -628,38 +628,25 @@ function routeCorridors(geometry, graph, rng, connectors) {
     const placedDoorPositions = [];
     const doorType = chooseDoorTypeForEdge(edge, roomA, roomB);
     if (doorType !== null) {
-      // Standard doors get paired thresholds on both connected rooms.
-      if (edge.type === "door") {
-        if (placeDoor(geometry.cells, pointA, doorType)) {
-          placedDoorPositions.push({
-            x: pointA.x,
-            y: pointA.y,
-            type: edge.type,
-          });
-        }
-        if (placeDoor(geometry.cells, pointB, doorType)) {
-          placedDoorPositions.push({
-            x: pointB.x,
-            y: pointB.y,
-            type: edge.type,
-          });
-        }
-      } else {
-        // Locked/secret edges gate the destination side by convention.
-        const gatedPoint = chooseGatedDoorPoint(
-          edge,
-          roomA,
-          roomB,
-          pointA,
-          pointB,
-        );
-        if (placeDoor(geometry.cells, gatedPoint, doorType)) {
-          placedDoorPositions.push({
-            x: gatedPoint.x,
-            y: gatedPoint.y,
-            type: edge.type,
-          });
-        }
+      // Single door per connection, placed at the destination threshold.
+      // Locked/secret edges choose the defensible side; regular doors use pointB.
+      const doorPoint =
+        edge.type === "locked" || edge.type === "secret"
+          ? chooseGatedDoorPoint(edge, roomA, roomB, pointA, pointB)
+          : pointB;
+      if (placeDoor(geometry.cells, doorPoint, doorType)) {
+        placedDoorPositions.push({
+          x: doorPoint.x,
+          y: doorPoint.y,
+          type: edge.type,
+        });
+      } else if (placeDoor(geometry.cells, pointA, doorType)) {
+        // Fallback to the other side if the preferred point failed
+        placedDoorPositions.push({
+          x: pointA.x,
+          y: pointA.y,
+          type: edge.type,
+        });
       }
 
       for (const door of placedDoorPositions) {
