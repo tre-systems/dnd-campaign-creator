@@ -691,11 +691,9 @@ Five fixtures in `fixtures/gatehouse-ruin.js`:
 
 ## Iteration History
 
-The map rendering has been through several iterations, tracked as versioned
-PNG/SVG artifacts in `docs/map-review/iteration/`.
-
-Older iteration packet files are preserved for history; pre-`v12` packet
-content may include superseded placeholder sections.
+The map renderer has been through multiple iterations (`v4` through `v12`).
+To keep the repository lean, legacy iteration media was pruned; use git history
+if you need archived visual outputs from older versions.
 
 | Version | Key changes                                                                                                                                          |
 | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |

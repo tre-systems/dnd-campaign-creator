@@ -1,20 +1,18 @@
 # Map Review Artifacts
 
-This folder contains rendered map artifacts captured across multiple
-iterations (`v4` through `v12`) for visual comparison and regression review.
+This folder contains map review artifacts for current renderer validation and
+style benchmarking.
 
 ## Important Notes
 
-- `iteration/*-v12-*` reflects current renderer output samples (SVG/PNG/TXT).
-- Pre-`v12` packets are retained as historical snapshots and may include
-  superseded text (for example, older placeholder ecology/dynamic sections).
-- Historical packet artifacts are archival only; for current packet behaviour,
-  use `docs/map-system.md`, `src/map/packet.js`, and `src/map/packet.test.js`.
+- Deterministic regression baselines live in `snapshots/`.
+- Legacy iteration media was pruned to keep the repository lean; use git
+  history if you need older archived renders.
 - Reference images under `references/` are local-only style targets for visual
   benchmarking and are not distributed unless licensing is explicitly documented.
 
-If you need current behavior, use `v12` artifacts and the deterministic
-baselines in `docs/map-review/snapshots/`.
+For current behavior and CI guardrails, use the deterministic baselines in
+`docs/map-review/snapshots/`.
 
 For local style-target benchmarking against external references, run:
 
