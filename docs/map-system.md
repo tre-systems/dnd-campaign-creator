@@ -454,7 +454,7 @@ Produces old-school dungeon maps in the Paratime/TSR blue style.
 1. Background fill
 2. Background wash gradient (adds tonal depth to the map field)
 3. Paper grain texture (subtle blueprint speckle)
-4. Rock hatching (diagonal lines on wall cells adjacent to floors)
+4. Rock treatment (layered hatch + stipple + tonal/chisel modulation on wall cells near playable space)
 5. Floor tiles (room floors and corridors)
 6. Grid lines (minor + major 5-square lines over walkable areas)
 7. Wall segments (computed and merged, then rendered as under/main/highlight strokes)
@@ -479,6 +479,10 @@ This produces clean, continuous wall lines instead of per-cell fragments.
 Wall lines are rendered in three passes (`wall-under`, `wall`,
 `wall-highlight`) for a heavier old-school ink appearance.
 
+Rock treatment uses distance-based density from playable space plus
+deterministic per-cell variation so the surrounding stone reads as hand-drafted
+rather than a uniform fill.
+
 #### Color schemes
 
 **Blue (default, Paratime style):**
@@ -499,10 +503,10 @@ Wall lines are rendered in three passes (`wall-under`, `wall`,
 Each cell type has a hand-crafted SVG symbol rendered by
 `renderFeatureSymbol()`. Examples:
 
-- **Door:** Small filled rectangle, rotated to match corridor orientation
-- **Locked door:** Rectangle with keyhole circle
-- **Secret door:** Dashed line segment
-- **Stairs:** Three parallel lines with directional arrow
+- **Door:** Wall notch with center slit and hinge pin
+- **Locked door:** Door notch with hasp bar + keyhole stem
+- **Secret door:** Dashed cut-line with terminal ticks and circled `S`
+- **Stairs:** Tapered tread stack with directional arrow
 - **Pillar:** Filled circle
 - **Altar:** Rectangle with cross
 - **Throne:** Chair shape with back and seat
@@ -661,3 +665,4 @@ PNG/SVG artifacts in `docs/map-review/iteration/`.
 | v7      | A\* corridor routing, rock hatching default, thicker walls                                                  |
 | v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability       |
 | v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync |
+| v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)  |

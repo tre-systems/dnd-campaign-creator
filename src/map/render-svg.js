@@ -181,39 +181,67 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
 
   switch (cellType) {
     case CELL.DOOR: {
-      // Classic old-school door: small square notch on the wall
+      // Classic old-school door: wall notch with center slit and hinge pin.
       const dr = r * 1.3;
       if (orientation === "vertical") {
-        return `<rect class="door" x="${cx - dr * 0.4}" y="${cy - dr * 0.9}" width="${dr * 0.8}" height="${dr * 1.8}" rx="1"/>`;
+        const dw = dr * 0.85;
+        const dh = dr * 1.9;
+        return [
+          `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
+          `<line class="door-slit" x1="${cx - dw * 0.3}" y1="${cy}" x2="${cx + dw * 0.3}" y2="${cy}"/>`,
+          `<circle class="door-pin" cx="${cx}" cy="${cy - dh * 0.25}" r="${Math.max(0.6, cs * 0.045)}"/>`,
+        ].join("\n      ");
       }
-      return `<rect class="door" x="${cx - dr * 0.9}" y="${cy - dr * 0.4}" width="${dr * 1.8}" height="${dr * 0.8}" rx="1"/>`;
+      const dw = dr * 1.9;
+      const dh = dr * 0.85;
+      return [
+        `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
+        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.3}" x2="${cx}" y2="${cy + dh * 0.3}"/>`,
+        `<circle class="door-pin" cx="${cx + dw * 0.25}" cy="${cy}" r="${Math.max(0.6, cs * 0.045)}"/>`,
+      ].join("\n      ");
     }
 
     case CELL.DOOR_LOCKED: {
-      // Locked door: filled rectangle with keyhole circle
+      // Locked door: standard door with hasp bar and keyhole.
       const dlr = r * 1.3;
       if (orientation === "vertical") {
+        const dw = dlr * 0.85;
+        const dh = dlr * 1.9;
+        const keyR = dlr * 0.16;
         return [
-          `<rect class="door-locked" x="${cx - dlr * 0.4}" y="${cy - dlr * 0.9}" width="${dlr * 0.8}" height="${dlr * 1.8}" rx="1"/>`,
-          `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${dlr * 0.18}"/>`,
+          `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
+          `<line class="door-hasp" x1="${cx - dw * 0.34}" y1="${cy}" x2="${cx + dw * 0.34}" y2="${cy}"/>`,
+          `<circle class="door-locked-key" cx="${cx}" cy="${cy + keyR * 0.15}" r="${keyR}"/>`,
+          `<line class="door-locked-key-stem" x1="${cx}" y1="${cy + keyR * 0.65}" x2="${cx}" y2="${cy + keyR * 1.65}"/>`,
         ].join("\n      ");
       }
+      const dw = dlr * 1.9;
+      const dh = dlr * 0.85;
+      const keyR = dlr * 0.16;
       return [
-        `<rect class="door-locked" x="${cx - dlr * 0.9}" y="${cy - dlr * 0.4}" width="${dlr * 1.8}" height="${dlr * 0.8}" rx="1"/>`,
-        `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${dlr * 0.18}"/>`,
+        `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
+        `<line class="door-hasp" x1="${cx}" y1="${cy - dh * 0.34}" x2="${cx}" y2="${cy + dh * 0.34}"/>`,
+        `<circle class="door-locked-key" cx="${cx + keyR * 0.15}" cy="${cy}" r="${keyR}"/>`,
+        `<line class="door-locked-key-stem" x1="${cx + keyR * 0.65}" y1="${cy}" x2="${cx + keyR * 1.65}" y2="${cy}"/>`,
       ].join("\n      ");
     }
 
     case CELL.DOOR_SECRET:
-      // Secret door: dashed line with S marker
+      // Secret door: dashed cut-line with terminal ticks and circled S.
       if (orientation === "vertical") {
         return [
           `<line class="door-secret" x1="${cx}" y1="${py + 2}" x2="${cx}" y2="${py + cs - 2}"/>`,
+          `<line class="door-secret-tick" x1="${cx - r * 0.45}" y1="${py + cs * 0.2}" x2="${cx + r * 0.45}" y2="${py + cs * 0.2}"/>`,
+          `<line class="door-secret-tick" x1="${cx - r * 0.45}" y1="${py + cs * 0.8}" x2="${cx + r * 0.45}" y2="${py + cs * 0.8}"/>`,
+          `<circle class="secret-ring" cx="${cx}" cy="${cy}" r="${cs * 0.2}"/>`,
           `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
         ].join("\n      ");
       }
       return [
         `<line class="door-secret" x1="${px + 2}" y1="${cy}" x2="${px + cs - 2}" y2="${cy}"/>`,
+        `<line class="door-secret-tick" x1="${px + cs * 0.2}" y1="${cy - r * 0.45}" x2="${px + cs * 0.2}" y2="${cy + r * 0.45}"/>`,
+        `<line class="door-secret-tick" x1="${px + cs * 0.8}" y1="${cy - r * 0.45}" x2="${px + cs * 0.8}" y2="${cy + r * 0.45}"/>`,
+        `<circle class="secret-ring" cx="${cx}" cy="${cy}" r="${cs * 0.2}"/>`,
         `<text class="secret-label" x="${cx}" y="${cy + 1}" font-size="${cs * 0.45}" text-anchor="middle" dominant-baseline="central">S</text>`,
       ].join("\n      ");
 
@@ -262,21 +290,25 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       return `<path class="curtain" d="M ${px + cs * 0.1} ${cy} Q ${px + cs * 0.3} ${cy - r * 0.8} ${cx} ${cy} Q ${px + cs * 0.7} ${cy + r * 0.8} ${px + cs * 0.9} ${cy}"/>`;
 
     case CELL.STAIRS_DOWN:
-      // Stairs down: parallel lines with down arrow
+      // Stairs down: tapered treads descending toward bottom with down marker.
       return [
-        `<line class="stairs" x1="${px + cs * 0.25}" y1="${py + cs * 0.2}" x2="${px + cs * 0.25}" y2="${py + cs * 0.8}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.5}" y1="${py + cs * 0.2}" x2="${px + cs * 0.5}" y2="${py + cs * 0.8}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.75}" y1="${py + cs * 0.2}" x2="${px + cs * 0.75}" y2="${py + cs * 0.8}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - r * 0.5},${py + cs * 0.55} ${cx + r * 0.5},${py + cs * 0.55} ${cx},${py + cs * 0.85}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.2}" x2="${px + cs * 0.86}" y2="${py + cs * 0.2}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.34}" x2="${px + cs * 0.8}" y2="${py + cs * 0.34}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.26}" y1="${py + cs * 0.48}" x2="${px + cs * 0.74}" y2="${py + cs * 0.48}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.32}" y1="${py + cs * 0.62}" x2="${px + cs * 0.68}" y2="${py + cs * 0.62}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.38}" y1="${py + cs * 0.76}" x2="${px + cs * 0.62}" y2="${py + cs * 0.76}"/>`,
+        `<polygon class="stairs-arrow" points="${cx - r * 0.45},${py + cs * 0.68} ${cx + r * 0.45},${py + cs * 0.68} ${cx},${py + cs * 0.9}"/>`,
       ].join("\n      ");
 
     case CELL.STAIRS_UP:
-      // Stairs up: parallel lines with up arrow
+      // Stairs up: tapered treads ascending toward top with up marker.
       return [
-        `<line class="stairs" x1="${px + cs * 0.25}" y1="${py + cs * 0.2}" x2="${px + cs * 0.25}" y2="${py + cs * 0.8}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.5}" y1="${py + cs * 0.2}" x2="${px + cs * 0.5}" y2="${py + cs * 0.8}"/>`,
-        `<line class="stairs" x1="${px + cs * 0.75}" y1="${py + cs * 0.2}" x2="${px + cs * 0.75}" y2="${py + cs * 0.8}"/>`,
-        `<polygon class="stairs-arrow" points="${cx - r * 0.5},${py + cs * 0.45} ${cx + r * 0.5},${py + cs * 0.45} ${cx},${py + cs * 0.15}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.38}" y1="${py + cs * 0.24}" x2="${px + cs * 0.62}" y2="${py + cs * 0.24}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.32}" y1="${py + cs * 0.38}" x2="${px + cs * 0.68}" y2="${py + cs * 0.38}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.26}" y1="${py + cs * 0.52}" x2="${px + cs * 0.74}" y2="${py + cs * 0.52}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.2}" y1="${py + cs * 0.66}" x2="${px + cs * 0.8}" y2="${py + cs * 0.66}"/>`,
+        `<line class="stairs" x1="${px + cs * 0.14}" y1="${py + cs * 0.8}" x2="${px + cs * 0.86}" y2="${py + cs * 0.8}"/>`,
+        `<polygon class="stairs-arrow" points="${cx - r * 0.45},${py + cs * 0.32} ${cx + r * 0.45},${py + cs * 0.32} ${cx},${py + cs * 0.1}"/>`,
       ].join("\n      ");
 
     case CELL.PILLAR:
@@ -428,11 +460,18 @@ function generateStyles(cellSize, colorScheme) {
     .wall { stroke: #24211d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall-highlight { stroke: #8e7b67; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.35; }
     .door { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1; }
+    .door-slit { stroke: #1a1a1a; stroke-width: 0.9; }
+    .door-pin { fill: #1a1a1a; stroke: none; }
     .door-locked { fill: #8b6914; stroke: #1a1a1a; stroke-width: 1.5; }
+    .door-hasp { stroke: #1a1a1a; stroke-width: 1; }
     .door-locked-key { fill: #1a1a1a; stroke: none; }
+    .door-locked-key-stem { stroke: #1a1a1a; stroke-width: 1; stroke-linecap: round; }
     .door-secret { fill: none; stroke: #888; stroke-width: 1.5; stroke-dasharray: 3,3; }
-    .secret-label { font-family: Georgia, serif; }
+    .door-secret-tick { stroke: #888; stroke-width: 1.3; }
+    .secret-ring { fill: none; stroke: #888; stroke-width: 1.1; }
+    .secret-label { font-family: Georgia, serif; font-weight: bold; fill: #666; }
     .stairs { fill: none; stroke: #1a1a1a; stroke-width: 1.5; }
+    .stairs-arrow { fill: #1a1a1a; stroke: none; }
     .pillar { fill: #888; stroke: #1a1a1a; stroke-width: 1; }
     .trap { fill: none; stroke: #cc3333; stroke-width: 1.5; }
     .water { fill: #b8d4e3; stroke: none; }
@@ -481,7 +520,11 @@ function generateStyles(cellSize, colorScheme) {
     .legend-text { font-family: Georgia, serif; font-size: ${Math.max(9, cellSize * 0.46)}px; fill: #665949; }
     .legend-sym { stroke: #555; stroke-width: 1.4; fill: none; }
     .scale-box { fill: #f9f2e5; stroke: #665949; stroke-width: 1; }
-    .rock-hatch { stroke: #ccc8bc; stroke-width: 0.5; }
+    .rock-tone { fill: #d6ccba; }
+    .rock-hatch-major { stroke: #b7ae9c; stroke-width: 0.56; }
+    .rock-hatch-minor { stroke: #ccc2af; stroke-width: 0.43; }
+    .rock-stipple-dot { fill: #b1a58f; opacity: 0.72; }
+    .rock-chisel-mark { stroke: #9e927b; stroke-width: 0.52; stroke-linecap: round; }
     .title-block-box { fill: #f3eadb; stroke: #665949; stroke-width: 1.6; }
     .title-block-divider { stroke: #9a8a72; stroke-width: 0.9; }
     .title-label { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.34)}px; fill: #8a7a63; letter-spacing: 0.4px; }
@@ -509,9 +552,15 @@ function generateStyles(cellSize, colorScheme) {
     .wall { stroke: #16516d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
     .wall-highlight { stroke: #8fb7cd; stroke-width: ${wallHighlightWidth}; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.45; }
     .door { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
+    .door-slit { stroke: ${sym}; stroke-width: 1.1; }
+    .door-pin { fill: ${sym}; stroke: none; }
     .door-locked { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
+    .door-hasp { stroke: ${sym}; stroke-width: 1.15; }
     .door-locked-key { fill: ${sym}; stroke: none; }
+    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.2; stroke-linecap: round; }
     .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.8; stroke-dasharray: 2,2; }
+    .door-secret-tick { stroke: ${sym}; stroke-width: 1.4; }
+    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.3; }
     .secret-label { font-family: Georgia, serif; font-weight: bold; fill: ${sym}; }
     .stairs { fill: none; stroke: ${sym}; stroke-width: 1.8; }
     .stairs-arrow { fill: ${sym}; stroke: none; }
@@ -563,7 +612,11 @@ function generateStyles(cellSize, colorScheme) {
     .legend-sym { stroke: ${sym}; stroke-width: 1.5; fill: none; }
     .legend-sym-filled { fill: ${sym}; stroke: none; }
     .scale-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1; }
-    .rock-hatch { stroke: #67a0c2; stroke-width: 0.5; }
+    .rock-tone { fill: #2f6786; }
+    .rock-hatch-major { stroke: #3d7393; stroke-width: 0.58; }
+    .rock-hatch-minor { stroke: #5b8eac; stroke-width: 0.46; }
+    .rock-stipple-dot { fill: #4f88ab; opacity: 0.72; }
+    .rock-chisel-mark { stroke: #2e627f; stroke-width: 0.54; stroke-linecap: round; }
     .title-block-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1.8; }
     .title-block-divider { stroke: #95b9cf; stroke-width: 1; }
     .title-label { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(7, cellSize * 0.34)}px; fill: #5f90ac; letter-spacing: 0.5px; }
@@ -768,29 +821,131 @@ function renderGridLines(cells, width, height, cs) {
  */
 function renderRockHatch(cells, width, height, cs) {
   const parts = [];
-  const step = Math.max(4, Math.floor(cs * 0.45));
+  const majorStep = Math.max(3, Math.floor(cs * 0.34));
+  const minorStep = Math.max(4, Math.floor(cs * 0.52));
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  const hashNoise2d = (x, y, salt = 0) => {
+    let h = Math.imul(x + 1 + salt, 0x9e3779b1);
+    h ^= Math.imul(y + 1 + salt * 3, 0x85ebca6b);
+    h ^= h >>> 16;
+    h = Math.imul(h, 0xc2b2ae35);
+    h ^= h >>> 13;
+    return (h >>> 0) / 4294967295;
+  };
+  const majorOffset = (majorStep / 2).toFixed(2);
+  const minorOffset = (minorStep / 2).toFixed(2);
 
-  // Define old-school angled hatch pattern for rock.
+  // Layered hatch/stipple variants create denser, period-style rock texture.
   parts.push(`<defs>
-    <pattern id="rock-hatch" width="${step}" height="${step}" patternUnits="userSpaceOnUse">
-      <line class="rock-hatch" x1="0" y1="${step}" x2="${step}" y2="0"/>
+    <pattern id="rock-hatch-major-a" width="${majorStep}" height="${majorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-major" x1="0" y1="${majorStep}" x2="${majorStep}" y2="0"/>
+    </pattern>
+    <pattern id="rock-hatch-major-b" width="${majorStep}" height="${majorStep}" patternUnits="userSpaceOnUse" patternTransform="translate(${majorOffset} ${majorOffset})">
+      <line class="rock-hatch-major" x1="0" y1="${majorStep}" x2="${majorStep}" y2="0"/>
+    </pattern>
+    <pattern id="rock-hatch-minor-a" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-minor" x1="0" y1="0" x2="${minorStep}" y2="${minorStep}"/>
+    </pattern>
+    <pattern id="rock-hatch-minor-b" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse" patternTransform="translate(${minorOffset} ${minorOffset})">
+      <line class="rock-hatch-minor" x1="0" y1="0" x2="${minorStep}" y2="${minorStep}"/>
+    </pattern>
+    <pattern id="rock-stipple-a" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <circle class="rock-stipple-dot" cx="${Math.max(1, Math.floor(minorStep * 0.22))}" cy="${Math.max(1, Math.floor(minorStep * 0.3))}" r="0.45"/>
+      <circle class="rock-stipple-dot" cx="${Math.max(2, Math.floor(minorStep * 0.72))}" cy="${Math.max(2, Math.floor(minorStep * 0.76))}" r="0.35"/>
+    </pattern>
+    <pattern id="rock-stipple-b" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <circle class="rock-stipple-dot" cx="${Math.max(1, Math.floor(minorStep * 0.18))}" cy="${Math.max(1, Math.floor(minorStep * 0.72))}" r="0.4"/>
+      <circle class="rock-stipple-dot" cx="${Math.max(2, Math.floor(minorStep * 0.65))}" cy="${Math.max(2, Math.floor(minorStep * 0.28))}" r="0.3"/>
+      <circle class="rock-stipple-dot" cx="${Math.max(2, Math.floor(minorStep * 0.82))}" cy="${Math.max(2, Math.floor(minorStep * 0.82))}" r="0.28"/>
     </pattern>
   </defs>`);
 
-  // Apply to wall cells that are adjacent to at least one floor cell
+  // Apply across rock mass, with stronger texture near playable space.
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       if (cells[y][x] !== CELL.WALL) continue;
-      // Check if any neighbour is floor-like
-      const hasFloorNeighbour =
-        (y > 0 && isFloorLike(cells[y - 1][x])) ||
-        (y < height - 1 && isFloorLike(cells[y + 1][x])) ||
-        (x > 0 && isFloorLike(cells[y][x - 1])) ||
-        (x < width - 1 && isFloorLike(cells[y][x + 1]));
-      if (hasFloorNeighbour) {
+      let nearestFloor = Infinity;
+      for (let oy = -3; oy <= 3; oy++) {
+        for (let ox = -3; ox <= 3; ox++) {
+          const dist = Math.abs(ox) + Math.abs(oy);
+          if (dist === 0 || dist > 3) continue;
+          const nx = x + ox;
+          const ny = y + oy;
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+          if (isFloorLike(cells[ny][nx])) {
+            nearestFloor = Math.min(nearestFloor, dist);
+          }
+        }
+      }
+
+      const intensity =
+        nearestFloor === 1
+          ? 1
+          : nearestFloor === 2
+            ? 0.78
+            : nearestFloor === 3
+              ? 0.62
+              : 0.42;
+      const noiseA = hashNoise2d(x, y, 11);
+      const noiseB = hashNoise2d(x, y, 23);
+      const noiseC = hashNoise2d(x, y, 47);
+      const tonalMod = 0.9 + (noiseB - 0.5) * 0.24;
+      const jitter = 0.82 + noiseA * 0.36;
+      const tunedIntensity = clamp(intensity * tonalMod, 0.34, 1.12);
+      const toneOpacity = clamp(0.08 + tunedIntensity * 0.16 + (noiseC - 0.5) * 0.05, 0.06, 0.32);
+      const majorOpacity = clamp(0.2 + tunedIntensity * 0.3, 0.2, 0.86) * jitter;
+      const minorOpacity = clamp(0.14 + tunedIntensity * 0.2, 0.12, 0.64) * (0.9 + noiseC * 0.22);
+      const stippleOpacity = clamp(0.12 + tunedIntensity * 0.17, 0.1, 0.52) * (0.9 + noiseB * 0.18);
+      const px = x * cs;
+      const py = y * cs;
+      const majorPatternId = noiseB > 0.5 ? "rock-hatch-major-a" : "rock-hatch-major-b";
+      const minorPatternId = noiseA > 0.45 ? "rock-hatch-minor-a" : "rock-hatch-minor-b";
+      const stipplePatternId = noiseC > 0.52 ? "rock-stipple-a" : "rock-stipple-b";
+      const showMinor = nearestFloor <= 2 || noiseC > 0.4;
+      const chiselChance =
+        nearestFloor === 1
+          ? 0.62
+          : nearestFloor === 2
+            ? 0.47
+            : nearestFloor === 3
+              ? 0.34
+              : 0.2;
+
+      parts.push(
+        `<rect class="rock-tone" x="${px}" y="${py}" width="${cs}" height="${cs}" opacity="${toneOpacity.toFixed(3)}"/>`,
+      );
+
+      parts.push(
+        `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#${majorPatternId})" opacity="${majorOpacity.toFixed(3)}"/>`,
+      );
+      if (showMinor) {
         parts.push(
-          `<rect x="${x * cs}" y="${y * cs}" width="${cs}" height="${cs}" fill="url(#rock-hatch)" opacity="0.3"/>`,
+          `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#${minorPatternId})" opacity="${minorOpacity.toFixed(3)}"/>`,
         );
+      }
+      parts.push(
+        `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#${stipplePatternId})" opacity="${stippleOpacity.toFixed(3)}"/>`,
+      );
+
+      if (noiseA < chiselChance) {
+        const chiselLen = cs * (nearestFloor <= 2 ? 0.42 : 0.32);
+        const sx = px + cs * (0.18 + noiseB * 0.58);
+        const sy = py + cs * (0.22 + noiseC * 0.52);
+        const dir = noiseB > 0.5 ? 1 : -1;
+        const ex = clamp(sx + chiselLen * dir, px + 1, px + cs - 1);
+        const ey = clamp(sy + chiselLen * 0.52, py + 1, py + cs - 1);
+        const chiselOpacity = clamp(0.26 + tunedIntensity * 0.22, 0.2, 0.62);
+        parts.push(
+          `<line class="rock-chisel-mark" x1="${sx.toFixed(2)}" y1="${sy.toFixed(2)}" x2="${ex.toFixed(2)}" y2="${ey.toFixed(2)}" opacity="${chiselOpacity.toFixed(3)}"/>`,
+        );
+        if (nearestFloor === 1 && noiseC > 0.58) {
+          const cLen = chiselLen * 0.42;
+          const cex = clamp(sx - cLen * dir * 0.7, px + 1, px + cs - 1);
+          const cey = clamp(sy + cLen * 0.55, py + 1, py + cs - 1);
+          parts.push(
+            `<line class="rock-chisel-mark" x1="${sx.toFixed(2)}" y1="${sy.toFixed(2)}" x2="${cex.toFixed(2)}" y2="${cey.toFixed(2)}" opacity="${(chiselOpacity * 0.82).toFixed(3)}"/>`,
+          );
+        }
       }
     }
   }
@@ -1012,7 +1167,7 @@ function renderTitleBlock(intent, x, y, w, h) {
  * @param {number} [options.cellSize=20] - Pixels per grid square
  * @param {boolean} [options.showGrid=true] - Show grid lines
  * @param {boolean} [options.showLabels=true] - Show room labels
- * @param {boolean} [options.showRockHatch=false] - Show rock crosshatch
+ * @param {boolean} [options.showRockHatch=true] - Show rock crosshatch
  * @param {boolean} [options.showCompass=true] - Show compass rose
  * @param {boolean} [options.showLegend=true] - Show legend box
  * @param {string} [options.colorScheme='blue'] - 'blue' for classic blue, 'parchment' for warm tones

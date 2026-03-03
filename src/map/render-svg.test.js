@@ -120,18 +120,33 @@ describe("render-svg", () => {
       const svg = renderFeatureSymbol(CELL.DOOR_LOCKED, 0, 0, 20);
       assert.ok(svg.includes("<rect"), "Locked door should have a rect");
       assert.ok(svg.includes("<circle"), "Locked door should have keyhole");
+      assert.ok(svg.includes("door-hasp"), "Locked door should have hasp bar");
+      assert.ok(
+        svg.includes("door-locked-key-stem"),
+        "Locked door should have key stem",
+      );
     });
 
     it("renders secret door with dashed line", () => {
       const svg = renderFeatureSymbol(CELL.DOOR_SECRET, 0, 0, 20);
       assert.ok(svg.includes("<line"), "Secret door should have a line");
       assert.ok(svg.includes("S"), "Secret door should have S label");
+      assert.ok(
+        svg.includes("secret-ring"),
+        "Secret door should have circled marker",
+      );
+      assert.ok(
+        svg.includes("door-secret-tick"),
+        "Secret door should have terminal ticks",
+      );
     });
 
     it("renders stairs down with arrow", () => {
       const svg = renderFeatureSymbol(CELL.STAIRS_DOWN, 0, 0, 20);
       assert.ok(svg.includes("<line"), "Stairs should have lines");
       assert.ok(svg.includes("<polygon"), "Stairs should have arrow");
+      const treadCount = (svg.match(/class="stairs"/g) || []).length;
+      assert.ok(treadCount >= 5, "Stairs should have multiple treads");
     });
 
     it("renders pillar as circle", () => {
@@ -415,6 +430,18 @@ describe("render-svg", () => {
       assert.ok(
         svg.includes("rock-hatch"),
         "SVG should contain rock hatch pattern",
+      );
+      assert.ok(
+        svg.includes("rock-stipple"),
+        "SVG should contain rock stipple pattern",
+      );
+      assert.ok(
+        svg.includes("rock-tone"),
+        "SVG should contain rock tonal shading layer",
+      );
+      assert.ok(
+        svg.includes("rock-chisel-mark"),
+        "SVG should contain rock chisel marks",
       );
     });
 
