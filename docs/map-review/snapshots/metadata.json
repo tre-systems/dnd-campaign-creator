@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-03-03T11:27:34.663Z",
+  "profile": "blueprint-strict",
+  "cellSize": 20,
+  "snapshots": [
+    {
+      "id": "gatehouse-seed13-strict",
+      "seed": 13,
+      "svg": "gatehouse-seed13-strict.svg",
+      "png": "gatehouse-seed13-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "gatehouse-seed42-strict",
+      "seed": 42,
+      "svg": "gatehouse-seed42-strict.svg",
+      "png": "gatehouse-seed42-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "dwarven-seed13-strict",
+      "seed": 13,
+      "svg": "dwarven-seed13-strict.svg",
+      "png": "dwarven-seed13-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    }
+  ]
+}

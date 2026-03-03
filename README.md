@@ -174,6 +174,7 @@ Useful options:
 - `--no-grid` disable SVG grid lines
 - `--no-labels` disable room labels
 - `--color-scheme <blue|parchment>` map palette
+- `--style-profile <blue-enhanced|blueprint-strict>` blue-map style profile
 - `--max-attempts <n>` geometry retry budget (default `50`)
 - `--allow-invalid` emit outputs even if geometry validation fails
 
@@ -182,17 +183,25 @@ Notes:
 - The map system enforces a maximum section grid of `60 x 60` and minimum `10 x 10`.
 - Connector definitions are routed into playable space and validated for reachability.
 - `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
+- `blueprint-strict` defaults to flatter old-school output (no sheet wash, paper grain, title block, legend, or compass unless explicitly enabled).
 
 ### Quality Automation
 
 Quality is enforced in three layers:
 
 - Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
-- Local pre-push hook: runs `npm run verify` (lint + tests).
+- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs).
 - CI workflow: GitHub Actions runs `npm run verify` on every PR and on pushes to `main`.
 
 You can run the same checks manually with:
 
 ```bash
 npm run verify
+```
+
+Map rendering snapshots are managed with:
+
+```bash
+npm run map:snapshots:update
+npm run map:snapshots:check
 ```

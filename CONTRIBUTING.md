@@ -21,12 +21,13 @@ Prerequisite: Node.js v20 or newer.
 
 ## Running Tests
 
-Ensure your code passes all formatting, linting, and unit tests before submitting a Pull Request:
+Ensure your code passes formatting, linting, unit tests, and map snapshot checks before submitting a Pull Request:
 
 ```bash
 npm run format
 npm run lint
 npm test
+npm run map:snapshots:check
 ```
 
 ## Pull Requests

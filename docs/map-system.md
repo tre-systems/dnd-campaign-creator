@@ -452,18 +452,20 @@ Produces old-school dungeon maps in the Paratime/TSR blue style.
 #### Rendering order
 
 1. Background fill
-2. Background wash gradient (adds tonal depth to the map field)
-3. Paper grain texture (subtle blueprint speckle)
-4. Rock treatment (layered hatch + stipple + tonal/chisel modulation on wall cells near playable space)
+2. Optional background wash gradient (enhanced profile only)
+3. Optional paper grain texture (enhanced profile only)
+4. Rock treatment:
+   - `blue-enhanced`: layered hatch + stipple + tonal/chisel modulation
+   - `blueprint-strict`: denser dual-hatch + tonal bands, no stipple/chisel overlays
 5. Floor tiles (room floors and corridors)
 6. Grid lines (minor + major 5-square lines over walkable areas)
-7. Wall segments (computed and merged, then rendered as under/main/highlight strokes)
+7. Wall segments (computed and merged; enhanced renders under/main/highlight, strict renders a single heavy wall pass)
 8. Map frame (double-line cartographic border around map area)
 9. Feature symbols (doors, stairs, pillars, altars, etc.)
-10. Room labels (compact number tags in room top-left corners)
-11. Compass rose (bottom-right)
-12. Legend box (only symbols actually used in the map)
-13. Title block and full sheet border (registration/tick marks)
+10. Room labels (profile dependent: top-left number tags in enhanced, centered room numbers in strict)
+11. Optional compass rose (enabled by default in enhanced, disabled by default in strict)
+12. Optional legend box (enabled by default in enhanced, disabled by default in strict)
+13. Optional title block and full sheet border (enabled by default in enhanced, disabled by default in strict)
 
 #### Wall segment computation
 
@@ -477,7 +479,8 @@ on each edge adjacent to a wall cell. Segments are then merged by
 
 This produces clean, continuous wall lines instead of per-cell fragments.
 Wall lines are rendered in three passes (`wall-under`, `wall`,
-`wall-highlight`) for a heavier old-school ink appearance.
+`wall-highlight`) in the enhanced profile, or as a single heavy stroke in
+the strict profile.
 
 Rock treatment uses distance-based density from playable space plus
 deterministic per-cell variation so the surrounding stone reads as hand-drafted
@@ -492,6 +495,11 @@ rather than a uniform fill.
 - Walls: `#16516d` (stroke width 3-4px)
 - Features: `#3b7a9e`
 
+Blue profile variants:
+
+- `blue-enhanced` (default): textured field, sheet furniture, top-left tags.
+- `blueprint-strict`: flatter old-school output with centered labels and reduced chrome.
+
 **Parchment:**
 
 - Background: `#f5f0e6`
@@ -504,9 +512,9 @@ Each cell type has a hand-crafted SVG symbol rendered by
 `renderFeatureSymbol()`. Examples:
 
 - **Door:** Wall notch with center slit and hinge pin
-- **Locked door:** Door notch with hasp bar + keyhole stem
-- **Secret door:** Dashed cut-line with terminal ticks and circled `S`
-- **Stairs:** Tapered tread stack with directional arrow
+- **Locked door:** Door block with prominent hasp bar + key marker
+- **Secret door:** Dashed cut-line with terminal ticks and boxed `S`
+- **Stairs:** Four-step tapered stack with large directional arrow
 - **Pillar:** Filled circle
 - **Altar:** Rectangle with cross
 - **Throne:** Chair shape with back and seat
@@ -517,8 +525,10 @@ Door orientation is inferred from adjacent cell context by
 #### Room labels
 
 Rooms are labelled sequentially: `1-9`, then `A-Z`, then `AA`, `AB`, ... .
-Labels are placed in compact top-left number tags with reduced font size,
-bold weight, and a light stroke halo for readability.
+Labels are profile-dependent:
+
+- `blue-enhanced`: compact top-left number tags.
+- `blueprint-strict`: centered room numbers for immediate table-readability.
 
 #### SVG structure
 
@@ -535,10 +545,10 @@ bold weight, and a light stroke halo for readability.
   <g class="map-frame">...</g>
   <g class="features">...</g>
   <g class="labels">...</g>
-  <g class="compass-group">...</g>
-  <g class="legend">...</g>
-  <g class="title-block-group">...</g>
-  <g class="sheet-border">...</g>
+  <g class="compass-group">...</g>     <!-- optional -->
+  <g class="legend">...</g>            <!-- optional -->
+  <g class="title-block-group">...</g> <!-- optional -->
+  <g class="sheet-border">...</g>      <!-- optional -->
 </svg>
 ```
 
@@ -572,8 +582,8 @@ Assembles a complete markdown document with 10 sections:
 4. Section map (SVG image + ASCII)
 5. Room key (per-room dimensions, occupants, tactical notes)
 6. Transition connectors
-7. Encounter ecology (placeholder)
-8. Dynamic behaviour (placeholder)
+7. Encounter ecology (computed territory zones + patrol routes)
+8. Dynamic behaviour (computed clocks + escalation sequence)
 9. Validation checklist
 10. DM quick-run notes
 
@@ -609,7 +619,10 @@ applyDressing(geometry, graph, rng);
 const geoResult = validateGeometry(geometry, graph, section.connectors);
 
 // Render outputs
-const svg = renderSvg(geometry, graph, intent, { cellSize: 20 });
+const svg = renderSvg(geometry, graph, intent, {
+  cellSize: 20,
+  styleProfile: "blueprint-strict",
+});
 const ascii = renderAscii(geometry, graph);
 const packet = renderPacket(geometry, graph, intent, ascii, "map.svg", {
   valid: topoResult.valid && geoResult.valid,
@@ -657,12 +670,28 @@ Three fixtures in `fixtures/gatehouse-ruin.js`:
 The map rendering has been through several iterations, tracked as versioned
 PNG/SVG artifacts in `docs/map-review/iteration/`.
 
-| Version | Key changes                                                                                                 |
-| ------- | ----------------------------------------------------------------------------------------------------------- |
-| v4      | Initial blue rendering, basic wall segments                                                                 |
-| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                          |
-| v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                    |
-| v7      | A\* corridor routing, rock hatching default, thicker walls                                                  |
-| v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability       |
-| v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync |
-| v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)  |
+Older iteration packet files are preserved for history; pre-`v11` packet
+content may include superseded placeholder sections.
+
+| Version | Key changes                                                                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v4      | Initial blue rendering, basic wall segments                                                                                                          |
+| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                                                                   |
+| v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                                                             |
+| v7      | A\* corridor routing, rock hatching default, thicker walls                                                                                           |
+| v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability                                                |
+| v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync                                          |
+| v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                           |
+| v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
+
+---
+
+## Visual QA Automation
+
+Deterministic PNG/SVG baselines are stored in `docs/map-review/snapshots/`.
+
+- `npm run map:snapshots:update` regenerates baselines intentionally.
+- `npm run map:snapshots:check` compares current output to baselines.
+
+`npm run verify` and CI both include `map:snapshots:check`, so rendering
+drift is caught automatically.

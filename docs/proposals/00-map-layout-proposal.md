@@ -27,6 +27,18 @@ Supersedes proposals A, B, and C. This is the implementation specification for m
 - AI image generation. Maps are programmatic SVG.
 - Full procedural dungeon generation with no human input. The topology graph is authored or guided, not random.
 
+## Implementation Status (March 3, 2026)
+
+This document remains the design target. Current implementation details differ
+slightly in a few places:
+
+- Runtime grid validation currently allows **10 x 10** to **60 x 60** (not capped at 30 x 44).
+- Blue-map rendering now supports two profiles:
+  - `blue-enhanced` (textured sheet + furniture)
+  - `blueprint-strict` (reference-faithful, flatter old-school output)
+- Section packets now auto-generate territory ecology and dynamic escalation
+  sections (no longer placeholders).
+
 ## The Four Layers
 
 ### Layer 1: Intent
@@ -86,6 +98,7 @@ Each edge records: bidirectional flag, gate condition, width class (tight/standa
 ### Layer 3: Geometry
 
 Place the topology onto a grid of at most 30 x 44 squares.
+Current runtime supports larger sections (up to 60 x 60) for multi-wing maps.
 
 #### Room Sizes
 
