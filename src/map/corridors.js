@@ -40,25 +40,26 @@ function bestWallPoint(room, target) {
   const dx = centerB.x - centerA.x;
   const dy = centerB.y - centerA.y;
 
+  // For small rooms (2-3 cells), use the full interior range.
+  // For larger rooms, avoid corners by inset of 1.
+  const yInset = room.h <= 3 ? 0 : 1;
+  const xInset = room.w <= 3 ? 0 : 1;
+  const minWallY = room.y + yInset;
+  const maxWallY = room.y + room.h - 1 - yInset;
+  const minWallX = room.x + xInset;
+  const maxWallX = room.x + room.w - 1 - xInset;
+
   if (Math.abs(dx) > Math.abs(dy)) {
     // Horizontal connection
     if (dx > 0) {
       // Right wall
       const wallX = room.x + room.w;
-      const wallY = clamp(
-        Math.round(centerB.y),
-        room.y + 1,
-        room.y + room.h - 2,
-      );
+      const wallY = clamp(Math.round(centerB.y), minWallY, maxWallY);
       return { x: wallX, y: wallY, wall: "right" };
     } else {
       // Left wall
       const wallX = room.x - 1;
-      const wallY = clamp(
-        Math.round(centerB.y),
-        room.y + 1,
-        room.y + room.h - 2,
-      );
+      const wallY = clamp(Math.round(centerB.y), minWallY, maxWallY);
       return { x: wallX, y: wallY, wall: "left" };
     }
   } else {
@@ -66,20 +67,12 @@ function bestWallPoint(room, target) {
     if (dy > 0) {
       // Bottom wall
       const wallY = room.y + room.h;
-      const wallX = clamp(
-        Math.round(centerB.x),
-        room.x + 1,
-        room.x + room.w - 2,
-      );
+      const wallX = clamp(Math.round(centerB.x), minWallX, maxWallX);
       return { x: wallX, y: wallY, wall: "bottom" };
     } else {
       // Top wall
       const wallY = room.y - 1;
-      const wallX = clamp(
-        Math.round(centerB.x),
-        room.x + 1,
-        room.x + room.w - 2,
-      );
+      const wallX = clamp(Math.round(centerB.x), minWallX, maxWallX);
       return { x: wallX, y: wallY, wall: "top" };
     }
   }
@@ -90,6 +83,114 @@ function bestWallPoint(room, target) {
  */
 function clamp(val, min, max) {
   return Math.max(min, Math.min(max, val));
+}
+
+/**
+ * Try to build a straight (non-L) path between two points.
+ * Only succeeds if the points share an X or Y coordinate.
+ *
+ * @param {{x: number, y: number}} from
+ * @param {{x: number, y: number}} to
+ * @returns {{x: number, y: number}[]|null} Straight path or null
+ */
+function buildStraightPath(from, to) {
+  if (from.x === to.x) {
+    const path = [];
+    const dir = to.y > from.y ? 1 : -1;
+    for (let y = from.y; y !== to.y + dir; y += dir) {
+      path.push({ x: from.x, y });
+    }
+    return path;
+  }
+  if (from.y === to.y) {
+    const path = [];
+    const dir = to.x > from.x ? 1 : -1;
+    for (let x = from.x; x !== to.x + dir; x += dir) {
+      path.push({ x, y: from.y });
+    }
+    return path;
+  }
+  return null;
+}
+
+/**
+ * A* pathfinding to route a corridor between two points.
+ * Prefers carving through WALL cells and avoids existing rooms.
+ * Falls back to L-path if A* fails (e.g., grid too large).
+ *
+ * @param {{x: number, y: number}} from
+ * @param {{x: number, y: number}} to
+ * @param {number[][]} cells - Grid state
+ * @param {Function} rng - Fallback randomness for L-path
+ * @returns {{x: number, y: number}[]} Path of grid coordinates
+ */
+function routeAStar(from, to, cells, rng) {
+  const gridH = cells.length;
+  const gridW = cells[0].length;
+  const key = (x, y) => y * gridW + x;
+
+  // Cost model: WALL is cheap (1), CORRIDOR is free (0), FLOOR is expensive (10)
+  const moveCost = (x, y) => {
+    if (x < 0 || x >= gridW || y < 0 || y >= gridH) return Infinity;
+    const c = cells[y][x];
+    if (c === CELL.WALL) return 1;
+    if (c === CELL.CORRIDOR) return 0;
+    return 10; // FLOOR or features — avoid cutting through rooms
+  };
+
+  const heuristic = (x, y) => Math.abs(x - to.x) + Math.abs(y - to.y);
+  const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+  // Simple priority queue (array sorted on insert — fine for dungeon-scale grids)
+  const open = [{ x: from.x, y: from.y, g: 0, f: heuristic(from.x, from.y) }];
+  const gScore = new Map();
+  const cameFrom = new Map();
+  gScore.set(key(from.x, from.y), 0);
+
+  const MAX_ITERATIONS = 5000;
+  let iterations = 0;
+
+  while (open.length > 0 && iterations < MAX_ITERATIONS) {
+    iterations++;
+    // Pop lowest f-score
+    let bestIdx = 0;
+    for (let i = 1; i < open.length; i++) {
+      if (open[i].f < open[bestIdx].f) bestIdx = i;
+    }
+    const current = open.splice(bestIdx, 1)[0];
+
+    if (current.x === to.x && current.y === to.y) {
+      // Reconstruct path
+      const path = [];
+      let k = key(to.x, to.y);
+      path.push({ x: to.x, y: to.y });
+      while (cameFrom.has(k)) {
+        const prev = cameFrom.get(k);
+        path.push(prev);
+        k = key(prev.x, prev.y);
+      }
+      path.reverse();
+      return path;
+    }
+
+    for (const [dx, dy] of dirs) {
+      const nx = current.x + dx;
+      const ny = current.y + dy;
+      const cost = moveCost(nx, ny);
+      if (cost === Infinity) continue;
+
+      const tentativeG = current.g + cost + 1; // +1 base step cost
+      const nk = key(nx, ny);
+      if (!gScore.has(nk) || tentativeG < gScore.get(nk)) {
+        gScore.set(nk, tentativeG);
+        cameFrom.set(nk, { x: current.x, y: current.y });
+        open.push({ x: nx, y: ny, g: tentativeG, f: tentativeG + heuristic(nx, ny) });
+      }
+    }
+  }
+
+  // Fallback to L-path if A* exhausted
+  return routeL(from, to, cells, rng);
 }
 
 /**
@@ -262,9 +363,9 @@ function widthClassToCells(widthClass) {
     case "tight":
       return 1;
     case "wide":
-      return 3;
-    default:
       return 2;
+    default:
+      return 1;
   }
 }
 
@@ -331,8 +432,8 @@ function routeCorridors(geometry, graph, rng, connectors) {
     const pointA = bestWallPoint(roomA, roomB);
     const pointB = bestWallPoint(roomB, roomA);
 
-    // Route L-shaped corridor
-    const path = routeL(pointA, pointB, geometry.cells, rng);
+    // Route corridor using A* pathfinding for shortest natural path
+    const path = routeAStar(pointA, pointB, geometry.cells, rng);
 
     // Carve corridor into grid
     const corridorWidth = widthClassToCells(edge.width);

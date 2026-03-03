@@ -41,15 +41,16 @@ const CELL = {
 };
 
 /** Minimum partition dimension to fit a room + walls + corridor space */
-const MIN_PARTITION_DIM = 7;
+const MIN_PARTITION_DIM = 5;
 
 /**
  * Size class dimension ranges (inclusive).
+ * Tuned for 10ft-per-square old-school style maps.
  */
 const SIZE_RANGES = {
-  small: { minW: 3, maxW: 5, minH: 3, maxH: 5 },
-  medium: { minW: 6, maxW: 8, minH: 6, maxH: 10 },
-  large: { minW: 10, maxW: 15, minH: 10, maxH: 20 },
+  small: { minW: 2, maxW: 3, minH: 2, maxH: 3 },
+  medium: { minW: 3, maxW: 5, minH: 3, maxH: 6 },
+  large: { minW: 5, maxW: 8, minH: 5, maxH: 10 },
 };
 
 /**
@@ -74,8 +75,11 @@ function randomDimensionsForSizeClass(sizeClass, rng, density) {
     }
     return min + Math.floor(rng() * (span + 1));
   };
-  const w = pick(range.minW, range.maxW);
-  const h = pick(range.minH, range.maxH);
+  let w = pick(range.minW, range.maxW);
+  let h = pick(range.minH, range.maxH);
+  // Constrain aspect ratio to at most 2:1 for natural-looking rooms
+  if (w > h * 2) w = h * 2;
+  if (h > w * 2) h = w * 2;
   return { w, h };
 }
 
@@ -188,7 +192,7 @@ function collectLeaves(node) {
  */
 function placeRoomInPartition(roomSpec, partition, rng, density) {
   density = density || "standard";
-  const marginByDensity = { sparse: 3, standard: 2, dense: 1 };
+  const marginByDensity = { sparse: 2, standard: 1, dense: 1 };
   const margin = marginByDensity[density] || 2;
   const maxW = partition.w - margin * 2;
   const maxH = partition.h - margin * 2;
@@ -197,7 +201,7 @@ function placeRoomInPartition(roomSpec, partition, rng, density) {
   const w = Math.min(roomSpec.w, maxW);
   const h = Math.min(roomSpec.h, maxH);
 
-  if (w < 3 || h < 3) {
+  if (w < 2 || h < 2) {
     return null;
   }
 
@@ -237,13 +241,35 @@ function createGrid(width, height) {
 
 /**
  * Fill a room area with FLOOR cells on the grid.
+ * For larger rooms, optionally carves an L-shape by removing a corner notch.
  *
  * @param {number[][]} cells - Grid
  * @param {Object} room - PlacedRoom
+ * @param {Function} [rng] - Seeded random function (if provided, may carve L-shapes)
  */
-function fillRoomFloor(cells, room) {
+function fillRoomFloor(cells, room, rng) {
+  // Determine if this room gets an L-shaped notch
+  let notch = null;
+  if (rng && room.w >= 4 && room.h >= 4 && rng() < 0.35) {
+    // Carve a notch from one corner (30-50% of each dimension)
+    const nw = 1 + Math.floor(rng() * Math.floor(room.w * 0.4));
+    const nh = 1 + Math.floor(rng() * Math.floor(room.h * 0.4));
+    const corner = Math.floor(rng() * 4); // 0=TL, 1=TR, 2=BL, 3=BR
+    switch (corner) {
+      case 0: notch = { x: room.x, y: room.y, w: nw, h: nh }; break;
+      case 1: notch = { x: room.x + room.w - nw, y: room.y, w: nw, h: nh }; break;
+      case 2: notch = { x: room.x, y: room.y + room.h - nh, w: nw, h: nh }; break;
+      case 3: notch = { x: room.x + room.w - nw, y: room.y + room.h - nh, w: nw, h: nh }; break;
+    }
+    room.notch = notch;
+  }
+
   for (let y = room.y; y < room.y + room.h; y++) {
     for (let x = room.x; x < room.x + room.w; x++) {
+      // Skip cells inside the notch
+      if (notch && x >= notch.x && x < notch.x + notch.w && y >= notch.y && y < notch.y + notch.h) {
+        continue;
+      }
       cells[y][x] = CELL.FLOOR;
     }
   }
@@ -360,7 +386,7 @@ function layoutConstructed(
       // Step 5: Build the grid
       const cells = createGrid(gridSize.width, gridSize.height);
       for (const room of rooms) {
-        fillRoomFloor(cells, room);
+        fillRoomFloor(cells, room, rng);
       }
 
       // Step 6: Mark connectors

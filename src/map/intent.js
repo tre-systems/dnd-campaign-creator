@@ -17,8 +17,8 @@ const VALID_SESSION_LOADS = ["light", "standard", "heavy"];
 const VALID_LAYOUT_STRATEGIES = ["constructed", "organic", "hybrid"];
 const VALID_DENSITIES = ["sparse", "standard", "dense"];
 
-const MAX_GRID_WIDTH = 30;
-const MAX_GRID_HEIGHT = 44;
+const MAX_GRID_WIDTH = 60;
+const MAX_GRID_HEIGHT = 60;
 
 /**
  * Validate a section definition and return a normalised Intent object.

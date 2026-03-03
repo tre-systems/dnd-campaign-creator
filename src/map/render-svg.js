@@ -179,25 +179,29 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
   const r = cs * 0.3;
 
   switch (cellType) {
-    case CELL.DOOR:
-      // Classic old-school door: short bar across opening
+    case CELL.DOOR: {
+      // Classic old-school door: small square notch on the wall
+      const dr = r * 1.3;
       if (orientation === "vertical") {
-        return `<rect class="door" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 2.1}" rx="1"/>`;
+        return `<rect class="door" x="${cx - dr * 0.4}" y="${cy - dr * 0.9}" width="${dr * 0.8}" height="${dr * 1.8}" rx="1"/>`;
       }
-      return `<rect class="door" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 2.1}" height="${r * 0.9}" rx="1"/>`;
+      return `<rect class="door" x="${cx - dr * 0.9}" y="${cy - dr * 0.4}" width="${dr * 1.8}" height="${dr * 0.8}" rx="1"/>`;
+    }
 
-    case CELL.DOOR_LOCKED:
+    case CELL.DOOR_LOCKED: {
       // Locked door: filled rectangle with keyhole circle
+      const dlr = r * 1.3;
       if (orientation === "vertical") {
         return [
-          `<rect class="door-locked" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 2.1}" rx="1"/>`,
-          `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${r * 0.2}"/>`,
+          `<rect class="door-locked" x="${cx - dlr * 0.4}" y="${cy - dlr * 0.9}" width="${dlr * 0.8}" height="${dlr * 1.8}" rx="1"/>`,
+          `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${dlr * 0.18}"/>`,
         ].join("\n      ");
       }
       return [
-        `<rect class="door-locked" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 2.1}" height="${r * 0.9}" rx="1"/>`,
-        `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${r * 0.2}"/>`,
+        `<rect class="door-locked" x="${cx - dlr * 0.9}" y="${cy - dlr * 0.4}" width="${dlr * 1.8}" height="${dlr * 0.8}" rx="1"/>`,
+        `<circle class="door-locked-key" cx="${cx}" cy="${cy}" r="${dlr * 0.18}"/>`,
       ].join("\n      ");
+    }
 
     case CELL.DOOR_SECRET:
       // Secret door: dashed line with S marker
@@ -404,7 +408,7 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
  * @returns {string}
  */
 function generateStyles(cellSize, colorScheme) {
-  const wallWidth = cellSize < 15 ? 2 : 3;
+  const wallWidth = cellSize < 15 ? 3 : 4;
 
   if (colorScheme === "parchment") {
     return `<style>
@@ -463,59 +467,66 @@ function generateStyles(cellSize, colorScheme) {
   }
 
   // Classic blue dungeon map style (default)
-  // Inspired by old-school blue/white dungeon keymaps.
+  // Inspired by old-school Paratime blue/white dungeon keymaps.
+  const sym = "#3b7a9e"; // symbol colour (darker than bg, lighter than wall)
   return `<style>
-    .bg { fill: #4d95c0; }
-    .floor { fill: #f8fcff; }
-    .corridor { fill: #f8fcff; }
-    .grid-line { stroke: #d3e6f3; stroke-width: 0.7; }
-    .wall { stroke: #4d95c0; stroke-width: ${wallWidth}; stroke-linecap: round; stroke-linejoin: round; }
-    .door { fill: #f8fcff; stroke: #3f7fa8; stroke-width: 1.8; }
-    .door-locked { fill: #f8fcff; stroke: #3f7fa8; stroke-width: 1.8; }
-    .door-locked-key { fill: #3f7fa8; stroke: none; }
-    .door-secret { fill: none; stroke: #3f7fa8; stroke-width: 1.6; stroke-dasharray: 2,2; }
-    .secret-label { font-family: Georgia, serif; font-weight: bold; fill: #3f7fa8; }
-    .stairs { fill: none; stroke: #3f7fa8; stroke-width: 1.5; }
-    .stairs-arrow { fill: #3f7fa8; stroke: none; }
-    .pillar { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
-    .trap { fill: none; stroke: #3f7fa8; stroke-width: 1.5; }
-    .water { fill: #edf4fa; stroke: #7faecc; stroke-width: 0.8; }
-    .treasure { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
-    .rubble { fill: #edf3f7; }
-    .portcullis { fill: none; stroke: #3f7fa8; stroke-width: 1.3; }
-    .archway { fill: none; stroke: #3f7fa8; stroke-width: 1.4; }
-    .archway-base { fill: #3f7fa8; stroke: none; }
-    .curtain { fill: none; stroke: #3f7fa8; stroke-width: 1.3; stroke-dasharray: 4,2; }
-    .statue-base { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .statue { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .altar { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .altar-cross { stroke: #3f7fa8; stroke-width: 1.2; }
-    .well-outer { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .well-inner { fill: none; stroke: #3f7fa8; stroke-width: 1; }
-    .fountain-outer { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .fountain-inner { fill: none; stroke: #3f7fa8; stroke-width: 1; }
-    .fountain-jet { stroke: #3f7fa8; stroke-width: 1; }
-    .firepit { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .firepit-flame { fill: #3f7fa8; stroke: none; opacity: 0.35; }
-    .throne { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .throne-seat { fill: #3f7fa8; stroke: none; opacity: 0.2; }
-    .throne-arm { stroke: #3f7fa8; stroke-width: 1.2; }
-    .sarcophagus { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .sarcophagus-lid { fill: none; stroke: #3f7fa8; stroke-width: 1; opacity: 0.9; }
-    .bars { stroke: #3f7fa8; stroke-width: 1.2; }
-    .pit { fill: none; stroke: #3f7fa8; stroke-width: 1.2; }
-    .pit-hatch { stroke: #3f7fa8; stroke-width: 1; }
-    .lever-base { fill: #3f7fa8; stroke: #3f7fa8; stroke-width: 1; }
-    .lever-arm { stroke: #3f7fa8; stroke-width: 1.2; }
-    .lever-handle { fill: #3f7fa8; stroke: none; }
-    .collapsed { fill: #e2f0f8; stroke: none; }
-    .rubble-dot { fill: #84b2cd; stroke: none; }
-    .water-wave { fill: none; stroke: #3f7fa8; stroke-width: 0.8; opacity: 0.5; }
-    .room-number { font-family: Georgia, serif; font-size: ${Math.max(10, cellSize * 0.7)}px; font-weight: bold; fill: #3a739d; text-anchor: middle; dominant-baseline: central; }
-    .room-name { font-family: Georgia, serif; font-size: ${Math.max(7, cellSize * 0.4)}px; fill: #4f89ad; text-anchor: middle; dominant-baseline: central; }
+    .bg { fill: #4a90b8; }
+    .floor { fill: #f5fafd; }
+    .corridor { fill: #f5fafd; }
+    .grid-line { stroke: #d0e0ec; stroke-width: 0.5; }
+    .wall { stroke: #16516d; stroke-width: ${wallWidth}; stroke-linecap: square; stroke-linejoin: miter; }
+    .door { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
+    .door-locked { fill: #f0f6fa; stroke: ${sym}; stroke-width: 2; }
+    .door-locked-key { fill: ${sym}; stroke: none; }
+    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.8; stroke-dasharray: 2,2; }
+    .secret-label { font-family: Georgia, serif; font-weight: bold; fill: ${sym}; }
+    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.8; }
+    .stairs-arrow { fill: ${sym}; stroke: none; }
+    .pillar { fill: ${sym}; stroke: none; }
+    .trap { fill: none; stroke: ${sym}; stroke-width: 1.8; }
+    .water { fill: #dce9f2; stroke: ${sym}; stroke-width: 0.8; }
+    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .rubble { fill: #e4edf3; }
+    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .archway { fill: none; stroke: ${sym}; stroke-width: 1.6; }
+    .archway-base { fill: ${sym}; stroke: none; }
+    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.5; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .statue { fill: ${sym}; stroke: none; }
+    .altar { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .altar-cross { stroke: ${sym}; stroke-width: 1.5; }
+    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .well-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
+    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
+    .fountain-jet { stroke: ${sym}; stroke-width: 1; }
+    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.4; }
+    .throne { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.25; }
+    .throne-arm { stroke: ${sym}; stroke-width: 1.4; }
+    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 1; opacity: 0.9; }
+    .bars { stroke: ${sym}; stroke-width: 1.4; }
+    .pit { fill: none; stroke: ${sym}; stroke-width: 1.4; }
+    .pit-hatch { stroke: ${sym}; stroke-width: 1; }
+    .lever-base { fill: ${sym}; stroke: ${sym}; stroke-width: 1; }
+    .lever-arm { stroke: ${sym}; stroke-width: 1.4; }
+    .lever-handle { fill: ${sym}; stroke: none; }
+    .collapsed { fill: #dae6ee; stroke: none; }
+    .rubble-dot { fill: #7eaec8; stroke: none; }
+    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.8; opacity: 0.5; }
+    .room-number { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.6)}px; font-weight: bold; fill: #1b5a78; text-anchor: start; dominant-baseline: central; }
     .title-text { font-family: Georgia, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
-    .compass-line { stroke: #dff0fa; stroke-width: 1; }
-    .compass-text { font-family: Georgia, serif; font-size: ${cellSize * 0.5}px; fill: #dff0fa; text-anchor: middle; }
+    .compass-fill { fill: #f0f6fa; }
+    .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.5; }
+    .compass-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.55)}px; font-weight: bold; fill: #f0f6fa; text-anchor: middle; }
+    .legend-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 2; }
+    .legend-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(10, cellSize * 0.55)}px; font-weight: bold; fill: #1b5a78; }
+    .legend-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: ${Math.max(8, cellSize * 0.4)}px; fill: #1b5a78; }
+    .legend-sym { stroke: ${sym}; stroke-width: 1.5; fill: none; }
+    .legend-sym-filled { fill: ${sym}; stroke: none; }
+    .scale-box { fill: #f0f6fa; stroke: #1b5a78; stroke-width: 1; }
     .rock-hatch { stroke: #67a0c2; stroke-width: 0.5; }
   </style>`;
 }
@@ -628,23 +639,149 @@ function renderRockHatch(cells, width, height, cs) {
 }
 
 /**
- * Render a compass rose in the top-right corner.
+ * Render a decorative north arrow in the Paratime style.
+ * Large arrow with "North" label, placed at the bottom-right of the map.
  *
  * @param {number} svgW - SVG width
+ * @param {number} svgH - SVG height
  * @param {number} cs - Cell size
  * @returns {string} SVG group string
  */
-function renderCompass(svgW, cs) {
-  const cx = svgW - cs * 2;
-  const cy = cs * 2;
-  const r = cs * 0.8;
+function renderCompass(svgW, svgH, cs) {
+  const cx = svgW - cs * 2.5;
+  const cy = svgH - cs * 3.5;
+  const s = cs * 1.2; // arrow scale
+
+  // Arrow pointing up with a decorative base
   return [
     `<g class="compass" transform="translate(${cx},${cy})">`,
-    `  <line class="compass-line" x1="0" y1="${-r}" x2="0" y2="${r}"/>`,
-    `  <line class="compass-line" x1="${-r}" y1="0" x2="${r}" y2="0"/>`,
-    `  <text class="compass-text" x="0" y="${-r - 4}">N</text>`,
+    // Arrow shaft
+    `  <polygon class="compass-fill" points="0,${-s * 1.4} ${s * 0.45},${s * 0.3} ${s * 0.12},${s * 0.3} ${s * 0.12},${s * 1.0} ${-s * 0.12},${s * 1.0} ${-s * 0.12},${s * 0.3} ${-s * 0.45},${s * 0.3}"/>`,
+    `  <polygon class="compass-stroke" points="0,${-s * 1.4} ${s * 0.45},${s * 0.3} ${s * 0.12},${s * 0.3} ${s * 0.12},${s * 1.0} ${-s * 0.12},${s * 1.0} ${-s * 0.12},${s * 0.3} ${-s * 0.45},${s * 0.3}"/>`,
+    // Base circle
+    `  <circle class="compass-fill" cx="0" cy="${s * 1.2}" r="${s * 0.25}"/>`,
+    `  <circle class="compass-stroke" cx="0" cy="${s * 1.2}" r="${s * 0.25}"/>`,
+    // "North" label
+    `  <text class="compass-text" x="0" y="${s * 1.8}" dominant-baseline="hanging">North</text>`,
     `</g>`,
   ].join("\n    ");
+}
+
+/**
+ * Detect which feature cell types are present in the map.
+ *
+ * @param {number[][]} cells
+ * @param {number} width
+ * @param {number} height
+ * @returns {Set<number>}
+ */
+function detectUsedFeatures(cells, width, height) {
+  const used = new Set();
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const c = cells[y][x];
+      if (c !== CELL.WALL && c !== CELL.FLOOR && c !== CELL.CORRIDOR) {
+        used.add(c);
+      }
+    }
+  }
+  return used;
+}
+
+/**
+ * Render a legend box in the Paratime style.
+ * Only shows symbols that actually appear on the map.
+ *
+ * @param {Set<number>} usedFeatures - Feature types present
+ * @param {number} x - Legend top-left x
+ * @param {number} y - Legend top-left y
+ * @param {number} cs - Cell size
+ * @returns {string} SVG group
+ */
+function renderLegend(usedFeatures, x, y, cs) {
+  // Map of cell types to legend label
+  const legendItems = [
+    [CELL.DOOR, "Door"],
+    [CELL.DOOR_LOCKED, "Locked Door"],
+    [CELL.DOOR_SECRET, "Secret Door"],
+    [CELL.DOUBLE_DOOR, "Double Door"],
+    [CELL.PORTCULLIS, "Portcullis"],
+    [CELL.ARCHWAY, "Archway"],
+    [CELL.STAIRS_DOWN, "Stairs Down"],
+    [CELL.STAIRS_UP, "Stairs Up"],
+    [CELL.PILLAR, "Column"],
+    [CELL.STATUE, "Statue"],
+    [CELL.ALTAR, "Altar"],
+    [CELL.WELL, "Well"],
+    [CELL.FOUNTAIN, "Fountain"],
+    [CELL.FIREPIT, "Fire Pit"],
+    [CELL.THRONE, "Throne"],
+    [CELL.SARCOPHAGUS, "Sarcophagus"],
+    [CELL.BARS, "Bars"],
+    [CELL.PIT, "Covered Pit"],
+    [CELL.LEVER, "Lever"],
+    [CELL.TRAP, "Trap"],
+    [CELL.WATER, "Water"],
+    [CELL.TREASURE, "Treasure"],
+    [CELL.COLLAPSED, "Collapsed"],
+    [CELL.CURTAIN, "Curtain"],
+    [CELL.RUBBLE, "Rubble"],
+  ];
+
+  const active = legendItems.filter(([type]) => usedFeatures.has(type));
+  if (active.length === 0) return "";
+
+  const colW = cs * 5.5;
+  const rowH = cs * 1.2;
+  const cols = Math.min(4, active.length);
+  const rows = Math.ceil(active.length / cols);
+  const pad = cs * 0.5;
+  const titleH = cs * 1.0;
+  const boxW = cols * colW + pad * 2;
+  const boxH = rows * rowH + titleH + pad * 2;
+
+  const parts = [];
+  parts.push(`<g class="legend" transform="translate(${x},${y})">`);
+  // Box
+  parts.push(
+    `  <rect class="legend-box" x="0" y="0" width="${boxW}" height="${boxH}" rx="3"/>`,
+  );
+  // Title
+  parts.push(
+    `  <text class="legend-title" x="${pad}" y="${pad + titleH * 0.65}">LEGEND</text>`,
+  );
+  // Scale indicator
+  parts.push(
+    `  <rect class="scale-box" x="${boxW - pad - cs * 2.5}" y="${pad + titleH * 0.1}" width="${cs}" height="${cs}"/>`,
+  );
+  parts.push(
+    `  <text class="legend-text" x="${boxW - pad - cs * 1.3}" y="${pad + titleH * 0.65}">= 10ft.</text>`,
+  );
+
+  // Underline
+  parts.push(
+    `  <line class="legend-sym" x1="${pad}" y1="${pad + titleH}" x2="${boxW - pad}" y2="${pad + titleH}" stroke-width="0.5"/>`,
+  );
+
+  // Items
+  for (let i = 0; i < active.length; i++) {
+    const [cellType, label] = active[i];
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const ix = pad + col * colW;
+    const iy = pad + titleH + row * rowH + rowH * 0.5;
+    const symSize = cs * 0.7;
+
+    // Render a mini symbol
+    const sym = renderFeatureSymbol(cellType, ix, iy - symSize / 2, symSize);
+    if (sym) parts.push(`  ${sym}`);
+    parts.push(
+      `  <text class="legend-text" x="${ix + symSize + cs * 0.2}" y="${iy}" dominant-baseline="central">${label}</text>`,
+    );
+  }
+
+  parts.push(`</g>`);
+  return parts.join("\n    ");
 }
 
 /**
@@ -659,6 +796,7 @@ function renderCompass(svgW, cs) {
  * @param {boolean} [options.showLabels=true] - Show room labels
  * @param {boolean} [options.showRockHatch=false] - Show rock crosshatch
  * @param {boolean} [options.showCompass=true] - Show compass rose
+ * @param {boolean} [options.showLegend=true] - Show legend box
  * @param {string} [options.colorScheme='blue'] - 'blue' for classic blue, 'parchment' for warm tones
  * @returns {string} Complete SVG document as string
  */
@@ -667,12 +805,59 @@ function renderSvg(geometry, graph, intent, options) {
   const cs = options.cellSize || 20;
   const showGrid = options.showGrid !== false;
   const showLabels = options.showLabels !== false;
-  const showRockHatch = options.showRockHatch === true; // Default OFF to match clean blue-map style
+  const showRockHatch = options.showRockHatch !== false; // Default ON for old-school wall fill
   const showCompass = options.showCompass !== false;
+  const showLegend = options.showLegend !== false;
   const colorScheme = options.colorScheme || "blue";
 
-  const svgW = geometry.width * cs;
-  const svgH = geometry.height * cs;
+  const mapW = geometry.width * cs;
+  const mapH = geometry.height * cs;
+
+  // Detect used features for legend
+  const usedFeatures = detectUsedFeatures(
+    geometry.cells,
+    geometry.width,
+    geometry.height,
+  );
+
+  // Compute legend dimensions to add to total SVG height
+  const legendItems = [
+    CELL.DOOR,
+    CELL.DOOR_LOCKED,
+    CELL.DOOR_SECRET,
+    CELL.DOUBLE_DOOR,
+    CELL.PORTCULLIS,
+    CELL.ARCHWAY,
+    CELL.STAIRS_DOWN,
+    CELL.STAIRS_UP,
+    CELL.PILLAR,
+    CELL.STATUE,
+    CELL.ALTAR,
+    CELL.WELL,
+    CELL.FOUNTAIN,
+    CELL.FIREPIT,
+    CELL.THRONE,
+    CELL.SARCOPHAGUS,
+    CELL.BARS,
+    CELL.PIT,
+    CELL.LEVER,
+    CELL.TRAP,
+    CELL.WATER,
+    CELL.TREASURE,
+    CELL.COLLAPSED,
+    CELL.CURTAIN,
+    CELL.RUBBLE,
+  ].filter((t) => usedFeatures.has(t));
+
+  let legendH = 0;
+  if (showLegend && legendItems.length > 0) {
+    const cols = Math.min(4, legendItems.length);
+    const rows = Math.ceil(legendItems.length / cols);
+    legendH = rows * cs * 1.2 + cs * 1.0 + cs * 1.0 + cs;
+  }
+
+  const svgW = mapW;
+  const svgH = mapH + legendH;
 
   const parts = [];
 
@@ -773,41 +958,36 @@ function renderSvg(geometry, graph, intent, options) {
   }
   parts.push(`  </g>`);
 
-  // Room labels
+  // Room labels (Paratime style: small bold number in top-left corner, no names)
   if (showLabels && geometry.rooms) {
     parts.push(`  <g class="labels">`);
     for (let i = 0; i < geometry.rooms.length; i++) {
       const room = geometry.rooms[i];
-      const cx = (room.x + room.w / 2) * cs;
-      const cy = (room.y + room.h / 2) * cs;
+      // Position in the top-left area of the room
+      const lx = (room.x + 0.3) * cs;
+      const ly = (room.y + 0.75) * cs;
 
-      // Room number
+      // Room number only (no names on the map - those go in a separate key)
       const num = i < 9 ? String(i + 1) : String.fromCharCode(65 + i - 9);
       parts.push(
-        `    <text class="room-number" x="${cx}" y="${cy - cs * 0.2}">${num}</text>`,
+        `    <text class="room-number" x="${lx}" y="${ly}">${num}</text>`,
       );
-
-      // Room name (smaller, below number)
-      const node = graph.nodeMap.get(room.nodeId);
-      if (node && room.w >= 4 && room.h >= 4) {
-        // Only show name if room is large enough
-        const name =
-          node.name.length > 12
-            ? node.name.substring(0, 11) + "\u2026"
-            : node.name;
-        parts.push(
-          `    <text class="room-name" x="${cx}" y="${cy + cs * 0.4}">${escapeXml(name)}</text>`,
-        );
-      }
     }
     parts.push(`  </g>`);
   }
 
-  // Compass rose
+  // Compass rose (placed relative to map area, not legend)
   if (showCompass) {
     parts.push(`  <g class="compass-group">`);
-    parts.push(`    ${renderCompass(svgW, cs)}`);
+    parts.push(`    ${renderCompass(mapW, mapH, cs)}`);
     parts.push(`  </g>`);
+  }
+
+  // Legend box below map
+  if (showLegend && legendItems.length > 0) {
+    const legendX = cs;
+    const legendY = mapH + cs * 0.5;
+    parts.push(`  ${renderLegend(usedFeatures, legendX, legendY, cs)}`);
   }
 
   parts.push(`</svg>`);

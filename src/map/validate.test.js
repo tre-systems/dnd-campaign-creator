@@ -36,7 +36,7 @@ describe("validate", () => {
     it("fails when grid too large", () => {
       const section = createGatehouseSection();
       const graph = buildGraph(section.nodes, section.edges);
-      const result = validateTopology(graph, { width: 50, height: 50 });
+      const result = validateTopology(graph, { width: 70, height: 70 });
       const gridRule = result.results.find((r) => r.rule === "Grid size");
       assert.equal(gridRule.passed, false);
     });

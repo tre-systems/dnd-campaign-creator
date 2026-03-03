@@ -14,8 +14,8 @@ describe("intent", () => {
       });
       assert.equal(intent.id, "test-section");
       assert.equal(intent.pressure, "faction");
-      assert.equal(intent.grid.width, 30);
-      assert.equal(intent.grid.height, 44);
+      assert.equal(intent.grid.width, 60);
+      assert.equal(intent.grid.height, 60);
       assert.equal(intent.layoutStrategy, "constructed");
       assert.equal(intent.density, "standard");
     });
@@ -56,7 +56,7 @@ describe("intent", () => {
       );
     });
 
-    it("rejects grid dimensions exceeding 30x44", () => {
+    it("rejects grid dimensions exceeding 60x60", () => {
       assert.throws(
         () =>
           buildIntent({
@@ -65,7 +65,7 @@ describe("intent", () => {
             pressure: "faction",
             sessionLoad: "light",
             promise: "p",
-            grid: { width: 50, height: 50 },
+            grid: { width: 70, height: 70 },
           }),
         /exceed maximum/,
       );

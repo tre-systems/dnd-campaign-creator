@@ -20,8 +20,8 @@ describe("geometry", () => {
       const rng = createRng(42);
       for (let i = 0; i < 100; i++) {
         const { w, h } = randomDimensionsForSizeClass("small", rng);
-        assert.ok(w >= 3 && w <= 5, `small width ${w} out of range`);
-        assert.ok(h >= 3 && h <= 5, `small height ${h} out of range`);
+        assert.ok(w >= 2 && w <= 3, `small width ${w} out of range`);
+        assert.ok(h >= 2 && h <= 3, `small height ${h} out of range`);
       }
     });
 
@@ -29,8 +29,8 @@ describe("geometry", () => {
       const rng = createRng(42);
       for (let i = 0; i < 100; i++) {
         const { w, h } = randomDimensionsForSizeClass("medium", rng);
-        assert.ok(w >= 6 && w <= 8, `medium width ${w} out of range`);
-        assert.ok(h >= 6 && h <= 10, `medium height ${h} out of range`);
+        assert.ok(w >= 3 && w <= 5, `medium width ${w} out of range`);
+        assert.ok(h >= 3 && h <= 6, `medium height ${h} out of range`);
       }
     });
 
@@ -38,8 +38,8 @@ describe("geometry", () => {
       const rng = createRng(42);
       for (let i = 0; i < 100; i++) {
         const { w, h } = randomDimensionsForSizeClass("large", rng);
-        assert.ok(w >= 10 && w <= 15, `large width ${w} out of range`);
-        assert.ok(h >= 10 && h <= 20, `large height ${h} out of range`);
+        assert.ok(w >= 5 && w <= 8, `large width ${w} out of range`);
+        assert.ok(h >= 5 && h <= 10, `large height ${h} out of range`);
       }
     });
 
@@ -106,7 +106,7 @@ describe("geometry", () => {
         section.grid,
         section.density,
         section.connectors,
-        10,
+        50,
         rng,
       );
 
@@ -134,7 +134,7 @@ describe("geometry", () => {
         section.grid,
         section.density,
         [],
-        10,
+        50,
         rng,
       );
 
@@ -161,7 +161,7 @@ describe("geometry", () => {
         section.grid,
         section.density,
         [],
-        10,
+        50,
         rng,
       );
 
@@ -182,7 +182,7 @@ describe("geometry", () => {
         section.grid,
         "standard",
         [],
-        10,
+        50,
         rng1,
       );
 
@@ -192,7 +192,7 @@ describe("geometry", () => {
         section.grid,
         "standard",
         [],
-        10,
+        50,
         rng2,
       );
 

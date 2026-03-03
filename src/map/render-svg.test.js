@@ -307,9 +307,12 @@ describe("render-svg", () => {
         svg.includes(`width="${geometry.width * 20}"`),
         "SVG width should match",
       );
+      // Height includes legend area, so it should be >= grid height
+      const heightMatch = svg.match(/height="(\d+)"/);
+      assert.ok(heightMatch, "SVG should have height attribute");
       assert.ok(
-        svg.includes(`height="${geometry.height * 20}"`),
-        "SVG height should match",
+        parseInt(heightMatch[1]) >= geometry.height * 20,
+        "SVG height should be at least grid height",
       );
     });
 
@@ -362,7 +365,7 @@ describe("render-svg", () => {
       const { geometry, graph, intent } = generateGatehouseMap();
       const svg = renderSvg(geometry, graph, intent);
       assert.ok(
-        svg.includes("#4d95c0"),
+        svg.includes("#4a90b8"),
         "Should contain blue background color",
       );
     });
@@ -376,7 +379,7 @@ describe("render-svg", () => {
         svg.includes("#f5f0e6"),
         "Should contain parchment background color",
       );
-      assert.ok(!svg.includes("#4d95c0"), "Should not contain blue background");
+      assert.ok(!svg.includes("#4a90b8"), "Should not contain blue background");
     });
 
     it("includes compass rose by default", () => {
@@ -386,7 +389,7 @@ describe("render-svg", () => {
         svg.includes('class="compass"'),
         "SVG should contain compass rose",
       );
-      assert.ok(svg.includes(">N<"), "Compass should show N");
+      assert.ok(svg.includes("North"), "Compass should show North");
     });
 
     it("includes floor and corridor rects", () => {

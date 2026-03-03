@@ -43,12 +43,12 @@ describe("corridors", () => {
       assert.equal(widthClassToCells("tight"), 1);
     });
 
-    it("returns 2 for standard", () => {
-      assert.equal(widthClassToCells("standard"), 2);
+    it("returns 1 for standard (10ft corridor)", () => {
+      assert.equal(widthClassToCells("standard"), 1);
     });
 
-    it("returns 3 for wide", () => {
-      assert.equal(widthClassToCells("wide"), 3);
+    it("returns 2 for wide (20ft corridor)", () => {
+      assert.equal(widthClassToCells("wide"), 2);
     });
   });
 
