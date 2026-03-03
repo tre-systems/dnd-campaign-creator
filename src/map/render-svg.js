@@ -892,15 +892,25 @@ function renderRockHatch(cells, width, height, cs) {
       const tonalMod = 0.9 + (noiseB - 0.5) * 0.24;
       const jitter = 0.82 + noiseA * 0.36;
       const tunedIntensity = clamp(intensity * tonalMod, 0.34, 1.12);
-      const toneOpacity = clamp(0.08 + tunedIntensity * 0.16 + (noiseC - 0.5) * 0.05, 0.06, 0.32);
-      const majorOpacity = clamp(0.2 + tunedIntensity * 0.3, 0.2, 0.86) * jitter;
-      const minorOpacity = clamp(0.14 + tunedIntensity * 0.2, 0.12, 0.64) * (0.9 + noiseC * 0.22);
-      const stippleOpacity = clamp(0.12 + tunedIntensity * 0.17, 0.1, 0.52) * (0.9 + noiseB * 0.18);
+      const toneOpacity = clamp(
+        0.08 + tunedIntensity * 0.16 + (noiseC - 0.5) * 0.05,
+        0.06,
+        0.32,
+      );
+      const majorOpacity =
+        clamp(0.2 + tunedIntensity * 0.3, 0.2, 0.86) * jitter;
+      const minorOpacity =
+        clamp(0.14 + tunedIntensity * 0.2, 0.12, 0.64) * (0.9 + noiseC * 0.22);
+      const stippleOpacity =
+        clamp(0.12 + tunedIntensity * 0.17, 0.1, 0.52) * (0.9 + noiseB * 0.18);
       const px = x * cs;
       const py = y * cs;
-      const majorPatternId = noiseB > 0.5 ? "rock-hatch-major-a" : "rock-hatch-major-b";
-      const minorPatternId = noiseA > 0.45 ? "rock-hatch-minor-a" : "rock-hatch-minor-b";
-      const stipplePatternId = noiseC > 0.52 ? "rock-stipple-a" : "rock-stipple-b";
+      const majorPatternId =
+        noiseB > 0.5 ? "rock-hatch-major-a" : "rock-hatch-major-b";
+      const minorPatternId =
+        noiseA > 0.45 ? "rock-hatch-minor-a" : "rock-hatch-minor-b";
+      const stipplePatternId =
+        noiseC > 0.52 ? "rock-stipple-a" : "rock-stipple-b";
       const showMinor = nearestFloor <= 2 || noiseC > 0.4;
       const chiselChance =
         nearestFloor === 1
