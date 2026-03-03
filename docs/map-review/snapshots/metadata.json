@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-03T12:19:18.699Z",
+  "generatedAt": "2026-03-03T15:45:46.033Z",
   "profile": "blueprint-strict",
   "cellSize": 20,
   "snapshots": [
@@ -24,6 +24,22 @@
       "seed": 13,
       "svg": "dwarven-seed13-strict.svg",
       "png": "dwarven-seed13-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "sunken-sanctum-seed17-strict",
+      "seed": 17,
+      "svg": "sunken-sanctum-seed17-strict.svg",
+      "png": "sunken-sanctum-seed17-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "clockwork-archive-seed29-strict",
+      "seed": 29,
+      "svg": "clockwork-archive-seed29-strict.svg",
+      "png": "clockwork-archive-seed29-strict.png",
       "maxMismatchPct": 0.25,
       "maxMeanChannelDelta": 1.2
     }

@@ -15,3 +15,9 @@ iterations (`v4` through `v12`) for visual comparison and regression review.
 
 If you need current behavior, use `v12` artifacts and the deterministic
 baselines in `docs/map-review/snapshots/`.
+
+For local style-target benchmarking against external references, run:
+
+```bash
+npm run map:style:audit
+```

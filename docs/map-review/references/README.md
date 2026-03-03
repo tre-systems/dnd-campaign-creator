@@ -13,3 +13,5 @@ If you want to benchmark against personal or third-party references:
 2. Keep them untracked.
 3. Use generated outputs under `docs/map-review/iteration/` and
    `docs/map-review/snapshots/` for committed/public artifacts.
+4. Run `npm run map:style:audit` to compare local references against current
+   strict snapshot outputs using objective style metrics.

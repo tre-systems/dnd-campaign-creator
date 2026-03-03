@@ -12,6 +12,7 @@
     "lint": "markdownlint '**/*.md' --ignore node_modules",
     "map:snapshots:update": "node bin/map-quality.js update",
     "map:snapshots:check": "node bin/map-quality.js check",
+    "map:style:audit": "node bin/map-style-audit.js",
     "security:scan": "node bin/security-scan.js",
     "security:scan:history": "node bin/security-history-scan.js",
     "public:check": "npm run verify && npm run security:scan:history && npm audit --omit=dev --audit-level=high",

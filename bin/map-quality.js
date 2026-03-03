@@ -14,6 +14,8 @@ const { renderSvg } = require("../src/map/render-svg");
 const {
   createGatehouseSection,
   createDwarvenComplexSection,
+  createSunkenSanctumSection,
+  createClockworkArchiveSection,
 } = require("../src/map/fixtures/gatehouse-ruin");
 
 const SNAPSHOT_DIR = path.resolve("docs/map-review/snapshots");
@@ -37,6 +39,20 @@ const SNAPSHOTS = [
     id: "dwarven-seed13-strict",
     sectionFactory: createDwarvenComplexSection,
     seed: 13,
+    maxMismatchPct: 0.25,
+    maxMeanChannelDelta: 1.2,
+  },
+  {
+    id: "sunken-sanctum-seed17-strict",
+    sectionFactory: createSunkenSanctumSection,
+    seed: 17,
+    maxMismatchPct: 0.25,
+    maxMeanChannelDelta: 1.2,
+  },
+  {
+    id: "clockwork-archive-seed29-strict",
+    sectionFactory: createClockworkArchiveSection,
+    seed: 29,
     maxMismatchPct: 0.25,
     maxMeanChannelDelta: 1.2,
   },

@@ -677,13 +677,15 @@ wasted on layout.
 
 ## Test Fixtures
 
-Three fixtures in `fixtures/gatehouse-ruin.js`:
+Five fixtures in `fixtures/gatehouse-ruin.js`:
 
-| Fixture                         | Rooms | Grid  | Purpose                                    |
-| ------------------------------- | ----- | ----- | ------------------------------------------ |
-| `createGatehouseSection()`      | 9     | 30x44 | Standard dungeon, passes all validation    |
-| `createLinearSection()`         | 3     | 20x20 | Intentionally fails (no loops, one route)  |
-| `createDwarvenComplexSection()` | 22    | 44x44 | Dense dungeon with multiple wings and hubs |
+| Fixture                           | Rooms | Grid  | Purpose                                                       |
+| --------------------------------- | ----- | ----- | ------------------------------------------------------------- |
+| `createGatehouseSection()`        | 9     | 30x44 | Standard dungeon, passes all validation                       |
+| `createLinearSection()`           | 3     | 20x20 | Intentionally fails (no loops, one route)                     |
+| `createDwarvenComplexSection()`   | 22    | 44x44 | Dense dungeon with multiple wings and hubs                    |
+| `createSunkenSanctumSection()`    | 12    | 36x38 | Mixed widths, one-way flow, multi-connectors                  |
+| `createClockworkArchiveSection()` | 15    | 42x40 | Multi-hub fortress with diverse symbol-triggering room themes |
 
 ---
 
@@ -712,9 +714,16 @@ content may include superseded placeholder sections.
 ## Visual QA Automation
 
 Deterministic PNG/SVG baselines are stored in `docs/map-review/snapshots/`.
+The quality suite currently tracks gatehouse, dwarven complex, sunken sanctum,
+and clockwork archive profiles across fixed seeds.
 
 - `npm run map:snapshots:update` regenerates baselines intentionally.
 - `npm run map:snapshots:check` compares current output to baselines.
+- `npm run map:style:audit` compares snapshot style metrics to local reference
+  images in `docs/map-review/references/paratime/` and reports measurable gaps.
 
 `npm run verify` and CI both include `map:snapshots:check`, so rendering
 drift is caught automatically.
+
+`map:style:audit` is intentionally local-only (it depends on external reference
+images that are not committed by default).

@@ -295,6 +295,18 @@ npm run map:snapshots:update
 npm run map:snapshots:check
 ```
 
+Reference-style alignment against local Paratime benchmarks:
+
+```bash
+npm run map:style:audit
+```
+
+Notes:
+
+- This command compares generated snapshots to local images under
+  `docs/map-review/references/paratime/`.
+- Reference images stay local-only by default and are excluded from git.
+
 Public-release checks are available with:
 
 ```bash
