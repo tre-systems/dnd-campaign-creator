@@ -242,10 +242,7 @@ describe("corridors", () => {
       const edge = { type: "door", width: "standard" };
       const roomA = { sizeClass: "large", nodeType: "hub" };
       const roomB = { sizeClass: "large", nodeType: "faction-core" };
-      assert.equal(
-        chooseDoorTypeForEdge(edge, roomA, roomB),
-        CELL.DOUBLE_DOOR,
-      );
+      assert.equal(chooseDoorTypeForEdge(edge, roomA, roomB), CELL.DOUBLE_DOOR);
     });
 
     it("places secret thresholds on the more concealed room side", () => {

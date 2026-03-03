@@ -73,7 +73,11 @@ describe("dressing", () => {
 
     it("picks vault for secret treasury rooms", () => {
       assert.equal(
-        pickRecipe({ type: "secret", name: "Old Treasury", sizeClass: "small" }),
+        pickRecipe({
+          type: "secret",
+          name: "Old Treasury",
+          sizeClass: "small",
+        }),
         "vault",
       );
     });

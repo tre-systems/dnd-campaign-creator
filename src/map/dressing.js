@@ -173,7 +173,11 @@ const RECIPES = {
     if (room.w >= 4 && room.h >= 4) {
       features.push({ dx: cx, dy: Math.max(1, cy - 1), cell: CELL.PIT });
       features.push({ dx: Math.max(1, cx - 1), dy: cy, cell: CELL.BARS });
-      features.push({ dx: Math.min(room.w - 2, cx + 1), dy: cy, cell: CELL.BARS });
+      features.push({
+        dx: Math.min(room.w - 2, cx + 1),
+        dy: cy,
+        cell: CELL.BARS,
+      });
     }
     return features;
   },
@@ -203,7 +207,11 @@ const RECIPES = {
     features.push({ dx: cx, dy: cy, cell: CELL.PIT });
     if (room.w >= 3 && room.h >= 3) {
       features.push({ dx: Math.max(1, room.w - 2), dy: 1, cell: CELL.LEVER });
-      features.push({ dx: 1, dy: Math.max(1, room.h - 2), cell: CELL.COLLAPSED });
+      features.push({
+        dx: 1,
+        dy: Math.max(1, room.h - 2),
+        cell: CELL.COLLAPSED,
+      });
     }
     return features;
   },

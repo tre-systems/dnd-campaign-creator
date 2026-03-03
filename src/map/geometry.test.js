@@ -274,7 +274,10 @@ describe("geometry", () => {
         }
       }
 
-      assert.ok(carvedWalls > 0, "Cave rooms should not remain pure rectangles");
+      assert.ok(
+        carvedWalls > 0,
+        "Cave rooms should not remain pure rectangles",
+      );
       assert.ok(
         roughCells > 0,
         "Cave rooms should include rough terrain treatment",
