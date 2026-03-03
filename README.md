@@ -1,5 +1,11 @@
 # D&D Campaign Creator Tool
 
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+  <img src="/docs/screenshot.jpg" alt="dnd-campaign-creator screenshot" width="1254" />
+</div>
+<!-- markdownlint-enable MD033 -->
+
 A generic, automated utility for compiling Markdown-based D&D adventures into flawlessly styled Google Docs, complete with Google Drive image syncing.
 
 This tool extracts the robust publishing scripts developed for the _Borderlands Campaign_ and makes them available for any organized repository of Markdown adventure notes.
@@ -273,8 +279,8 @@ Notes:
 Quality is enforced in three layers:
 
 - Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
-- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs).
-- CI workflow: GitHub Actions runs `npm run verify` on every PR and on pushes to `main`.
+- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + secret/sensitive-file scan).
+- CI workflow: GitHub Actions runs `npm run verify`, scans full git history for secret patterns, and audits production dependencies on every PR and on pushes to `main`.
 
 You can run the same checks manually with:
 
@@ -288,3 +294,40 @@ Map rendering snapshots are managed with:
 npm run map:snapshots:update
 npm run map:snapshots:check
 ```
+
+Public-release checks are available with:
+
+```bash
+npm run public:check
+```
+
+### Public Repository Safety
+
+Before making a fork or clone public, run:
+
+```bash
+npm run public:check
+```
+
+This runs:
+
+- `npm run verify` for lint/tests/snapshot guardrails and tracked-file secret scanning
+- `npm run security:scan:history` to scan full git history for high-signal secret patterns
+- `npm audit --omit=dev --audit-level=high` for production dependency vulnerabilities
+
+Tracked-file scanning checks for:
+
+- accidentally committed credential artifacts (`credentials.json`, `token.json`, `service-account-key.json`, `.env*`, key files)
+- high-signal secret patterns (private key blocks, common API token formats)
+- local-only external reference images under `docs/map-review/references/`
+
+Credential files are ignored by default in `.gitignore`, but this scan is the
+enforcement layer that prevents accidental exposure.
+
+If `security:scan:history` reports legacy findings, do not make the repository
+public until one of these is complete:
+
+1. Rewrite git history to remove the flagged artifacts.
+2. Publish from a fresh repository initialized from a clean export (no legacy history).
+
+For vulnerability disclosure guidance, see [SECURITY.md](./SECURITY.md).

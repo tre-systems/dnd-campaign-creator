@@ -10,8 +10,8 @@ iterations (`v4` through `v12`) for visual comparison and regression review.
   superseded text (for example, older placeholder ecology/dynamic sections).
 - Historical packet artifacts are archival only; for current packet behaviour,
   use `docs/map-system.md`, `src/map/packet.js`, and `src/map/packet.test.js`.
-- Reference images under `references/` are external style targets used for
-  visual benchmarking, not generated outputs.
+- Reference images under `references/` are local-only style targets for visual
+  benchmarking and are not distributed unless licensing is explicitly documented.
 
 If you need current behavior, use `v12` artifacts and the deterministic
 baselines in `docs/map-review/snapshots/`.

@@ -12,7 +12,10 @@
     "lint": "markdownlint '**/*.md' --ignore node_modules",
     "map:snapshots:update": "node bin/map-quality.js update",
     "map:snapshots:check": "node bin/map-quality.js check",
-    "verify": "npm run lint && npm test && npm run map:snapshots:check",
+    "security:scan": "node bin/security-scan.js",
+    "security:scan:history": "node bin/security-history-scan.js",
+    "public:check": "npm run verify && npm run security:scan:history && npm audit --omit=dev --audit-level=high",
+    "verify": "npm run lint && npm test && npm run map:snapshots:check && npm run security:scan",
     "check-links": "linkinator 'README.md' 'CONTRIBUTING.md' 'docs/**/*.md' 'examples/**/*.md' --skip '^(?!https?://)' --retry",
     "precommit": "npm run format && npm run lint",
     "prepare": "husky"

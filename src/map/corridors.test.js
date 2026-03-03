@@ -342,7 +342,11 @@ describe("corridors", () => {
 
       geometry = routeCorridors(geometry, graph, rng, section.connectors);
 
-      const doorTypes = new Set([CELL.DOOR, CELL.DOOR_LOCKED, CELL.DOOR_SECRET]);
+      const doorTypes = new Set([
+        CELL.DOOR,
+        CELL.DOOR_LOCKED,
+        CELL.DOOR_SECRET,
+      ]);
       const dirs = [
         [1, 0],
         [-1, 0],
@@ -380,7 +384,10 @@ describe("corridors", () => {
         }
       }
 
-      assert.ok(seenDoors > 0, "Expected at least one door in the generated map");
+      assert.ok(
+        seenDoors > 0,
+        "Expected at least one door in the generated map",
+      );
     });
   });
 });

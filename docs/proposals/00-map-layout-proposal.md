@@ -130,11 +130,11 @@ Design-target table:
 
 Current runtime table:
 
-| Class | Dimensions |
-| --- | --- |
-| Small | 2x2 to 3x3 |
-| Medium | 3x3 to 5x6 |
-| Large | 5x5 to 8x10 |
+| Class  | Dimensions  |
+| ------ | ----------- |
+| Small  | 2x2 to 3x3  |
+| Medium | 3x3 to 5x6  |
+| Large  | 5x5 to 8x10 |
 
 At least one large room per section for a landmark or set-piece encounter.
 

@@ -30,6 +30,23 @@ npm test
 npm run map:snapshots:check
 ```
 
+Run the repository secret/sensitive-file scan before publishing public changes:
+
+```bash
+npm run security:scan
+```
+
+Before making the repository public (or tagging a public release), run the full
+public safety gate:
+
+```bash
+npm run public:check
+```
+
+Do not commit third-party reference images (for example under
+`docs/map-review/references/`) unless you have clear redistribution rights and
+documented provenance.
+
 ## Pull Requests
 
 - Keep your changes small and focused on a single issue.

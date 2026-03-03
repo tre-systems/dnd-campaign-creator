@@ -132,7 +132,8 @@ function chooseCandidate(candidates, room, target) {
   let bestScore = Infinity;
   for (const candidate of candidates) {
     const wallPenalty = candidate.wall === preferred ? 0 : 8;
-    const dist = Math.abs(candidate.x - centerB.x) + Math.abs(candidate.y - centerB.y);
+    const dist =
+      Math.abs(candidate.x - centerB.x) + Math.abs(candidate.y - centerB.y);
     const score = dist + wallPenalty;
     if (score < bestScore) {
       bestScore = score;
@@ -555,15 +556,27 @@ function routeCorridors(geometry, graph, rng, connectors) {
       // Standard doors get paired thresholds on both connected rooms.
       if (edge.type === "door") {
         if (placeDoor(geometry.cells, pointA, doorType)) {
-          placedDoorPositions.push({ x: pointA.x, y: pointA.y, type: edge.type });
+          placedDoorPositions.push({
+            x: pointA.x,
+            y: pointA.y,
+            type: edge.type,
+          });
         }
         if (placeDoor(geometry.cells, pointB, doorType)) {
-          placedDoorPositions.push({ x: pointB.x, y: pointB.y, type: edge.type });
+          placedDoorPositions.push({
+            x: pointB.x,
+            y: pointB.y,
+            type: edge.type,
+          });
         }
       } else {
         // Locked/secret edges gate the destination side by convention.
         if (placeDoor(geometry.cells, pointB, doorType)) {
-          placedDoorPositions.push({ x: pointB.x, y: pointB.y, type: edge.type });
+          placedDoorPositions.push({
+            x: pointB.x,
+            y: pointB.y,
+            type: edge.type,
+          });
         }
       }
 

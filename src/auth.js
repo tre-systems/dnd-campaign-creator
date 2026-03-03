@@ -67,11 +67,7 @@ async function loadSavedCredentialsIfExist(tokenPath) {
 /**
  * Save OAuth credentials to token file
  */
-async function saveCredentials(
-  client,
-  credentialsPath,
-  tokenPath,
-) {
+async function saveCredentials(client, credentialsPath, tokenPath) {
   try {
     const content = await fs.readFile(credentialsPath);
     const keys = JSON.parse(content);

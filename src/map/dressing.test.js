@@ -204,7 +204,11 @@ describe("dressing", () => {
       }
 
       assert.equal(wells.length, 1, "Expected one relocated well placement");
-      assert.notDeepEqual(wells[0], { x: 5, y: 5 }, "Well should move off reserved center lane");
+      assert.notDeepEqual(
+        wells[0],
+        { x: 5, y: 5 },
+        "Well should move off reserved center lane",
+      );
     });
   });
 });

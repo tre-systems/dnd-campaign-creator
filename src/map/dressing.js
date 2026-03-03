@@ -173,7 +173,9 @@ function inBounds(geometry, x, y) {
 }
 
 function isInRoom(room, x, y) {
-  return x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h;
+  return (
+    x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h
+  );
 }
 
 function markKeepout(keepout, room, x, y) {
@@ -248,7 +250,14 @@ function canPlaceAt(geometry, room, x, y, keepout, occupied) {
   return true;
 }
 
-function choosePlacementCell(geometry, room, targetX, targetY, keepout, occupied) {
+function choosePlacementCell(
+  geometry,
+  room,
+  targetX,
+  targetY,
+  keepout,
+  occupied,
+) {
   if (canPlaceAt(geometry, room, targetX, targetY, keepout, occupied)) {
     return { x: targetX, y: targetY };
   }
