@@ -250,7 +250,18 @@ function countEdgeDisjointPaths(graph, sourceId, sinkId) {
  * @returns {number} Number of independent cycles
  */
 function findCycleCount(graph) {
-  // Count connected components via BFS
+  // Count connected components in an undirected projection of the graph.
+  // This is required for cycle rank (E - V + C), and avoids one-way edges
+  // fragmenting components and inflating cycle counts.
+  const undirected = new Map();
+  for (const node of graph.nodes) {
+    undirected.set(node.id, []);
+  }
+  for (const edge of graph.edges) {
+    undirected.get(edge.from).push(edge.to);
+    undirected.get(edge.to).push(edge.from);
+  }
+
   const visited = new Set();
   let components = 0;
 
@@ -261,12 +272,8 @@ function findCycleCount(graph) {
     visited.add(node.id);
     while (queue.length > 0) {
       const current = queue.shift();
-      for (const edge of graph.adjacency.get(current) || []) {
-        let neighbor = null;
-        if (edge.from === current) neighbor = edge.to;
-        else if (edge.bidirectional && edge.to === current)
-          neighbor = edge.from;
-        if (neighbor && !visited.has(neighbor)) {
+      for (const neighbor of undirected.get(current) || []) {
+        if (!visited.has(neighbor)) {
           visited.add(neighbor);
           queue.push(neighbor);
         }
@@ -289,14 +296,9 @@ function findCycleCount(graph) {
  * @returns {number} Number of connected edges
  */
 function nodeDegree(graph, nodeId) {
-  const edges = graph.adjacency.get(nodeId) || [];
-  // Deduplicate: an edge may appear in adjacency for both from and to
-  const seen = new Set();
   let degree = 0;
-  for (const edge of edges) {
-    const key = `${edge.from}-${edge.to}-${edge.type}`;
-    if (!seen.has(key)) {
-      seen.add(key);
+  for (const edge of graph.edges) {
+    if (edge.from === nodeId || edge.to === nodeId) {
       degree++;
     }
   }

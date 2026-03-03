@@ -7,6 +7,7 @@
  */
 
 const { CELL, isFloorLike } = require("./geometry");
+const { roomLabelFromIndex } = require("./room-label");
 
 /**
  * Compute wall segments from the grid.
@@ -968,7 +969,7 @@ function renderSvg(geometry, graph, intent, options) {
       const ly = (room.y + 0.75) * cs;
 
       // Room number only (no names on the map - those go in a separate key)
-      const num = i < 9 ? String(i + 1) : String.fromCharCode(65 + i - 9);
+      const num = roomLabelFromIndex(i);
       parts.push(
         `    <text class="room-number" x="${lx}" y="${ly}">${num}</text>`,
       );

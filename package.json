@@ -10,6 +10,7 @@
     "test": "node --test src/__tests__/*.test.js src/map/*.test.js",
     "format": "prettier --write '**/*.{js,md,json}'",
     "lint": "markdownlint '**/*.md' --ignore node_modules",
+    "verify": "npm run lint && npm test",
     "check-links": "linkinator '**/*.md' --skip '^(?!https?://)' --retry",
     "precommit": "npm run format && npm run lint",
     "prepare": "husky"

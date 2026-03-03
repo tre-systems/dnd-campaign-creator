@@ -5,6 +5,8 @@
  * @module map/packet
  */
 
+const { roomLabelFromIndex } = require("./room-label");
+
 /**
  * Render a complete section specification packet as markdown.
  *
@@ -151,7 +153,7 @@ function renderRoomKey(geometry, graph) {
   for (let i = 0; i < geometry.rooms.length; i++) {
     const room = geometry.rooms[i];
     const node = graph.nodeMap.get(room.nodeId);
-    const num = i < 9 ? String(i + 1) : String.fromCharCode(65 + i - 9);
+    const num = roomLabelFromIndex(i);
 
     lines.push(
       `**${num}. ${node ? node.name : room.nodeId}** (${room.w}x${room.h}, ${room.sizeClass})`,

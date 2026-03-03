@@ -79,7 +79,7 @@ function validateTopology(graph, gridSize) {
     detail: guardDetail,
   });
 
-  // Rule 4: Boss/treasure depth (>= 3 edges from entry)
+  // Rule 4: Boss/treasure depth (>= 2 edges from entry)
   const deepNodes = graph.nodes.filter(
     (n) => n.type === "faction-core" || n.type === "set-piece",
   );

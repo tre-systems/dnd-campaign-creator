@@ -6,6 +6,7 @@
  */
 
 const { CELL } = require("./geometry");
+const { roomLabelFromIndex } = require("./room-label");
 
 /**
  * Map cell types to ASCII characters.
@@ -69,8 +70,7 @@ function renderAscii(geometry, graph, options) {
       const room = geometry.rooms[i];
       const cx = Math.floor(room.x + room.w / 2);
       const cy = Math.floor(room.y + room.h / 2);
-      // Use 1-9, then A-Z for rooms 10+
-      const label = i < 9 ? String(i + 1) : String.fromCharCode(65 + i - 9);
+      const label = roomLabelFromIndex(i);
       if (cy >= 0 && cy < geometry.height && cx >= 0 && cx < geometry.width) {
         charGrid[cy][cx] = label;
       }

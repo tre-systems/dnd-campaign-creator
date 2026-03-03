@@ -130,5 +130,27 @@ describe("render-ascii", () => {
       assert.ok(ascii.includes("B"), "Room 11 should be labelled B");
       assert.ok(ascii.includes("C"), "Room 12 should be labelled C");
     });
+
+    it("uses AA after Z for room labels beyond 35", () => {
+      const cells = createGrid(60, 60);
+      const rooms = [];
+
+      // Create 36 small rooms to force label AA (room index 35).
+      for (let i = 0; i < 36; i++) {
+        const x = 2 + (i % 6) * 9;
+        const y = 2 + Math.floor(i / 6) * 9;
+        for (let ry = y; ry < y + 5; ry++) {
+          for (let rx = x; rx < x + 5; rx++) {
+            cells[ry][rx] = CELL.FLOOR;
+          }
+        }
+        rooms.push({ nodeId: `R${i}`, x, y, w: 5, h: 5 });
+      }
+
+      const geometry = { width: 60, height: 60, cells, rooms };
+      const ascii = renderAscii(geometry);
+      assert.ok(ascii.includes("Z"), "Room 35 should be labelled Z");
+      assert.ok(ascii.includes("AA"), "Room 36 should be labelled AA");
+    });
   });
 });

@@ -236,6 +236,21 @@ describe("topology", () => {
       // 11 edges - 9 nodes + 1 component = 3 cycles
       assert.equal(findCycleCount(graph), 3);
     });
+
+    it("does not inflate cycles for acyclic one-way chains", () => {
+      const graph = buildGraph(
+        [
+          { id: "E", type: "entry", name: "Entry" },
+          { id: "G", type: "guard", name: "Guard" },
+          { id: "X", type: "exit", name: "Exit" },
+        ],
+        [
+          { from: "G", to: "E", type: "one-way" },
+          { from: "X", to: "G", type: "one-way" },
+        ],
+      );
+      assert.equal(findCycleCount(graph), 0);
+    });
   });
 
   describe("nodeDegree", () => {
@@ -256,6 +271,33 @@ describe("topology", () => {
         [{ from: "A", to: "B", type: "open", bidirectional: true }],
       );
       assert.equal(nodeDegree(graph, "A"), 1);
+    });
+
+    it("counts parallel edges as separate connections", () => {
+      const graph = buildGraph(
+        [
+          { id: "A", type: "entry", name: "A" },
+          { id: "B", type: "exit", name: "B" },
+        ],
+        [
+          { from: "A", to: "B", type: "open", bidirectional: true },
+          { from: "A", to: "B", type: "open", bidirectional: true },
+        ],
+      );
+      assert.equal(nodeDegree(graph, "A"), 2);
+      assert.equal(nodeDegree(graph, "B"), 2);
+    });
+
+    it("counts incoming one-way edges toward degree", () => {
+      const graph = buildGraph(
+        [
+          { id: "A", type: "entry", name: "A" },
+          { id: "B", type: "exit", name: "B" },
+        ],
+        [{ from: "A", to: "B", type: "one-way" }],
+      );
+      assert.equal(nodeDegree(graph, "A"), 1);
+      assert.equal(nodeDegree(graph, "B"), 1);
     });
   });
 });

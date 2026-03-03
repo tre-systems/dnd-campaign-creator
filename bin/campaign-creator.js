@@ -372,6 +372,7 @@ async function generateMap(sectionFile, args) {
   const { validateTopology, validateGeometry } = require("../src/map/validate");
   const { layoutConstructed } = require("../src/map/geometry");
   const { routeCorridors } = require("../src/map/corridors");
+  const { applyDressing } = require("../src/map/dressing");
   const { renderSvg } = require("../src/map/render-svg");
   const { renderAscii } = require("../src/map/render-ascii");
   const { renderPacket } = require("../src/map/packet");
@@ -455,7 +456,10 @@ async function generateMap(sectionFile, args) {
   // 6. Route corridors
   geometry = routeCorridors(geometry, graph, rng, section.connectors || []);
 
-  // 7. Validate geometry
+  // 7. Apply thematic dressing (pillars, altars, wells, etc.)
+  geometry = applyDressing(geometry, graph, rng);
+
+  // 8. Validate geometry
   const geoResult = validateGeometry(geometry, graph, section.connectors || []);
   console.log("\nGeometry validation:");
   for (const r of geoResult.results) {
@@ -474,7 +478,7 @@ async function generateMap(sectionFile, args) {
     results: [...topoResult.results, ...geoResult.results],
   };
 
-  // 8. Render outputs
+  // 9. Render outputs
   await fs.mkdir(outputDir, { recursive: true });
 
   // ASCII map

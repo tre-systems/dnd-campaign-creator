@@ -179,6 +179,20 @@ Useful options:
 
 Notes:
 
-- The map system enforces a maximum section grid of `30 x 44`.
+- The map system enforces a maximum section grid of `60 x 60` and minimum `10 x 10`.
 - Connector definitions are routed into playable space and validated for reachability.
 - `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
+
+### Quality Automation
+
+Quality is enforced in three layers:
+
+- Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
+- Local pre-push hook: runs `npm run verify` (lint + tests).
+- CI workflow: GitHub Actions runs `npm run verify` on every PR and on pushes to `main`.
+
+You can run the same checks manually with:
+
+```bash
+npm run verify
+```

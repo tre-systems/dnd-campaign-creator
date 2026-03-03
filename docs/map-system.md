@@ -35,18 +35,18 @@ and assembles a markdown specification packet for DM use.
 
 All code lives in `src/map/`:
 
-| File | Layer | Purpose |
-|---|---|---|
-| `intent.js` | Intent | Section definition, validation, seeded RNG |
-| `topology.js` | Topology | Graph construction, BFS, cycle counting, max-flow |
-| `geometry.js` | Geometry | BSP partitioning, room placement, grid management |
-| `corridors.js` | Geometry | A\* corridor routing, door placement |
-| `dressing.js` | Geometry | Thematic feature placement (pillars, altars, etc.) |
-| `validate.js` | Cross-layer | Topology and geometry validation rules |
-| `render-svg.js` | Presentation | SVG rendering (Paratime blue style) |
-| `render-ascii.js` | Presentation | ASCII text rendering |
-| `packet.js` | Presentation | Markdown specification document |
-| `fixtures/gatehouse-ruin.js` | Test data | Gatehouse (9 rooms), linear (3), dwarven complex (22) |
+| File                         | Layer        | Purpose                                               |
+| ---------------------------- | ------------ | ----------------------------------------------------- |
+| `intent.js`                  | Intent       | Section definition, validation, seeded RNG            |
+| `topology.js`                | Topology     | Graph construction, BFS, cycle counting, max-flow     |
+| `geometry.js`                | Geometry     | BSP partitioning, room placement, grid management     |
+| `corridors.js`               | Geometry     | A\* corridor routing, door placement                  |
+| `dressing.js`                | Geometry     | Thematic feature placement (pillars, altars, etc.)    |
+| `validate.js`                | Cross-layer  | Topology and geometry validation rules                |
+| `render-svg.js`              | Presentation | SVG rendering (Paratime blue style)                   |
+| `render-ascii.js`            | Presentation | ASCII text rendering                                  |
+| `packet.js`                  | Presentation | Markdown specification document                       |
+| `fixtures/gatehouse-ruin.js` | Test data    | Gatehouse (9 rooms), linear (3), dwarven complex (22) |
 
 ---
 
@@ -76,12 +76,12 @@ normalised by `buildIntent(section)` before any generation begins.
 
 ### Valid values
 
-| Field | Options |
-|---|---|
-| `pressure` | `faction`, `pursuit`, `hazard`, `puzzle`, `boss`, `mixed` |
-| `sessionLoad` | `light`, `standard`, `heavy` |
-| `layoutStrategy` | `constructed`, `organic`, `hybrid` |
-| `density` | `sparse`, `standard`, `dense` |
+| Field            | Options                                                   |
+| ---------------- | --------------------------------------------------------- |
+| `pressure`       | `faction`, `pursuit`, `hazard`, `puzzle`, `boss`, `mixed` |
+| `sessionLoad`    | `light`, `standard`, `heavy`                              |
+| `layoutStrategy` | `constructed`, `organic`, `hybrid`                        |
+| `density`        | `sparse`, `standard`, `dense`                             |
 
 ### Grid limits
 
@@ -133,38 +133,38 @@ It is authored (not randomly generated) and validated before geometry begins.
 
 ### Node types
 
-| Type | Purpose |
-|---|---|
-| `entry` | Section entrance |
-| `exit` | Section exit |
-| `hub` | High-connectivity crossroads |
-| `guard` | Sentry/guard position near entrance |
-| `faction-core` | Leader quarters, command post |
-| `resource` | Kitchen, well, armoury |
-| `hazard` | Trap cluster, environmental danger |
-| `set-piece` | Boss fight, major puzzle |
-| `secret` | Hidden area requiring discovery |
-| `standard` | General purpose room |
+| Type           | Purpose                             |
+| -------------- | ----------------------------------- |
+| `entry`        | Section entrance                    |
+| `exit`         | Section exit                        |
+| `hub`          | High-connectivity crossroads        |
+| `guard`        | Sentry/guard position near entrance |
+| `faction-core` | Leader quarters, command post       |
+| `resource`     | Kitchen, well, armoury              |
+| `hazard`       | Trap cluster, environmental danger  |
+| `set-piece`    | Boss fight, major puzzle            |
+| `secret`       | Hidden area requiring discovery     |
+| `standard`     | General purpose room                |
 
 ### Edge types
 
-| Type | Meaning | Default direction |
-|---|---|---|
-| `open` | Unrestricted passage | Bidirectional |
-| `door` | Closed but unlocked | Bidirectional |
-| `locked` | Requires key or check | Bidirectional |
-| `secret` | Requires discovery | Bidirectional |
-| `one-way` | Drops, chutes, collapses | Directed |
-| `vertical` | Stairs, ladders, shafts | Bidirectional |
-| `off-map` | Corridor to another section | Bidirectional |
+| Type       | Meaning                     | Default direction |
+| ---------- | --------------------------- | ----------------- |
+| `open`     | Unrestricted passage        | Bidirectional     |
+| `door`     | Closed but unlocked         | Bidirectional     |
+| `locked`   | Requires key or check       | Bidirectional     |
+| `secret`   | Requires discovery          | Bidirectional     |
+| `one-way`  | Drops, chutes, collapses    | Directed          |
+| `vertical` | Stairs, ladders, shafts     | Bidirectional     |
+| `off-map`  | Corridor to another section | Bidirectional     |
 
 ### Edge width classes
 
-| Class | Cells | Meaning |
-|---|---|---|
-| `tight` | 1 | Rare, deliberate pressure |
-| `standard` | 1 | Default (10ft corridor) |
-| `wide` | 2 | Major thoroughfare (20ft) |
+| Class      | Cells | Meaning                   |
+| ---------- | ----- | ------------------------- |
+| `tight`    | 1     | Rare, deliberate pressure |
+| `standard` | 1     | Default (10ft corridor)   |
+| `wide`     | 2     | Major thoroughfare (20ft) |
 
 ### Graph algorithms
 
@@ -197,36 +197,36 @@ Geometry has three sub-phases: room placement, corridor routing, and dressing.
 
 The map is a 2D array of integers. Each cell is one of:
 
-| Constant | Value | Meaning |
-|---|---|---|
-| `WALL` | 0 | Solid stone |
-| `FLOOR` | 1 | Room floor |
-| `CORRIDOR` | 2 | Passage |
-| `DOOR` | 3 | Standard door |
-| `DOOR_LOCKED` | 4 | Locked door |
-| `DOOR_SECRET` | 5 | Secret door |
-| `STAIRS_DOWN` | 6 | Descending stairs |
-| `STAIRS_UP` | 7 | Ascending stairs |
-| `PILLAR` | 8 | Column |
-| `TRAP` | 9 | Trap tile |
-| `WATER` | 10 | Water |
-| `RUBBLE` | 11 | Rubble |
-| `TREASURE` | 12 | Treasure/POI |
-| `PORTCULLIS` | 13 | Portcullis |
-| `ARCHWAY` | 14 | Archway |
-| `CURTAIN` | 15 | Curtain/hanging |
-| `STATUE` | 16 | Statue |
-| `ALTAR` | 17 | Altar |
-| `WELL` | 18 | Well |
-| `FIREPIT` | 19 | Fire pit |
-| `THRONE` | 20 | Throne |
-| `SARCOPHAGUS` | 21 | Sarcophagus |
-| `BARS` | 22 | Iron bars |
-| `PIT` | 23 | Pit |
-| `LEVER` | 24 | Lever/switch |
-| `FOUNTAIN` | 25 | Fountain |
-| `COLLAPSED` | 26 | Collapsed passage |
-| `DOUBLE_DOOR` | 27 | Double door |
+| Constant      | Value | Meaning           |
+| ------------- | ----- | ----------------- |
+| `WALL`        | 0     | Solid stone       |
+| `FLOOR`       | 1     | Room floor        |
+| `CORRIDOR`    | 2     | Passage           |
+| `DOOR`        | 3     | Standard door     |
+| `DOOR_LOCKED` | 4     | Locked door       |
+| `DOOR_SECRET` | 5     | Secret door       |
+| `STAIRS_DOWN` | 6     | Descending stairs |
+| `STAIRS_UP`   | 7     | Ascending stairs  |
+| `PILLAR`      | 8     | Column            |
+| `TRAP`        | 9     | Trap tile         |
+| `WATER`       | 10    | Water             |
+| `RUBBLE`      | 11    | Rubble            |
+| `TREASURE`    | 12    | Treasure/POI      |
+| `PORTCULLIS`  | 13    | Portcullis        |
+| `ARCHWAY`     | 14    | Archway           |
+| `CURTAIN`     | 15    | Curtain/hanging   |
+| `STATUE`      | 16    | Statue            |
+| `ALTAR`       | 17    | Altar             |
+| `WELL`        | 18    | Well              |
+| `FIREPIT`     | 19    | Fire pit          |
+| `THRONE`      | 20    | Throne            |
+| `SARCOPHAGUS` | 21    | Sarcophagus       |
+| `BARS`        | 22    | Iron bars         |
+| `PIT`         | 23    | Pit               |
+| `LEVER`       | 24    | Lever/switch      |
+| `FOUNTAIN`    | 25    | Fountain          |
+| `COLLAPSED`   | 26    | Collapsed passage |
+| `DOUBLE_DOOR` | 27    | Double door       |
 
 #### Room sizes
 
@@ -327,12 +327,12 @@ For boundary connectors:
 
 **Cost model:**
 
-| Cell type | Move cost | Rationale |
-|---|---|---|
-| `WALL` | 1 | Cheap to carve through |
-| `CORRIDOR` | 0 | Free to reuse existing |
-| `FLOOR` | 10 | Expensive, avoid cutting rooms |
-| Out of bounds | Infinity | Impassable |
+| Cell type     | Move cost | Rationale                      |
+| ------------- | --------- | ------------------------------ |
+| `WALL`        | 1         | Cheap to carve through         |
+| `CORRIDOR`    | 0         | Free to reuse existing         |
+| `FLOOR`       | 10        | Expensive, avoid cutting rooms |
+| Out of bounds | Infinity  | Impassable                     |
 
 **Heuristic:** Manhattan distance (`|dx| + |dy|`)
 
@@ -341,6 +341,7 @@ For boundary connectors:
 **Iteration limit:** 5,000. If exceeded, falls back to L-path routing.
 
 The cost model means corridors naturally:
+
 - Take the shortest route through walls
 - Merge with existing corridors when convenient
 - Avoid slicing through rooms
@@ -379,17 +380,17 @@ type/name from the topology graph.
 
 `pickRecipe(node)` matches room names (case-insensitive) to recipes:
 
-| Keyword match | Recipe |
-|---|---|
-| `chapel`, `shrine`, `temple` | `chapel` |
-| `throne` | `throne` |
-| `crypt`, `tomb` | `crypt` |
-| `well`, `cistern` | `well` |
-| `forge`, `smithy` | `forge` |
-| `gallery`, `hall` (large) | `pillars` |
-| `library` | `library` |
-| Large rooms (no keyword) | `pillars` |
-| Medium+ rooms (30% chance) | `scatter` |
+| Keyword match                | Recipe    |
+| ---------------------------- | --------- |
+| `chapel`, `shrine`, `temple` | `chapel`  |
+| `throne`                     | `throne`  |
+| `crypt`, `tomb`              | `crypt`   |
+| `well`, `cistern`            | `well`    |
+| `forge`, `smithy`            | `forge`   |
+| `gallery`, `hall` (large)    | `pillars` |
+| `library`                    | `library` |
+| Large rooms (no keyword)     | `pillars` |
+| Medium+ rooms (30% chance)   | `scatter` |
 
 #### Recipes
 
@@ -419,25 +420,25 @@ placement.
 
 ### Topology rules
 
-| Rule | Condition |
-|---|---|
-| Grid size | Within 60 x 60 |
-| Entry and exit exist | At least one of each |
-| Guard placement | Guards within 2 edges of entry |
-| Boss/treasure depth | `faction-core` and `set-piece` nodes >= 2 edges from entry |
-| Loop count | >= 1 loop per 6 nodes |
-| Two independent routes | >= 2 edge-disjoint paths from entry to exit |
+| Rule                   | Condition                                                           |
+| ---------------------- | ------------------------------------------------------------------- |
+| Grid size              | Within 60 x 60                                                      |
+| Entry and exit exist   | At least one of each                                                |
+| Guard placement        | Guards within 2 edges of entry                                      |
+| Boss/treasure depth    | `faction-core` and `set-piece` nodes >= 2 edges from entry          |
+| Loop count             | >= 1 loop per 6 nodes                                               |
+| Two independent routes | >= 2 edge-disjoint paths from entry to exit                         |
 | Dead end justification | Dead ends only for `secret`, `hazard`, `set-piece`, `entry`, `exit` |
-| One-way safety | One-way routes always have a path to exit |
+| One-way safety         | One-way routes always have a path to exit                           |
 
 ### Geometry rules
 
-| Rule | Condition |
-|---|---|
-| Rooms within bounds | No room extends outside grid |
-| No room overlaps | No two rooms share cells |
-| All nodes placed | Every topology node has a room |
-| Large room exists | At least one large room (for set-piece encounters) |
+| Rule                 | Condition                                                     |
+| -------------------- | ------------------------------------------------------------- |
+| Rooms within bounds  | No room extends outside grid                                  |
+| No room overlaps     | No two rooms share cells                                      |
+| All nodes placed     | Every topology node has a room                                |
+| Large room exists    | At least one large room (for set-piece encounters)            |
 | Connectors connected | Every boundary connector reaches playable space via BFS flood |
 
 ---
@@ -507,8 +508,9 @@ Door orientation is inferred from adjacent cell context by
 
 #### Room labels
 
-Rooms are numbered sequentially: `1-9` then `A-Z`. Labels are placed in the
-top-left corner of each room at reduced font size with bold weight.
+Rooms are labelled sequentially: `1-9`, then `A-Z`, then `AA`, `AB`, ... .
+Labels are placed in the top-left corner of each room at reduced font size
+with bold weight.
 
 #### SVG structure
 
@@ -541,7 +543,7 @@ L = locked  S = secret            > = stairs down
 a = altar   w = well              t = throne
 ```
 
-Room numbers (1-9, A-Z) are placed at room centres.
+Room labels use `1-9`, then `A-Z`, then `AA`, `AB`, ... and are placed at room centres.
 
 ### Packet Generation
 
@@ -574,7 +576,12 @@ const topoResult = validateTopology(graph, intent.grid);
 
 // Place rooms via BSP
 const geometry = layoutConstructed(
-  graph, intent.grid, intent.density, section.connectors, 50, rng
+  graph,
+  intent.grid,
+  intent.density,
+  section.connectors,
+  50,
+  rng,
 );
 
 // Route corridors via A*
@@ -589,7 +596,14 @@ const geoResult = validateGeometry(geometry, graph, section.connectors);
 // Render outputs
 const svg = renderSvg(geometry, graph, intent, { cellSize: 20 });
 const ascii = renderAscii(geometry, graph);
-const packet = renderPacket(geometry, graph, intent, ascii, "map.svg", topoResult);
+const packet = renderPacket(
+  geometry,
+  graph,
+  intent,
+  ascii,
+  "map.svg",
+  { valid: topoResult.valid && geoResult.valid, results: [...topoResult.results, ...geoResult.results] },
+);
 ```
 
 ---
@@ -619,11 +633,11 @@ wasted on layout.
 
 Three fixtures in `fixtures/gatehouse-ruin.js`:
 
-| Fixture | Rooms | Grid | Purpose |
-|---|---|---|---|
-| `createGatehouseSection()` | 9 | 30x44 | Standard dungeon, passes all validation |
-| `createLinearSection()` | 3 | 20x20 | Intentionally fails (no loops, one route) |
-| `createDwarvenComplexSection()` | 22 | 44x44 | Dense dungeon with multiple wings and hubs |
+| Fixture                         | Rooms | Grid  | Purpose                                    |
+| ------------------------------- | ----- | ----- | ------------------------------------------ |
+| `createGatehouseSection()`      | 9     | 30x44 | Standard dungeon, passes all validation    |
+| `createLinearSection()`         | 3     | 20x20 | Intentionally fails (no loops, one route)  |
+| `createDwarvenComplexSection()` | 22    | 44x44 | Dense dungeon with multiple wings and hubs |
 
 ---
 
@@ -632,9 +646,9 @@ Three fixtures in `fixtures/gatehouse-ruin.js`:
 The map rendering has been through several iterations, tracked as versioned
 PNG/SVG artifacts in `docs/map-review/iteration/`.
 
-| Version | Key changes |
-|---|---|
-| v4 | Initial blue rendering, basic wall segments |
-| v5 | Paratime wall color (#16516d), 10ft scale, room label improvements |
-| v6 | 22-room dwarven complex, dressing system, L-shaped rooms |
-| v7 | A\* corridor routing, rock hatching default, thicker walls |
+| Version | Key changes                                                        |
+| ------- | ------------------------------------------------------------------ |
+| v4      | Initial blue rendering, basic wall segments                        |
+| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements |
+| v6      | 22-room dwarven complex, dressing system, L-shaped rooms           |
+| v7      | A\* corridor routing, rock hatching default, thicker walls         |
