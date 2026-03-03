@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-03T15:45:46.033Z",
+  "generatedAt": "2026-03-03T17:02:51.263Z",
   "profile": "blueprint-strict",
   "cellSize": 20,
   "snapshots": [
@@ -20,10 +20,34 @@
       "maxMeanChannelDelta": 1.2
     },
     {
+      "id": "gatehouse-seed77-strict",
+      "seed": 77,
+      "svg": "gatehouse-seed77-strict.svg",
+      "png": "gatehouse-seed77-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
       "id": "dwarven-seed13-strict",
       "seed": 13,
       "svg": "dwarven-seed13-strict.svg",
       "png": "dwarven-seed13-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "dwarven-seed37-strict",
+      "seed": 37,
+      "svg": "dwarven-seed37-strict.svg",
+      "png": "dwarven-seed37-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "dwarven-seed89-strict",
+      "seed": 89,
+      "svg": "dwarven-seed89-strict.svg",
+      "png": "dwarven-seed89-strict.png",
       "maxMismatchPct": 0.25,
       "maxMeanChannelDelta": 1.2
     },
@@ -36,10 +60,42 @@
       "maxMeanChannelDelta": 1.2
     },
     {
+      "id": "sunken-sanctum-seed61-strict",
+      "seed": 61,
+      "svg": "sunken-sanctum-seed61-strict.svg",
+      "png": "sunken-sanctum-seed61-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "sunken-sanctum-seed83-strict",
+      "seed": 83,
+      "svg": "sunken-sanctum-seed83-strict.svg",
+      "png": "sunken-sanctum-seed83-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
       "id": "clockwork-archive-seed29-strict",
       "seed": 29,
       "svg": "clockwork-archive-seed29-strict.svg",
       "png": "clockwork-archive-seed29-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "clockwork-archive-seed71-strict",
+      "seed": 71,
+      "svg": "clockwork-archive-seed71-strict.svg",
+      "png": "clockwork-archive-seed71-strict.png",
+      "maxMismatchPct": 0.25,
+      "maxMeanChannelDelta": 1.2
+    },
+    {
+      "id": "clockwork-archive-seed97-strict",
+      "seed": 97,
+      "svg": "clockwork-archive-seed97-strict.svg",
+      "png": "clockwork-archive-seed97-strict.png",
       "maxMismatchPct": 0.25,
       "maxMeanChannelDelta": 1.2
     }

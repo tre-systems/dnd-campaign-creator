@@ -223,31 +223,31 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
 
   switch (cellType) {
     case CELL.DOOR: {
-      // Door: larger, simpler block with a single slit and hinge marker for readability at play scale.
+      // Door: narrow threshold bar with slit and hinge pin (closer to classic blue-map symbols).
       if (orientation === "vertical") {
-        const dw = cs * 0.56;
+        const dw = cs * 0.24;
         const dh = cs * 0.9;
-        const pin = Math.max(0.8, cs * 0.1);
+        const pin = Math.max(0.8, cs * 0.09);
         return [
           `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-          `<line class="door-slit" x1="${cx - dw * 0.34}" y1="${cy}" x2="${cx + dw * 0.34}" y2="${cy}"/>`,
-          `<rect class="door-pin" x="${cx - pin * 0.5}" y="${cy - dh * 0.5 + cs * 0.08}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
+          `<line class="door-slit" x1="${cx - dw * 0.4}" y1="${cy}" x2="${cx + dw * 0.4}" y2="${cy}"/>`,
+          `<rect class="door-pin" x="${cx - pin * 0.5}" y="${cy - dh * 0.5 + cs * 0.1}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
         ].join("\n      ");
       }
       const dw = cs * 0.9;
-      const dh = cs * 0.56;
-      const pin = Math.max(0.8, cs * 0.1);
+      const dh = cs * 0.24;
+      const pin = Math.max(0.8, cs * 0.09);
       return [
         `<rect class="door" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
-        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.34}" x2="${cx}" y2="${cy + dh * 0.34}"/>`,
-        `<rect class="door-pin" x="${cx + dw * 0.5 - cs * 0.08 - pin}" y="${cy - pin * 0.5}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
+        `<line class="door-slit" x1="${cx}" y1="${cy - dh * 0.4}" x2="${cx}" y2="${cy + dh * 0.4}"/>`,
+        `<rect class="door-pin" x="${cx + dw * 0.5 - cs * 0.1 - pin}" y="${cy - pin * 0.5}" width="${pin}" height="${pin}" rx="${Math.max(0.5, pin * 0.2)}"/>`,
       ].join("\n      ");
     }
 
     case CELL.DOOR_LOCKED: {
-      // Locked door: standard door silhouette plus prominent lock bar/key marker.
+      // Locked door: threshold bar + hasp + key marker.
       if (orientation === "vertical") {
-        const dw = cs * 0.56;
+        const dw = cs * 0.24;
         const dh = cs * 0.9;
         const keyR = Math.max(1, cs * 0.08);
         return [
@@ -258,7 +258,7 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
         ].join("\n      ");
       }
       const dw = cs * 0.9;
-      const dh = cs * 0.56;
+      const dh = cs * 0.24;
       const keyR = Math.max(1, cs * 0.08);
       return [
         `<rect class="door-locked" x="${cx - dw * 0.5}" y="${cy - dh * 0.5}" width="${dw}" height="${dh}" rx="1"/>`,
@@ -288,16 +288,20 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       ].join("\n      ");
 
     case CELL.DOUBLE_DOOR:
-      // Double door: two rectangles side by side with gap
+      // Double door: two narrow leaves with center gap.
       if (orientation === "vertical") {
+        const leafW = r * 0.34;
+        const leafH = r * 1.9;
         return [
-          `<rect class="door" x="${cx - r * 0.45}" y="${cy - r * 1.05}" width="${r * 0.9}" height="${r * 0.92}" rx="1"/>`,
-          `<rect class="door" x="${cx - r * 0.45}" y="${cy + r * 0.13}" width="${r * 0.9}" height="${r * 0.92}" rx="1"/>`,
+          `<rect class="door" x="${cx - leafW - r * 0.1}" y="${cy - leafH * 0.5}" width="${leafW}" height="${leafH}" rx="1"/>`,
+          `<rect class="door" x="${cx + r * 0.1}" y="${cy - leafH * 0.5}" width="${leafW}" height="${leafH}" rx="1"/>`,
         ].join("\n      ");
       }
+      const leafW = r * 1.9;
+      const leafH = r * 0.34;
       return [
-        `<rect class="door" x="${cx - r * 1.05}" y="${cy - r * 0.45}" width="${r * 0.92}" height="${r * 0.9}" rx="1"/>`,
-        `<rect class="door" x="${cx + r * 0.13}" y="${cy - r * 0.45}" width="${r * 0.92}" height="${r * 0.9}" rx="1"/>`,
+        `<rect class="door" x="${cx - leafW * 0.5}" y="${cy - leafH - r * 0.1}" width="${leafW}" height="${leafH}" rx="1"/>`,
+        `<rect class="door" x="${cx - leafW * 0.5}" y="${cy + r * 0.1}" width="${leafW}" height="${leafH}" rx="1"/>`,
       ].join("\n      ");
 
     case CELL.PORTCULLIS:
@@ -579,96 +583,98 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
   }
 
   if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
-    const strictWall = cellSize < 15 ? 3.2 : 3.8;
-    const sym = "#2f698b";
+    const strictWall = cellSize < 15 ? 2.85 : 3.25;
+    const sym = "#3f7fa7";
     return `<style>
-    .bg { fill: #4d92ba; }
-    .bg-wash { fill: #4d92ba; opacity: 0; }
-    .paper-grain { fill: #4d92ba; opacity: 0; }
-    .frame-outer { fill: none; stroke: #1c5674; stroke-width: 2; }
-    .frame-inner { fill: none; stroke: #87aec4; stroke-width: 0.85; opacity: 0.7; }
-    .floor { fill: #eef6fb; }
-    .corridor { fill: #eef6fb; }
-    .grid-line { stroke: #c9dce9; stroke-width: 0.48; }
-    .grid-line-major { stroke: #9dbdd0; stroke-width: 0.86; }
-    .wall-under { stroke: #16516d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall { stroke: #16516d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall-highlight { stroke: #16516d; stroke-width: 0.1; opacity: 0; }
-    .door { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.8; }
-    .door-slit { stroke: ${sym}; stroke-width: 1.2; }
+    .bg { fill: #9cc9e8; }
+    .bg-wash { fill: #84bbdd; opacity: 0.12; }
+    .paper-grain { fill: #cfe2f0; opacity: 0.08; }
+    .frame-outer { fill: none; stroke: #4d7e9c; stroke-width: 1.6; }
+    .frame-inner { fill: none; stroke: #d5e6f2; stroke-width: 0.76; opacity: 0.72; }
+    .floor { fill: #f5fbff; }
+    .corridor { fill: #f3f9fe; }
+    .grid-line { stroke: #bfd4e2; stroke-width: 0.52; }
+    .grid-line-major { stroke: #9ebdce; stroke-width: 0.9; }
+    .wall-under { stroke: #2c688c; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #2c688c; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #2c688c; stroke-width: 0.1; opacity: 0; }
+    .door { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.62; }
+    .door-slit { stroke: ${sym}; stroke-width: 1.08; }
     .door-pin { fill: ${sym}; stroke: none; }
-    .door-locked { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.9; }
-    .door-hasp { stroke: ${sym}; stroke-width: 1.35; }
+    .door-locked { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.72; }
+    .door-hasp { stroke: ${sym}; stroke-width: 1.22; }
     .door-locked-key { fill: ${sym}; stroke: none; }
-    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.2; stroke-linecap: round; }
-    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.7; stroke-dasharray: 2.6,2.1; }
-    .door-secret-tick { stroke: ${sym}; stroke-width: 1.5; }
-    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.2; }
-    .secret-box { fill: #eef6fb; stroke: ${sym}; stroke-width: 1.2; }
+    .door-locked-key-stem { stroke: ${sym}; stroke-width: 1.08; stroke-linecap: round; }
+    .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.56; stroke-dasharray: 2.5,2.15; }
+    .door-secret-tick { stroke: ${sym}; stroke-width: 1.3; }
+    .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.24; }
+    .secret-box { fill: #f5fbff; stroke: ${sym}; stroke-width: 1.08; }
     .secret-label { font-family: 'Times New Roman', Times, serif; font-weight: bold; fill: ${sym}; }
-    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.65; }
+    .stairs { fill: none; stroke: ${sym}; stroke-width: 1.5; }
     .stairs-arrow { fill: ${sym}; stroke: none; }
     .pillar { fill: ${sym}; stroke: none; }
-    .trap { fill: none; stroke: ${sym}; stroke-width: 1.6; }
-    .water { fill: #dce9f2; stroke: ${sym}; stroke-width: 0.7; }
-    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.4; }
-    .rubble { fill: #e4edf3; }
-    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.45; }
-    .archway { fill: none; stroke: ${sym}; stroke-width: 1.5; }
+    .trap { fill: none; stroke: ${sym}; stroke-width: 1.42; }
+    .water { fill: #e2eef7; stroke: ${sym}; stroke-width: 0.66; }
+    .treasure { fill: none; stroke: ${sym}; stroke-width: 1.25; }
+    .rubble { fill: #e7f1f8; }
+    .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.25; }
+    .archway { fill: none; stroke: ${sym}; stroke-width: 1.28; }
     .archway-base { fill: ${sym}; stroke: none; }
-    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.4; stroke-dasharray: 4,2; }
-    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.3; }
+    .curtain { fill: none; stroke: ${sym}; stroke-width: 1.24; stroke-dasharray: 4,2; }
+    .statue-base { fill: none; stroke: ${sym}; stroke-width: 1.14; }
     .statue { fill: ${sym}; stroke: none; }
-    .altar { fill: none; stroke: ${sym}; stroke-width: 1.4; }
-    .altar-cross { stroke: ${sym}; stroke-width: 1.4; }
-    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .well-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
-    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 1; }
-    .fountain-jet { stroke: ${sym}; stroke-width: 1; }
-    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.34; }
-    .throne { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.22; }
-    .throne-arm { stroke: ${sym}; stroke-width: 1.3; }
-    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 1; opacity: 0.82; }
-    .bars { stroke: ${sym}; stroke-width: 1.3; }
-    .pit { fill: none; stroke: ${sym}; stroke-width: 1.3; }
-    .pit-hatch { stroke: ${sym}; stroke-width: 1; }
+    .altar { fill: none; stroke: ${sym}; stroke-width: 1.22; }
+    .altar-cross { stroke: ${sym}; stroke-width: 1.22; }
+    .well-outer { fill: none; stroke: ${sym}; stroke-width: 1.18; }
+    .well-inner { fill: none; stroke: ${sym}; stroke-width: 0.92; }
+    .fountain-outer { fill: none; stroke: ${sym}; stroke-width: 1.18; }
+    .fountain-inner { fill: none; stroke: ${sym}; stroke-width: 0.92; }
+    .fountain-jet { stroke: ${sym}; stroke-width: 0.94; }
+    .firepit { fill: none; stroke: ${sym}; stroke-width: 1.16; }
+    .firepit-flame { fill: ${sym}; stroke: none; opacity: 0.36; }
+    .throne { fill: none; stroke: ${sym}; stroke-width: 1.16; }
+    .throne-seat { fill: ${sym}; stroke: none; opacity: 0.24; }
+    .throne-arm { stroke: ${sym}; stroke-width: 1.16; }
+    .sarcophagus { fill: none; stroke: ${sym}; stroke-width: 1.12; }
+    .sarcophagus-lid { fill: none; stroke: ${sym}; stroke-width: 0.92; opacity: 0.84; }
+    .bars { stroke: ${sym}; stroke-width: 1.12; }
+    .pit { fill: none; stroke: ${sym}; stroke-width: 1.12; }
+    .pit-hatch { stroke: ${sym}; stroke-width: 0.92; }
     .lever-base { fill: ${sym}; stroke: ${sym}; stroke-width: 1; }
-    .lever-arm { stroke: ${sym}; stroke-width: 1.3; }
+    .lever-arm { stroke: ${sym}; stroke-width: 1.14; }
     .lever-handle { fill: ${sym}; stroke: none; }
-    .collapsed { fill: #d8e6ef; stroke: none; }
-    .rubble-dot { fill: #72a4c2; stroke: none; }
-    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.75; opacity: 0.46; }
-    .room-tag { fill: #eef6fb; stroke: #3d7393; stroke-width: 0.8; }
-    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.58)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.85, cellSize * 0.048)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
-    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.64)}px; font-weight: bold; fill: #1b5a78; stroke: #eef6fb; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
+    .collapsed { fill: #e1edf6; stroke: none; }
+    .rubble-dot { fill: #7197b1; stroke: none; }
+    .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.68; opacity: 0.46; }
+    .room-tag { fill: #f5fbff; stroke: #6b93ab; stroke-width: 0.74; }
+    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.58)}px; font-weight: bold; fill: #2f6789; stroke: #f5fbff; stroke-width: ${Math.max(0.82, cellSize * 0.046)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.64)}px; font-weight: bold; fill: #2f6789; stroke: #f5fbff; stroke-width: ${Math.max(0.85, cellSize * 0.048)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
     .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f3fbff; }
-    .compass-fill { fill: #eef6fb; }
-    .compass-stroke { fill: none; stroke: #1b5a78; stroke-width: 1.4; }
-    .compass-dark { fill: #1b5a78; }
-    .compass-light { fill: #eef6fb; }
-    .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #f0f6fa; text-anchor: middle; }
-    .legend-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1.4; }
-    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #1b5a78; }
-    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #1b5a78; }
+    .compass-fill { fill: #f5fbff; }
+    .compass-stroke { fill: none; stroke: #2f6789; stroke-width: 1.2; }
+    .compass-dark { fill: #2f6789; }
+    .compass-light { fill: #f5fbff; }
+    .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #f0f7fc; text-anchor: middle; }
+    .legend-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 1.25; }
+    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #2f6789; }
+    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #2f6789; }
     .legend-sym { stroke: ${sym}; stroke-width: 1.35; fill: none; }
     .legend-sym-filled { fill: ${sym}; stroke: none; }
-    .scale-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1; }
-    .rock-tone { fill: #3f7898; }
-    .rock-hatch-major { stroke: #346c8c; stroke-width: 0.56; }
-    .rock-hatch-minor { stroke: #5d8daa; stroke-width: 0.42; }
-    .rock-stipple-dot { fill: #4f88ab; opacity: 0.55; }
-    .rock-chisel-mark { stroke: #2e627f; stroke-width: 0.5; stroke-linecap: round; }
-    .title-block-box { fill: #eef6fb; stroke: #1b5a78; stroke-width: 1.6; }
-    .title-block-divider { stroke: #95b9cf; stroke-width: 0.9; }
-    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #5f90ac; letter-spacing: 0.4px; }
-    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #1b5a78; font-weight: bold; }
-    .sheet-border-outer { fill: none; stroke: #1b5a78; stroke-width: 1.2; }
-    .sheet-border-inner { fill: none; stroke: #8fb4cb; stroke-width: 0.75; }
-    .sheet-tick { stroke: #8fb4cb; stroke-width: 0.72; }
+    .scale-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 0.95; }
+    .rock-tone { fill: #8fb6cb; }
+    .rock-hatch-major { stroke: #6f98b2; stroke-width: 0.6; }
+    .rock-hatch-minor { stroke: #82aac0; stroke-width: 0.5; }
+    .rock-stipple-dot { fill: #7099b3; opacity: 0.66; }
+    .rock-chisel-mark { stroke: #688fa8; stroke-width: 0.5; stroke-linecap: round; }
+    .title-block-box { fill: #f5fbff; stroke: #2f6789; stroke-width: 1.45; }
+    .title-block-divider { stroke: #c0d4e2; stroke-width: 0.85; }
+    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #769bb1; letter-spacing: 0.4px; }
+    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #2f6789; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #2f6789; stroke-width: 1.08; }
+    .sheet-border-inner { fill: none; stroke: #a8c3d4; stroke-width: 0.68; }
+    .sheet-tick { stroke: #a8c3d4; stroke-width: 0.68; }
+    .strict-texture-line { stroke: #6f97af; stroke-width: 0.5; stroke-linecap: square; }
+    .strict-texture-dot { fill: #7da4bb; opacity: 0.74; }
   </style>`;
   }
 
@@ -809,6 +815,34 @@ function renderPaperGrain(svgW, svgH, cs) {
     `  </pattern>`,
     `</defs>`,
     `<rect class="paper-grain" x="0" y="0" width="${svgW}" height="${svgH}" fill="url(#blueprint-grain)"/>`,
+  ].join("\n    ");
+}
+
+/**
+ * Render strict-profile microtexture over the playable map field.
+ * This keeps the strict profile visually restrained while reducing overly rigid geometry bias.
+ *
+ * @param {number} mapW
+ * @param {number} mapH
+ * @param {number} cs
+ * @returns {string}
+ */
+function renderStrictMicroTexture(mapW, mapH, cs) {
+  const step = Math.max(4, Math.floor(cs * 0.32));
+  const shift = Math.max(2, Math.floor(step * 0.5));
+  return [
+    `<defs>`,
+    `  <pattern id="strict-micro-tex-a" width="${step}" height="${step}" patternUnits="userSpaceOnUse">`,
+    `    <line class="strict-texture-line" x1="0" y1="${step}" x2="${step}" y2="0"/>`,
+    `    <circle class="strict-texture-dot" cx="${Math.max(1, Math.floor(step * 0.3))}" cy="${Math.max(1, Math.floor(step * 0.24))}" r="0.34"/>`,
+    `  </pattern>`,
+    `  <pattern id="strict-micro-tex-b" width="${step}" height="${step}" patternUnits="userSpaceOnUse" patternTransform="translate(${shift} ${shift})">`,
+    `    <line class="strict-texture-line" x1="0" y1="0" x2="${step}" y2="${step}"/>`,
+    `    <circle class="strict-texture-dot" cx="${Math.max(1, Math.floor(step * 0.7))}" cy="${Math.max(1, Math.floor(step * 0.66))}" r="0.3"/>`,
+    `  </pattern>`,
+    `</defs>`,
+    `<rect x="0" y="0" width="${mapW}" height="${mapH}" fill="url(#strict-micro-tex-a)" opacity="0.42"/>`,
+    `<rect x="0" y="0" width="${mapW}" height="${mapH}" fill="url(#strict-micro-tex-b)" opacity="0.26"/>`,
   ].join("\n    ");
 }
 
@@ -962,8 +996,8 @@ function renderGridLines(cells, width, height, cs) {
 function renderRockHatch(cells, width, height, cs, styleProfile) {
   if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
     const parts = [];
-    const majorStep = Math.max(4, Math.floor(cs * 0.36));
-    const minorStep = Math.max(6, Math.floor(cs * 0.58));
+    const majorStep = Math.max(2, Math.floor(cs * 0.24));
+    const minorStep = Math.max(3, Math.floor(cs * 0.32));
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const hashNoise2d = (x, y, salt = 0) => {
       let h = Math.imul(x + 1 + salt, 0x9e3779b1);
@@ -978,8 +1012,19 @@ function renderRockHatch(cells, width, height, cs, styleProfile) {
     <pattern id="rock-hatch-major-strict" width="${majorStep}" height="${majorStep}" patternUnits="userSpaceOnUse">
       <line class="rock-hatch-major" x1="0" y1="${majorStep}" x2="${majorStep}" y2="0"/>
     </pattern>
+    <pattern id="rock-hatch-major-cross-strict" width="${majorStep}" height="${majorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-major" x1="0" y1="0" x2="${majorStep}" y2="${majorStep}"/>
+    </pattern>
     <pattern id="rock-hatch-minor-strict" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
       <line class="rock-hatch-minor" x1="0" y1="0" x2="${minorStep}" y2="${minorStep}"/>
+    </pattern>
+    <pattern id="rock-hatch-oblique-strict" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <line class="rock-hatch-minor" x1="${Math.max(1, Math.floor(minorStep * 0.2))}" y1="${minorStep}" x2="${minorStep}" y2="${Math.max(1, Math.floor(minorStep * 0.2))}"/>
+    </pattern>
+    <pattern id="rock-stipple-strict" width="${minorStep}" height="${minorStep}" patternUnits="userSpaceOnUse">
+      <circle class="rock-stipple-dot" cx="${Math.max(1, Math.floor(minorStep * 0.2))}" cy="${Math.max(1, Math.floor(minorStep * 0.24))}" r="0.48"/>
+      <circle class="rock-stipple-dot" cx="${Math.max(2, Math.floor(minorStep * 0.56))}" cy="${Math.max(2, Math.floor(minorStep * 0.62))}" r="0.4"/>
+      <circle class="rock-stipple-dot" cx="${Math.max(2, Math.floor(minorStep * 0.82))}" cy="${Math.max(2, Math.floor(minorStep * 0.84))}" r="0.34"/>
     </pattern>
   </defs>`);
 
@@ -1012,20 +1057,36 @@ function renderRockHatch(cells, width, height, cs, styleProfile) {
                 : nearestFloor === 4
                   ? 0.52
                   : 0.34;
+        const noiseB = hashNoise2d(x, y, 53);
         const toneOpacity = clamp(
-          0.11 + band * 0.16 + (noise - 0.5) * 0.06,
-          0.08,
-          0.3,
+          0.12 + band * 0.2 + (noise - 0.5) * 0.06,
+          0.1,
+          0.36,
         );
         const majorOpacity = clamp(
-          0.36 + band * 0.44 + (noise - 0.5) * 0.08,
+          0.32 + band * 0.42 + (noise - 0.5) * 0.1,
           0.26,
-          0.9,
+          0.86,
+        );
+        const crossOpacity = clamp(
+          0.25 + band * 0.34 + (noiseB - 0.5) * 0.1,
+          0.18,
+          0.68,
         );
         const minorOpacity = clamp(
-          0.16 + band * 0.24 + (noise - 0.5) * 0.08,
-          0.1,
+          0.18 + band * 0.3 + (noiseB - 0.5) * 0.08,
+          0.14,
           0.58,
+        );
+        const obliqueOpacity = clamp(
+          0.14 + band * 0.24 + (noise - 0.5) * 0.08,
+          0.1,
+          0.48,
+        );
+        const stippleOpacity = clamp(
+          0.12 + band * 0.2 + (noise - 0.5) * 0.07,
+          0.08,
+          0.42,
         );
         const px = x * cs;
         const py = y * cs;
@@ -1036,9 +1097,24 @@ function renderRockHatch(cells, width, height, cs, styleProfile) {
         parts.push(
           `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-major-strict)" opacity="${majorOpacity.toFixed(3)}"/>`,
         );
-        if (nearestFloor <= 3 || noise > 0.55) {
+        if (nearestFloor <= 4 || noiseB > 0.26) {
+          parts.push(
+            `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-major-cross-strict)" opacity="${crossOpacity.toFixed(3)}"/>`,
+          );
+        }
+        if (nearestFloor <= 4 || noise > 0.28) {
           parts.push(
             `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-minor-strict)" opacity="${minorOpacity.toFixed(3)}"/>`,
+          );
+        }
+        if (nearestFloor <= 4 || noiseB > 0.46) {
+          parts.push(
+            `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-hatch-oblique-strict)" opacity="${obliqueOpacity.toFixed(3)}"/>`,
+          );
+        }
+        if (nearestFloor <= 4 || noiseB > 0.34) {
+          parts.push(
+            `<rect x="${px}" y="${py}" width="${cs}" height="${cs}" fill="url(#rock-stipple-strict)" opacity="${stippleOpacity.toFixed(3)}"/>`,
           );
         }
       }
@@ -1534,6 +1610,12 @@ function renderSvg(geometry, graph, intent, options) {
     }
   }
   parts.push(`  </g>`);
+
+  if (strictBlue) {
+    parts.push(`  <g class="strict-micro-texture-layer">`);
+    parts.push(`    ${renderStrictMicroTexture(mapW, mapH, cs)}`);
+    parts.push(`  </g>`);
+  }
 
   // Grid lines (only over floor areas)
   if (showGrid) {

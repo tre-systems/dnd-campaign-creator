@@ -212,6 +212,134 @@ describe("geometry", () => {
         layoutConstructed(graph, section.grid, section.density, [], 50, rng);
       });
     });
+
+    it("assigns semantic room shapes and rough cave interiors", () => {
+      const section = {
+        id: "shape-test",
+        level: 1,
+        theme: "Shape regression",
+        pressure: "hazard",
+        sessionLoad: "standard",
+        promise: "Validate semantic room carving.",
+        grid: { width: 30, height: 24 },
+        density: "standard",
+        nodes: [
+          {
+            id: "E1",
+            type: "entry",
+            name: "Entry Hall",
+            sizeClass: "medium",
+          },
+          { id: "H1", type: "hub", name: "Grand Hub", sizeClass: "large" },
+          {
+            id: "Z1",
+            type: "hazard",
+            name: "Flooded Grotto",
+            sizeClass: "large",
+          },
+        ],
+        edges: [
+          { from: "E1", to: "H1", type: "open", bidirectional: true },
+          { from: "H1", to: "Z1", type: "open", bidirectional: true },
+        ],
+      };
+
+      const graph = buildGraph(section.nodes, section.edges);
+      const geometry = layoutConstructed(
+        graph,
+        section.grid,
+        section.density,
+        [],
+        50,
+        createRng(17),
+      );
+
+      const hub = geometry.rooms.find((r) => r.nodeId === "H1");
+      const hazard = geometry.rooms.find((r) => r.nodeId === "Z1");
+      assert.equal(hub.shape, "chamfered");
+      assert.equal(hazard.shape, "cave");
+
+      let roughCells = 0;
+      let carvedWalls = 0;
+      for (let y = hazard.y; y < hazard.y + hazard.h; y++) {
+        for (let x = hazard.x; x < hazard.x + hazard.w; x++) {
+          if (geometry.cells[y][x] === CELL.WALL) carvedWalls++;
+          if (
+            geometry.cells[y][x] === CELL.RUBBLE ||
+            geometry.cells[y][x] === CELL.WATER ||
+            geometry.cells[y][x] === CELL.COLLAPSED
+          ) {
+            roughCells++;
+          }
+        }
+      }
+
+      assert.ok(carvedWalls > 0, "Cave rooms should not remain pure rectangles");
+      assert.ok(
+        roughCells > 0,
+        "Cave rooms should include rough terrain treatment",
+      );
+    });
+
+    it("carves cross-shaped hubs for crossroads-style room names", () => {
+      const section = {
+        id: "cross-shape-test",
+        level: 1,
+        theme: "Cross hall regression",
+        pressure: "faction",
+        sessionLoad: "standard",
+        promise: "Validate cross-hall geometry.",
+        grid: { width: 28, height: 20 },
+        density: "dense",
+        nodes: [
+          { id: "E1", type: "entry", name: "Entry Hall", sizeClass: "small" },
+          {
+            id: "H1",
+            type: "hub",
+            name: "Crossroads Hall",
+            sizeClass: "large",
+          },
+        ],
+        edges: [{ from: "E1", to: "H1", type: "open", bidirectional: true }],
+      };
+
+      const graph = buildGraph(section.nodes, section.edges);
+      const geometry = layoutConstructed(
+        graph,
+        section.grid,
+        section.density,
+        [],
+        50,
+        createRng(23),
+      );
+
+      const hub = geometry.rooms.find((r) => r.nodeId === "H1");
+      assert.equal(hub.shape, "cross");
+
+      const corners = [
+        geometry.cells[hub.y][hub.x],
+        geometry.cells[hub.y][hub.x + hub.w - 1],
+        geometry.cells[hub.y + hub.h - 1][hub.x],
+        geometry.cells[hub.y + hub.h - 1][hub.x + hub.w - 1],
+      ];
+      assert.ok(
+        corners.some((cell) => cell === CELL.WALL),
+        "Cross-hall carve should remove at least one corner",
+      );
+
+      const midX = hub.x + Math.floor(hub.w / 2);
+      const midY = hub.y + Math.floor(hub.h / 2);
+      assert.equal(
+        geometry.cells[midY][hub.x],
+        CELL.FLOOR,
+        "Cross-hall should keep wall-center anchors for doorway routing",
+      );
+      assert.equal(
+        geometry.cells[hub.y][midX],
+        CELL.FLOOR,
+        "Cross-hall should keep top-center anchor for doorway routing",
+      );
+    });
   });
 
   describe("markConnector", () => {

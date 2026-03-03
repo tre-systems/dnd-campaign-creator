@@ -256,20 +256,22 @@ Density biases sizes: `sparse` favours the low end, `dense` the high end.
 If placement fails (rooms don't fit), the entire layout retries with a
 different random split. Up to 50 retries before throwing.
 
-#### L-shaped rooms
+#### Semantic room shapes
 
-`fillRoomFloor()` has a 35% chance of carving an L-shaped corner notch from
-rooms >= 4x4 cells. The notch is 30-50% of the room's width/height, placed
-at a random corner. This breaks up the rectangular uniformity.
+Room carving is now semantic rather than uniformly rectangular. Shape selection
+is driven by node type/name and room size, then carved from an initial
+rectangle:
 
-```javascript
-if (rng && room.w >= 4 && room.h >= 4 && rng() < 0.35) {
-  // carve notch at random corner (TL, TR, BL, BR)
-  const nw = 1 + Math.floor(rng() * Math.floor(room.w * 0.4));
-  const nh = 1 + Math.floor(rng() * Math.floor(room.h * 0.4));
-  // ... notch stored as room.notch = {x, y, w, h}
-}
-```
+- `rect`: default rectangle
+- `notched`: L-cut corner notch for medium/large generic rooms
+- `chamfered`: clipped corners for major ceremonial/command spaces
+- `cross`: plus-shaped halls for crossroads/nexus-style hubs
+- `cave`: irregular noisy carve for hazard/secret/cave-hint rooms, with
+  connectivity cleanup and interior rough terrain (`rubble`, contextual `water`
+  or `collapsed`)
+
+Cross and cave rooms preserve mid-wall floor anchors so corridor/door routing
+can still place coherent thresholds on irregular outlines.
 
 #### Geometry object
 
@@ -288,9 +290,12 @@ Each `PlacedRoom`:
 ```javascript
 {
   nodeId: "H1",            // linked topology node
+  nodeType: "hub",
+  nodeName: "Gatehouse Hall",
   x: 5, y: 10,            // top-left corner (0-based)
   w: 6, h: 5,             // dimensions in cells
   sizeClass: "medium",
+  shape: "chamfered",      // rect | notched | chamfered | cross | cave
   doorPositions: [],       // filled during routing
   notch: {x, y, w, h}     // optional L-shape cutout
 }
@@ -367,6 +372,10 @@ For wide corridors, it expands perpendicular to the movement direction.
 - `secret` -> `CELL.DOOR_SECRET`
 - `open` / other -> no door
 
+`chooseDoorTypeForEdge()` upgrades some ceremonial thresholds to
+`CELL.DOUBLE_DOOR` (for wide/capstone connections) while preserving locked and
+secret semantics.
+
 Doors are placed only when the candidate threshold cell is adjacent to both
 room floor and passage space (`CORRIDOR`/door cells). This prevents invalid
 door symbols floating in solid rock.
@@ -374,7 +383,11 @@ door symbols floating in solid rock.
 By edge type:
 
 - `door`: place paired thresholds on both connected room walls when valid.
-- `locked` / `secret`: place on the destination-side threshold by convention.
+- `locked` / `secret`: place a single threshold on the defensible/concealed
+  side via `chooseGatedDoorPoint()`:
+  - `secret` prefers `secret`/hazard/resource small rooms
+  - `locked` prefers `faction-core`/set-piece/exit strongholds
+  - ties preserve destination-side convention
 
 ### 3c. Dressing
 
@@ -387,6 +400,13 @@ type/name from the topology graph.
 
 `pickRecipe(node)` matches room names (case-insensitive) to recipes:
 
+- `guard` / `guard post` -> `guardpost`
+- `armoury` / `armory` -> `armoury`
+- `vault` / `treasury` -> `vault`
+- `prison` / `cell` -> `prison`
+- `fountain` / `cistern` / `pool` -> `fountain`
+- `collapsed` / `ruin` / `chasm` / `rift` -> `collapsed`
+- `hazard` node type -> `hazard`
 - `chapel`, `shrine` -> `chapel`
 - `throne` -> `throne`
 - `crypt`, `tomb` -> `crypt`
@@ -394,6 +414,7 @@ type/name from the topology graph.
 - `forge`, `smelt` -> `forge`
 - `gallery`, `great hall`, or `hall` (if large) -> `pillars`
 - `library`, `scriptorium` -> `library`
+- `secret` node type (fallback) -> `vault`
 - Large rooms (no keyword) -> `pillars`
 - Rooms with no recipe (30% chance) -> `scatter`
 
@@ -409,10 +430,25 @@ offsets relative to the room's top-left corner.
 - **forge:** Fire pit at center, flanking pillars
 - **pillars:** Grid of pillars spaced 2-3 cells apart (>= 4x4)
 - **library:** Statues along one wall every 2 cells
-- **scatter:** 1-2 random pillars/statues
+- **guardpost:** Portcullis + lever + bars
+- **armoury:** Barred racks and central marker
+- **vault:** Treasure core with trap/bars
+- **prison:** Dense barred cell pattern
+- **hazard:** Pit + trigger + unstable marker
+- **fountain:** Fountain with surrounding water accents
+- **collapsed:** Collapse core with rubble
+- **scatter:** 1-2 random symbols from a mixed old-school feature pool
 
 Features are only placed on `CELL.FLOOR` cells. Doors, corridors, and
 existing features are never overwritten.
+
+Before room recipes, `applyDressing()` places transition symbols in authored
+entry/exit rooms:
+
+- `entry` defaults to `STAIRS_UP`
+- `exit` defaults to `STAIRS_DOWN`
+- explicit room-name direction hints (`upper`, `lift`, `descent`, `abyss`, etc.)
+  override type defaults
 
 Door-aware placement guards also reserve ingress and center traffic lanes:
 
@@ -470,16 +506,17 @@ Produces old-school dungeon maps in the Paratime/TSR blue style.
 3. Optional paper grain texture (enhanced profile only)
 4. Rock treatment:
    - `blue-enhanced`: layered hatch + stipple + tonal/chisel modulation
-   - `blueprint-strict`: denser dual-hatch + tonal bands, no stipple/chisel overlays
+   - `blueprint-strict`: denser multi-hatch (major/cross/minor/oblique) + stipple + tonal bands
 5. Floor tiles (room floors and corridors)
-6. Grid lines (minor + major 5-square lines over walkable areas)
-7. Wall segments (computed and merged; enhanced renders under/main/highlight, strict renders a single heavy wall pass)
-8. Map frame (double-line cartographic border around map area)
-9. Feature symbols (doors, stairs, pillars, altars, etc.)
-10. Room labels (profile dependent: top-left number tags in enhanced, centered room numbers in strict; overridable via `labelMode`)
-11. Optional compass rose (enabled by default in enhanced, disabled by default in strict)
-12. Optional legend box (enabled by default in enhanced, disabled by default in strict)
-13. Optional title block and full sheet border (enabled by default in enhanced, disabled by default in strict)
+6. Strict-profile microtexture overlay (subtle diagonal draft grain)
+7. Grid lines (minor + major 5-square lines over walkable areas)
+8. Wall segments (computed and merged; enhanced renders under/main/highlight, strict renders a single heavy wall pass)
+9. Map frame (double-line cartographic border around map area)
+10. Feature symbols (doors, stairs, pillars, altars, etc.)
+11. Room labels (profile dependent: top-left number tags in enhanced, centered room numbers in strict; overridable via `labelMode`)
+12. Optional compass rose (enabled by default in enhanced, disabled by default in strict)
+13. Optional legend box (enabled by default in enhanced, disabled by default in strict)
+14. Optional title block and full sheet border (enabled by default in enhanced, disabled by default in strict)
 
 #### Wall segment computation
 
@@ -512,7 +549,9 @@ rather than a uniform fill.
 Blue profile variants:
 
 - `blue-enhanced` (default): textured field, sheet furniture, top-left tags.
-- `blueprint-strict`: flatter old-school output with centered labels and reduced chrome.
+- `blueprint-strict`: flatter old-school output with centered labels and reduced
+  chrome, while retaining strict hatch/stipple rock treatment and subtle
+  blueprint microtexture.
 
 **Parchment:**
 

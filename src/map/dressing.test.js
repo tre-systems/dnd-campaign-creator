@@ -1,6 +1,11 @@
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
-const { applyDressing, pickRecipe, RECIPES } = require("./dressing");
+const {
+  applyDressing,
+  pickRecipe,
+  RECIPES,
+  transitionCellForNode,
+} = require("./dressing");
 const { CELL, layoutConstructed, createGrid } = require("./geometry");
 const { routeCorridors } = require("./corridors");
 const { buildGraph } = require("./topology");
@@ -52,8 +57,60 @@ describe("dressing", () => {
       );
     });
 
+    it("picks guardpost for guard rooms", () => {
+      assert.equal(
+        pickRecipe({ type: "guard", name: "Guard Post", sizeClass: "medium" }),
+        "guardpost",
+      );
+    });
+
+    it("picks armoury for armoury rooms", () => {
+      assert.equal(
+        pickRecipe({ name: "Armoury", sizeClass: "small" }),
+        "armoury",
+      );
+    });
+
+    it("picks vault for secret treasury rooms", () => {
+      assert.equal(
+        pickRecipe({ type: "secret", name: "Old Treasury", sizeClass: "small" }),
+        "vault",
+      );
+    });
+
+    it("picks hazard recipe for hazard nodes", () => {
+      assert.equal(
+        pickRecipe({ type: "hazard", name: "Trap Hall", sizeClass: "medium" }),
+        "hazard",
+      );
+    });
+
     it("returns null for small generic rooms", () => {
       assert.equal(pickRecipe({ name: "Pantry", sizeClass: "small" }), null);
+    });
+  });
+
+  describe("transitionCellForNode", () => {
+    it("defaults entry and exit nodes to stairs up/down", () => {
+      assert.equal(
+        transitionCellForNode({ type: "entry", name: "Collapsed Gate" }),
+        CELL.STAIRS_UP,
+      );
+      assert.equal(
+        transitionCellForNode({ type: "exit", name: "Old Tunnel" }),
+        CELL.STAIRS_DOWN,
+      );
+    });
+
+    it("uses explicit direction hints over node-type defaults", () => {
+      assert.equal(
+        transitionCellForNode({ type: "exit", name: "Upper Lift" }),
+        CELL.STAIRS_UP,
+      );
+      assert.equal(
+        transitionCellForNode({ type: "entry", name: "Abyss Descent" }),
+        CELL.STAIRS_DOWN,
+      );
     });
   });
 
@@ -79,6 +136,21 @@ describe("dressing", () => {
       assert.equal(features[0].cell, CELL.WELL);
       assert.equal(features[0].dx, 1);
       assert.equal(features[0].dy, 1);
+    });
+
+    it("guardpost places portcullis and lever", () => {
+      const room = { x: 2, y: 2, w: 5, h: 4 };
+      const features = RECIPES.guardpost(room, createRng(3));
+      assert.ok(features.some((f) => f.cell === CELL.PORTCULLIS));
+      assert.ok(features.some((f) => f.cell === CELL.LEVER));
+    });
+
+    it("vault includes treasure and trap language", () => {
+      const room = { x: 1, y: 1, w: 6, h: 6 };
+      const features = RECIPES.vault(room, createRng(5));
+      assert.ok(features.some((f) => f.cell === CELL.TREASURE));
+      assert.ok(features.some((f) => f.cell === CELL.PIT));
+      assert.ok(features.some((f) => f.cell === CELL.BARS));
     });
   });
 
@@ -111,6 +183,43 @@ describe("dressing", () => {
       assert.ok(
         featureCount > 5,
         `Should have placed features, got ${featureCount}`,
+      );
+    });
+
+    it("places stair symbols in entry and exit rooms", () => {
+      const section = createDwarvenComplexSection();
+      const graph = buildGraph(section.nodes, section.edges);
+      const rng = createRng(41);
+      let geometry = layoutConstructed(
+        graph,
+        section.grid,
+        section.density,
+        section.connectors,
+        50,
+        rng,
+      );
+      geometry = routeCorridors(geometry, graph, rng, section.connectors);
+      geometry = applyDressing(geometry, graph, rng);
+
+      const entryRoom = geometry.rooms.find((r) => r.nodeId === "E1");
+      const exitRoom = geometry.rooms.find((r) => r.nodeId === "X1");
+
+      const roomHasCell = (room, cellType) => {
+        for (let y = room.y; y < room.y + room.h; y++) {
+          for (let x = room.x; x < room.x + room.w; x++) {
+            if (geometry.cells[y][x] === cellType) return true;
+          }
+        }
+        return false;
+      };
+
+      assert.ok(
+        roomHasCell(entryRoom, CELL.STAIRS_UP),
+        "Entry room should include STAIRS_UP",
+      );
+      assert.ok(
+        roomHasCell(exitRoom, CELL.STAIRS_DOWN),
+        "Exit room should include STAIRS_DOWN",
       );
     });
 

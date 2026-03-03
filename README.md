@@ -272,6 +272,8 @@ Notes:
 - Connector definitions are routed into playable space and validated for reachability.
 - `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
 - `blueprint-strict` defaults to flatter old-school output (no sheet wash, paper grain, title block, legend, or compass unless explicitly enabled).
+- Room geometry is semantic (`rect`, `notched`, `chamfered`, `cross`, `cave`) and selected from node intent and naming.
+- Entry/exit rooms receive automatic transition symbols (stairs up/down), with name-direction hints overriding defaults.
 - Dressing placement now reserves doorway ingress and center traffic lanes so key room features do not block natural movement.
 
 ### Quality Automation
@@ -305,6 +307,8 @@ Notes:
 
 - This command compares generated snapshots to local images under
   `docs/map-review/references/paratime/`.
+- Snapshot QA currently tracks 12 deterministic strict renders across gatehouse,
+  dwarven, sunken, and clockwork fixtures with varied seeds.
 - Reference images stay local-only by default and are excluded from git.
 
 Public-release checks are available with:

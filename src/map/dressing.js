@@ -8,6 +8,10 @@
 
 const { CELL } = require("./geometry");
 
+const UP_TRANSITION_HINT = /\b(up|upper|ascent|ascend|rise|surface|lift)\b/i;
+const DOWN_TRANSITION_HINT =
+  /\b(down|lower|descent|abyss|deep|under|shaft|chasm|sink)\b/i;
+
 /**
  * Feature placement recipes keyed by room node type.
  * Each recipe is a function(room, rng) that returns an array of {dx, dy, cell}
@@ -125,12 +129,149 @@ const RECIPES = {
   },
 
   /**
+   * Guard room: gate control with a portcullis and lever.
+   */
+  guardpost(room, rng) {
+    const features = [];
+    const cx = Math.floor(room.w / 2);
+    features.push({ dx: cx, dy: 0, cell: CELL.PORTCULLIS });
+    if (room.h >= 3) {
+      features.push({ dx: Math.max(1, cx - 1), dy: 1, cell: CELL.LEVER });
+    }
+    if (room.w >= 5) {
+      features.push({ dx: room.w - 2, dy: room.h - 1, cell: CELL.BARS });
+    }
+    return features;
+  },
+
+  /**
+   * Armoury: barred racks and a central statue marker.
+   */
+  armoury(room, rng) {
+    const features = [];
+    if (room.w >= 3 && room.h >= 3) {
+      for (let x = 1; x < room.w - 1; x += 2) {
+        features.push({ dx: x, dy: 1, cell: CELL.BARS });
+      }
+      features.push({
+        dx: Math.floor(room.w / 2),
+        dy: Math.floor(room.h / 2),
+        cell: CELL.STATUE,
+      });
+    }
+    return features;
+  },
+
+  /**
+   * Treasury / vault: trapped hoard chamber.
+   */
+  vault(room, rng) {
+    const features = [];
+    const cx = Math.floor(room.w / 2);
+    const cy = Math.floor(room.h / 2);
+    features.push({ dx: cx, dy: cy, cell: CELL.TREASURE });
+    if (room.w >= 4 && room.h >= 4) {
+      features.push({ dx: cx, dy: Math.max(1, cy - 1), cell: CELL.PIT });
+      features.push({ dx: Math.max(1, cx - 1), dy: cy, cell: CELL.BARS });
+      features.push({ dx: Math.min(room.w - 2, cx + 1), dy: cy, cell: CELL.BARS });
+    }
+    return features;
+  },
+
+  /**
+   * Prison cells: dense bar pattern.
+   */
+  prison(room, rng) {
+    const features = [];
+    if (room.w >= 3 && room.h >= 3) {
+      for (let y = 1; y < room.h - 1; y += 2) {
+        for (let x = 1; x < room.w - 1; x += 2) {
+          features.push({ dx: x, dy: y, cell: CELL.BARS });
+        }
+      }
+    }
+    return features;
+  },
+
+  /**
+   * Hazard room: trap, trigger, and unstable patch.
+   */
+  hazard(room, rng) {
+    const features = [];
+    const cx = Math.floor(room.w / 2);
+    const cy = Math.floor(room.h / 2);
+    features.push({ dx: cx, dy: cy, cell: CELL.PIT });
+    if (room.w >= 3 && room.h >= 3) {
+      features.push({ dx: Math.max(1, room.w - 2), dy: 1, cell: CELL.LEVER });
+      features.push({ dx: 1, dy: Math.max(1, room.h - 2), cell: CELL.COLLAPSED });
+    }
+    return features;
+  },
+
+  /**
+   * Fountain/cistern room: central fountain with surrounding water.
+   */
+  fountain(room, rng) {
+    const features = [];
+    const cx = Math.floor(room.w / 2);
+    const cy = Math.floor(room.h / 2);
+    features.push({ dx: cx, dy: cy, cell: CELL.FOUNTAIN });
+    if (room.w >= 4 && room.h >= 4) {
+      features.push({ dx: cx, dy: Math.max(1, cy - 1), cell: CELL.WATER });
+      features.push({
+        dx: Math.min(room.w - 2, cx + 1),
+        dy: cy,
+        cell: CELL.WATER,
+      });
+      features.push({
+        dx: Math.max(1, cx - 1),
+        dy: cy,
+        cell: CELL.WATER,
+      });
+      features.push({
+        dx: cx,
+        dy: Math.min(room.h - 2, cy + 1),
+        cell: CELL.WATER,
+      });
+    }
+    return features;
+  },
+
+  /**
+   * Collapsed room: unstable floor and rubble markers.
+   */
+  collapsed(room, rng) {
+    const features = [];
+    const cx = Math.floor(room.w / 2);
+    const cy = Math.floor(room.h / 2);
+    features.push({ dx: cx, dy: cy, cell: CELL.COLLAPSED });
+    if (room.w >= 4 && room.h >= 4) {
+      features.push({ dx: Math.max(1, cx - 1), dy: cy, cell: CELL.RUBBLE });
+      features.push({
+        dx: Math.min(room.w - 2, cx + 1),
+        dy: cy,
+        cell: CELL.RUBBLE,
+      });
+      features.push({ dx: cx, dy: Math.max(1, cy - 1), cell: CELL.RUBBLE });
+    }
+    return features;
+  },
+
+  /**
    * Generic: scatter a couple of random features.
    */
   scatter(room, rng) {
     const features = [];
     if (room.w < 3 || room.h < 3) return features;
-    const pool = [CELL.PILLAR, CELL.STATUE, CELL.PILLAR, CELL.PILLAR];
+    const pool = [
+      CELL.PILLAR,
+      CELL.STATUE,
+      CELL.TRAP,
+      CELL.ARCHWAY,
+      CELL.CURTAIN,
+      CELL.LEVER,
+      CELL.PILLAR,
+    ];
     const count = Math.min(2, Math.floor((room.w * room.h) / 8));
     for (let i = 0; i < count; i++) {
       const dx = 1 + Math.floor(rng() * (room.w - 2));
@@ -146,6 +287,25 @@ const RECIPES = {
  */
 function pickRecipe(node) {
   const name = (node.name || "").toLowerCase();
+  const type = (node.type || "").toLowerCase();
+  if (type === "guard" || name.includes("guard post")) return "guardpost";
+  if (name.includes("armoury") || name.includes("armory")) return "armoury";
+  if (name.includes("vault") || name.includes("treasury")) return "vault";
+  if (name.includes("prison") || name.includes("cell")) return "prison";
+  if (
+    name.includes("fountain") ||
+    name.includes("cistern") ||
+    name.includes("pool")
+  )
+    return "fountain";
+  if (
+    name.includes("collapsed") ||
+    name.includes("ruin") ||
+    name.includes("chasm") ||
+    name.includes("rift")
+  )
+    return "collapsed";
+  if (type === "hazard") return "hazard";
   if (name.includes("chapel") || name.includes("shrine")) return "chapel";
   if (name.includes("throne")) return "throne";
   if (name.includes("crypt") || name.includes("tomb")) return "crypt";
@@ -159,8 +319,23 @@ function pickRecipe(node) {
     return "pillars";
   if (name.includes("library") || name.includes("scriptorium"))
     return "library";
+  if (type === "secret") return "vault";
   // Large rooms get pillars by default
   if (node.sizeClass === "large") return "pillars";
+  return null;
+}
+
+function transitionCellForNode(node) {
+  const type = (node.type || "").toLowerCase();
+  const name = node.name || "";
+  const hasUpHint = UP_TRANSITION_HINT.test(name);
+  const hasDownHint = DOWN_TRANSITION_HINT.test(name);
+
+  if (hasUpHint && !hasDownHint) return CELL.STAIRS_UP;
+  if (hasDownHint && !hasUpHint) return CELL.STAIRS_DOWN;
+
+  if (type === "entry") return CELL.STAIRS_UP;
+  if (type === "exit") return CELL.STAIRS_DOWN;
   return null;
 }
 
@@ -289,6 +464,34 @@ function choosePlacementCell(
   return null;
 }
 
+function placeTransitionSymbols(geometry, graph) {
+  const occupied = new Set();
+
+  for (const room of geometry.rooms) {
+    const node = graph.nodeMap.get(room.nodeId);
+    if (!node) continue;
+
+    const transitionCell = transitionCellForNode(node);
+    if (transitionCell === null) continue;
+
+    const keepout = new Set();
+    markDoorIngressKeepout(geometry, room, keepout);
+    const targetX = room.x + Math.floor(room.w / 2);
+    const targetY = room.y + Math.floor(room.h / 2);
+    const chosen = choosePlacementCell(
+      geometry,
+      room,
+      targetX,
+      targetY,
+      keepout,
+      occupied,
+    );
+    if (!chosen) continue;
+    geometry.cells[chosen.y][chosen.x] = transitionCell;
+    occupied.add(key(chosen.x, chosen.y));
+  }
+}
+
 /**
  * Apply dungeon dressing features to rooms on the grid.
  *
@@ -298,6 +501,8 @@ function choosePlacementCell(
  * @returns {Object} geometry (mutated - features placed on cells)
  */
 function applyDressing(geometry, graph, rng) {
+  placeTransitionSymbols(geometry, graph);
+
   for (const room of geometry.rooms) {
     const node = graph.nodeMap.get(room.nodeId);
     if (!node) continue;
@@ -337,4 +542,4 @@ function applyDressing(geometry, graph, rng) {
   return geometry;
 }
 
-module.exports = { applyDressing, RECIPES, pickRecipe };
+module.exports = { applyDressing, RECIPES, pickRecipe, transitionCellForNode };

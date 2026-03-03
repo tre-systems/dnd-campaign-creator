@@ -78,7 +78,12 @@ function bestWallPoint(room, target) {
   }
 }
 
-const DOOR_TYPES = new Set([CELL.DOOR, CELL.DOOR_LOCKED, CELL.DOOR_SECRET]);
+const DOOR_TYPES = new Set([
+  CELL.DOOR,
+  CELL.DOOR_LOCKED,
+  CELL.DOOR_SECRET,
+  CELL.DOUBLE_DOOR,
+]);
 
 function inBounds(cells, x, y) {
   return y >= 0 && y < cells.length && x >= 0 && x < cells[0].length;
@@ -420,7 +425,7 @@ function carveCorridorPath(cells, path, width) {
  *
  * @param {number[][]} cells - Grid
  * @param {{x: number, y: number}} point - Door position
- * @param {number} doorType - CELL constant (DOOR, DOOR_LOCKED, DOOR_SECRET)
+ * @param {number} doorType - CELL constant (DOOR, DOUBLE_DOOR, DOOR_LOCKED, DOOR_SECRET)
  * @returns {boolean} true if a door was placed at the point
  */
 function placeDoor(cells, point, doorType) {
@@ -477,6 +482,76 @@ function widthClassToCells(widthClass) {
     default:
       return 1;
   }
+}
+
+/**
+ * Resolve the concrete door symbol for a routed edge.
+ * Keeps lock/secret semantics intact while allowing wider ceremonial thresholds.
+ *
+ * @param {Object} edge
+ * @param {Object} roomA
+ * @param {Object} roomB
+ * @returns {number|null}
+ */
+function chooseDoorTypeForEdge(edge, roomA, roomB) {
+  const base = edgeTypeToDoorCell(edge.type);
+  if (base !== CELL.DOOR) return base;
+
+  const largeConnection =
+    roomA.sizeClass === "large" || roomB.sizeClass === "large";
+  const ceremonialConnection =
+    roomA.nodeType === "hub" ||
+    roomB.nodeType === "hub" ||
+    roomA.nodeType === "set-piece" ||
+    roomB.nodeType === "set-piece" ||
+    roomA.nodeType === "faction-core" ||
+    roomB.nodeType === "faction-core";
+
+  if ((largeConnection && ceremonialConnection) || edge.width === "wide") {
+    return CELL.DOUBLE_DOOR;
+  }
+  return CELL.DOOR;
+}
+
+function gatePriority(room, edgeType) {
+  const type = (room.nodeType || "").toLowerCase();
+  let score = 0;
+
+  if (edgeType === "secret") {
+    if (type === "secret") score += 8;
+    if (type === "hazard") score += 4;
+    if (type === "resource") score += 2;
+    if (room.sizeClass === "small") score += 1;
+  } else if (edgeType === "locked") {
+    if (type === "faction-core" || type === "set-piece" || type === "exit")
+      score += 8;
+    if (type === "hub") score += 3;
+    if (room.sizeClass === "large") score += 1;
+  }
+
+  return score;
+}
+
+/**
+ * Choose which side of a gated edge receives the lock/secret threshold.
+ * Ties preserve edge-direction convention (destination side).
+ *
+ * @param {Object} edge
+ * @param {Object} roomA
+ * @param {Object} roomB
+ * @param {{x:number,y:number}} pointA
+ * @param {{x:number,y:number}} pointB
+ * @returns {{x:number,y:number}}
+ */
+function chooseGatedDoorPoint(edge, roomA, roomB, pointA, pointB) {
+  if (edge.type !== "locked" && edge.type !== "secret") {
+    return pointB;
+  }
+
+  const scoreA = gatePriority(roomA, edge.type);
+  const scoreB = gatePriority(roomB, edge.type);
+  if (scoreA > scoreB) return pointA;
+  return pointB;
 }
 
 /**
@@ -551,7 +626,7 @@ function routeCorridors(geometry, graph, rng, connectors) {
 
     // Place door(s) at room-wall transition points if this edge is gated.
     const placedDoorPositions = [];
-    const doorType = edgeTypeToDoorCell(edge.type);
+    const doorType = chooseDoorTypeForEdge(edge, roomA, roomB);
     if (doorType !== null) {
       // Standard doors get paired thresholds on both connected rooms.
       if (edge.type === "door") {
@@ -571,10 +646,17 @@ function routeCorridors(geometry, graph, rng, connectors) {
         }
       } else {
         // Locked/secret edges gate the destination side by convention.
-        if (placeDoor(geometry.cells, pointB, doorType)) {
+        const gatedPoint = chooseGatedDoorPoint(
+          edge,
+          roomA,
+          roomB,
+          pointA,
+          pointB,
+        );
+        if (placeDoor(geometry.cells, gatedPoint, doorType)) {
           placedDoorPositions.push({
-            x: pointB.x,
-            y: pointB.y,
+            x: gatedPoint.x,
+            y: gatedPoint.y,
             type: edge.type,
           });
         }
@@ -636,6 +718,8 @@ module.exports = {
   placeDoor,
   findRoom,
   edgeTypeToDoorCell,
+  chooseDoorTypeForEdge,
+  chooseGatedDoorPoint,
   widthClassToCells,
   connectorAnchor,
 };

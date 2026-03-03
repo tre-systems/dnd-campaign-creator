@@ -8,6 +8,8 @@ const {
   carveCorridorPath,
   placeDoor,
   edgeTypeToDoorCell,
+  chooseDoorTypeForEdge,
+  chooseGatedDoorPoint,
   widthClassToCells,
 } = require("./corridors");
 const { CELL, layoutConstructed, createGrid } = require("./geometry");
@@ -211,6 +213,14 @@ describe("corridors", () => {
       assert.equal(cells[3][3], CELL.DOOR_LOCKED);
     });
 
+    it("places double door", () => {
+      const cells = createGrid(10, 10);
+      cells[4][3] = CELL.FLOOR;
+      cells[4][5] = CELL.CORRIDOR;
+      placeDoor(cells, { x: 4, y: 4 }, CELL.DOUBLE_DOOR);
+      assert.equal(cells[4][4], CELL.DOUBLE_DOOR);
+    });
+
     it("does not place door if threshold is not between room and passage", () => {
       const cells = createGrid(8, 8);
       cells[4][3] = CELL.FLOOR;
@@ -228,6 +238,38 @@ describe("corridors", () => {
   });
 
   describe("routeCorridors", () => {
+    it("chooses double doors for ceremonial large connections", () => {
+      const edge = { type: "door", width: "standard" };
+      const roomA = { sizeClass: "large", nodeType: "hub" };
+      const roomB = { sizeClass: "large", nodeType: "faction-core" };
+      assert.equal(
+        chooseDoorTypeForEdge(edge, roomA, roomB),
+        CELL.DOUBLE_DOOR,
+      );
+    });
+
+    it("places secret thresholds on the more concealed room side", () => {
+      const pointA = { x: 5, y: 6 };
+      const pointB = { x: 12, y: 6 };
+      const edge = { type: "secret" };
+      const roomA = { nodeType: "hub", sizeClass: "medium" };
+      const roomB = { nodeType: "secret", sizeClass: "small" };
+
+      const chosen = chooseGatedDoorPoint(edge, roomA, roomB, pointA, pointB);
+      assert.deepEqual(chosen, pointB);
+    });
+
+    it("places locked thresholds on the defended side", () => {
+      const pointA = { x: 4, y: 8 };
+      const pointB = { x: 14, y: 8 };
+      const edge = { type: "locked" };
+      const roomA = { nodeType: "faction-core", sizeClass: "large" };
+      const roomB = { nodeType: "standard", sizeClass: "medium" };
+
+      const chosen = chooseGatedDoorPoint(edge, roomA, roomB, pointA, pointB);
+      assert.deepEqual(chosen, pointA);
+    });
+
     it("routes corridors for gatehouse section", () => {
       const section = createGatehouseSection();
       const graph = buildGraph(section.nodes, section.edges);
@@ -344,6 +386,7 @@ describe("corridors", () => {
 
       const doorTypes = new Set([
         CELL.DOOR,
+        CELL.DOUBLE_DOOR,
         CELL.DOOR_LOCKED,
         CELL.DOOR_SECRET,
       ]);

@@ -6,6 +6,9 @@ style benchmarking.
 ## Important Notes
 
 - Deterministic regression baselines live in `snapshots/`.
+- Snapshot baselines cover multiple seeds across gatehouse, dwarven, sunken,
+  and clockwork fixtures to stress symbol language, topology-driven content
+  placement (doors/locks/secrets/stairs), and rock treatment in varied layouts.
 - Legacy iteration media was pruned to keep the repository lean; use git
   history if you need older archived renders.
 - Reference images under `references/` are local-only style targets for visual
