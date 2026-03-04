@@ -312,7 +312,8 @@ async function main() {
     );
     referenceMean = aggregateMetrics(referenceMetrics);
     referenceCount = referenceImages.length;
-    referenceSource = path.relative(process.cwd(), referencesDir) || referencesDir;
+    referenceSource =
+      path.relative(process.cwd(), referencesDir) || referencesDir;
   }
 
   const sampleMetrics = await Promise.all(
@@ -364,7 +365,9 @@ async function main() {
     referenceMean,
     referenceCount,
     size,
-    referenceSource || path.relative(process.cwd(), referencesDir) || referencesDir,
+    referenceSource ||
+      path.relative(process.cwd(), referencesDir) ||
+      referencesDir,
   );
 
   await maybeWriteJson(jsonPath, {

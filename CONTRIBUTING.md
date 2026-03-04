@@ -22,7 +22,8 @@ Prerequisite: Node.js v20 or newer.
 ## Running Tests
 
 Ensure your code passes formatting, linting, unit tests, map snapshot checks,
-and style alignment gate checks before submitting a Pull Request:
+style alignment gate checks, and structural quality gate checks before
+submitting a Pull Request:
 
 ```bash
 npm run format
@@ -30,6 +31,7 @@ npm run lint
 npm test
 npm run map:snapshots:check
 npm run map:style:gate
+npm run map:quality:gate
 ```
 
 Or run the bundled local gate:

@@ -278,11 +278,12 @@ Notes:
 
 ### Quality Automation
 
-Quality is enforced in three layers:
+Quality is enforced in four layers:
 
 - Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
-- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + style gate + tracked-file secret scan).
+- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + style gate + structural quality gate + tracked-file secret scan).
 - CI workflow: GitHub Actions runs `npm run verify`, scans full git history for secret patterns, and audits production dependencies on every PR and on pushes to `main`.
+- CI workflow also publishes a map quality report artifact (`JSON` + `Markdown`) for each run.
 
 You can run the same checks manually with:
 
@@ -309,6 +310,13 @@ Reference-style gate used by `verify` and CI:
 npm run map:style:gate
 ```
 
+Structural/content/semantics quality scoring and gate:
+
+```bash
+npm run map:quality:score
+npm run map:quality:gate
+```
+
 Refresh the checked-in reference metrics baseline (requires local reference images):
 
 ```bash
@@ -322,6 +330,11 @@ Notes:
 - `map:style:gate` compares generated snapshots to
   `docs/map-review/reference-style-metrics.json` so CI can enforce style
   alignment without requiring external reference image files.
+- `map:quality:gate` evaluates style + content + semantic topology checks using
+  `docs/map-review/paratime-style-spec.json` to prevent regressions while map
+  generation logic evolves.
+- `map:quality:score` emits a human/machine-readable report without failing the
+  run (unless used in gate mode).
 - Current gate thresholds: minimum alignment score `40`, with max absolute
   deltas for `luminanceMean=0.12`, `saturationMean=0.08`,
   `inkCoverage=0.08`, and `orthogonalEdgeRatio=0.16`.

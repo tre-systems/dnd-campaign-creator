@@ -746,6 +746,7 @@ if you need archived visual outputs from older versions.
 | v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
 | v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`) |
 | v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                   |
+| v14     | Paratime spec-driven quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                    |
 
 ---
 
@@ -763,11 +764,17 @@ and clockwork archive profiles across fixed seeds.
   metric-delta limits against `docs/map-review/reference-style-metrics.json`.
 - `npm run map:style:baseline:update` refreshes the checked-in style baseline
   from local reference images when the reference corpus changes.
+- `npm run map:quality:score` computes a full spec scorecard
+  (style/content/semantics) against `docs/map-review/paratime-style-spec.json`.
+- `npm run map:quality:gate` enforces that scorecard and fails on regression.
 
-`npm run verify` and CI include both `map:snapshots:check` and
-`map:style:gate`, so rendering drift and reference-style regression are caught
-automatically.
+`npm run verify` and CI include `map:snapshots:check`, `map:style:gate`, and
+`map:quality:gate`, so rendering drift, reference-style regression, and symbol
+/semantic/layout regressions are caught automatically.
 
 `map:style:audit` remains local-reference oriented, while `map:style:gate` is
 CI-safe because it compares against the committed metrics baseline rather than
 external reference image files.
+
+CI additionally publishes a `map-quality-report` artifact (`JSON` + `Markdown`)
+from `map:quality:score` so each PR has a structured delta trail.

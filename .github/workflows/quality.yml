@@ -29,6 +29,17 @@ jobs:
       - name: Verify (lint/tests/snapshots/style gate/secrets)
         run: npm run verify
 
+      - name: Generate Map Quality Report
+        run: npm run map:quality:score -- --json map-quality-report.json --markdown map-quality-report.md
+
+      - name: Upload Map Quality Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: map-quality-report
+          path: |
+            map-quality-report.json
+            map-quality-report.md
+
       - name: Scan Git History For Secrets
         run: npm run security:scan:history
 

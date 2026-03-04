@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "referenceMetricsPath": "docs/map-review/reference-style-metrics.json",
+  "qualityGate": {
+    "weights": {
+      "style": 0.4,
+      "content": 0.3,
+      "semantics": 0.3
+    },
+    "minCompositeScore": 70,
+    "style": {
+      "minScore": 40,
+      "maxAbsDelta": {
+        "luminanceMean": 0.12,
+        "saturationMean": 0.08,
+        "inkCoverage": 0.08,
+        "orthogonalEdgeRatio": 0.16
+      }
+    },
+    "content": {
+      "minDistinctFeatureTypes": 12,
+      "minAverageFeatureTagCountPerMap": 5,
+      "minNonRectRoomFraction": 0.2,
+      "minCircleRoomFraction": 0.03,
+      "minCaveRoomFraction": 0.02,
+      "minMapsWithCaves": 3,
+      "requiredFeatureTags": [
+        "door",
+        "lockedDoor",
+        "secretDoor",
+        "stairsUp",
+        "stairsDown",
+        "columns",
+        "statues",
+        "pit",
+        "altar",
+        "throne",
+        "water"
+      ]
+    },
+    "semantics": {
+      "minDoorValidityRatio": 0.98,
+      "minEntryTransitionCoverage": 1,
+      "minExitTransitionCoverage": 1,
+      "minLoopCoverage": 1,
+      "minDisjointPathCoverage": 0.75,
+      "minEdgeSymbolCoverage": {
+        "door": 1,
+        "locked": 0.9,
+        "secret": 1
+      }
+    }
+  }
+}
