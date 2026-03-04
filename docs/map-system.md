@@ -734,19 +734,20 @@ The map renderer has been through multiple iterations (`v4` through `v12`).
 To keep the repository lean, legacy iteration media was pruned; use git history
 if you need archived visual outputs from older versions.
 
-| Version | Key changes                                                                                                                                          |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| v4      | Initial blue rendering, basic wall segments                                                                                                          |
-| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                                                                   |
-| v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                                                             |
-| v7      | A\* corridor routing, rock hatching default, thicker walls                                                                                           |
-| v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability                                                |
-| v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync                                          |
-| v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                           |
-| v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
-| v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`) |
-| v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                   |
-| v14     | Paratime spec-driven quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                    |
+| Version | Key changes                                                                                                                                           |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v4      | Initial blue rendering, basic wall segments                                                                                                           |
+| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                                                                    |
+| v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                                                              |
+| v7      | A\* corridor routing, rock hatching default, thicker walls                                                                                            |
+| v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability                                                 |
+| v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync                                           |
+| v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                            |
+| v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA  |
+| v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`)  |
+| v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                    |
+| v14     | Paratime spec-driven quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                     |
+| v15     | Gated-threshold symbol precedence (no lock/secret downgrades) plus stricter v1.1 quality checks for density, width variation, and gated-edge matching |
 
 ---
 
@@ -767,6 +768,9 @@ and clockwork archive profiles across fixed seeds.
 - `npm run map:quality:score` computes a full spec scorecard
   (style/content/semantics) against `docs/map-review/paratime-style-spec.json`.
 - `npm run map:quality:gate` enforces that scorecard and fails on regression.
+- The current quality spec (`v1.1.0`) raises the composite floor to `75` and
+  adds hard checks for corridor width-class variety, feature density bounds,
+  and exact gated-edge symbol matching.
 
 `npm run verify` and CI include `map:snapshots:check`, `map:style:gate`, and
 `map:quality:gate`, so rendering drift, reference-style regression, and symbol

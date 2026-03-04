@@ -85,6 +85,13 @@ const DOOR_TYPES = new Set([
   CELL.DOUBLE_DOOR,
 ]);
 
+const DOOR_PRIORITY = new Map([
+  [CELL.DOOR, 1],
+  [CELL.DOUBLE_DOOR, 2],
+  [CELL.DOOR_LOCKED, 3],
+  [CELL.DOOR_SECRET, 3],
+]);
+
 function inBounds(cells, x, y) {
   return y >= 0 && y < cells.length && x >= 0 && x < cells[0].length;
 }
@@ -450,6 +457,16 @@ function placeDoor(cells, point, doorType) {
 
   // Door cells should join room floor to passage space.
   if (adjacentFloor > 0 && adjacentPassage > 0) {
+    const existing = cells[point.y][point.x];
+    if (DOOR_TYPES.has(existing)) {
+      const existingPriority = DOOR_PRIORITY.get(existing) || 0;
+      const newPriority = DOOR_PRIORITY.get(doorType) || 0;
+      if (newPriority > existingPriority) {
+        cells[point.y][point.x] = doorType;
+      }
+      return true;
+    }
+
     cells[point.y][point.x] = doorType;
     return true;
   }

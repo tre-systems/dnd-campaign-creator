@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "referenceMetricsPath": "docs/map-review/reference-style-metrics.json",
   "qualityGate": {
     "weights": {
@@ -7,7 +7,7 @@
       "content": 0.3,
       "semantics": 0.3
     },
-    "minCompositeScore": 70,
+    "minCompositeScore": 75,
     "style": {
       "minScore": 40,
       "maxAbsDelta": {
@@ -18,12 +18,15 @@
       }
     },
     "content": {
-      "minDistinctFeatureTypes": 12,
-      "minAverageFeatureTagCountPerMap": 5,
-      "minNonRectRoomFraction": 0.2,
-      "minCircleRoomFraction": 0.03,
-      "minCaveRoomFraction": 0.02,
-      "minMapsWithCaves": 3,
+      "minDistinctFeatureTypes": 18,
+      "minAverageFeatureTagCountPerMap": 16,
+      "minCorridorWidthVariety": 3,
+      "minFeatureCellDensity": 0.08,
+      "maxFeatureCellDensity": 0.095,
+      "minNonRectRoomFraction": 0.3,
+      "minCircleRoomFraction": 0.06,
+      "minCaveRoomFraction": 0.03,
+      "minMapsWithCaves": 6,
       "requiredFeatureTags": [
         "door",
         "lockedDoor",
@@ -44,9 +47,11 @@
       "minExitTransitionCoverage": 1,
       "minLoopCoverage": 1,
       "minDisjointPathCoverage": 0.75,
+      "minGatedEdgePlacementCoverage": 1,
+      "minGatedEdgeSymbolMatchCoverage": 1,
       "minEdgeSymbolCoverage": {
         "door": 1,
-        "locked": 0.9,
+        "locked": 1,
         "secret": 1
       }
     }

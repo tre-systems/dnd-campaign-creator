@@ -249,6 +249,12 @@ function toMarkdownReport(report) {
   lines.push(
     `- Avg distinct feature tags per map: ${report.content.averageFeatureTagCountPerMap.toFixed(3)}`,
   );
+  lines.push(
+    `- Corridor width variety: ${report.content.corridorWidthVariety} class(es)`,
+  );
+  lines.push(
+    `- Feature cell density: ${report.content.featureCellDensity.toFixed(3)}`,
+  );
   lines.push("");
 
   lines.push("## Key Semantic Metrics");
@@ -265,6 +271,12 @@ function toMarkdownReport(report) {
   lines.push(`- Loop coverage: ${report.semantics.loopCoverage.toFixed(3)}`);
   lines.push(
     `- Disjoint path coverage: ${report.semantics.disjointPathCoverage.toFixed(3)}`,
+  );
+  lines.push(
+    `- Gated edge placement coverage: ${report.semantics.gatedEdgePlacementCoverage.toFixed(3)}`,
+  );
+  lines.push(
+    `- Gated edge symbol-match coverage: ${report.semantics.gatedEdgeSymbolMatchCoverage.toFixed(3)}`,
   );
   lines.push("");
 
@@ -353,11 +365,14 @@ async function main() {
       distinctFeatureTags: aggregate.distinctFeatureTags,
       shapeCounts: aggregate.shapeCounts,
       roomCount: aggregate.roomCount,
+      corridorWidthClassCounts: aggregate.corridorWidthClassCounts,
+      corridorWidthVariety: aggregate.corridorWidthVariety,
       nonRectRoomFraction: aggregate.nonRectRoomFraction,
       circleRoomFraction: aggregate.circleRoomFraction,
       caveRoomFraction: aggregate.caveRoomFraction,
       mapsWithCaves: aggregate.mapsWithCaves,
       averageFeatureTagCountPerMap: aggregate.averageFeatureTagCountPerMap,
+      featureCellDensity: aggregate.featureCellDensity,
       featureCounts: aggregate.featureCounts,
     },
     semantics: {
@@ -366,6 +381,8 @@ async function main() {
       exitTransitionCoverage: aggregate.exitTransitionCoverage,
       loopCoverage: aggregate.loopCoverage,
       disjointPathCoverage: aggregate.disjointPathCoverage,
+      gatedEdgePlacementCoverage: aggregate.gatedEdgePlacementCoverage,
+      gatedEdgeSymbolMatchCoverage: aggregate.gatedEdgeSymbolMatchCoverage,
       edgeSymbolCoverage: aggregate.edgeSymbolCoverage,
       edgeTypeCoverage: aggregate.edgeTypeCoverage,
     },
@@ -388,10 +405,10 @@ async function main() {
   console.log(`- Gate result: ${gate.passed ? "PASS" : "FAIL"}`);
 
   console.log(
-    `\nContent highlights: features=${report.content.distinctFeatureTags.length}, nonRect=${report.content.nonRectRoomFraction.toFixed(3)}, cave=${report.content.caveRoomFraction.toFixed(3)}`,
+    `\nContent highlights: features=${report.content.distinctFeatureTags.length}, nonRect=${report.content.nonRectRoomFraction.toFixed(3)}, cave=${report.content.caveRoomFraction.toFixed(3)}, widthVariety=${report.content.corridorWidthVariety}, density=${report.content.featureCellDensity.toFixed(3)}`,
   );
   console.log(
-    `Semantics highlights: doorValidity=${report.semantics.doorValidityRatio.toFixed(3)}, entryTransition=${report.semantics.entryTransitionCoverage.toFixed(3)}, loopCoverage=${report.semantics.loopCoverage.toFixed(3)}`,
+    `Semantics highlights: doorValidity=${report.semantics.doorValidityRatio.toFixed(3)}, entryTransition=${report.semantics.entryTransitionCoverage.toFixed(3)}, loopCoverage=${report.semantics.loopCoverage.toFixed(3)}, gatedPlacement=${report.semantics.gatedEdgePlacementCoverage.toFixed(3)}, gatedMatch=${report.semantics.gatedEdgeSymbolMatchCoverage.toFixed(3)}`,
   );
 
   if (gate.failures.length > 0) {

@@ -45,6 +45,15 @@ Current gate thresholds are:
 - minimum style alignment score: `40`
 - max absolute deltas: `luminanceMean=0.12`, `saturationMean=0.08`,
   `inkCoverage=0.08`, `orthogonalEdgeRatio=0.16`
+- quality composite minimum score: `75`
+- content floor checks include:
+- corridor width variety (`tight` + `standard` + `wide`)
+- feature-cell density range
+- higher minimums for feature variety and shape diversity
+- semantics floor checks include:
+- gated-edge placement coverage (`1.0`)
+- gated-edge symbol-match coverage (`1.0`)
+- locked/secret/door edge-symbol coverage (`1.0`)
 
 To refresh the checked-in metrics baseline from local references, run:
 

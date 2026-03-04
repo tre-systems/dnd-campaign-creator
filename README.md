@@ -335,6 +335,9 @@ Notes:
   generation logic evolves.
 - `map:quality:score` emits a human/machine-readable report without failing the
   run (unless used in gate mode).
+- Current structural quality gate (`paratime-style-spec.json`) requires
+  composite score `>= 75`, corridor-width variety across the suite, bounded
+  feature-cell density, and full gated-edge symbol-match coverage.
 - Current gate thresholds: minimum alignment score `40`, with max absolute
   deltas for `luminanceMean=0.12`, `saturationMean=0.08`,
   `inkCoverage=0.08`, and `orthogonalEdgeRatio=0.16`.

@@ -221,6 +221,30 @@ describe("corridors", () => {
       assert.equal(cells[4][4], CELL.DOUBLE_DOOR);
     });
 
+    it("does not downgrade a locked threshold to a regular door", () => {
+      const cells = createGrid(10, 10);
+      cells[5][4] = CELL.FLOOR;
+      cells[5][6] = CELL.CORRIDOR;
+
+      placeDoor(cells, { x: 5, y: 5 }, CELL.DOOR_LOCKED);
+      assert.equal(cells[5][5], CELL.DOOR_LOCKED);
+
+      placeDoor(cells, { x: 5, y: 5 }, CELL.DOOR);
+      assert.equal(cells[5][5], CELL.DOOR_LOCKED);
+    });
+
+    it("upgrades a regular threshold to locked when required", () => {
+      const cells = createGrid(10, 10);
+      cells[5][4] = CELL.FLOOR;
+      cells[5][6] = CELL.CORRIDOR;
+
+      placeDoor(cells, { x: 5, y: 5 }, CELL.DOOR);
+      assert.equal(cells[5][5], CELL.DOOR);
+
+      placeDoor(cells, { x: 5, y: 5 }, CELL.DOOR_LOCKED);
+      assert.equal(cells[5][5], CELL.DOOR_LOCKED);
+    });
+
     it("does not place door if threshold is not between room and passage", () => {
       const cells = createGrid(8, 8);
       cells[4][3] = CELL.FLOOR;

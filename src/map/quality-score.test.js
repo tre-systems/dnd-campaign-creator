@@ -44,6 +44,8 @@ describe("quality-score", () => {
         },
         distinctFeatureTags: ["door", "lockedDoor", "secretDoor"],
         featureTagCount: 3,
+        playableCellCount: 120,
+        featureCellCount: 9,
         doorTotal: 5,
         doorValid: 5,
         entryCount: 1,
@@ -52,6 +54,10 @@ describe("quality-score", () => {
         exitsWithTransition: 1,
         hasEdgeType: { door: true, locked: true, secret: true },
         hasDoorSymbol: { door: true, locked: true, secret: true },
+        widthClassCounts: { tight: 1, standard: 3, wide: 1 },
+        gatedEdgeTotal: 3,
+        gatedEdgePlaced: 3,
+        gatedEdgeSymbolMatched: 3,
         cycleCount: 2,
         disjointPaths: 2,
       },
@@ -71,6 +77,8 @@ describe("quality-score", () => {
         },
         distinctFeatureTags: ["door"],
         featureTagCount: 1,
+        playableCellCount: 90,
+        featureCellCount: 4,
         doorTotal: 2,
         doorValid: 1,
         entryCount: 1,
@@ -79,6 +87,10 @@ describe("quality-score", () => {
         exitsWithTransition: 1,
         hasEdgeType: { door: true, locked: false, secret: false },
         hasDoorSymbol: { door: true, locked: false, secret: false },
+        widthClassCounts: { tight: 0, standard: 2, wide: 0 },
+        gatedEdgeTotal: 1,
+        gatedEdgePlaced: 1,
+        gatedEdgeSymbolMatched: 1,
         cycleCount: 0,
         disjointPaths: 1,
       },
@@ -91,6 +103,9 @@ describe("quality-score", () => {
     assert.equal(Number(aggregate.loopCoverage.toFixed(3)), 0.5);
     assert.equal(Number(aggregate.disjointPathCoverage.toFixed(3)), 0.5);
     assert.equal(Number(aggregate.edgeSymbolCoverage.locked.toFixed(3)), 1);
+    assert.equal(aggregate.corridorWidthVariety, 3);
+    assert.equal(Number(aggregate.featureCellDensity.toFixed(3)), 0.062);
+    assert.equal(Number(aggregate.gatedEdgeSymbolMatchCoverage.toFixed(3)), 1);
   });
 
   it("evaluates style/content/semantics quality gates", () => {
@@ -107,6 +122,9 @@ describe("quality-score", () => {
         },
         content: {
           minDistinctFeatureTypes: 2,
+          minCorridorWidthVariety: 2,
+          minFeatureCellDensity: 0.05,
+          maxFeatureCellDensity: 0.12,
           requiredFeatureTags: ["door", "stairsUp"],
         },
         semantics: {
@@ -115,6 +133,8 @@ describe("quality-score", () => {
           minExitTransitionCoverage: 1,
           minLoopCoverage: 1,
           minDisjointPathCoverage: 1,
+          minGatedEdgePlacementCoverage: 1,
+          minGatedEdgeSymbolMatchCoverage: 0.95,
           minEdgeSymbolCoverage: {
             door: 1,
             locked: 1,
@@ -140,6 +160,8 @@ describe("quality-score", () => {
       },
       content: {
         distinctFeatureTags: ["door", "stairsUp", "stairsDown"],
+        corridorWidthVariety: 3,
+        featureCellDensity: 0.08,
       },
       semantics: {
         doorValidityRatio: 1,
@@ -147,6 +169,8 @@ describe("quality-score", () => {
         exitTransitionCoverage: 1,
         loopCoverage: 1,
         disjointPathCoverage: 1,
+        gatedEdgePlacementCoverage: 1,
+        gatedEdgeSymbolMatchCoverage: 1,
         edgeSymbolCoverage: {
           door: 1,
           locked: 1,
@@ -171,6 +195,7 @@ describe("quality-score", () => {
           },
         },
         content: {
+          maxFeatureCellDensity: 0.08,
           requiredFeatureTags: ["door", "water"],
         },
         semantics: {
@@ -179,6 +204,7 @@ describe("quality-score", () => {
           minExitTransitionCoverage: 1,
           minLoopCoverage: 1,
           minDisjointPathCoverage: 1,
+          minGatedEdgeSymbolMatchCoverage: 1,
         },
       },
     };
@@ -199,6 +225,7 @@ describe("quality-score", () => {
       },
       content: {
         distinctFeatureTags: ["door"],
+        featureCellDensity: 0.2,
       },
       semantics: {
         doorValidityRatio: 0.8,
@@ -206,6 +233,7 @@ describe("quality-score", () => {
         exitTransitionCoverage: 1,
         loopCoverage: 0.5,
         disjointPathCoverage: 0.5,
+        gatedEdgeSymbolMatchCoverage: 0.7,
         edgeSymbolCoverage: {
           door: 1,
           locked: 1,
@@ -229,6 +257,18 @@ describe("quality-score", () => {
     assert.ok(
       gate.failures.some((failure) => failure.includes("minLoopCoverage")),
       "expected semantic failure",
+    );
+    assert.ok(
+      gate.failures.some((failure) =>
+        failure.includes("maxFeatureCellDensity"),
+      ),
+      "expected content density max failure",
+    );
+    assert.ok(
+      gate.failures.some((failure) =>
+        failure.includes("minGatedEdgeSymbolMatchCoverage"),
+      ),
+      "expected gated edge symbol-match failure",
     );
   });
 });

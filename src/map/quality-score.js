@@ -46,9 +46,25 @@ const FEATURE_TAG_BY_CELL = new Map([
   [CELL.TRAP, "trap"],
 ]);
 
+const EDGE_WIDTH_CLASSES = ["tight", "standard", "wide"];
+const GATED_EDGE_TYPES = new Set(["door", "locked", "secret"]);
+
 function safeRatio(num, den, fallback = 1) {
   if (!Number.isFinite(den) || den <= 0) return fallback;
   return num / den;
+}
+
+function edgeTypeMatchesDoorCell(edgeType, cell) {
+  if (edgeType === "door") {
+    return DOOR_CELLS.has(cell);
+  }
+  if (edgeType === "locked") {
+    return cell === CELL.DOOR_LOCKED;
+  }
+  if (edgeType === "secret") {
+    return cell === CELL.DOOR_SECRET;
+  }
+  return false;
 }
 
 function normalizeWeights(weights) {
@@ -94,6 +110,8 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
     featureCounts[value] = 0;
   }
 
+  let playableCellCount = 0;
+  let featureCellCount = 0;
   let doorTotal = 0;
   let doorValid = 0;
   const distinctFeatureTags = new Set();
@@ -108,10 +126,14 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
   for (let y = 0; y < geometry.height; y++) {
     for (let x = 0; x < geometry.width; x++) {
       const cell = geometry.cells[y][x];
+      if (cell !== CELL.WALL) {
+        playableCellCount++;
+      }
       const featureTag = FEATURE_TAG_BY_CELL.get(cell);
       if (featureTag) {
         featureCounts[featureTag]++;
         distinctFeatureTags.add(featureTag);
+        featureCellCount++;
       }
 
       if (!DOOR_CELLS.has(cell)) continue;
@@ -186,6 +208,54 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
     secret: featureCounts.secretDoor > 0,
   };
 
+  const widthClassCounts = { tight: 0, standard: 0, wide: 0 };
+  for (const edge of graph.edges) {
+    const widthClass = EDGE_WIDTH_CLASSES.includes(edge.width)
+      ? edge.width
+      : "standard";
+    widthClassCounts[widthClass]++;
+  }
+
+  const corridorBuckets = new Map();
+  for (const corridor of geometry.corridors || []) {
+    if (corridor.connector) continue;
+    const key = `${corridor.from}->${corridor.to}`;
+    if (!corridorBuckets.has(key)) {
+      corridorBuckets.set(key, []);
+    }
+    corridorBuckets.get(key).push(corridor);
+  }
+
+  let gatedEdgeTotal = 0;
+  let gatedEdgePlaced = 0;
+  let gatedEdgeSymbolMatched = 0;
+  for (const edge of graph.edges) {
+    if (!GATED_EDGE_TYPES.has(edge.type)) continue;
+    gatedEdgeTotal++;
+
+    const key = `${edge.from}->${edge.to}`;
+    const candidates = corridorBuckets.get(key) || [];
+    const corridor = candidates.length > 0 ? candidates.shift() : null;
+    if (!corridor) continue;
+
+    const doorPositions = Array.isArray(corridor.doorPositions)
+      ? corridor.doorPositions
+      : [];
+    if (doorPositions.length > 0) {
+      gatedEdgePlaced++;
+    }
+
+    const matched = doorPositions.some((door) => {
+      const row = geometry.cells[door.y];
+      if (!row) return false;
+      const cell = row[door.x];
+      return edgeTypeMatchesDoorCell(edge.type, cell);
+    });
+    if (matched) {
+      gatedEdgeSymbolMatched++;
+    }
+  }
+
   return {
     roomCount: geometry.rooms.length,
     shapeCounts,
@@ -195,6 +265,9 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
     featureCounts,
     distinctFeatureTags: Array.from(distinctFeatureTags).sort(),
     featureTagCount: distinctFeatureTags.size,
+    playableCellCount,
+    featureCellCount,
+    featureCellDensity: safeRatio(featureCellCount, playableCellCount, 0),
     doorTotal,
     doorValid,
     entryCount: entryNodes.length,
@@ -203,6 +276,16 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
     exitsWithTransition,
     hasEdgeType,
     hasDoorSymbol,
+    widthClassCounts,
+    gatedEdgeTotal,
+    gatedEdgePlaced,
+    gatedEdgeSymbolMatched,
+    gatedEdgePlacementCoverage: safeRatio(gatedEdgePlaced, gatedEdgeTotal, 1),
+    gatedEdgeSymbolMatchCoverage: safeRatio(
+      gatedEdgeSymbolMatched,
+      gatedEdgeTotal,
+      1,
+    ),
     cycleCount: topologyStats.cycleCount,
     disjointPaths: topologyStats.disjointPaths,
   };
@@ -225,14 +308,19 @@ function aggregateMapMetrics(mapMetrics) {
     exitsWithTransition: 0,
     mapsWithLoops: 0,
     mapsWithDisjointPaths: 0,
+    corridorWidthClassCounts: { tight: 0, standard: 0, wide: 0 },
+    corridorWidthVariety: 0,
     edgeTypeCoverage: {
       door: { mapsWithType: 0, mapsWithSymbol: 0 },
       locked: { mapsWithType: 0, mapsWithSymbol: 0 },
       secret: { mapsWithType: 0, mapsWithSymbol: 0 },
     },
+    featureCellCount: 0,
+    playableCellCount: 0,
     featureCounts: {},
     distinctFeatureTags: [],
     averageFeatureTagCountPerMap: 0,
+    featureCellDensity: 0,
     nonRectRoomFraction: 0,
     circleRoomFraction: 0,
     caveRoomFraction: 0,
@@ -241,6 +329,8 @@ function aggregateMapMetrics(mapMetrics) {
     exitTransitionCoverage: 1,
     loopCoverage: 1,
     disjointPathCoverage: 1,
+    gatedEdgePlacementCoverage: 1,
+    gatedEdgeSymbolMatchCoverage: 1,
     edgeSymbolCoverage: {
       door: 1,
       locked: 1,
@@ -249,6 +339,7 @@ function aggregateMapMetrics(mapMetrics) {
   };
 
   const featureTagSet = new Set();
+  const widthClassSet = new Set();
   let featureTagCountSum = 0;
 
   for (const metrics of mapMetrics) {
@@ -263,6 +354,8 @@ function aggregateMapMetrics(mapMetrics) {
         (aggregate.shapeCounts[shape] || 0) + count;
     }
 
+    aggregate.featureCellCount += metrics.featureCellCount || 0;
+    aggregate.playableCellCount += metrics.playableCellCount || 0;
     aggregate.doorTotal += metrics.doorTotal;
     aggregate.doorValid += metrics.doorValid;
     aggregate.entryCount += metrics.entryCount;
@@ -272,6 +365,16 @@ function aggregateMapMetrics(mapMetrics) {
 
     if (metrics.cycleCount >= 1) aggregate.mapsWithLoops++;
     if (metrics.disjointPaths >= 2) aggregate.mapsWithDisjointPaths++;
+
+    for (const [widthClass, count] of Object.entries(
+      metrics.widthClassCounts || {},
+    )) {
+      if (!EDGE_WIDTH_CLASSES.includes(widthClass)) continue;
+      aggregate.corridorWidthClassCounts[widthClass] += count;
+      if (count > 0) {
+        widthClassSet.add(widthClass);
+      }
+    }
 
     for (const edgeType of ["door", "locked", "secret"]) {
       if (metrics.hasEdgeType[edgeType]) {
@@ -294,6 +397,12 @@ function aggregateMapMetrics(mapMetrics) {
   aggregate.averageFeatureTagCountPerMap = safeRatio(
     featureTagCountSum,
     aggregate.mapCount,
+    0,
+  );
+  aggregate.corridorWidthVariety = widthClassSet.size;
+  aggregate.featureCellDensity = safeRatio(
+    aggregate.featureCellCount,
+    aggregate.playableCellCount,
     0,
   );
 
@@ -337,6 +446,22 @@ function aggregateMapMetrics(mapMetrics) {
     aggregate.mapCount,
     1,
   );
+  aggregate.gatedEdgePlacementCoverage = safeRatio(
+    mapMetrics.reduce(
+      (sum, metrics) => sum + (metrics.gatedEdgePlaced || 0),
+      0,
+    ),
+    mapMetrics.reduce((sum, metrics) => sum + (metrics.gatedEdgeTotal || 0), 0),
+    1,
+  );
+  aggregate.gatedEdgeSymbolMatchCoverage = safeRatio(
+    mapMetrics.reduce(
+      (sum, metrics) => sum + (metrics.gatedEdgeSymbolMatched || 0),
+      0,
+    ),
+    mapMetrics.reduce((sum, metrics) => sum + (metrics.gatedEdgeTotal || 0), 0),
+    1,
+  );
 
   for (const edgeType of ["door", "locked", "secret"]) {
     const bucket = aggregate.edgeTypeCoverage[edgeType];
@@ -361,6 +486,20 @@ function evaluateMinCheck(name, actual, expected, precision = 3) {
     message: pass
       ? `${name}: ${actual.toFixed(precision)} >= ${expected.toFixed(precision)}`
       : `${name}: ${actual.toFixed(precision)} < ${expected.toFixed(precision)}`,
+  };
+}
+
+function evaluateMaxCheck(name, actual, expected, precision = 3) {
+  const pass = actual <= expected;
+  return {
+    name,
+    pass,
+    comparator: "max",
+    actual: Number(actual.toFixed(precision)),
+    expected: Number(expected.toFixed(precision)),
+    message: pass
+      ? `${name}: ${actual.toFixed(precision)} <= ${expected.toFixed(precision)}`
+      : `${name}: ${actual.toFixed(precision)} > ${expected.toFixed(precision)}`,
   };
 }
 
@@ -408,6 +547,34 @@ function evaluateContentChecks(aggregate, contentSpec) {
         "content.minAverageFeatureTagCountPerMap",
         aggregate.averageFeatureTagCountPerMap,
         spec.minAverageFeatureTagCountPerMap,
+      ),
+    );
+  }
+  if (Number.isFinite(spec.minCorridorWidthVariety)) {
+    checks.push(
+      evaluateMinCheck(
+        "content.minCorridorWidthVariety",
+        aggregate.corridorWidthVariety,
+        spec.minCorridorWidthVariety,
+        0,
+      ),
+    );
+  }
+  if (Number.isFinite(spec.minFeatureCellDensity)) {
+    checks.push(
+      evaluateMinCheck(
+        "content.minFeatureCellDensity",
+        aggregate.featureCellDensity,
+        spec.minFeatureCellDensity,
+      ),
+    );
+  }
+  if (Number.isFinite(spec.maxFeatureCellDensity)) {
+    checks.push(
+      evaluateMaxCheck(
+        "content.maxFeatureCellDensity",
+        aggregate.featureCellDensity,
+        spec.maxFeatureCellDensity,
       ),
     );
   }
@@ -506,6 +673,24 @@ function evaluateSemanticsChecks(aggregate, semanticsSpec) {
         "semantics.minDisjointPathCoverage",
         aggregate.disjointPathCoverage,
         spec.minDisjointPathCoverage,
+      ),
+    );
+  }
+  if (Number.isFinite(spec.minGatedEdgePlacementCoverage)) {
+    checks.push(
+      evaluateMinCheck(
+        "semantics.minGatedEdgePlacementCoverage",
+        aggregate.gatedEdgePlacementCoverage,
+        spec.minGatedEdgePlacementCoverage,
+      ),
+    );
+  }
+  if (Number.isFinite(spec.minGatedEdgeSymbolMatchCoverage)) {
+    checks.push(
+      evaluateMinCheck(
+        "semantics.minGatedEdgeSymbolMatchCoverage",
+        aggregate.gatedEdgeSymbolMatchCoverage,
+        spec.minGatedEdgeSymbolMatchCoverage,
       ),
     );
   }
