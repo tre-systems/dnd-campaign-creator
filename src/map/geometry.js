@@ -478,8 +478,9 @@ function cavePriority(room, nodeType, nodeName) {
 function enforceShowcaseShapes(rooms, graph) {
   const targetCircleCount = rooms.length >= 16 ? 2 : rooms.length >= 8 ? 1 : 0;
   const targetCaveCount = rooms.length >= 16 ? 2 : rooms.length >= 8 ? 1 : 0;
-  let circleCount = rooms.filter((room) => room.shape === ROOM_SHAPE.CIRCLE)
-    .length;
+  let circleCount = rooms.filter(
+    (room) => room.shape === ROOM_SHAPE.CIRCLE,
+  ).length;
   let caveCount = rooms.filter((room) => room.shape === ROOM_SHAPE.CAVE).length;
   const reserved = new Set();
 
@@ -508,10 +509,7 @@ function enforceShowcaseShapes(rooms, graph) {
       .filter((room) => {
         const node = graph.nodeMap.get(room.nodeId) || {};
         const nodeType = (node.type || "").toLowerCase();
-        return (
-          isCaveEligible(room, nodeType) &&
-          !reserved.has(room.nodeId)
-        );
+        return isCaveEligible(room, nodeType) && !reserved.has(room.nodeId);
       })
       .map((room) => {
         const node = graph.nodeMap.get(room.nodeId) || {};

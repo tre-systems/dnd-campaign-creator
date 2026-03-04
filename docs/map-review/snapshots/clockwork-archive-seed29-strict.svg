@@ -7006,11 +7006,6 @@
       <line class="door-secret-tick" x1="557.6" y1="145.6" x2="557.6" y2="154.4"/>
       <rect class="secret-box" x="546.4" y="146.8" width="7.199999999999999" height="6.4" rx="0.8"/>
       <text class="secret-label" x="550" y="150" font-size="8.4" text-anchor="middle" dominant-baseline="central">S</text>
-    <path class="archway" d="M 83 176 Q 90 163 97 176"/>
-      <circle class="archway-base" cx="83" cy="176" r="1.2"/>
-      <circle class="archway-base" cx="97" cy="176" r="1.2"/>
-    <line class="trap" x1="125" y1="165" x2="135" y2="175"/>
-      <line class="trap" x1="135" y1="165" x2="125" y2="175"/>
     <line class="portcullis" x1="448.8" y1="164" x2="448.8" y2="176"/>
       <line class="portcullis" x1="451.2" y1="164" x2="451.2" y2="176"/>
       <line class="portcullis" x1="447.3" y1="166.7" x2="452.7" y2="166.7"/>
@@ -7059,13 +7054,10 @@
       <line class="door-tick" x1="155.4" y1="367.4" x2="155.4" y2="364.2"/>
     <circle class="well-outer" cx="450" cy="390" r="4.800000000000001"/>
       <circle class="well-inner" cx="450" cy="390" r="2.4000000000000004"/>
-    <path class="archway" d="M 103 476 Q 110 463 117 476"/>
-      <circle class="archway-base" cx="103" cy="476" r="1.2"/>
-      <circle class="archway-base" cx="117" cy="476" r="1.2"/>
-    <path class="curtain" d="M 142 470 Q 146 465.2 150 470 Q 154 474.8 158 470"/>
-    <path class="archway" d="M 163 496 Q 170 483 177 496"/>
-      <circle class="archway-base" cx="163" cy="496" r="1.2"/>
-      <circle class="archway-base" cx="177" cy="496" r="1.2"/>
+    <circle class="pillar" cx="110" cy="490" r="4.32"/>
+    <rect class="statue-base" x="145.32" y="485.32" width="9.36" height="9.36"/>
+      <circle class="statue" cx="150" cy="490" r="3.12"/>
+    <circle class="pillar" cx="170" cy="490" r="4.32"/>
     <rect class="statue-base" x="405.32" y="485.32" width="9.36" height="9.36"/>
       <circle class="statue" cx="410" cy="490" r="3.12"/>
     <rect class="statue-base" x="445.32" y="485.32" width="9.36" height="9.36"/>

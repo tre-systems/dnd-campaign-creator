@@ -6091,11 +6091,7 @@
       <line class="door-secret-tick" x1="245.6" y1="297.6" x2="254.4" y2="297.6"/>
       <rect class="secret-box" x="246.4" y="286.8" width="7.199999999999999" height="6.4" rx="0.8"/>
       <text class="secret-label" x="250" y="290" font-size="8.4" text-anchor="middle" dominant-baseline="central">S</text>
-    <path class="archway" d="M 223 396 Q 230 383 237 396"/>
-      <circle class="archway-base" cx="223" cy="396" r="1.2"/>
-      <circle class="archway-base" cx="237" cy="396" r="1.2"/>
-    <rect class="statue-base" x="265.32" y="385.32" width="9.36" height="9.36"/>
-      <circle class="statue" cx="270" cy="390" r="3.12"/>
+    <circle class="pillar" cx="250" cy="390" r="4.32"/>
     <line class="portcullis" x1="448.8" y1="384" x2="448.8" y2="396"/>
       <line class="portcullis" x1="451.2" y1="384" x2="451.2" y2="396"/>
       <line class="portcullis" x1="447.3" y1="386.7" x2="452.7" y2="386.7"/>
@@ -6105,8 +6101,11 @@
     <circle class="lever-base" cx="430" cy="411.8" r="1.7999999999999998"/>
       <line class="lever-arm" x1="430" y1="411.8" x2="433" y2="406.4"/>
       <circle class="lever-handle" cx="433" cy="406.4" r="0.8999999999999999"/>
-    <circle class="pillar" cx="210" cy="450" r="4.32"/>
-    <circle class="pillar" cx="270" cy="470" r="4.32"/>
+    <circle class="pillar" cx="210" cy="430" r="4.32"/>
+    <rect class="statue-base" x="245.32" y="425.32" width="9.36" height="9.36"/>
+      <circle class="statue" cx="250" cy="430" r="3.12"/>
+    <circle class="pillar" cx="270" cy="430" r="4.32"/>
+    <circle class="pillar" cx="250" cy="470" r="4.32"/>
     <line class="bars" x1="484" y1="462" x2="484" y2="478"/>
       <line class="bars" x1="488" y1="462" x2="488" y2="478"/>
       <line class="bars" x1="492" y1="462" x2="492" y2="478"/>
