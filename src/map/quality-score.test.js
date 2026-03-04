@@ -221,7 +221,9 @@ describe("quality-score", () => {
       "expected style minScore failure",
     );
     assert.ok(
-      gate.failures.some((failure) => failure.includes("missing required water")),
+      gate.failures.some((failure) =>
+        failure.includes("missing required water"),
+      ),
       "expected required feature failure",
     );
     assert.ok(

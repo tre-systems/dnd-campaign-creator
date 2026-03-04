@@ -7,9 +7,11 @@ const path = require("node:path");
 const sharp = require("sharp");
 
 const { buildIntent, createRng } = require("../src/map/intent");
-const { buildGraph, countEdgeDisjointPaths, findCycleCount } = require(
-  "../src/map/topology",
-);
+const {
+  buildGraph,
+  countEdgeDisjointPaths,
+  findCycleCount,
+} = require("../src/map/topology");
 const { layoutConstructed } = require("../src/map/geometry");
 const { routeCorridors } = require("../src/map/corridors");
 const { applyDressing } = require("../src/map/dressing");
@@ -33,7 +35,9 @@ const {
   createClockworkArchiveSection,
 } = require("../src/map/fixtures/gatehouse-ruin");
 
-const DEFAULT_SPEC_PATH = path.resolve("docs/map-review/paratime-style-spec.json");
+const DEFAULT_SPEC_PATH = path.resolve(
+  "docs/map-review/paratime-style-spec.json",
+);
 const DEFAULT_REFERENCE_METRICS = path.resolve(
   "docs/map-review/reference-style-metrics.json",
 );
@@ -209,7 +213,9 @@ function toMarkdownReport(report) {
   lines.push("");
   lines.push(`- Style: ${report.style.score.toFixed(1)} / 100`);
   lines.push(`- Content: ${report.gate.bucketScores.content.toFixed(1)} / 100`);
-  lines.push(`- Semantics: ${report.gate.bucketScores.semantics.toFixed(1)} / 100`);
+  lines.push(
+    `- Semantics: ${report.gate.bucketScores.semantics.toFixed(1)} / 100`,
+  );
   lines.push(
     `- Composite: ${report.gate.compositeScore.toFixed(1)} / 100 (min ${report.gate.minCompositeScore.toFixed(1)})`,
   );
@@ -236,7 +242,9 @@ function toMarkdownReport(report) {
   lines.push(
     `- Circle room fraction: ${report.content.circleRoomFraction.toFixed(3)}`,
   );
-  lines.push(`- Cave room fraction: ${report.content.caveRoomFraction.toFixed(3)}`);
+  lines.push(
+    `- Cave room fraction: ${report.content.caveRoomFraction.toFixed(3)}`,
+  );
   lines.push(`- Maps with caves: ${report.content.mapsWithCaves}`);
   lines.push(
     `- Avg distinct feature tags per map: ${report.content.averageFeatureTagCountPerMap.toFixed(3)}`,
@@ -286,17 +294,22 @@ async function main() {
     rawReferenceMetricsPath,
   );
   const referenceMetricsData = await readJson(referenceMetricsPath);
-  const referenceMean = referenceMetricsData.referenceMean || referenceMetricsData;
+  const referenceMean =
+    referenceMetricsData.referenceMean || referenceMetricsData;
 
   const sampleMetrics = [];
   const perMap = [];
 
   for (const item of QUALITY_SUITE) {
-    const { geometry, graph, intent } = buildMap(item.sectionFactory, item.seed);
+    const { geometry, graph, intent } = buildMap(
+      item.sectionFactory,
+      item.seed,
+    );
     const png = await renderStrictPng(geometry, graph, intent);
     sampleMetrics.push(await computeImageMetrics(png, args.size));
 
-    const entryId = (graph.nodes.find((node) => node.type === "entry") || {}).id;
+    const entryId = (graph.nodes.find((node) => node.type === "entry") || {})
+      .id;
     const exitId = (graph.nodes.find((node) => node.type === "exit") || {}).id;
     const topologyStats = {
       cycleCount: findCycleCount(graph),
@@ -314,7 +327,11 @@ async function main() {
   const sampleMean = aggregateMetrics(sampleMetrics);
   const delta = metricDelta(sampleMean, referenceMean);
   const styleScore = computeAlignmentScore(delta);
-  const styleRecommendations = deriveRecommendations(sampleMean, referenceMean, delta);
+  const styleRecommendations = deriveRecommendations(
+    sampleMean,
+    referenceMean,
+    delta,
+  );
 
   const aggregate = aggregateMapMetrics(perMap);
   const report = {
@@ -362,7 +379,9 @@ async function main() {
   console.log(`- Suite maps: ${report.suite.mapCount}`);
   console.log(`- Style score: ${report.style.score.toFixed(1)} / 100`);
   console.log(`- Content score: ${gate.bucketScores.content.toFixed(1)} / 100`);
-  console.log(`- Semantics score: ${gate.bucketScores.semantics.toFixed(1)} / 100`);
+  console.log(
+    `- Semantics score: ${gate.bucketScores.semantics.toFixed(1)} / 100`,
+  );
   console.log(
     `- Composite score: ${gate.compositeScore.toFixed(1)} / 100 (min ${gate.minCompositeScore.toFixed(1)})`,
   );
@@ -391,7 +410,10 @@ async function main() {
   }
 
   if (args.markdownOut) {
-    const out = await maybeWriteFile(args.markdownOut, toMarkdownReport(report));
+    const out = await maybeWriteFile(
+      args.markdownOut,
+      toMarkdownReport(report),
+    );
     console.log(`Wrote Markdown report to ${out}`);
   }
 

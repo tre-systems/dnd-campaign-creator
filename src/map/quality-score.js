@@ -54,7 +54,9 @@ function safeRatio(num, den, fallback = 1) {
 function normalizeWeights(weights) {
   const style = Number.isFinite(weights.style) ? weights.style : 0.4;
   const content = Number.isFinite(weights.content) ? weights.content : 0.3;
-  const semantics = Number.isFinite(weights.semantics) ? weights.semantics : 0.3;
+  const semantics = Number.isFinite(weights.semantics)
+    ? weights.semantics
+    : 0.3;
   const total = style + content + semantics;
   if (total <= 0) {
     return { style: 0.4, content: 0.3, semantics: 0.3 };
@@ -151,7 +153,9 @@ function analyzeMapGeometry(geometry, graph, topologyStats) {
 
   const entryNodes = graph.nodes.filter((node) => node.type === "entry");
   const exitNodes = graph.nodes.filter((node) => node.type === "exit");
-  const roomByNodeId = new Map(geometry.rooms.map((room) => [room.nodeId, room]));
+  const roomByNodeId = new Map(
+    geometry.rooms.map((room) => [room.nodeId, room]),
+  );
   const transitionCells = new Set([CELL.STAIRS_UP, CELL.STAIRS_DOWN]);
 
   let entriesWithTransition = 0;
@@ -255,7 +259,8 @@ function aggregateMapMetrics(mapMetrics) {
     if (metrics.caveRooms > 0) aggregate.mapsWithCaves++;
 
     for (const [shape, count] of Object.entries(metrics.shapeCounts)) {
-      aggregate.shapeCounts[shape] = (aggregate.shapeCounts[shape] || 0) + count;
+      aggregate.shapeCounts[shape] =
+        (aggregate.shapeCounts[shape] || 0) + count;
     }
 
     aggregate.doorTotal += metrics.doorTotal;
@@ -278,7 +283,8 @@ function aggregateMapMetrics(mapMetrics) {
     }
 
     for (const [tag, count] of Object.entries(metrics.featureCounts)) {
-      aggregate.featureCounts[tag] = (aggregate.featureCounts[tag] || 0) + count;
+      aggregate.featureCounts[tag] =
+        (aggregate.featureCounts[tag] || 0) + count;
       if (count > 0) featureTagSet.add(tag);
     }
     featureTagCountSum += metrics.featureTagCount;
@@ -301,7 +307,11 @@ function aggregateMapMetrics(mapMetrics) {
     aggregate.roomCount,
     0,
   );
-  aggregate.caveRoomFraction = safeRatio(aggregate.caveRooms, aggregate.roomCount, 0);
+  aggregate.caveRoomFraction = safeRatio(
+    aggregate.caveRooms,
+    aggregate.roomCount,
+    0,
+  );
   aggregate.doorValidityRatio = safeRatio(
     aggregate.doorValid,
     aggregate.doorTotal,
@@ -532,13 +542,20 @@ function evaluateQualityGate(report, spec) {
   const contentSpec = qualityGate.content || {};
   const semanticsSpec = qualityGate.semantics || {};
 
-  const styleFailures = evaluateAlignmentGate(report.style.score, report.style.delta, {
-    minScore: styleSpec.minScore,
-    maxAbsDelta: styleSpec.maxAbsDelta || {},
-  });
+  const styleFailures = evaluateAlignmentGate(
+    report.style.score,
+    report.style.delta,
+    {
+      minScore: styleSpec.minScore,
+      maxAbsDelta: styleSpec.maxAbsDelta || {},
+    },
+  );
 
   const contentChecks = evaluateContentChecks(report.content, contentSpec);
-  const semanticsChecks = evaluateSemanticsChecks(report.semantics, semanticsSpec);
+  const semanticsChecks = evaluateSemanticsChecks(
+    report.semantics,
+    semanticsSpec,
+  );
 
   const bucketScores = {
     style: report.style.score,
