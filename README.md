@@ -281,7 +281,7 @@ Notes:
 Quality is enforced in three layers:
 
 - Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
-- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + secret/sensitive-file scan).
+- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + style gate + tracked-file secret scan).
 - CI workflow: GitHub Actions runs `npm run verify`, scans full git history for secret patterns, and audits production dependencies on every PR and on pushes to `main`.
 
 You can run the same checks manually with:
@@ -303,10 +303,28 @@ Reference-style alignment against local Paratime benchmarks:
 npm run map:style:audit
 ```
 
+Reference-style gate used by `verify` and CI:
+
+```bash
+npm run map:style:gate
+```
+
+Refresh the checked-in reference metrics baseline (requires local reference images):
+
+```bash
+npm run map:style:baseline:update
+```
+
 Notes:
 
-- This command compares generated snapshots to local images under
+- `map:style:audit` compares generated snapshots to local images under
   `docs/map-review/references/paratime/`.
+- `map:style:gate` compares generated snapshots to
+  `docs/map-review/reference-style-metrics.json` so CI can enforce style
+  alignment without requiring external reference image files.
+- Current gate thresholds: minimum alignment score `40`, with max absolute
+  deltas for `luminanceMean=0.12`, `saturationMean=0.08`,
+  `inkCoverage=0.08`, and `orthogonalEdgeRatio=0.16`.
 - Snapshot QA currently tracks 12 deterministic strict renders across gatehouse,
   dwarven, sunken, and clockwork fixtures with varied seeds.
 - Reference images stay local-only by default and are excluded from git.

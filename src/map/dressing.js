@@ -383,10 +383,12 @@ function pickRecipe(node, room) {
     return "library";
   if (type === "secret") return "vault";
   // Circular rooms get ring of columns
-  if (room && room.shape === "circle" && node.sizeClass !== "small") return "ring";
+  if (room && room.shape === "circle" && node.sizeClass !== "small")
+    return "ring";
   // Large rooms: colonnade for elongated halls, pillar grid for square rooms
   if (node.sizeClass === "large" && room) {
-    const ratio = Math.max(room.w, room.h) / Math.max(1, Math.min(room.w, room.h));
+    const ratio =
+      Math.max(room.w, room.h) / Math.max(1, Math.min(room.w, room.h));
     return ratio >= 1.5 ? "colonnade" : "pillars";
   }
   if (node.sizeClass === "large") return "pillars";

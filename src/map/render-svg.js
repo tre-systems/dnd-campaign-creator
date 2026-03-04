@@ -338,9 +338,13 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       const lines = [];
       for (let i = 0; i < 6; i++) {
         const sy = py + cs * 0.12 + i * (cs * 0.12);
-        lines.push(`<line class="stairs" x1="${sxL}" y1="${sy}" x2="${sxR}" y2="${sy}"/>`);
+        lines.push(
+          `<line class="stairs" x1="${sxL}" y1="${sy}" x2="${sxR}" y2="${sy}"/>`,
+        );
       }
-      lines.push(`<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.82} ${cx + cs * 0.1},${py + cs * 0.82} ${cx},${py + cs * 0.94}"/>`);
+      lines.push(
+        `<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.82} ${cx + cs * 0.1},${py + cs * 0.82} ${cx},${py + cs * 0.94}"/>`,
+      );
       return lines.join("\n      ");
     }
 
@@ -349,10 +353,14 @@ function renderFeatureSymbol(cellType, px, py, cs, orientation = "horizontal") {
       const suL = px + cs * 0.12;
       const suR = px + cs * 0.88;
       const uLines = [];
-      uLines.push(`<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.18} ${cx + cs * 0.1},${py + cs * 0.18} ${cx},${py + cs * 0.06}"/>`);
+      uLines.push(
+        `<polygon class="stairs-arrow" points="${cx - cs * 0.1},${py + cs * 0.18} ${cx + cs * 0.1},${py + cs * 0.18} ${cx},${py + cs * 0.06}"/>`,
+      );
       for (let i = 0; i < 6; i++) {
         const sy = py + cs * 0.28 + i * (cs * 0.12);
-        uLines.push(`<line class="stairs" x1="${suL}" y1="${sy}" x2="${suR}" y2="${sy}"/>`);
+        uLines.push(
+          `<line class="stairs" x1="${suL}" y1="${sy}" x2="${suR}" y2="${sy}"/>`,
+        );
       }
       return uLines.join("\n      ");
     }

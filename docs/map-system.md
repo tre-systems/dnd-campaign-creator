@@ -745,6 +745,7 @@ if you need archived visual outputs from older versions.
 | v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                           |
 | v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
 | v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`) |
+| v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                   |
 
 ---
 
@@ -758,9 +759,15 @@ and clockwork archive profiles across fixed seeds.
 - `npm run map:snapshots:check` compares current output to baselines.
 - `npm run map:style:audit` compares snapshot style metrics to local reference
   images in `docs/map-review/references/paratime/` and reports measurable gaps.
+- `npm run map:style:gate` enforces a minimum alignment score and critical
+  metric-delta limits against `docs/map-review/reference-style-metrics.json`.
+- `npm run map:style:baseline:update` refreshes the checked-in style baseline
+  from local reference images when the reference corpus changes.
 
-`npm run verify` and CI both include `map:snapshots:check`, so rendering
-drift is caught automatically.
+`npm run verify` and CI include both `map:snapshots:check` and
+`map:style:gate`, so rendering drift and reference-style regression are caught
+automatically.
 
-`map:style:audit` is intentionally local-only (it depends on external reference
-images that are not committed by default).
+`map:style:audit` remains local-reference oriented, while `map:style:gate` is
+CI-safe because it compares against the committed metrics baseline rather than
+external reference image files.

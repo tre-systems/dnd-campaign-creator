@@ -17,3 +17,6 @@ If you want to benchmark against personal or third-party references:
    additional comparison renders during development.
 5. Run `npm run map:style:audit` to compare local references against current
    strict snapshot outputs using objective style metrics.
+6. Run `npm run map:style:baseline:update` to refresh the committed
+   `docs/map-review/reference-style-metrics.json` baseline when reference inputs
+   are intentionally updated.

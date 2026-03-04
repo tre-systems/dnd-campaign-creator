@@ -190,6 +190,68 @@ function metricDelta(sample, reference) {
   return delta;
 }
 
+function evaluateAlignmentGate(score, delta, gate = {}) {
+  assertFiniteNumber(score, "score");
+  if (!delta || typeof delta !== "object") {
+    throw new Error("delta must be an object");
+  }
+
+  for (const key of METRIC_KEYS) {
+    assertFiniteNumber(delta[key], `delta.${key}`);
+  }
+
+  if (!gate || typeof gate !== "object") {
+    throw new Error("gate must be an object");
+  }
+
+  const failures = [];
+
+  if (gate.minScore !== undefined && gate.minScore !== null) {
+    assertFiniteNumber(gate.minScore, "gate.minScore");
+    if (gate.minScore < 0 || gate.minScore > 100) {
+      throw new Error("gate.minScore must be between 0 and 100");
+    }
+    if (score < gate.minScore) {
+      failures.push({
+        type: "minScore",
+        expected: gate.minScore,
+        actual: score,
+      });
+    }
+  }
+
+  if (gate.maxAbsDelta !== undefined && gate.maxAbsDelta !== null) {
+    if (typeof gate.maxAbsDelta !== "object") {
+      throw new Error("gate.maxAbsDelta must be an object");
+    }
+
+    for (const [metric, limit] of Object.entries(gate.maxAbsDelta)) {
+      if (!METRIC_KEYS.includes(metric)) {
+        throw new Error(`gate.maxAbsDelta.${metric} is not a known metric`);
+      }
+      assertFiniteNumber(limit, `gate.maxAbsDelta.${metric}`);
+      if (limit < 0) {
+        throw new Error(
+          `gate.maxAbsDelta.${metric} must be a non-negative number`,
+        );
+      }
+
+      const absDelta = Math.abs(delta[metric]);
+      if (absDelta > limit) {
+        failures.push({
+          type: "maxAbsDelta",
+          metric,
+          expected: limit,
+          actual: absDelta,
+          signedDelta: delta[metric],
+        });
+      }
+    }
+  }
+
+  return failures;
+}
+
 function computeAlignmentScore(delta, tolerances = DEFAULT_TOLERANCES) {
   let total = 0;
   for (const key of METRIC_KEYS) {
@@ -286,6 +348,7 @@ module.exports = {
   computeMetrics,
   aggregateMetrics,
   metricDelta,
+  evaluateAlignmentGate,
   computeAlignmentScore,
   deriveRecommendations,
 };

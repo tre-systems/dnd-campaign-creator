@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-03-04T10:32:38.592Z",
+  "referenceSource": "docs/map-review/references/paratime",
+  "referenceCount": 20,
+  "normalizedSize": 512,
+  "referenceMean": {
+    "luminanceMean": 0.7721510588279555,
+    "luminanceStd": 0.22587490573426755,
+    "saturationMean": 0.3029082158287939,
+    "blueCast": 0.2283122874242328,
+    "inkCoverage": 0.00023326873779296874,
+    "edgeDensity": 0.1270824682814302,
+    "orthogonalEdgeRatio": 0.8128214866025543,
+    "textureDensity": 0.0956184159938485
+  }
+}

@@ -9,6 +9,8 @@ style benchmarking.
 - Snapshot baselines cover multiple seeds across gatehouse, dwarven, sunken,
   and clockwork fixtures to stress symbol language, topology-driven content
   placement (doors/locks/secrets/stairs), and rock treatment in varied layouts.
+- Reference-style CI gating uses the checked-in metrics baseline in
+  `reference-style-metrics.json` (derived from local Paratime references).
 - Legacy iteration media was pruned to keep the repository lean; use git
   history if you need older archived renders.
 - Reference images under `references/` are local-only style targets for visual
@@ -21,4 +23,22 @@ For local style-target benchmarking against external references, run:
 
 ```bash
 npm run map:style:audit
+```
+
+For the enforced style gate (used by `npm run verify` and CI), run:
+
+```bash
+npm run map:style:gate
+```
+
+Current gate thresholds are:
+
+- minimum style alignment score: `40`
+- max absolute deltas: `luminanceMean=0.12`, `saturationMean=0.08`,
+  `inkCoverage=0.08`, `orthogonalEdgeRatio=0.16`
+
+To refresh the checked-in metrics baseline from local references, run:
+
+```bash
+npm run map:style:baseline:update
 ```

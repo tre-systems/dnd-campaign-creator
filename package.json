@@ -13,10 +13,12 @@
     "map:snapshots:update": "node bin/map-quality.js update",
     "map:snapshots:check": "node bin/map-quality.js check",
     "map:style:audit": "node bin/map-style-audit.js",
+    "map:style:baseline:update": "node bin/map-style-audit.js --write-reference-metrics docs/map-review/reference-style-metrics.json",
+    "map:style:gate": "node bin/map-style-audit.js --reference-metrics docs/map-review/reference-style-metrics.json --min-score 40 --max-abs-delta luminanceMean=0.12,saturationMean=0.08,inkCoverage=0.08,orthogonalEdgeRatio=0.16",
     "security:scan": "node bin/security-scan.js",
     "security:scan:history": "node bin/security-history-scan.js",
     "public:check": "npm run verify && npm run security:scan:history && npm audit --omit=dev --audit-level=high",
-    "verify": "npm run lint && npm test && npm run map:snapshots:check && npm run security:scan",
+    "verify": "npm run lint && npm test && npm run map:snapshots:check && npm run map:style:gate && npm run security:scan",
     "check-links": "linkinator 'README.md' 'CONTRIBUTING.md' 'docs/**/*.md' 'examples/**/*.md' --skip '^(?!https?://)' --retry",
     "precommit": "npm run format && npm run lint",
     "prepare": "husky"

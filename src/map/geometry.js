@@ -387,7 +387,8 @@ function pickRoomShape(roomSpec, rng) {
       nodeType === "faction-core")
   ) {
     // Hubs / set-pieces with roughly square proportions sometimes get circle
-    const aspectRatio = Math.max(roomSpec.w, roomSpec.h) / Math.min(roomSpec.w, roomSpec.h);
+    const aspectRatio =
+      Math.max(roomSpec.w, roomSpec.h) / Math.min(roomSpec.w, roomSpec.h);
     if (rng && aspectRatio <= 1.35 && rng() < 0.35) {
       return ROOM_SHAPE.CIRCLE;
     }

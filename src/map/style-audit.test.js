@@ -6,6 +6,7 @@ const {
   computeMetrics,
   aggregateMetrics,
   metricDelta,
+  evaluateAlignmentGate,
   computeAlignmentScore,
   deriveRecommendations,
 } = require("./style-audit");
@@ -109,5 +110,70 @@ describe("style-audit", () => {
     assert.ok(score > 70, "Near-reference metrics should score well");
     assert.ok(Array.isArray(notes), "Recommendations should return a list");
     assert.equal(Object.keys(delta).length, 8);
+  });
+
+  it("evaluates gate score and metric delta thresholds", () => {
+    const delta = {
+      luminanceMean: -0.08,
+      luminanceStd: 0.01,
+      saturationMean: 0.04,
+      blueCast: 0.01,
+      inkCoverage: 0.02,
+      edgeDensity: -0.01,
+      orthogonalEdgeRatio: 0.12,
+      textureDensity: 0.01,
+    };
+
+    const failures = evaluateAlignmentGate(42.9, delta, {
+      minScore: 45,
+      maxAbsDelta: {
+        luminanceMean: 0.06,
+        orthogonalEdgeRatio: 0.1,
+      },
+    });
+
+    assert.equal(failures.length, 3);
+    assert.ok(
+      failures.some((failure) => failure.type === "minScore"),
+      "Expected minScore failure",
+    );
+    assert.ok(
+      failures.some(
+        (failure) =>
+          failure.type === "maxAbsDelta" && failure.metric === "luminanceMean",
+      ),
+      "Expected luminanceMean delta failure",
+    );
+    assert.ok(
+      failures.some(
+        (failure) =>
+          failure.type === "maxAbsDelta" &&
+          failure.metric === "orthogonalEdgeRatio",
+      ),
+      "Expected orthogonalEdgeRatio delta failure",
+    );
+  });
+
+  it("rejects unknown metrics in gate thresholds", () => {
+    const delta = {
+      luminanceMean: 0,
+      luminanceStd: 0,
+      saturationMean: 0,
+      blueCast: 0,
+      inkCoverage: 0,
+      edgeDensity: 0,
+      orthogonalEdgeRatio: 0,
+      textureDensity: 0,
+    };
+
+    assert.throws(
+      () =>
+        evaluateAlignmentGate(60, delta, {
+          maxAbsDelta: {
+            madeUpMetric: 1,
+          },
+        }),
+      /not a known metric/,
+    );
   });
 });
