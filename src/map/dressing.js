@@ -340,6 +340,47 @@ const RECIPES = {
     }
     return features;
   },
+
+  /**
+   * Ordered medium-room dressing: centered motif with symmetric support features.
+   * Produces coherent room reads instead of random scatter.
+   */
+  ordered(room, rng, node) {
+    const features = [];
+    if (room.w < 3 || room.h < 3) return features;
+
+    const seen = new Set();
+    const add = (dx, dy, cell) => {
+      if (dx < 1 || dx > room.w - 2 || dy < 1 || dy > room.h - 2) return;
+      const k = `${dx},${dy}`;
+      if (seen.has(k)) return;
+      seen.add(k);
+      features.push({ dx, dy, cell });
+    };
+
+    const cx = Math.floor(room.w / 2);
+    const cy = Math.floor(room.h / 2);
+    const name = ((node && node.name) || "").toLowerCase();
+    const type = ((node && node.type) || "").toLowerCase();
+    const isSetPiece = type === "hub" || type === "set-piece";
+    const central =
+      isSetPiece || name.includes("hall") || name.includes("nexus")
+        ? CELL.STATUE
+        : CELL.PILLAR;
+
+    add(cx, cy, central);
+
+    if (room.w >= 6) {
+      add(Math.max(1, cx - 2), cy, CELL.PILLAR);
+      add(Math.min(room.w - 2, cx + 2), cy, CELL.PILLAR);
+    }
+    if (isSetPiece && room.h >= 7) {
+      add(cx, Math.max(1, cy - 2), CELL.PILLAR);
+      add(cx, Math.min(room.h - 2, cy + 2), CELL.PILLAR);
+    }
+
+    return features;
+  },
 };
 
 /**
@@ -392,8 +433,8 @@ function pickRecipe(node, room) {
     return ratio >= 1.5 ? "colonnade" : "pillars";
   }
   if (node.sizeClass === "large") return "pillars";
-  // Medium rooms get scatter features to add visual interest
-  if (node.sizeClass === "medium") return "scatter";
+  // Medium rooms use structured dressing to avoid random-looking placement.
+  if (node.sizeClass === "medium") return "ordered";
   return null;
 }
 
@@ -580,10 +621,6 @@ function applyDressing(geometry, graph, rng) {
     if (!node) continue;
 
     let recipeName = pickRecipe(node, room);
-    // Small chance of scatter dressing for rooms without a specific recipe
-    if (!recipeName && room.w >= 3 && room.h >= 3 && rng() < 0.3) {
-      recipeName = "scatter";
-    }
     if (!recipeName) continue;
 
     const recipe = RECIPES[recipeName];
@@ -593,7 +630,7 @@ function applyDressing(geometry, graph, rng) {
     const occupied = new Set();
     markDoorIngressKeepout(geometry, room, keepout);
 
-    const placements = recipe(room, rng);
+    const placements = recipe(room, rng, node);
     for (const p of placements) {
       const desiredX = room.x + p.dx;
       const desiredY = room.y + p.dy;

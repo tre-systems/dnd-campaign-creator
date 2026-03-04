@@ -730,7 +730,7 @@ Five fixtures in `fixtures/gatehouse-ruin.js`:
 
 ## Iteration History
 
-The map renderer has been through multiple iterations (`v4` through `v12`).
+The map renderer has been through multiple iterations (`v4` through `v16`).
 To keep the repository lean, legacy iteration media was pruned; use git history
 if you need archived visual outputs from older versions.
 
@@ -748,6 +748,7 @@ if you need archived visual outputs from older versions.
 | v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                    |
 | v14     | Paratime spec-driven quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                     |
 | v15     | Gated-threshold symbol precedence (no lock/secret downgrades) plus stricter v1.1 quality checks for density, width variation, and gated-edge matching |
+| v16     | Strict palette calibration + snapshot refresh; style alignment baseline to `45.7` and CI style-gate floor to `45`                                     |
 
 ---
 
@@ -771,6 +772,7 @@ and clockwork archive profiles across fixed seeds.
 - The current quality spec (`v1.1.0`) raises the composite floor to `75` and
   adds hard checks for corridor width-class variety, feature density bounds,
   and exact gated-edge symbol matching.
+- The style gate currently enforces a minimum style alignment score of `45`.
 
 `npm run verify` and CI include `map:snapshots:check`, `map:style:gate`, and
 `map:quality:gate`, so rendering drift, reference-style regression, and symbol

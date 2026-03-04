@@ -3363,6 +3363,12 @@
     <rect x="240" y="600" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.477"/>
     <rect x="240" y="600" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.357"/>
     <rect x="240" y="600" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.300"/>
+    <rect class="rock-tone" x="280" y="600" width="20" height="20" opacity="0.292"/>
+    <rect x="280" y="600" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.694"/>
+    <rect x="280" y="600" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.622"/>
+    <rect x="280" y="600" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.506"/>
+    <rect x="280" y="600" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.343"/>
+    <rect x="280" y="600" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.288"/>
     <rect class="rock-tone" x="300" y="600" width="20" height="20" opacity="0.308"/>
     <rect x="300" y="600" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.721"/>
     <rect x="300" y="600" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.587"/>
@@ -3480,30 +3486,30 @@
     <rect x="200" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.396"/>
     <rect x="200" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.366"/>
     <rect x="200" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.310"/>
-    <rect class="rock-tone" x="220" y="620" width="20" height="20" opacity="0.273"/>
-    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.632"/>
-    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.428"/>
-    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.341"/>
-    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.326"/>
-    <rect x="220" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.276"/>
-    <rect class="rock-tone" x="240" y="620" width="20" height="20" opacity="0.288"/>
-    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.672"/>
-    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.488"/>
-    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.393"/>
-    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.343"/>
-    <rect x="240" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.289"/>
-    <rect class="rock-tone" x="260" y="620" width="20" height="20" opacity="0.346"/>
-    <rect x="260" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.783"/>
-    <rect x="260" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.570"/>
-    <rect x="260" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.464"/>
-    <rect x="260" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.414"/>
-    <rect x="260" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.350"/>
-    <rect class="rock-tone" x="300" y="620" width="20" height="20" opacity="0.309"/>
-    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.721"/>
-    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.546"/>
-    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.445"/>
-    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.365"/>
-    <rect x="300" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.307"/>
+    <rect class="rock-tone" x="220" y="620" width="20" height="20" opacity="0.305"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.699"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.483"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.389"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.365"/>
+    <rect x="220" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.308"/>
+    <rect class="rock-tone" x="240" y="620" width="20" height="20" opacity="0.324"/>
+    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.747"/>
+    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.549"/>
+    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.447"/>
+    <rect x="240" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.386"/>
+    <rect x="240" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.325"/>
+    <rect class="rock-tone" x="280" y="620" width="20" height="20" opacity="0.325"/>
+    <rect x="280" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.748"/>
+    <rect x="280" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.563"/>
+    <rect x="280" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.458"/>
+    <rect x="280" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.387"/>
+    <rect x="280" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.326"/>
+    <rect class="rock-tone" x="300" y="620" width="20" height="20" opacity="0.273"/>
+    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.646"/>
+    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.485"/>
+    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.391"/>
+    <rect x="300" y="620" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.322"/>
+    <rect x="300" y="620" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.271"/>
     <rect class="rock-tone" x="320" y="620" width="20" height="20" opacity="0.291"/>
     <rect x="320" y="620" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.676"/>
     <rect x="320" y="620" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.574"/>
@@ -3616,36 +3622,36 @@
     <rect x="200" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.443"/>
     <rect x="200" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.318"/>
     <rect x="200" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.267"/>
-    <rect class="rock-tone" x="220" y="640" width="20" height="20" opacity="0.240"/>
-    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.578"/>
-    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.506"/>
-    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.403"/>
-    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.283"/>
-    <rect x="220" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.238"/>
-    <rect class="rock-tone" x="240" y="640" width="20" height="20" opacity="0.255"/>
-    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.617"/>
-    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.535"/>
-    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.431"/>
-    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.299"/>
-    <rect x="240" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.251"/>
-    <rect class="rock-tone" x="260" y="640" width="20" height="20" opacity="0.321"/>
-    <rect x="260" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.742"/>
-    <rect x="260" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.639"/>
-    <rect x="260" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.519"/>
-    <rect x="260" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.381"/>
-    <rect x="260" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.321"/>
-    <rect class="rock-tone" x="300" y="640" width="20" height="20" opacity="0.336"/>
-    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.767"/>
-    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.634"/>
-    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.515"/>
-    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.402"/>
-    <rect x="300" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.339"/>
-    <rect class="rock-tone" x="320" y="640" width="20" height="20" opacity="0.280"/>
-    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.658"/>
-    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.479"/>
-    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.387"/>
-    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.332"/>
-    <rect x="320" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.280"/>
+    <rect class="rock-tone" x="220" y="640" width="20" height="20" opacity="0.272"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.645"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.560"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.451"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.321"/>
+    <rect x="220" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.270"/>
+    <rect class="rock-tone" x="240" y="640" width="20" height="20" opacity="0.291"/>
+    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.692"/>
+    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.596"/>
+    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.485"/>
+    <rect x="240" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.342"/>
+    <rect x="240" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.287"/>
+    <rect class="rock-tone" x="280" y="640" width="20" height="20" opacity="0.346"/>
+    <rect x="280" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.783"/>
+    <rect x="280" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.639"/>
+    <rect x="280" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.519"/>
+    <rect x="280" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.414"/>
+    <rect x="280" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.350"/>
+    <rect class="rock-tone" x="300" y="640" width="20" height="20" opacity="0.300"/>
+    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.691"/>
+    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.572"/>
+    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.461"/>
+    <rect x="300" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.358"/>
+    <rect x="300" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.303"/>
+    <rect class="rock-tone" x="320" y="640" width="20" height="20" opacity="0.248"/>
+    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.591"/>
+    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.425"/>
+    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.339"/>
+    <rect x="320" y="640" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.294"/>
+    <rect x="320" y="640" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.248"/>
     <rect class="rock-tone" x="340" y="640" width="20" height="20" opacity="0.261"/>
     <rect x="340" y="640" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.612"/>
     <rect x="340" y="640" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.435"/>
@@ -3747,30 +3753,30 @@
     <rect x="200" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.442"/>
     <rect x="200" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.343"/>
     <rect x="200" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.290"/>
-    <rect class="rock-tone" x="220" y="660" width="20" height="20" opacity="0.253"/>
-    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.598"/>
-    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.464"/>
-    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.370"/>
-    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.299"/>
-    <rect x="220" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.253"/>
-    <rect class="rock-tone" x="240" y="660" width="20" height="20" opacity="0.308"/>
-    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.705"/>
-    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.531"/>
-    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.428"/>
-    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.369"/>
-    <rect x="240" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.312"/>
-    <rect class="rock-tone" x="260" y="660" width="20" height="20" opacity="0.317"/>
-    <rect x="260" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.735"/>
-    <rect x="260" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.594"/>
-    <rect x="260" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.483"/>
-    <rect x="260" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.376"/>
-    <rect x="260" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.316"/>
-    <rect class="rock-tone" x="300" y="660" width="20" height="20" opacity="0.304"/>
-    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.713"/>
-    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.582"/>
-    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.473"/>
-    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.358"/>
-    <rect x="300" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.301"/>
+    <rect class="rock-tone" x="220" y="660" width="20" height="20" opacity="0.285"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.665"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.519"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.418"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.338"/>
+    <rect x="220" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.285"/>
+    <rect class="rock-tone" x="240" y="660" width="20" height="20" opacity="0.344"/>
+    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.781"/>
+    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.592"/>
+    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.482"/>
+    <rect x="240" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.412"/>
+    <rect x="240" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.348"/>
+    <rect class="rock-tone" x="280" y="660" width="20" height="20" opacity="0.349"/>
+    <rect x="280" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.789"/>
+    <rect x="280" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.549"/>
+    <rect x="280" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.447"/>
+    <rect x="280" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.419"/>
+    <rect x="280" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.354"/>
+    <rect class="rock-tone" x="300" y="660" width="20" height="20" opacity="0.268"/>
+    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.637"/>
+    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.521"/>
+    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.419"/>
+    <rect x="300" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.315"/>
+    <rect x="300" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.265"/>
     <rect class="rock-tone" x="320" y="660" width="20" height="20" opacity="0.281"/>
     <rect x="320" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.660"/>
     <rect x="320" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.556"/>
@@ -3801,12 +3807,12 @@
     <rect x="400" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.419"/>
     <rect x="400" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.336"/>
     <rect x="400" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.284"/>
-    <rect class="rock-tone" x="420" y="660" width="20" height="20" opacity="0.293"/>
-    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.679"/>
-    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.486"/>
-    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.392"/>
-    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.348"/>
-    <rect x="420" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.294"/>
+    <rect class="rock-tone" x="420" y="660" width="20" height="20" opacity="0.261"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.612"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.432"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.344"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.310"/>
+    <rect x="420" y="660" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.262"/>
     <rect class="rock-tone" x="440" y="660" width="20" height="20" opacity="0.240"/>
     <rect x="440" y="660" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.577"/>
     <rect x="440" y="660" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.467"/>
@@ -3894,24 +3900,24 @@
     <rect x="200" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.382"/>
     <rect x="200" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.280"/>
     <rect x="200" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.236"/>
-    <rect class="rock-tone" x="220" y="680" width="20" height="20" opacity="0.258"/>
-    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.608"/>
-    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.429"/>
-    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.341"/>
-    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.307"/>
-    <rect x="220" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.259"/>
-    <rect class="rock-tone" x="240" y="680" width="20" height="20" opacity="0.277"/>
-    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.653"/>
-    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.538"/>
-    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.434"/>
-    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.328"/>
-    <rect x="240" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.276"/>
-    <rect class="rock-tone" x="260" y="680" width="20" height="20" opacity="0.320"/>
-    <rect x="260" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.740"/>
-    <rect x="260" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.572"/>
-    <rect x="260" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.466"/>
-    <rect x="260" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.380"/>
-    <rect x="260" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.320"/>
+    <rect class="rock-tone" x="220" y="680" width="20" height="20" opacity="0.290"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.675"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.483"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.389"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.345"/>
+    <rect x="220" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.291"/>
+    <rect class="rock-tone" x="240" y="680" width="20" height="20" opacity="0.313"/>
+    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.729"/>
+    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.599"/>
+    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.488"/>
+    <rect x="240" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.371"/>
+    <rect x="240" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.312"/>
+    <rect class="rock-tone" x="280" y="680" width="20" height="20" opacity="0.349"/>
+    <rect x="280" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.788"/>
+    <rect x="280" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.639"/>
+    <rect x="280" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.519"/>
+    <rect x="280" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.419"/>
+    <rect x="280" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.354"/>
     <rect class="rock-tone" x="300" y="680" width="20" height="20" opacity="0.294"/>
     <rect x="300" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.696"/>
     <rect x="300" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.553"/>
@@ -3948,12 +3954,12 @@
     <rect x="400" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.501"/>
     <rect x="400" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.385"/>
     <rect x="400" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.325"/>
-    <rect class="rock-tone" x="420" y="680" width="20" height="20" opacity="0.298"/>
-    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.704"/>
-    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.560"/>
-    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.456"/>
-    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.351"/>
-    <rect x="420" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.295"/>
+    <rect class="rock-tone" x="420" y="680" width="20" height="20" opacity="0.262"/>
+    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.628"/>
+    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.499"/>
+    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.402"/>
+    <rect x="420" y="680" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.308"/>
+    <rect x="420" y="680" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.259"/>
     <rect class="rock-tone" x="440" y="680" width="20" height="20" opacity="0.270"/>
     <rect x="440" y="680" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.640"/>
     <rect x="440" y="680" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.569"/>
@@ -4040,24 +4046,30 @@
     <rect x="200" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.365"/>
     <rect x="200" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.330"/>
     <rect x="200" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.280"/>
-    <rect class="rock-tone" x="220" y="700" width="20" height="20" opacity="0.265"/>
-    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.619"/>
-    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.471"/>
-    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.375"/>
-    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.316"/>
-    <rect x="220" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.268"/>
-    <rect class="rock-tone" x="240" y="700" width="20" height="20" opacity="0.293"/>
-    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.679"/>
-    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.558"/>
-    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.449"/>
-    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.349"/>
-    <rect x="240" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.294"/>
-    <rect class="rock-tone" x="260" y="700" width="20" height="20" opacity="0.336"/>
-    <rect x="260" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.766"/>
-    <rect x="260" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.623"/>
-    <rect x="260" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.507"/>
-    <rect x="260" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.401"/>
-    <rect x="260" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.338"/>
+    <rect class="rock-tone" x="220" y="700" width="20" height="20" opacity="0.297"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.687"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.526"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.423"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.355"/>
+    <rect x="220" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.300"/>
+    <rect class="rock-tone" x="240" y="700" width="20" height="20" opacity="0.329"/>
+    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.755"/>
+    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.619"/>
+    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.503"/>
+    <rect x="240" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.392"/>
+    <rect x="240" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.330"/>
+    <rect class="rock-tone" x="280" y="700" width="20" height="20" opacity="0.320"/>
+    <rect x="280" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.741"/>
+    <rect x="280" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.573"/>
+    <rect x="280" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.466"/>
+    <rect x="280" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.381"/>
+    <rect x="280" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.321"/>
+    <rect class="rock-tone" x="420" y="700" width="20" height="20" opacity="0.292"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.694"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.563"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.459"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.343"/>
+    <rect x="420" y="700" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.288"/>
     <rect class="rock-tone" x="440" y="700" width="20" height="20" opacity="0.302"/>
     <rect x="440" y="700" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.710"/>
     <rect x="440" y="700" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.564"/>
@@ -4135,24 +4147,18 @@
     <rect x="180" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.421"/>
     <rect x="180" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.374"/>
     <rect x="180" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.317"/>
-    <rect class="rock-tone" x="200" y="720" width="20" height="20" opacity="0.273"/>
-    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.633"/>
-    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.524"/>
-    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.418"/>
-    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.327"/>
-    <rect x="200" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.277"/>
-    <rect class="rock-tone" x="220" y="720" width="20" height="20" opacity="0.278"/>
-    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.654"/>
-    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.520"/>
-    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.419"/>
-    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.328"/>
-    <rect x="220" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.277"/>
-    <rect class="rock-tone" x="240" y="720" width="20" height="20" opacity="0.304"/>
-    <rect x="240" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.714"/>
-    <rect x="240" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.549"/>
-    <rect x="240" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.448"/>
-    <rect x="240" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.359"/>
-    <rect x="240" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.302"/>
+    <rect class="rock-tone" x="200" y="720" width="20" height="20" opacity="0.305"/>
+    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.700"/>
+    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.579"/>
+    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.466"/>
+    <rect x="200" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.365"/>
+    <rect x="200" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.309"/>
+    <rect class="rock-tone" x="220" y="720" width="20" height="20" opacity="0.314"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.729"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.581"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.473"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.372"/>
+    <rect x="220" y="720" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.313"/>
     <rect class="rock-tone" x="460" y="720" width="20" height="20" opacity="0.318"/>
     <rect x="460" y="720" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.737"/>
     <rect x="460" y="720" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.637"/>
@@ -4527,35 +4533,30 @@
     <rect x="180" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.464"/>
     <rect x="180" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.389"/>
     <rect x="180" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.328"/>
-    <rect class="rock-tone" x="460" y="800" width="20" height="20" opacity="0.312"/>
-    <rect x="460" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.727"/>
-    <rect x="460" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.614"/>
-    <rect x="460" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.499"/>
-    <rect x="460" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.369"/>
-    <rect x="460" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.311"/>
-    <rect class="rock-tone" x="480" y="800" width="20" height="20" opacity="0.276"/>
-    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.651"/>
-    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.513"/>
-    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.413"/>
-    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.326"/>
-    <rect x="480" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.274"/>
-    <rect class="rock-tone" x="500" y="800" width="20" height="20" opacity="0.230"/>
-    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.560"/>
-    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.427"/>
-    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.340"/>
-    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.269"/>
-    <rect x="500" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.226"/>
-    <rect class="rock-tone" x="520" y="800" width="20" height="20" opacity="0.224"/>
-    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.538"/>
-    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.414"/>
-    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.326"/>
-    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.265"/>
-    <rect x="520" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.224"/>
-    <rect class="rock-tone" x="540" y="800" width="20" height="20" opacity="0.217"/>
-    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.511"/>
-    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.357"/>
-    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.275"/>
-    <rect x="540" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.221"/>
+    <rect class="rock-tone" x="480" y="800" width="20" height="20" opacity="0.312"/>
+    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.726"/>
+    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.574"/>
+    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.467"/>
+    <rect x="480" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.369"/>
+    <rect x="480" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.310"/>
+    <rect class="rock-tone" x="500" y="800" width="20" height="20" opacity="0.262"/>
+    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.627"/>
+    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.481"/>
+    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.388"/>
+    <rect x="500" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.307"/>
+    <rect x="500" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.258"/>
+    <rect class="rock-tone" x="520" y="800" width="20" height="20" opacity="0.252"/>
+    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.597"/>
+    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.461"/>
+    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.368"/>
+    <rect x="520" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.298"/>
+    <rect x="520" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.252"/>
+    <rect class="rock-tone" x="540" y="800" width="20" height="20" opacity="0.253"/>
+    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.586"/>
+    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.418"/>
+    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.329"/>
+    <rect x="540" y="800" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.303"/>
+    <rect x="540" y="800" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.257"/>
     <rect class="rock-tone" x="560" y="800" width="20" height="20" opacity="0.193"/>
     <rect x="560" y="800" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.471"/>
     <rect x="560" y="800" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.377"/>
@@ -4631,36 +4632,48 @@
     <rect x="260" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.457"/>
     <rect x="260" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.393"/>
     <rect x="260" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.331"/>
+    <rect class="rock-tone" x="280" y="820" width="20" height="20" opacity="0.297"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.701"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.557"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.453"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.349"/>
+    <rect x="280" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.293"/>
+    <rect class="rock-tone" x="420" y="820" width="20" height="20" opacity="0.346"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.783"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.607"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.494"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.414"/>
+    <rect x="420" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.350"/>
     <rect class="rock-tone" x="440" y="820" width="20" height="20" opacity="0.339"/>
     <rect x="440" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.771"/>
     <rect x="440" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.585"/>
     <rect x="440" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.476"/>
     <rect x="440" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.405"/>
     <rect x="440" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.342"/>
-    <rect class="rock-tone" x="460" y="820" width="20" height="20" opacity="0.278"/>
-    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.654"/>
-    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.551"/>
-    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.444"/>
-    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.329"/>
-    <rect x="460" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.277"/>
-    <rect class="rock-tone" x="480" y="820" width="20" height="20" opacity="0.272"/>
-    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.631"/>
-    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.523"/>
-    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.417"/>
-    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.325"/>
-    <rect x="480" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.275"/>
-    <rect class="rock-tone" x="500" y="820" width="20" height="20" opacity="0.231"/>
-    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.550"/>
-    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.403"/>
-    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.317"/>
-    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.274"/>
-    <rect x="500" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.232"/>
-    <rect class="rock-tone" x="520" y="820" width="20" height="20" opacity="0.187"/>
-    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.461"/>
-    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.414"/>
-    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.321"/>
-    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.220"/>
-    <rect x="520" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.187"/>
+    <rect class="rock-tone" x="460" y="820" width="20" height="20" opacity="0.314"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.730"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.613"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.498"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.372"/>
+    <rect x="460" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.313"/>
+    <rect class="rock-tone" x="480" y="820" width="20" height="20" opacity="0.304"/>
+    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.698"/>
+    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.577"/>
+    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.465"/>
+    <rect x="480" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.364"/>
+    <rect x="480" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.307"/>
+    <rect class="rock-tone" x="500" y="820" width="20" height="20" opacity="0.259"/>
+    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.609"/>
+    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.450"/>
+    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.359"/>
+    <rect x="500" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.308"/>
+    <rect x="500" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.260"/>
+    <rect class="rock-tone" x="520" y="820" width="20" height="20" opacity="0.223"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.536"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.475"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.375"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.263"/>
+    <rect x="520" y="820" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.223"/>
     <rect class="rock-tone" x="540" y="820" width="20" height="20" opacity="0.177"/>
     <rect x="540" y="820" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.444"/>
     <rect x="540" y="820" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.388"/>
@@ -4771,35 +4784,36 @@
     <rect x="400" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.483"/>
     <rect x="400" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.378"/>
     <rect x="400" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.318"/>
-    <rect class="rock-tone" x="420" y="840" width="20" height="20" opacity="0.331"/>
-    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.758"/>
-    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.627"/>
-    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.510"/>
-    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.394"/>
-    <rect x="420" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.332"/>
+    <rect class="rock-tone" x="420" y="840" width="20" height="20" opacity="0.295"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.682"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.566"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.456"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.351"/>
+    <rect x="420" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.296"/>
     <rect class="rock-tone" x="440" y="840" width="20" height="20" opacity="0.287"/>
     <rect x="440" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.670"/>
     <rect x="440" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.502"/>
     <rect x="440" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.405"/>
     <rect x="440" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.341"/>
     <rect x="440" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.288"/>
-    <rect class="rock-tone" x="460" y="840" width="20" height="20" opacity="0.244"/>
-    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.584"/>
-    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.453"/>
-    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.361"/>
-    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.288"/>
-    <rect x="460" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.243"/>
-    <rect class="rock-tone" x="480" y="840" width="20" height="20" opacity="0.197"/>
-    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.493"/>
-    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.469"/>
-    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.369"/>
-    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.229"/>
-    <rect x="480" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.192"/>
-    <rect class="rock-tone" x="500" y="840" width="20" height="20" opacity="0.170"/>
-    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.433"/>
-    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.391"/>
-    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.198"/>
-    <rect x="500" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.167"/>
+    <rect class="rock-tone" x="460" y="840" width="20" height="20" opacity="0.276"/>
+    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.652"/>
+    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.508"/>
+    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.409"/>
+    <rect x="460" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.327"/>
+    <rect x="460" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.275"/>
+    <rect class="rock-tone" x="480" y="840" width="20" height="20" opacity="0.225"/>
+    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.552"/>
+    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.516"/>
+    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.411"/>
+    <rect x="480" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.262"/>
+    <rect x="480" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.220"/>
+    <rect class="rock-tone" x="500" y="840" width="20" height="20" opacity="0.206"/>
+    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.508"/>
+    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.452"/>
+    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.356"/>
+    <rect x="500" y="840" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.241"/>
+    <rect x="500" y="840" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.203"/>
     <rect class="rock-tone" x="520" y="840" width="20" height="20" opacity="0.188"/>
     <rect x="520" y="840" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.462"/>
     <rect x="520" y="840" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.405"/>
@@ -4918,30 +4932,30 @@
     <rect x="400" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.428"/>
     <rect x="400" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.323"/>
     <rect x="400" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.272"/>
-    <rect class="rock-tone" x="420" y="860" width="20" height="20" opacity="0.291"/>
-    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.676"/>
-    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.519"/>
-    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.418"/>
-    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.346"/>
-    <rect x="420" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.292"/>
+    <rect class="rock-tone" x="420" y="860" width="20" height="20" opacity="0.259"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.609"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.465"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.370"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.308"/>
+    <rect x="420" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.260"/>
     <rect class="rock-tone" x="440" y="860" width="20" height="20" opacity="0.271"/>
     <rect x="440" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.629"/>
     <rect x="440" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.456"/>
     <rect x="440" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.363"/>
     <rect x="440" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.323"/>
     <rect x="440" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.274"/>
-    <rect class="rock-tone" x="460" y="860" width="20" height="20" opacity="0.197"/>
-    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.494"/>
-    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.455"/>
-    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.359"/>
-    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.229"/>
-    <rect x="460" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.193"/>
-    <rect class="rock-tone" x="480" y="860" width="20" height="20" opacity="0.206"/>
-    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.493"/>
-    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.409"/>
-    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.317"/>
-    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.246"/>
-    <rect x="480" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.209"/>
+    <rect class="rock-tone" x="460" y="860" width="20" height="20" opacity="0.225"/>
+    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.552"/>
+    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.503"/>
+    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.401"/>
+    <rect x="460" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.263"/>
+    <rect x="460" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.221"/>
+    <rect class="rock-tone" x="480" y="860" width="20" height="20" opacity="0.242"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.568"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.470"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-minor-strict)" opacity="0.371"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-hatch-oblique-strict)" opacity="0.289"/>
+    <rect x="480" y="860" width="20" height="20" fill="url(#rock-stipple-strict)" opacity="0.245"/>
     <rect class="rock-tone" x="500" y="860" width="20" height="20" opacity="0.199"/>
     <rect x="500" y="860" width="20" height="20" fill="url(#rock-hatch-major-strict)" opacity="0.482"/>
     <rect x="500" y="860" width="20" height="20" fill="url(#rock-hatch-major-cross-strict)" opacity="0.401"/>
@@ -5331,52 +5345,51 @@
     <rect class="floor" x="120" y="600" width="20" height="20"/>
     <rect class="floor" x="140" y="600" width="20" height="20"/>
     <rect class="corridor" x="260" y="600" width="20" height="20"/>
-    <rect class="corridor" x="280" y="600" width="20" height="20"/>
     <rect class="floor" x="60" y="620" width="20" height="20"/>
     <rect class="floor" x="80" y="620" width="20" height="20"/>
     <rect class="floor" x="100" y="620" width="20" height="20"/>
     <rect class="floor" x="120" y="620" width="20" height="20"/>
     <rect class="floor" x="140" y="620" width="20" height="20"/>
     <rect class="floor" x="160" y="620" width="20" height="20"/>
-    <rect class="corridor" x="280" y="620" width="20" height="20"/>
+    <rect class="corridor" x="260" y="620" width="20" height="20"/>
     <rect class="floor" x="60" y="640" width="20" height="20"/>
     <rect class="floor" x="80" y="640" width="20" height="20"/>
     <rect class="floor" x="100" y="640" width="20" height="20"/>
     <rect class="floor" x="120" y="640" width="20" height="20"/>
     <rect class="floor" x="140" y="640" width="20" height="20"/>
     <rect class="floor" x="160" y="640" width="20" height="20"/>
-    <rect class="corridor" x="280" y="640" width="20" height="20"/>
+    <rect class="corridor" x="260" y="640" width="20" height="20"/>
     <rect class="floor" x="60" y="660" width="20" height="20"/>
     <rect class="floor" x="80" y="660" width="20" height="20"/>
     <rect class="floor" x="100" y="660" width="20" height="20"/>
     <rect class="floor" x="120" y="660" width="20" height="20"/>
     <rect class="floor" x="140" y="660" width="20" height="20"/>
     <rect class="floor" x="160" y="660" width="20" height="20"/>
-    <rect class="corridor" x="280" y="660" width="20" height="20"/>
+    <rect class="corridor" x="260" y="660" width="20" height="20"/>
     <rect class="floor" x="80" y="680" width="20" height="20"/>
     <rect class="floor" x="100" y="680" width="20" height="20"/>
     <rect class="floor" x="120" y="680" width="20" height="20"/>
     <rect class="floor" x="140" y="680" width="20" height="20"/>
-    <rect class="floor" x="280" y="680" width="20" height="20"/>
+    <rect class="floor" x="260" y="680" width="20" height="20"/>
     <rect class="floor" x="80" y="700" width="20" height="20"/>
     <rect class="floor" x="100" y="700" width="20" height="20"/>
     <rect class="floor" x="120" y="700" width="20" height="20"/>
     <rect class="floor" x="140" y="700" width="20" height="20"/>
-    <rect class="floor" x="280" y="700" width="20" height="20"/>
+    <rect class="floor" x="260" y="700" width="20" height="20"/>
     <rect class="floor" x="300" y="700" width="20" height="20"/>
     <rect class="floor" x="320" y="700" width="20" height="20"/>
     <rect class="floor" x="340" y="700" width="20" height="20"/>
     <rect class="floor" x="360" y="700" width="20" height="20"/>
     <rect class="floor" x="380" y="700" width="20" height="20"/>
     <rect class="floor" x="400" y="700" width="20" height="20"/>
-    <rect class="floor" x="420" y="700" width="20" height="20"/>
     <rect class="floor" x="80" y="720" width="20" height="20"/>
     <rect class="floor" x="100" y="720" width="20" height="20"/>
     <rect class="floor" x="120" y="720" width="20" height="20"/>
     <rect class="floor" x="140" y="720" width="20" height="20"/>
+    <rect class="floor" x="240" y="720" width="20" height="20"/>
     <rect class="floor" x="260" y="720" width="20" height="20"/>
     <rect class="floor" x="280" y="720" width="20" height="20"/>
-    <rect class="floor" x="300" y="720" width="20" height="20"/>
+    <rect class="rubble" x="300" y="720" width="20" height="20"/>
     <rect class="floor" x="320" y="720" width="20" height="20"/>
     <rect class="floor" x="340" y="720" width="20" height="20"/>
     <rect class="floor" x="360" y="720" width="20" height="20"/>
@@ -5420,9 +5433,9 @@
     <rect class="floor" x="340" y="780" width="20" height="20"/>
     <rect class="floor" x="360" y="780" width="20" height="20"/>
     <rect class="floor" x="380" y="780" width="20" height="20"/>
-    <rect class="floor" x="400" y="780" width="20" height="20"/>
+    <rect class="rubble" x="400" y="780" width="20" height="20"/>
     <rect class="floor" x="420" y="780" width="20" height="20"/>
-    <rect class="floor" x="440" y="780" width="20" height="20"/>
+    <rect class="rubble" x="440" y="780" width="20" height="20"/>
     <rect class="floor" x="460" y="780" width="20" height="20"/>
     <rect class="corridor" x="200" y="800" width="20" height="20"/>
     <rect class="corridor" x="220" y="800" width="20" height="20"/>
@@ -5437,17 +5450,16 @@
     <rect class="floor" x="400" y="800" width="20" height="20"/>
     <rect class="floor" x="420" y="800" width="20" height="20"/>
     <rect class="floor" x="440" y="800" width="20" height="20"/>
+    <rect class="floor" x="460" y="800" width="20" height="20"/>
     <rect class="corridor" x="200" y="820" width="20" height="20"/>
     <rect class="corridor" x="220" y="820" width="20" height="20"/>
     <rect class="corridor" x="240" y="820" width="20" height="20"/>
-    <rect class="floor" x="280" y="820" width="20" height="20"/>
     <rect class="floor" x="300" y="820" width="20" height="20"/>
     <rect class="floor" x="320" y="820" width="20" height="20"/>
     <rect class="floor" x="340" y="820" width="20" height="20"/>
     <rect class="floor" x="360" y="820" width="20" height="20"/>
     <rect class="floor" x="380" y="820" width="20" height="20"/>
     <rect class="floor" x="400" y="820" width="20" height="20"/>
-    <rect class="floor" x="420" y="820" width="20" height="20"/>
     <rect class="corridor" x="200" y="840" width="20" height="20"/>
     <rect class="corridor" x="220" y="840" width="20" height="20"/>
     <rect class="corridor" x="240" y="840" width="20" height="20"/>
@@ -5538,25 +5550,27 @@
     <line class="grid-line-major" x1="80" y1="600" x2="160" y2="600"/>
     <line class="grid-line-major" x1="260" y1="600" x2="520" y2="600"/>
     <line class="grid-line" x1="60" y1="620" x2="180" y2="620"/>
-    <line class="grid-line" x1="260" y1="620" x2="300" y2="620"/>
+    <line class="grid-line" x1="260" y1="620" x2="280" y2="620"/>
     <line class="grid-line" x1="60" y1="640" x2="180" y2="640"/>
-    <line class="grid-line" x1="280" y1="640" x2="300" y2="640"/>
+    <line class="grid-line" x1="260" y1="640" x2="280" y2="640"/>
     <line class="grid-line" x1="60" y1="660" x2="180" y2="660"/>
-    <line class="grid-line" x1="280" y1="660" x2="300" y2="660"/>
+    <line class="grid-line" x1="260" y1="660" x2="280" y2="660"/>
     <line class="grid-line" x1="60" y1="680" x2="180" y2="680"/>
-    <line class="grid-line" x1="280" y1="680" x2="300" y2="680"/>
+    <line class="grid-line" x1="260" y1="680" x2="280" y2="680"/>
     <line class="grid-line-major" x1="80" y1="700" x2="160" y2="700"/>
-    <line class="grid-line-major" x1="280" y1="700" x2="440" y2="700"/>
+    <line class="grid-line-major" x1="260" y1="700" x2="280" y2="700"/>
+    <line class="grid-line-major" x1="300" y1="700" x2="420" y2="700"/>
     <line class="grid-line" x1="80" y1="720" x2="160" y2="720"/>
-    <line class="grid-line" x1="260" y1="720" x2="460" y2="720"/>
+    <line class="grid-line" x1="240" y1="720" x2="460" y2="720"/>
     <line class="grid-line" x1="80" y1="740" x2="160" y2="740"/>
     <line class="grid-line" x1="240" y1="740" x2="480" y2="740"/>
     <line class="grid-line" x1="100" y1="760" x2="140" y2="760"/>
     <line class="grid-line" x1="240" y1="760" x2="480" y2="760"/>
     <line class="grid-line" x1="200" y1="780" x2="480" y2="780"/>
     <line class="grid-line-major" x1="200" y1="800" x2="480" y2="800"/>
-    <line class="grid-line" x1="200" y1="820" x2="460" y2="820"/>
-    <line class="grid-line" x1="200" y1="840" x2="440" y2="840"/>
+    <line class="grid-line" x1="200" y1="820" x2="480" y2="820"/>
+    <line class="grid-line" x1="200" y1="840" x2="280" y2="840"/>
+    <line class="grid-line" x1="300" y1="840" x2="420" y2="840"/>
     <line class="grid-line" x1="200" y1="860" x2="280" y2="860"/>
     <line class="grid-line" x1="220" y1="880" x2="280" y2="880"/>
     <line class="grid-line" x1="60" y1="40" x2="60" y2="100"/>
@@ -5589,17 +5603,18 @@
     <line class="grid-line" x1="220" y1="780" x2="220" y2="880"/>
     <line class="grid-line" x1="240" y1="60" x2="240" y2="320"/>
     <line class="grid-line" x1="240" y1="460" x2="240" y2="480"/>
-    <line class="grid-line" x1="240" y1="740" x2="240" y2="880"/>
+    <line class="grid-line" x1="240" y1="720" x2="240" y2="880"/>
     <line class="grid-line" x1="260" y1="60" x2="260" y2="320"/>
-    <line class="grid-line" x1="260" y1="460" x2="260" y2="620"/>
-    <line class="grid-line" x1="260" y1="720" x2="260" y2="880"/>
+    <line class="grid-line" x1="260" y1="460" x2="260" y2="880"/>
     <line class="grid-line" x1="280" y1="60" x2="280" y2="80"/>
     <line class="grid-line" x1="280" y1="200" x2="280" y2="220"/>
     <line class="grid-line" x1="280" y1="300" x2="280" y2="320"/>
-    <line class="grid-line" x1="280" y1="380" x2="280" y2="880"/>
+    <line class="grid-line" x1="280" y1="380" x2="280" y2="820"/>
+    <line class="grid-line" x1="280" y1="840" x2="280" y2="880"/>
     <line class="grid-line-major" x1="300" y1="60" x2="300" y2="80"/>
     <line class="grid-line-major" x1="300" y1="200" x2="300" y2="220"/>
-    <line class="grid-line-major" x1="300" y1="300" x2="300" y2="840"/>
+    <line class="grid-line-major" x1="300" y1="300" x2="300" y2="600"/>
+    <line class="grid-line-major" x1="300" y1="700" x2="300" y2="840"/>
     <line class="grid-line" x1="320" y1="60" x2="320" y2="80"/>
     <line class="grid-line" x1="320" y1="180" x2="320" y2="240"/>
     <line class="grid-line" x1="320" y1="300" x2="320" y2="400"/>
@@ -5628,7 +5643,7 @@
     <line class="grid-line" x1="420" y1="700" x2="420" y2="840"/>
     <line class="grid-line" x1="440" y1="40" x2="440" y2="380"/>
     <line class="grid-line" x1="440" y1="480" x2="440" y2="600"/>
-    <line class="grid-line" x1="440" y1="700" x2="440" y2="840"/>
+    <line class="grid-line" x1="440" y1="720" x2="440" y2="820"/>
     <line class="grid-line" x1="460" y1="40" x2="460" y2="380"/>
     <line class="grid-line" x1="460" y1="480" x2="460" y2="600"/>
     <line class="grid-line" x1="460" y1="720" x2="460" y2="820"/>
@@ -5636,7 +5651,7 @@
     <line class="grid-line" x1="480" y1="160" x2="480" y2="260"/>
     <line class="grid-line" x1="480" y1="320" x2="480" y2="380"/>
     <line class="grid-line" x1="480" y1="480" x2="480" y2="600"/>
-    <line class="grid-line" x1="480" y1="740" x2="480" y2="800"/>
+    <line class="grid-line" x1="480" y1="740" x2="480" y2="820"/>
     <line class="grid-line-major" x1="500" y1="40" x2="500" y2="80"/>
     <line class="grid-line-major" x1="500" y1="180" x2="500" y2="240"/>
     <line class="grid-line-major" x1="500" y1="320" x2="500" y2="380"/>
@@ -5691,25 +5706,24 @@
     <line class="wall" x1="100" y1="540" x2="120" y2="540"/>
     <line class="wall" x1="80" y1="560" x2="100" y2="560"/>
     <line class="wall" x1="140" y1="560" x2="160" y2="560"/>
-    <line class="wall" x1="300" y1="600" x2="520" y2="600"/>
+    <line class="wall" x1="280" y1="600" x2="520" y2="600"/>
     <line class="wall" x1="60" y1="620" x2="80" y2="620"/>
     <line class="wall" x1="160" y1="620" x2="180" y2="620"/>
-    <line class="wall" x1="260" y1="620" x2="280" y2="620"/>
     <line class="wall" x1="60" y1="680" x2="80" y2="680"/>
     <line class="wall" x1="160" y1="680" x2="180" y2="680"/>
-    <line class="wall" x1="300" y1="700" x2="440" y2="700"/>
+    <line class="wall" x1="300" y1="700" x2="420" y2="700"/>
     <line class="wall" x1="80" y1="740" x2="100" y2="740"/>
     <line class="wall" x1="140" y1="740" x2="160" y2="740"/>
-    <line class="wall" x1="240" y1="740" x2="260" y2="740"/>
     <line class="wall" x1="460" y1="740" x2="480" y2="740"/>
-    <line class="wall" x1="260" y1="720" x2="280" y2="720"/>
-    <line class="wall" x1="440" y1="720" x2="460" y2="720"/>
+    <line class="wall" x1="240" y1="720" x2="260" y2="720"/>
+    <line class="wall" x1="280" y1="720" x2="300" y2="720"/>
+    <line class="wall" x1="420" y1="720" x2="460" y2="720"/>
     <line class="wall" x1="100" y1="760" x2="140" y2="760"/>
     <line class="wall" x1="200" y1="780" x2="240" y2="780"/>
-    <line class="wall" x1="460" y1="800" x2="480" y2="800"/>
-    <line class="wall" x1="260" y1="820" x2="280" y2="820"/>
-    <line class="wall" x1="440" y1="820" x2="460" y2="820"/>
-    <line class="wall" x1="260" y1="840" x2="440" y2="840"/>
+    <line class="wall" x1="260" y1="820" x2="300" y2="820"/>
+    <line class="wall" x1="420" y1="820" x2="480" y2="820"/>
+    <line class="wall" x1="260" y1="840" x2="280" y2="840"/>
+    <line class="wall" x1="300" y1="840" x2="420" y2="840"/>
     <line class="wall" x1="200" y1="860" x2="220" y2="860"/>
     <line class="wall" x1="220" y1="880" x2="280" y2="880"/>
     <line class="wall" x1="60" y1="40" x2="60" y2="100"/>
@@ -5723,20 +5737,16 @@
     <line class="wall" x1="520" y1="480" x2="520" y2="600"/>
     <line class="wall" x1="240" y1="60" x2="240" y2="120"/>
     <line class="wall" x1="240" y1="220" x2="240" y2="300"/>
-    <line class="wall" x1="240" y1="740" x2="240" y2="780"/>
+    <line class="wall" x1="240" y1="720" x2="240" y2="780"/>
     <line class="wall" x1="260" y1="80" x2="260" y2="200"/>
     <line class="wall" x1="260" y1="220" x2="260" y2="300"/>
-    <line class="wall" x1="260" y1="480" x2="260" y2="620"/>
-    <line class="wall" x1="260" y1="720" x2="260" y2="740"/>
+    <line class="wall" x1="260" y1="480" x2="260" y2="720"/>
     <line class="wall" x1="260" y1="820" x2="260" y2="840"/>
     <line class="wall" x1="440" y1="80" x2="440" y2="180"/>
     <line class="wall" x1="440" y1="240" x2="440" y2="300"/>
-    <line class="wall" x1="440" y1="700" x2="440" y2="720"/>
-    <line class="wall" x1="440" y1="820" x2="440" y2="840"/>
     <line class="wall" x1="460" y1="80" x2="460" y2="160"/>
     <line class="wall" x1="460" y1="260" x2="460" y2="320"/>
     <line class="wall" x1="460" y1="720" x2="460" y2="740"/>
-    <line class="wall" x1="460" y1="800" x2="460" y2="820"/>
     <line class="wall" x1="200" y1="100" x2="200" y2="140"/>
     <line class="wall" x1="200" y1="240" x2="200" y2="300"/>
     <line class="wall" x1="200" y1="320" x2="200" y2="460"/>
@@ -5755,7 +5765,7 @@
     <line class="wall" x1="400" y1="380" x2="400" y2="480"/>
     <line class="wall" x1="480" y1="160" x2="480" y2="180"/>
     <line class="wall" x1="480" y1="240" x2="480" y2="260"/>
-    <line class="wall" x1="480" y1="740" x2="480" y2="800"/>
+    <line class="wall" x1="480" y1="740" x2="480" y2="820"/>
     <line class="wall" x1="320" y1="180" x2="320" y2="200"/>
     <line class="wall" x1="320" y1="220" x2="320" y2="240"/>
     <line class="wall" x1="500" y1="180" x2="500" y2="240"/>
@@ -5763,13 +5773,16 @@
     <line class="wall" x1="140" y1="460" x2="140" y2="560"/>
     <line class="wall" x1="140" y1="740" x2="140" y2="760"/>
     <line class="wall" x1="420" y1="300" x2="420" y2="320"/>
+    <line class="wall" x1="420" y1="700" x2="420" y2="720"/>
+    <line class="wall" x1="420" y1="820" x2="420" y2="840"/>
     <line class="wall" x1="300" y1="320" x2="300" y2="380"/>
     <line class="wall" x1="300" y1="400" x2="300" y2="480"/>
-    <line class="wall" x1="300" y1="600" x2="300" y2="700"/>
+    <line class="wall" x1="300" y1="700" x2="300" y2="720"/>
+    <line class="wall" x1="300" y1="820" x2="300" y2="840"/>
     <line class="wall" x1="560" y1="320" x2="560" y2="380"/>
     <line class="wall" x1="280" y1="380" x2="280" y2="460"/>
-    <line class="wall" x1="280" y1="620" x2="280" y2="720"/>
-    <line class="wall" x1="280" y1="820" x2="280" y2="880"/>
+    <line class="wall" x1="280" y1="600" x2="280" y2="720"/>
+    <line class="wall" x1="280" y1="840" x2="280" y2="880"/>
     <line class="wall" x1="180" y1="460" x2="180" y2="480"/>
     <line class="wall" x1="180" y1="620" x2="180" y2="680"/>
     <line class="wall" x1="100" y1="540" x2="100" y2="560"/>
@@ -5793,21 +5806,16 @@
       <line class="door-secret-tick" x1="217.6" y1="105.6" x2="217.6" y2="114.4"/>
       <rect class="secret-box" x="206.4" y="106.8" width="7.199999999999999" height="6.4" rx="0.8"/>
       <text class="secret-label" x="210" y="110" font-size="8.4" text-anchor="middle" dominant-baseline="central">S</text>
-    <path class="archway" d="M 123 176 Q 130 163 137 176"/>
-      <circle class="archway-base" cx="123" cy="176" r="1.2"/>
-      <circle class="archway-base" cx="137" cy="176" r="1.2"/>
-    <circle class="pillar" cx="210" cy="170" r="4.32"/>
+    <circle class="pillar" cx="130" cy="190" r="4.32"/>
+    <rect class="statue-base" x="165.32" y="185.32" width="9.36" height="9.36"/>
+      <circle class="statue" cx="170" cy="190" r="3.12"/>
+    <circle class="pillar" cx="210" cy="190" r="4.32"/>
     <rect class="collapsed" x="380" y="180" width="20" height="20"/>
       <circle class="rubble-dot" cx="387" cy="188.2" r="0.8999999999999999"/>
       <circle class="rubble-dot" cx="391.8" cy="187" r="1.2000000000000002"/>
       <circle class="rubble-dot" cx="390" cy="191.2" r="1.08"/>
       <circle class="rubble-dot" cx="388.2" cy="193" r="0.72"/>
       <circle class="rubble-dot" cx="393.6" cy="191.8" r="0.8400000000000001"/>
-    <rect class="statue-base" x="105.32" y="205.32" width="9.36" height="9.36"/>
-      <circle class="statue" cx="110" cy="210" r="3.12"/>
-    <circle class="lever-base" cx="190" cy="211.8" r="1.7999999999999998"/>
-      <line class="lever-arm" x1="190" y1="211.8" x2="193" y2="206.4"/>
-      <circle class="lever-handle" cx="193" cy="206.4" r="0.8999999999999999"/>
     <polygon class="stairs-arrow" points="388,203.6 392,203.6 390,201.2"/>
       <line class="stairs" x1="382.4" y1="205.6" x2="397.6" y2="205.6"/>
       <line class="stairs" x1="382.4" y1="208" x2="397.6" y2="208"/>
@@ -5815,19 +5823,6 @@
       <line class="stairs" x1="382.4" y1="212.79999999999998" x2="397.6" y2="212.79999999999998"/>
       <line class="stairs" x1="382.4" y1="215.2" x2="397.6" y2="215.2"/>
       <line class="stairs" x1="382.4" y1="217.6" x2="397.6" y2="217.6"/>
-    <path class="archway" d="M 143 356 Q 150 343 157 356"/>
-      <circle class="archway-base" cx="143" cy="356" r="1.2"/>
-      <circle class="archway-base" cx="157" cy="356" r="1.2"/>
-    <path class="curtain" d="M 382 350 Q 386 345.2 390 350 Q 394 354.8 398 350"/>
-    <circle class="pillar" cx="430" cy="350" r="4.32"/>
-    <path class="archway" d="M 443 356 Q 450 343 457 356"/>
-      <circle class="archway-base" cx="443" cy="356" r="1.2"/>
-      <circle class="archway-base" cx="457" cy="356" r="1.2"/>
-    <circle class="lever-base" cx="530" cy="351.8" r="1.7999999999999998"/>
-      <line class="lever-arm" x1="530" y1="351.8" x2="533" y2="346.4"/>
-      <circle class="lever-handle" cx="533" cy="346.4" r="0.8999999999999999"/>
-    <line class="trap" x1="105" y1="365" x2="115" y2="375"/>
-      <line class="trap" x1="115" y1="365" x2="105" y2="375"/>
     <line class="stairs" x1="122.4" y1="362.4" x2="137.6" y2="362.4"/>
       <line class="stairs" x1="122.4" y1="364.79999999999995" x2="137.6" y2="364.79999999999995"/>
       <line class="stairs" x1="122.4" y1="367.2" x2="137.6" y2="367.2"/>
@@ -5835,10 +5830,6 @@
       <line class="stairs" x1="122.4" y1="372" x2="137.6" y2="372"/>
       <line class="stairs" x1="122.4" y1="374.4" x2="137.6" y2="374.4"/>
       <polygon class="stairs-arrow" points="128,376.4 132,376.4 130,378.8"/>
-    <path class="archway" d="M 143 376 Q 150 363 157 376"/>
-      <circle class="archway-base" cx="143" cy="376" r="1.2"/>
-      <circle class="archway-base" cx="157" cy="376" r="1.2"/>
-    <path class="curtain" d="M 82 390 Q 86 385.2 90 390 Q 94 394.8 98 390"/>
     <rect class="door" x="167.6" y="444.8" width="4.8" height="4.8"/>
       <rect class="door" x="167.6" y="450.4" width="4.8" height="4.8"/>
     <rect class="door" x="384.6" y="467.4" width="10.8" height="5.2"/>
@@ -5859,10 +5850,10 @@
       <line class="bars" x1="496" y1="582" x2="496" y2="598"/>
     <circle class="well-outer" cx="110" cy="650" r="4.800000000000001"/>
       <circle class="well-inner" cx="110" cy="650" r="2.4000000000000004"/>
-    <rect class="door-locked" x="284.6" y="687.4" width="10.8" height="5.2"/>
-      <line class="door-tick" x1="295.4" y1="687.4" x2="295.4" y2="684.1999999999999"/>
-      <circle class="door-locked-key" cx="290" cy="690" r="1.4000000000000001"/>
-    <circle class="pillar" cx="270" cy="730" r="4.32"/>
+    <rect class="door-locked" x="264.6" y="687.4" width="10.8" height="5.2"/>
+      <line class="door-tick" x1="275.4" y1="687.4" x2="275.4" y2="684.1999999999999"/>
+      <circle class="door-locked-key" cx="270" cy="690" r="1.4000000000000001"/>
+    <circle class="pillar" cx="290" cy="730" r="4.32"/>
     <circle class="pillar" cx="330" cy="730" r="4.32"/>
     <circle class="pillar" cx="390" cy="730" r="4.32"/>
     <circle class="pillar" cx="450" cy="730" r="4.32"/>

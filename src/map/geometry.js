@@ -64,6 +64,7 @@ const ROOM_SHAPE = {
 
 const CAVE_NAME_HINTS = [
   "cave",
+  "cavern",
   "grotto",
   "chasm",
   "rift",
@@ -74,6 +75,12 @@ const CAVE_NAME_HINTS = [
   "catacomb",
   "cistern",
   "flood",
+  "flooded",
+  "sunken",
+  "drain",
+  "sluice",
+  "shaft",
+  "abyss",
   "sanctum",
   "pit",
 ];
@@ -365,7 +372,10 @@ function pickRoomShape(roomSpec, rng) {
   if (
     roomSpec.w >= 4 &&
     roomSpec.h >= 4 &&
-    (nodeType === "hazard" || nodeType === "secret" || hasCaveHint)
+    (nodeType === "hazard" ||
+      nodeType === "secret" ||
+      hasCaveHint ||
+      (nodeType === "set-piece" && rng && rng() < 0.35))
   ) {
     return ROOM_SHAPE.CAVE;
   }
@@ -389,7 +399,7 @@ function pickRoomShape(roomSpec, rng) {
     // Hubs / set-pieces with roughly square proportions sometimes get circle
     const aspectRatio =
       Math.max(roomSpec.w, roomSpec.h) / Math.min(roomSpec.w, roomSpec.h);
-    if (rng && aspectRatio <= 1.35 && rng() < 0.35) {
+    if (rng && aspectRatio <= 1.4 && rng() < 0.5) {
       return ROOM_SHAPE.CIRCLE;
     }
     return ROOM_SHAPE.CHAMFERED;
@@ -401,16 +411,124 @@ function pickRoomShape(roomSpec, rng) {
     roomSpec.w >= 4 &&
     roomSpec.h >= 4 &&
     Math.abs(roomSpec.w - roomSpec.h) <= 1 &&
-    rng() < 0.15
+    rng() < 0.25
   ) {
     return ROOM_SHAPE.CIRCLE;
   }
 
-  if (rng && roomSpec.w >= 4 && roomSpec.h >= 4 && rng() < 0.28) {
+  if (rng && roomSpec.w >= 4 && roomSpec.h >= 4 && rng() < 0.18) {
     return ROOM_SHAPE.NOTCHED;
   }
 
   return ROOM_SHAPE.RECT;
+}
+
+function roomAspectRatio(room) {
+  return Math.max(room.w, room.h) / Math.max(1, Math.min(room.w, room.h));
+}
+
+function hasNameHint(name, hints) {
+  return hints.some((hint) => name.includes(hint));
+}
+
+function isCircleEligible(room) {
+  if (room.shape === ROOM_SHAPE.CIRCLE) return false;
+  if (room.shape === ROOM_SHAPE.CAVE) return false;
+  if (room.shape === ROOM_SHAPE.CROSS) return false;
+  if (room.w < 4 || room.h < 4) return false;
+  return roomAspectRatio(room) <= 1.6;
+}
+
+function isCaveEligible(room, nodeType) {
+  if (room.shape === ROOM_SHAPE.CAVE) return false;
+  if (room.shape === ROOM_SHAPE.CIRCLE) return false;
+  if (room.shape === ROOM_SHAPE.CROSS) return false;
+  if (room.w < 4 || room.h < 4) return false;
+  if (nodeType === "entry" || nodeType === "guard" || nodeType === "exit") {
+    return false;
+  }
+  return roomAspectRatio(room) <= 2.4;
+}
+
+function circlePriority(room, nodeType, nodeName) {
+  let score = room.w * room.h;
+  if (hasNameHint(nodeName, CIRCLE_NAME_HINTS)) score += 140;
+  if (
+    nodeType === "hub" ||
+    nodeType === "set-piece" ||
+    nodeType === "faction-core"
+  ) {
+    score += 90;
+  }
+  if (room.sizeClass === "large") score += 40;
+  score += Math.max(0, 1.6 - roomAspectRatio(room)) * 35;
+  return score;
+}
+
+function cavePriority(room, nodeType, nodeName) {
+  let score = room.w * room.h;
+  if (hasNameHint(nodeName, CAVE_NAME_HINTS)) score += 150;
+  if (nodeType === "hazard" || nodeType === "secret") score += 130;
+  if (nodeType === "set-piece" || nodeType === "resource") score += 70;
+  if (room.sizeClass === "large") score += 35;
+  if (nodeType === "standard") score += 10;
+  return score;
+}
+
+function enforceShowcaseShapes(rooms, graph) {
+  const targetCircleCount = rooms.length >= 16 ? 2 : rooms.length >= 8 ? 1 : 0;
+  const targetCaveCount = rooms.length >= 16 ? 2 : rooms.length >= 8 ? 1 : 0;
+  let circleCount = rooms.filter((room) => room.shape === ROOM_SHAPE.CIRCLE)
+    .length;
+  let caveCount = rooms.filter((room) => room.shape === ROOM_SHAPE.CAVE).length;
+  const reserved = new Set();
+
+  while (circleCount < targetCircleCount) {
+    const candidate = rooms
+      .filter((room) => isCircleEligible(room) && !reserved.has(room.nodeId))
+      .map((room) => {
+        const node = graph.nodeMap.get(room.nodeId) || {};
+        const nodeType = (node.type || "").toLowerCase();
+        const nodeName = (node.name || "").toLowerCase();
+        return {
+          room,
+          score: circlePriority(room, nodeType, nodeName),
+        };
+      })
+      .sort((a, b) => b.score - a.score)[0];
+
+    if (!candidate) break;
+    candidate.room.shape = ROOM_SHAPE.CIRCLE;
+    reserved.add(candidate.room.nodeId);
+    circleCount++;
+  }
+
+  while (caveCount < targetCaveCount) {
+    const candidate = rooms
+      .filter((room) => {
+        const node = graph.nodeMap.get(room.nodeId) || {};
+        const nodeType = (node.type || "").toLowerCase();
+        return (
+          isCaveEligible(room, nodeType) &&
+          !reserved.has(room.nodeId)
+        );
+      })
+      .map((room) => {
+        const node = graph.nodeMap.get(room.nodeId) || {};
+        const nodeType = (node.type || "").toLowerCase();
+        const nodeName = (node.name || "").toLowerCase();
+        return {
+          room,
+          score: cavePriority(room, nodeType, nodeName),
+        };
+      })
+      .sort((a, b) => b.score - a.score)[0];
+
+    if (!candidate) break;
+    candidate.room.shape = ROOM_SHAPE.CAVE;
+    reserved.add(candidate.room.nodeId);
+    caveCount++;
+  }
 }
 
 function carveNotchedRoom(cells, room, rng) {
@@ -746,6 +864,8 @@ function layoutConstructed(
         }
         rooms.push(room);
       }
+
+      enforceShowcaseShapes(rooms, graph);
 
       // Step 5: Build the grid
       const cells = createGrid(gridSize.width, gridSize.height);

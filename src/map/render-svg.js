@@ -591,36 +591,36 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
 
   if (styleProfile === STYLE_PROFILE.BLUE_STRICT) {
     const strictWall = cellSize < 15 ? 3.2 : 3.8;
-    const sym = "#296a8a";
+    const sym = "#3f7894";
     return `<style>
-    .bg { fill: #4f96bc; }
-    .bg-wash { fill: #4088b0; opacity: 0.12; }
-    .paper-grain { fill: #6aadcc; opacity: 0.08; }
-    .frame-outer { fill: none; stroke: #1a5570; stroke-width: 1.8; }
-    .frame-inner { fill: none; stroke: #8fbdd5; stroke-width: 0.76; opacity: 0.72; }
-    .floor { fill: #f0f8fc; }
-    .corridor { fill: #eef6fb; }
-    .grid-line { stroke: #aecadb; stroke-width: 0.62; }
-    .grid-line-major { stroke: #8eb0c6; stroke-width: 1.0; }
-    .wall-under { stroke: #1a5570; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall { stroke: #1a5570; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
-    .wall-highlight { stroke: #1a5570; stroke-width: 0.1; opacity: 0; }
-    .door { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.72; }
+    .bg { fill: #6ca9c4; }
+    .bg-wash { fill: #80b8cf; opacity: 0.12; }
+    .paper-grain { fill: #96c3d8; opacity: 0.08; }
+    .frame-outer { fill: none; stroke: #356e8a; stroke-width: 1.8; }
+    .frame-inner { fill: none; stroke: #bcd8e7; stroke-width: 0.76; opacity: 0.72; }
+    .floor { fill: #f8fcfe; }
+    .corridor { fill: #f5fbfe; }
+    .grid-line { stroke: #bfd5e2; stroke-width: 0.62; }
+    .grid-line-major { stroke: #a7c2d3; stroke-width: 1.0; }
+    .wall-under { stroke: #2f6f8d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall { stroke: #2f6f8d; stroke-width: ${strictWall}; stroke-linecap: square; stroke-linejoin: miter; }
+    .wall-highlight { stroke: #2f6f8d; stroke-width: 0.1; opacity: 0; }
+    .door { fill: #f8fcfe; stroke: ${sym}; stroke-width: 1.72; }
     .door-tick { stroke: ${sym}; stroke-width: 1.5; }
-    .door-locked { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.82; }
+    .door-locked { fill: #f8fcfe; stroke: ${sym}; stroke-width: 1.82; }
     .door-locked-key { fill: ${sym}; stroke: none; }
     .door-secret { fill: none; stroke: ${sym}; stroke-width: 1.62; stroke-dasharray: 2.5,2.15; }
     .door-secret-tick { stroke: ${sym}; stroke-width: 1.36; }
     .secret-ring { fill: none; stroke: ${sym}; stroke-width: 1.28; }
-    .secret-box { fill: #f0f8fc; stroke: ${sym}; stroke-width: 1.14; }
+    .secret-box { fill: #f8fcfe; stroke: ${sym}; stroke-width: 1.14; }
     .secret-label { font-family: 'Times New Roman', Times, serif; font-weight: bold; fill: ${sym}; }
     .stairs { fill: none; stroke: ${sym}; stroke-width: 1.6; }
     .stairs-arrow { fill: ${sym}; stroke: none; }
     .pillar { fill: ${sym}; stroke: none; }
     .trap { fill: none; stroke: ${sym}; stroke-width: 1.52; }
-    .water { fill: #d6e6f2; stroke: ${sym}; stroke-width: 0.72; }
+    .water { fill: #e1eef6; stroke: ${sym}; stroke-width: 0.72; }
     .treasure { fill: none; stroke: ${sym}; stroke-width: 1.35; }
-    .rubble { fill: #dfeaf2; }
+    .rubble { fill: #e6eff5; }
     .portcullis { fill: none; stroke: ${sym}; stroke-width: 1.35; }
     .archway { fill: none; stroke: ${sym}; stroke-width: 1.38; }
     .archway-base { fill: ${sym}; stroke: none; }
@@ -647,36 +647,36 @@ function generateStyles(cellSize, colorScheme, styleProfile) {
     .lever-base { fill: ${sym}; stroke: ${sym}; stroke-width: 1; }
     .lever-arm { stroke: ${sym}; stroke-width: 1.22; }
     .lever-handle { fill: ${sym}; stroke: none; }
-    .collapsed { fill: #d4e2ee; stroke: none; }
-    .rubble-dot { fill: #5a8ca8; stroke: none; }
+    .collapsed { fill: #dfeaf3; stroke: none; }
+    .rubble-dot { fill: #81a8be; stroke: none; }
     .water-wave { fill: none; stroke: ${sym}; stroke-width: 0.72; opacity: 0.48; }
-    .room-tag { fill: #f0f8fc; stroke: #1a5570; stroke-width: 0.9; }
-    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.66)}px; font-weight: bold; fill: #1a5570; stroke: #f0f8fc; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
-    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(12, cellSize * 0.72)}px; font-weight: bold; fill: #1a5570; stroke: #f0f8fc; stroke-width: ${Math.max(0.95, cellSize * 0.052)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
-    .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f0f8fc; }
-    .compass-fill { fill: #f0f8fc; }
-    .compass-stroke { fill: none; stroke: #1a5570; stroke-width: 1.2; }
-    .compass-dark { fill: #1a5570; }
-    .compass-light { fill: #f0f8fc; }
+    .room-tag { fill: #f8fcfe; stroke: #2f6f8d; stroke-width: 0.9; }
+    .room-number { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.66)}px; font-weight: bold; fill: #2f6f8d; stroke: #f8fcfe; stroke-width: ${Math.max(0.9, cellSize * 0.05)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: central; }
+    .room-number-center { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(12, cellSize * 0.72)}px; font-weight: bold; fill: #2f6f8d; stroke: #f8fcfe; stroke-width: ${Math.max(0.95, cellSize * 0.052)}; paint-order: stroke fill; text-anchor: middle; dominant-baseline: middle; }
+    .title-text { font-family: 'Times New Roman', Times, serif; font-size: ${cellSize * 0.6}px; fill: #f8fcfe; }
+    .compass-fill { fill: #f8fcfe; }
+    .compass-stroke { fill: none; stroke: #2f6f8d; stroke-width: 1.2; }
+    .compass-dark { fill: #2f6f8d; }
+    .compass-light { fill: #f8fcfe; }
     .compass-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(10, cellSize * 0.52)}px; font-weight: bold; fill: #eaf4fa; text-anchor: middle; }
-    .legend-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.4; }
-    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #1a5570; }
-    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #1a5570; }
+    .legend-box { fill: #f8fcfe; stroke: #2f6f8d; stroke-width: 1.4; }
+    .legend-title { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(11, cellSize * 0.55)}px; font-weight: bold; fill: #2f6f8d; }
+    .legend-text { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.44)}px; fill: #2f6f8d; }
     .legend-sym { stroke: ${sym}; stroke-width: 1.45; fill: none; }
     .legend-sym-filled { fill: ${sym}; stroke: none; }
-    .scale-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.0; }
-    .rock-tone { fill: #3c7c9e; }
-    .rock-hatch-major { stroke: #4a8aab; stroke-width: 0.62; }
-    .rock-hatch-minor { stroke: #5c96b2; stroke-width: 0.52; }
-    .rock-stipple-dot { fill: #4e8aaa; opacity: 0.7; }
-    .rock-chisel-mark { stroke: #3a7492; stroke-width: 0.52; stroke-linecap: round; }
-    .title-block-box { fill: #f0f8fc; stroke: #1a5570; stroke-width: 1.55; }
-    .title-block-divider { stroke: #a0c0d4; stroke-width: 0.9; }
-    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #5a8ca8; letter-spacing: 0.4px; }
-    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #1a5570; font-weight: bold; }
-    .sheet-border-outer { fill: none; stroke: #1a5570; stroke-width: 1.2; }
-    .sheet-border-inner { fill: none; stroke: #80aec5; stroke-width: 0.72; }
-    .sheet-tick { stroke: #80aec5; stroke-width: 0.72; }
+    .scale-box { fill: #f8fcfe; stroke: #2f6f8d; stroke-width: 1.0; }
+    .rock-tone { fill: #81aec3; }
+    .rock-hatch-major { stroke: #6e9eb5; stroke-width: 0.62; }
+    .rock-hatch-minor { stroke: #7dacc3; stroke-width: 0.52; }
+    .rock-stipple-dot { fill: #74a4bc; opacity: 0.7; }
+    .rock-chisel-mark { stroke: #6d9ab2; stroke-width: 0.52; stroke-linecap: round; }
+    .title-block-box { fill: #f8fcfe; stroke: #2f6f8d; stroke-width: 1.55; }
+    .title-block-divider { stroke: #b6cfdd; stroke-width: 0.9; }
+    .title-label { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(7, cellSize * 0.32)}px; fill: #7ca3b9; letter-spacing: 0.4px; }
+    .title-value { font-family: 'Times New Roman', Times, serif; font-size: ${Math.max(9, cellSize * 0.41)}px; fill: #2f6f8d; font-weight: bold; }
+    .sheet-border-outer { fill: none; stroke: #2f6f8d; stroke-width: 1.2; }
+    .sheet-border-inner { fill: none; stroke: #9ec0d2; stroke-width: 0.72; }
+    .sheet-tick { stroke: #9ec0d2; stroke-width: 0.72; }
     .strict-texture-line { stroke: #4a88a6; stroke-width: 0.5; stroke-linecap: square; }
     .strict-texture-dot { fill: #5696b4; opacity: 0.74; }
   </style>`;

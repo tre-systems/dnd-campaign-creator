@@ -42,7 +42,7 @@ npm run map:quality:gate
 
 Current gate thresholds are:
 
-- minimum style alignment score: `40`
+- minimum style alignment score: `45`
 - max absolute deltas: `luminanceMean=0.12`, `saturationMean=0.08`,
   `inkCoverage=0.08`, `orthogonalEdgeRatio=0.16`
 - quality composite minimum score: `75`
@@ -54,6 +54,11 @@ Current gate thresholds are:
 - gated-edge placement coverage (`1.0`)
 - gated-edge symbol-match coverage (`1.0`)
 - locked/secret/door edge-symbol coverage (`1.0`)
+
+Current strict snapshot baseline (March 4, 2026):
+
+- style alignment score: `45.7`
+- quality composite score: `78.3`
 
 To refresh the checked-in metrics baseline from local references, run:
 

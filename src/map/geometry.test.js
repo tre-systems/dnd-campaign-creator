@@ -12,7 +12,10 @@ const {
 } = require("./geometry");
 const { buildGraph } = require("./topology");
 const { createRng } = require("./intent");
-const { createGatehouseSection } = require("./fixtures/gatehouse-ruin");
+const {
+  createGatehouseSection,
+  createDwarvenComplexSection,
+} = require("./fixtures/gatehouse-ruin");
 
 describe("geometry", () => {
   describe("randomDimensionsForSizeClass", () => {
@@ -256,7 +259,10 @@ describe("geometry", () => {
 
       const hub = geometry.rooms.find((r) => r.nodeId === "H1");
       const hazard = geometry.rooms.find((r) => r.nodeId === "Z1");
-      assert.equal(hub.shape, "chamfered");
+      assert.ok(
+        hub.shape === "chamfered" || hub.shape === "circle",
+        `Expected hub shape to be chamfered or circle, got ${hub.shape}`,
+      );
       assert.equal(hazard.shape, "cave");
 
       let roughCells = 0;
@@ -341,6 +347,33 @@ describe("geometry", () => {
         geometry.cells[hub.y][midX],
         CELL.FLOOR,
         "Cross-hall should keep top-center anchor for doorway routing",
+      );
+    });
+
+    it("enforces at least one circle and one cave showcase room on large suites", () => {
+      const section = createDwarvenComplexSection();
+      const graph = buildGraph(section.nodes, section.edges);
+      const geometry = layoutConstructed(
+        graph,
+        section.grid,
+        section.density,
+        section.connectors,
+        50,
+        createRng(37),
+      );
+
+      const shapeCounts = geometry.rooms.reduce((acc, room) => {
+        acc[room.shape] = (acc[room.shape] || 0) + 1;
+        return acc;
+      }, {});
+
+      assert.ok(
+        (shapeCounts.circle || 0) >= 1,
+        "Expected at least one circular showcase room",
+      );
+      assert.ok(
+        (shapeCounts.cave || 0) >= 1,
+        "Expected at least one cave showcase room",
       );
     });
   });

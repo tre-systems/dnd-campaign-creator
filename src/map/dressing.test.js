@@ -92,6 +92,13 @@ describe("dressing", () => {
     it("returns null for small generic rooms", () => {
       assert.equal(pickRecipe({ name: "Pantry", sizeClass: "small" }), null);
     });
+
+    it("uses ordered dressing for generic medium rooms", () => {
+      assert.equal(
+        pickRecipe({ name: "Antechamber", sizeClass: "medium" }),
+        "ordered",
+      );
+    });
   });
 
   describe("transitionCellForNode", () => {

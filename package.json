@@ -14,7 +14,7 @@
     "map:snapshots:check": "node bin/map-quality.js check",
     "map:style:audit": "node bin/map-style-audit.js",
     "map:style:baseline:update": "node bin/map-style-audit.js --write-reference-metrics docs/map-review/reference-style-metrics.json",
-    "map:style:gate": "node bin/map-style-audit.js --reference-metrics docs/map-review/reference-style-metrics.json --min-score 40 --max-abs-delta luminanceMean=0.12,saturationMean=0.08,inkCoverage=0.08,orthogonalEdgeRatio=0.16",
+    "map:style:gate": "node bin/map-style-audit.js --reference-metrics docs/map-review/reference-style-metrics.json --min-score 45 --max-abs-delta luminanceMean=0.12,saturationMean=0.08,inkCoverage=0.08,orthogonalEdgeRatio=0.16",
     "map:quality:score": "node bin/map-quality-score.js score",
     "map:quality:gate": "node bin/map-quality-score.js gate",
     "security:scan": "node bin/security-scan.js",
