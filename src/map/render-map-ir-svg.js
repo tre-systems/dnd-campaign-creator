@@ -116,23 +116,89 @@ function resolvePalette(mapIr, options = {}) {
   };
 }
 
+function getExtensionFeatures(mapIr) {
+  const features = mapIr?.extensions?.features;
+  if (!Array.isArray(features)) return [];
+  return features.filter(
+    (feature) =>
+      feature &&
+      Number.isFinite(feature.x) &&
+      Number.isFinite(feature.y) &&
+      typeof feature.type === "string" &&
+      feature.type.trim().length > 0,
+  );
+}
+
 function renderThreshold(threshold, cellSize, palette) {
   const cx = (threshold.x + 0.5) * cellSize;
   const cy = (threshold.y + 0.5) * cellSize;
-  const size = Math.max(2, cellSize * 0.35);
+  const size = Math.max(3, cellSize * 0.5);
+  const stroke = Math.max(1.1, cellSize * 0.08).toFixed(2);
 
   if (threshold.type === "door") {
-    return `<rect x="${(cx - size / 2).toFixed(2)}" y="${(cy - size / 4).toFixed(2)}" width="${size.toFixed(2)}" height="${(size / 2).toFixed(2)}" fill="none" stroke="${palette.symbol}" stroke-width="${Math.max(1, cellSize * 0.05).toFixed(2)}" />`;
+    return `<rect data-threshold-type="door" x="${(cx - size / 2).toFixed(2)}" y="${(cy - size / 4).toFixed(2)}" width="${size.toFixed(2)}" height="${(size / 2).toFixed(2)}" fill="#ffffff" stroke="${palette.label}" stroke-width="${stroke}" />`;
   }
 
   if (threshold.type === "locked") {
-    const stroke = Math.max(1, cellSize * 0.05).toFixed(2);
-    return `<g stroke="${palette.symbol}" fill="none" stroke-width="${stroke}"><rect x="${(cx - size / 2).toFixed(2)}" y="${(cy - size / 4).toFixed(2)}" width="${size.toFixed(2)}" height="${(size / 2).toFixed(2)}" /><circle cx="${cx.toFixed(2)}" cy="${(cy - size * 0.35).toFixed(2)}" r="${(size * 0.14).toFixed(2)}" /></g>`;
+    return `<g data-threshold-type="locked" stroke="${palette.label}" fill="none" stroke-width="${stroke}"><rect x="${(cx - size / 2).toFixed(2)}" y="${(cy - size / 4).toFixed(2)}" width="${size.toFixed(2)}" height="${(size / 2).toFixed(2)}" fill="#ffffff" /><circle cx="${cx.toFixed(2)}" cy="${(cy - size * 0.36).toFixed(2)}" r="${(size * 0.18).toFixed(2)}" /></g>`;
   }
 
   // secret
-  const dash = Math.max(1, cellSize * 0.06).toFixed(2);
-  return `<line x1="${(cx - size / 2).toFixed(2)}" y1="${cy.toFixed(2)}" x2="${(cx + size / 2).toFixed(2)}" y2="${cy.toFixed(2)}" stroke="${palette.symbol}" stroke-width="${dash}" stroke-dasharray="${dash} ${dash}" />`;
+  const dash = Math.max(1.2, cellSize * 0.12).toFixed(2);
+  return `<line data-threshold-type="secret" x1="${(cx - size / 2).toFixed(2)}" y1="${cy.toFixed(2)}" x2="${(cx + size / 2).toFixed(2)}" y2="${cy.toFixed(2)}" stroke="${palette.label}" stroke-width="${dash}" stroke-dasharray="${dash} ${dash}" />`;
+}
+
+function renderFeature(feature, cellSize, palette) {
+  const cx = (feature.x + 0.5) * cellSize;
+  const cy = (feature.y + 0.5) * cellSize;
+  const unit = Math.max(1, cellSize * 0.07);
+  const tag = `data-feature-type="${escapeXml(feature.type)}"`;
+
+  switch (feature.type) {
+    case "pillar": {
+      const r = Math.max(1.5, cellSize * 0.22);
+      return `<circle ${tag} cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}" />`;
+    }
+    case "stairsDown": {
+      const w = cellSize * 0.55;
+      const h = cellSize * 0.52;
+      const x0 = cx - w / 2;
+      const y0 = cy - h / 2;
+      return [
+        `<line ${tag} x1="${x0.toFixed(2)}" y1="${(y0 + unit).toFixed(2)}" x2="${(x0 + w).toFixed(2)}" y2="${(y0 + unit).toFixed(2)}" />`,
+        `<line x1="${(x0 + unit).toFixed(2)}" y1="${(y0 + h * 0.45).toFixed(2)}" x2="${(x0 + w - unit).toFixed(2)}" y2="${(y0 + h * 0.45).toFixed(2)}" />`,
+        `<line x1="${(x0 + unit * 2).toFixed(2)}" y1="${(y0 + h - unit).toFixed(2)}" x2="${(x0 + w - unit * 2).toFixed(2)}" y2="${(y0 + h - unit).toFixed(2)}" />`,
+      ].join("");
+    }
+    case "stairsUp": {
+      const w = cellSize * 0.55;
+      const h = cellSize * 0.52;
+      const x0 = cx - w / 2;
+      const y0 = cy - h / 2;
+      return [
+        `<line ${tag} x1="${(x0 + unit * 2).toFixed(2)}" y1="${(y0 + unit).toFixed(2)}" x2="${(x0 + w - unit * 2).toFixed(2)}" y2="${(y0 + unit).toFixed(2)}" />`,
+        `<line x1="${(x0 + unit).toFixed(2)}" y1="${(y0 + h * 0.45).toFixed(2)}" x2="${(x0 + w - unit).toFixed(2)}" y2="${(y0 + h * 0.45).toFixed(2)}" />`,
+        `<line x1="${x0.toFixed(2)}" y1="${(y0 + h - unit).toFixed(2)}" x2="${(x0 + w).toFixed(2)}" y2="${(y0 + h - unit).toFixed(2)}" />`,
+      ].join("");
+    }
+    case "well": {
+      const outer = Math.max(2, cellSize * 0.22);
+      const inner = Math.max(1, cellSize * 0.12);
+      return `<g ${tag}><circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${outer.toFixed(2)}" /><circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${inner.toFixed(2)}" /></g>`;
+    }
+    case "statue": {
+      const baseW = cellSize * 0.28;
+      const baseH = cellSize * 0.14;
+      const headR = Math.max(1, cellSize * 0.09);
+      return `<g ${tag}><rect x="${(cx - baseW / 2).toFixed(2)}" y="${(cy + baseH * 0.2).toFixed(2)}" width="${baseW.toFixed(2)}" height="${baseH.toFixed(2)}" /><circle cx="${cx.toFixed(2)}" cy="${(cy - headR * 0.4).toFixed(2)}" r="${headR.toFixed(2)}" /></g>`;
+    }
+    case "trap": {
+      const d = cellSize * 0.2;
+      return `<g ${tag}><line x1="${(cx - d).toFixed(2)}" y1="${(cy - d).toFixed(2)}" x2="${(cx + d).toFixed(2)}" y2="${(cy + d).toFixed(2)}" /><line x1="${(cx - d).toFixed(2)}" y1="${(cy + d).toFixed(2)}" x2="${(cx + d).toFixed(2)}" y2="${(cy - d).toFixed(2)}" /></g>`;
+    }
+    default:
+      return `<circle ${tag} cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${Math.max(1.4, cellSize * 0.16).toFixed(2)}" />`;
+  }
 }
 
 function renderMapIrSvg(mapIr, options = {}) {
@@ -181,6 +247,9 @@ function renderMapIrSvg(mapIr, options = {}) {
   const thresholds = (Array.isArray(mapIr.thresholds) ? mapIr.thresholds : [])
     .map((threshold) => renderThreshold(threshold, cellSize, palette))
     .join("\n");
+  const features = getExtensionFeatures(mapIr)
+    .map((feature) => renderFeature(feature, cellSize, palette))
+    .join("\n");
 
   const labels = (Array.isArray(mapIr.labels) ? mapIr.labels : [])
     .map((label) => {
@@ -200,6 +269,7 @@ function renderMapIrSvg(mapIr, options = {}) {
       .grid { stroke: ${palette.grid}; stroke-width: ${gridStroke.toFixed(2)}; opacity: 0.72; }
       .walls { stroke: ${palette.wall}; stroke-width: ${wallStroke.toFixed(2)}; fill: none; stroke-linecap: square; }
       .thresholds { fill: none; stroke-linecap: round; }
+      .features { stroke: ${palette.label}; fill: none; stroke-width: ${Math.max(1, cellSize * 0.07).toFixed(2)}; stroke-linecap: round; stroke-linejoin: round; }
       .labels { fill: ${palette.label}; font-size: ${(cellSize * 0.45).toFixed(2)}px; font-family: "Courier New", monospace; font-weight: 600; }
     </style>
   </defs>
@@ -212,6 +282,9 @@ ${gridLines.join("\n")}
   </g>
   <g class="walls">
 ${wallLines}
+  </g>
+  <g class="features">
+${features}
   </g>
   <g class="thresholds">
 ${thresholds}

@@ -92,6 +92,22 @@ describe("map-ir", () => {
     assert.doesNotThrow(() => assertValidMapIr(created));
   });
 
+  it("preserves extension payloads when provided", () => {
+    const created = createMapIr({
+      meta: { width: 6, height: 6 },
+      floors: [{ x: 1, y: 1, w: 3, h: 3 }],
+      walls: [{ x1: 1, y1: 1, x2: 4, y2: 1 }],
+      extensions: {
+        features: [{ x: 2, y: 2, type: "pillar" }],
+      },
+    });
+
+    assert.ok(created.extensions);
+    assert.deepEqual(created.extensions.features, [
+      { x: 2, y: 2, type: "pillar" },
+    ]);
+  });
+
   it("throws from assertValidMapIr when invalid", () => {
     assert.throws(() => {
       assertValidMapIr({

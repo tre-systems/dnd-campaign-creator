@@ -24,6 +24,9 @@ function makeMapIrWithFloorRatio(floorCellRatio) {
     diagnostics: {
       floorCellRatio,
     },
+    extensions: {
+      features: [{ x: 2, y: 2, type: "pillar" }],
+    },
   });
 }
 
@@ -47,7 +50,10 @@ describe("render-map-ir-svg", () => {
     assert.match(svg, /MapIR render: Test Room/);
     assert.match(svg, /class="floors"/);
     assert.match(svg, /class="walls"/);
+    assert.match(svg, /class="features"/);
     assert.match(svg, /class="labels"/);
+    assert.match(svg, /data-threshold-type="door"/);
+    assert.match(svg, /data-feature-type="pillar"/);
     assert.match(svg, />1<\/text>/);
   });
 

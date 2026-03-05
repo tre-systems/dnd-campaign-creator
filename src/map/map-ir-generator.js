@@ -171,10 +171,123 @@ function extractDoorThresholds(cells, roomMask, rooms, rng) {
     const key = `${pick.x},${pick.y}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    thresholds.push({ x: pick.x, y: pick.y, type: "door" });
+    const area = room.w * room.h;
+    let type = "door";
+    if (area >= 54 && rng() < 0.2) {
+      type = "locked";
+    } else if (rng() < 0.11) {
+      type = "secret";
+    }
+    thresholds.push({ x: pick.x, y: pick.y, type });
   }
 
   return thresholds;
+}
+
+function synthesizeRoomFeatures(cells, rooms, thresholds, rng, options = {}) {
+  const height = cells.length;
+  const width = height > 0 ? cells[0].length : 0;
+  const maxFeatures = Number.isFinite(options.maxFeatures)
+    ? Math.max(0, Math.floor(options.maxFeatures))
+    : 72;
+
+  const features = [];
+  const occupied = new Set(
+    (Array.isArray(thresholds) ? thresholds : []).map(
+      (threshold) => `${threshold.x},${threshold.y}`,
+    ),
+  );
+
+  const isFloor = (x, y) =>
+    x >= 0 && y >= 0 && x < width && y < height && cells[y][x];
+
+  const placeFeature = (x, y, type) => {
+    if (features.length >= maxFeatures) return false;
+    const key = `${x},${y}`;
+    if (occupied.has(key)) return false;
+    if (!isFloor(x, y)) return false;
+    occupied.add(key);
+    features.push({ x, y, type });
+    return true;
+  };
+
+  const tryPlaceNearCenter = (room, type, offsets = null) => {
+    const center = roomCenter(room);
+    const tries = offsets || [
+      [0, 0],
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+      [1, 1],
+      [-1, 1],
+      [1, -1],
+      [-1, -1],
+    ];
+    for (const [dx, dy] of tries) {
+      const x = center.x + dx;
+      const y = center.y + dy;
+      if (
+        x < room.x ||
+        y < room.y ||
+        x >= room.x + room.w ||
+        y >= room.y + room.h
+      ) {
+        continue;
+      }
+      if (placeFeature(x, y, type)) return true;
+    }
+    return false;
+  };
+
+  const byAreaDesc = [...rooms]
+    .map((room, idx) => ({ room, idx, area: room.w * room.h }))
+    .sort((a, b) => b.area - a.area);
+
+  if (byAreaDesc.length > 0) {
+    tryPlaceNearCenter(byAreaDesc[0].room, "stairsDown");
+  }
+  if (byAreaDesc.length > 1) {
+    tryPlaceNearCenter(byAreaDesc[1].room, "stairsUp");
+  }
+
+  for (let roomIdx = 0; roomIdx < rooms.length; roomIdx++) {
+    const room = rooms[roomIdx];
+    const area = room.w * room.h;
+
+    if (area >= 24 && rng() < 0.65) {
+      tryPlaceNearCenter(room, "pillar");
+    }
+    if (area >= 56 && rng() < 0.45) {
+      const axisOffsets =
+        rng() < 0.5
+          ? [
+              [2, 0],
+              [-2, 0],
+              [1, 0],
+              [-1, 0],
+            ]
+          : [
+              [0, 2],
+              [0, -2],
+              [0, 1],
+              [0, -1],
+            ];
+      tryPlaceNearCenter(room, "pillar", axisOffsets);
+    }
+
+    if (area >= 40 && roomIdx % 6 === 0) {
+      tryPlaceNearCenter(room, "well");
+    } else if (area >= 28 && rng() < 0.16) {
+      tryPlaceNearCenter(room, "statue");
+    }
+
+    if (area >= 20 && rng() < 0.14) {
+      tryPlaceNearCenter(room, "trap");
+    }
+  }
+
+  return features;
 }
 
 function countConnectedComponents(cells) {
@@ -405,6 +518,9 @@ function generateConstrainedMapIr(options = {}) {
 
   const roomMask = buildRoomMask(width, height, rooms);
   const thresholds = extractDoorThresholds(cells, roomMask, rooms, rng);
+  const features = synthesizeRoomFeatures(cells, rooms, thresholds, rng, {
+    maxFeatures: options.maxFeatures,
+  });
 
   const floors = compressFloorRects(cells);
   const walls = deriveWallSegments(cells);
@@ -444,11 +560,14 @@ function generateConstrainedMapIr(options = {}) {
         floorCellCount,
         floorCellRatio: floorCellCount / (width * height),
         connectedComponents: countConnectedComponents(cells),
+        thresholdCount: thresholds.length,
+        featureCount: features.length,
       },
     },
     extensions: {
       rooms,
       links,
+      features,
     },
   });
 }

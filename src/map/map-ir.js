@@ -350,6 +350,10 @@ function createMapIr(partial = {}) {
     mapIr.diagnostics = partial.diagnostics;
   }
 
+  if (isObject(partial.extensions)) {
+    mapIr.extensions = partial.extensions;
+  }
+
   return assertValidMapIr(mapIr);
 }
 

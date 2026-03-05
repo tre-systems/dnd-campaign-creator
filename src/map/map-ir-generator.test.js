@@ -27,6 +27,17 @@ describe("map-ir-generator", () => {
     assert.ok(mapIr.walls.length > 0);
     assert.ok(mapIr.labels.length >= 8);
     assert.ok(mapIr.thresholds.length > 0);
+    assert.ok(
+      mapIr.thresholds.every((threshold) =>
+        ["door", "locked", "secret"].includes(threshold.type),
+      ),
+    );
+    assert.ok(Array.isArray(mapIr.extensions?.features));
+    assert.ok(mapIr.extensions.features.length > 0);
+    assert.equal(
+      mapIr.diagnostics.generator.featureCount,
+      mapIr.extensions.features.length,
+    );
 
     const components = mapIr.diagnostics.generator.connectedComponents;
     assert.equal(components, 1);
