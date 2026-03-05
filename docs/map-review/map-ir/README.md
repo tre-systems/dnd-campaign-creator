@@ -49,6 +49,17 @@ npm run map:ir:benchmark -- \
   --report docs/map-review/map-ir/benchmark-report.json
 ```
 
+Generate constrained MapIR samples (prototype generator):
+
+```bash
+npm run map:ir:generate -- \
+  --out-dir docs/map-review/map-ir/generated \
+  --svg-dir docs/map-review/map-ir/generated-svg \
+  --summary docs/map-review/map-ir/generated/summary.json \
+  --count 20 \
+  --seed 2000
+```
+
 ## MapIR Schema (v0.1.0)
 
 The frozen schema contract is documented in:

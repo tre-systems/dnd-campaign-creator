@@ -101,7 +101,7 @@ function parseMaxAbsDeltaGate(argValue) {
 async function listImageFiles(dirPath) {
   const entries = await fs.readdir(path.resolve(dirPath));
   return entries
-    .filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
+    .filter((name) => /\.(png|jpe?g|webp|svg)$/i.test(name))
     .sort()
     .map((name) => path.join(path.resolve(dirPath), name));
 }
@@ -225,7 +225,7 @@ async function main() {
     floorLuminanceThreshold: parseFiniteArg(
       args,
       "--floor-luma-threshold",
-      0.78,
+      null,
     ),
     floorCellRatioThreshold: parseFiniteArg(
       args,
@@ -300,6 +300,8 @@ async function main() {
         height: extraction.mapIr.meta.height,
         floorRects: extraction.mapIr.floors.length,
         wallSegments: extraction.mapIr.walls.length,
+        thresholds: extraction.mapIr.thresholds.length,
+        labels: extraction.mapIr.labels.length,
       },
       diagnostics: extraction.diagnostics,
       style: {

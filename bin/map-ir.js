@@ -44,7 +44,7 @@ async function writeTextFile(filePath, contents) {
 async function listImageFiles(dirPath) {
   const entries = await fs.readdir(path.resolve(dirPath));
   return entries
-    .filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
+    .filter((name) => /\.(png|jpe?g|webp|svg)$/i.test(name))
     .sort()
     .map((name) => path.join(path.resolve(dirPath), name));
 }
@@ -63,7 +63,7 @@ function buildExtractOptions(args) {
     floorLuminanceThreshold: parseFiniteArg(
       args,
       "--floor-luma-threshold",
-      0.78,
+      null,
     ),
     floorCellRatioThreshold: parseFiniteArg(
       args,

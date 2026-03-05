@@ -7,7 +7,9 @@ const {
   extractMapIrFromRaw,
   detectGridSpacing,
   detectGridPhase,
+  chooseGridSpacing,
   deriveWallSegments,
+  extractHighConfidenceDoorThresholds,
 } = require("./map-ir-extractor");
 
 function makeSyntheticBlueprintRaw(gridWidth, gridHeight, cellSize) {
@@ -77,6 +79,16 @@ describe("map-ir-extractor", () => {
     assert.equal(phase, 0);
   });
 
+  it("prefers smaller harmonic spacing when axis detections diverge", () => {
+    const chosen = chooseGridSpacing(
+      { spacing: 17, confidence: 0.61 },
+      { spacing: 8, confidence: 0.64 },
+      6,
+      24,
+    );
+    assert.equal(chosen, 8);
+  });
+
   it("extracts a valid MapIR from synthetic blueprint pixels", () => {
     const synthetic = makeSyntheticBlueprintRaw(12, 10, 10);
 
@@ -118,6 +130,46 @@ describe("map-ir-extractor", () => {
     assert.ok(
       walls.some((w) => w.x1 === 1 && w.x2 === 1 && w.y1 === 1 && w.y2 === 3),
       "expected left wall segment",
+    );
+  });
+
+  it("extracts high-confidence door thresholds from articulation choke cells", () => {
+    const cells = [
+      [false, false, false, false, false, false],
+      [false, true, true, true, false, false],
+      [false, false, false, false, false, false],
+    ];
+
+    const width = 40;
+    const height = 40;
+    const luma = new Float32Array(width * height).fill(0.95);
+    // Mark the choke cell as darker to emulate door ink.
+    for (let y = 10; y < 18; y++) {
+      for (let x = 20; x < 28; x++) {
+        luma[y * width + x] = 0.62;
+      }
+    }
+
+    const thresholds = extractHighConfidenceDoorThresholds(
+      cells,
+      luma,
+      width,
+      height,
+      {
+        startX: 0,
+        startY: 0,
+        spacing: 10,
+        gridWidth: 6,
+        gridHeight: 3,
+      },
+      {
+        minDoorDarkness: 0.2,
+      },
+    );
+
+    assert.ok(thresholds.length > 0);
+    assert.ok(
+      thresholds.some((threshold) => threshold.x === 2 && threshold.y === 1),
     );
   });
 });

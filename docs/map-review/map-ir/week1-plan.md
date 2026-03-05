@@ -8,9 +8,9 @@ This file tracks execution for the Option B weekly plan.
 - [x] Day 2 tooling: batch extraction command
 - [x] Day 5 tooling: one-command benchmark/report path
 - [x] Day 2 run: full reference-set extraction output review
-- [ ] Day 3: floor/wall fidelity tuning pass
-- [ ] Day 4: threshold + label extraction pass (high-confidence only)
-- [ ] Day 6: constrained IR generator prototype
+- [x] Day 3: floor/wall fidelity tuning pass
+- [x] Day 4: threshold + label extraction pass (high-confidence only)
+- [x] Day 6: constrained IR generator prototype
 - [ ] Day 7: go/no-go decision note
 
 ## Current Baseline (March 5, 2026)
@@ -19,13 +19,34 @@ From `npm run map:ir:batch` and `npm run map:ir:benchmark` against
 `docs/map-review/references/paratime`:
 
 1. Maps processed: `20/20`.
-2. Style gate pass rate: `17/20` (`85.0%`).
+2. Style gate pass rate: `18/20` (`90.0%`).
 3. Usability pass rate: `20/20` (`100.0%`).
-4. Average style score: `53.6 / 100`.
+4. Average style score: `56.1 / 100`.
+
+Compared with prior baseline (`85.0%` style pass), floor/wall tuning plus
+adaptive thresholding improved style pass rate by +5 points.
 
 Generated report:
 
 - `docs/map-review/map-ir/benchmark-report.json` (local artifact)
+
+## Day 6 Prototype Snapshot
+
+Generated suite (constrained generator prototype):
+
+1. Generated maps: `20`.
+2. Connectivity (single floor component): `20/20`.
+3. Average floor cell ratio: `0.287`.
+4. Average generated thresholds: `17.5`.
+
+Style proxy benchmark against Paratime references (on generated SVGs):
+
+1. Style pass rate: `0/20` (`0.0%`).
+2. Usability pass rate: `20/20` (`100.0%`).
+3. Average style score: `31.3 / 100`.
+
+Implication: structure constraints are working, but the generator's geometric
+distribution is not yet style-aligned to the reference corpus.
 
 ## Week Exit Gates
 

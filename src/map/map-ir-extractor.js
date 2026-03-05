@@ -132,6 +132,81 @@ function detectGridPhase(profile, spacing) {
   return bestOffset;
 }
 
+function chooseGridSpacing(xSpacing, ySpacing, minGridPx, maxGridPx) {
+  let chosen = minGridPx;
+
+  if (xSpacing && ySpacing) {
+    const sx = xSpacing.spacing;
+    const sy = ySpacing.spacing;
+    const small = Math.min(sx, sy);
+    const large = Math.max(sx, sy);
+    const ratio = large / Math.max(1, small);
+
+    // If one axis likely landed on a doubled harmonic, keep the smaller base period.
+    if (ratio >= 1.6 && ratio <= 2.4) {
+      chosen = small;
+    } else {
+      const cx = Number.isFinite(xSpacing.confidence)
+        ? xSpacing.confidence
+        : 0.5;
+      const cy = Number.isFinite(ySpacing.confidence)
+        ? ySpacing.confidence
+        : 0.5;
+      const weight = Math.max(1e-6, cx + cy);
+      chosen = Math.round((sx * cx + sy * cy) / weight);
+    }
+  } else if (xSpacing) {
+    chosen = xSpacing.spacing;
+  } else if (ySpacing) {
+    chosen = ySpacing.spacing;
+  }
+
+  return clamp(chosen, minGridPx, maxGridPx);
+}
+
+function computeOtsuThreshold(luma) {
+  if (!luma || luma.length === 0) return 0.78;
+
+  const bins = new Uint32Array(256);
+  for (let i = 0; i < luma.length; i++) {
+    const idx = clamp(Math.round(luma[i] * 255), 0, 255);
+    bins[idx]++;
+  }
+
+  let total = 0;
+  let sum = 0;
+  for (let i = 0; i < 256; i++) {
+    total += bins[i];
+    sum += i * bins[i];
+  }
+  if (total === 0) return 0.78;
+
+  let sumB = 0;
+  let wB = 0;
+  let maxVariance = -1;
+  let threshold = 199;
+
+  for (let i = 0; i < 256; i++) {
+    wB += bins[i];
+    if (wB === 0) continue;
+
+    const wF = total - wB;
+    if (wF === 0) break;
+
+    sumB += i * bins[i];
+    const mB = sumB / wB;
+    const mF = (sum - sumB) / wF;
+    const variance = wB * wF * (mB - mF) * (mB - mF);
+
+    if (variance > maxVariance) {
+      maxVariance = variance;
+      threshold = i;
+    }
+  }
+
+  return threshold / 255;
+}
+
 function buildFloorMask(luma, width, height, threshold) {
   const mask = new Uint8Array(width * height);
 
@@ -457,6 +532,252 @@ function deriveWallSegments(cells) {
   return segments;
 }
 
+function buildArticulationSet(cells) {
+  const height = cells.length;
+  const width = height > 0 ? cells[0].length : 0;
+  const keys = [];
+  const floorSet = new Set();
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (!cells[y][x]) continue;
+      const key = `${x},${y}`;
+      keys.push(key);
+      floorSet.add(key);
+    }
+  }
+
+  const disc = new Map();
+  const low = new Map();
+  const parent = new Map();
+  const articulation = new Set();
+  let time = 0;
+
+  const neighbors = (x, y) => {
+    const out = [];
+    const deltas = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+    for (const [dx, dy] of deltas) {
+      const nx = x + dx;
+      const ny = y + dy;
+      const key = `${nx},${ny}`;
+      if (floorSet.has(key)) out.push({ x: nx, y: ny, key });
+    }
+    return out;
+  };
+
+  const dfs = (x, y, key) => {
+    disc.set(key, ++time);
+    low.set(key, disc.get(key));
+    let children = 0;
+
+    for (const neighbor of neighbors(x, y)) {
+      if (!disc.has(neighbor.key)) {
+        children++;
+        parent.set(neighbor.key, key);
+        dfs(neighbor.x, neighbor.y, neighbor.key);
+
+        low.set(key, Math.min(low.get(key), low.get(neighbor.key)));
+
+        if (!parent.has(key) && children > 1) {
+          articulation.add(key);
+        }
+        if (
+          parent.has(key) &&
+          low.get(neighbor.key) >= (disc.get(key) || Number.POSITIVE_INFINITY)
+        ) {
+          articulation.add(key);
+        }
+      } else if (parent.get(key) !== neighbor.key) {
+        low.set(key, Math.min(low.get(key), disc.get(neighbor.key)));
+      }
+    }
+  };
+
+  for (const key of keys) {
+    if (disc.has(key)) continue;
+    const [x, y] = key.split(",").map((part) => Number.parseInt(part, 10));
+    dfs(x, y, key);
+  }
+
+  return articulation;
+}
+
+function sampleCellDarkness(
+  luma,
+  pixelWidth,
+  pixelHeight,
+  grid,
+  cellX,
+  cellY,
+  innerRatio = 0.25,
+) {
+  const x0 = grid.startX + cellX * grid.spacing;
+  const y0 = grid.startY + cellY * grid.spacing;
+  const x1 = grid.startX + (cellX + 1) * grid.spacing - 1;
+  const y1 = grid.startY + (cellY + 1) * grid.spacing - 1;
+
+  const marginX = Math.max(1, Math.floor((x1 - x0 + 1) * innerRatio));
+  const marginY = Math.max(1, Math.floor((y1 - y0 + 1) * innerRatio));
+
+  const fromX = clamp(Math.floor(x0 + marginX), 0, pixelWidth - 1);
+  const toX = clamp(Math.floor(x1 - marginX), 0, pixelWidth - 1);
+  const fromY = clamp(Math.floor(y0 + marginY), 0, pixelHeight - 1);
+  const toY = clamp(Math.floor(y1 - marginY), 0, pixelHeight - 1);
+
+  let sumDark = 0;
+  let count = 0;
+
+  for (let y = Math.min(fromY, toY); y <= Math.max(fromY, toY); y++) {
+    const rowStart = y * pixelWidth;
+    for (let x = Math.min(fromX, toX); x <= Math.max(fromX, toX); x++) {
+      sumDark += 1 - luma[rowStart + x];
+      count++;
+    }
+  }
+
+  if (count === 0) return 0;
+  return sumDark / count;
+}
+
+function extractHighConfidenceDoorThresholds(
+  cells,
+  luma,
+  pixelWidth,
+  pixelHeight,
+  grid,
+  options = {},
+) {
+  const height = cells.length;
+  const width = height > 0 ? cells[0].length : 0;
+  const articulation = buildArticulationSet(cells);
+
+  const minDarkness = Number.isFinite(options.minDoorDarkness)
+    ? options.minDoorDarkness
+    : 0.16;
+  const maxDoors = Number.isFinite(options.maxDoorThresholds)
+    ? Math.max(0, Math.floor(options.maxDoorThresholds))
+    : 48;
+
+  const thresholds = [];
+
+  const isFloor = (x, y) => {
+    if (x < 0 || y < 0 || x >= width || y >= height) return false;
+    return cells[y][x];
+  };
+
+  for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+      if (!cells[y][x]) continue;
+
+      const key = `${x},${y}`;
+      if (!articulation.has(key)) continue;
+
+      const left = isFloor(x - 1, y);
+      const right = isFloor(x + 1, y);
+      const up = isFloor(x, y - 1);
+      const down = isFloor(x, y + 1);
+
+      const horizontalChoke = left && right && !up && !down;
+      const verticalChoke = up && down && !left && !right;
+
+      if (!horizontalChoke && !verticalChoke) continue;
+
+      const darkness = sampleCellDarkness(
+        luma,
+        pixelWidth,
+        pixelHeight,
+        grid,
+        x,
+        y,
+        0.28,
+      );
+      if (darkness < minDarkness) continue;
+
+      thresholds.push({
+        x,
+        y,
+        type: "door",
+        _score: darkness,
+      });
+    }
+  }
+
+  thresholds.sort((a, b) => b._score - a._score);
+  return thresholds.slice(0, maxDoors).map((threshold) => ({
+    x: threshold.x,
+    y: threshold.y,
+    type: threshold.type,
+  }));
+}
+
+function extractHighConfidenceLabels(
+  floors,
+  luma,
+  pixelWidth,
+  pixelHeight,
+  grid,
+  options = {},
+) {
+  const minArea = Number.isFinite(options.minLabelRectArea)
+    ? Math.max(4, Math.floor(options.minLabelRectArea))
+    : 24;
+  const minDarkness = Number.isFinite(options.minLabelDarkness)
+    ? options.minLabelDarkness
+    : 0.12;
+  const maxDarkness = Number.isFinite(options.maxLabelDarkness)
+    ? options.maxLabelDarkness
+    : 0.36;
+  const maxLabels = Number.isFinite(options.maxLabelCount)
+    ? Math.max(0, Math.floor(options.maxLabelCount))
+    : 72;
+
+  const labels = [];
+  let next = 1;
+
+  for (const floor of floors) {
+    const area = floor.w * floor.h;
+    if (area < minArea) continue;
+
+    const aspect =
+      Math.max(floor.w, floor.h) / Math.max(1, Math.min(floor.w, floor.h));
+    if (aspect > 3.5) continue;
+
+    const cx = Math.floor(floor.x + floor.w / 2);
+    const cy = Math.floor(floor.y + floor.h / 2);
+
+    const darkness = sampleCellDarkness(
+      luma,
+      pixelWidth,
+      pixelHeight,
+      grid,
+      clamp(cx, 0, grid.gridWidth - 1),
+      clamp(cy, 0, grid.gridHeight - 1),
+      0.3,
+    );
+
+    if (darkness < minDarkness || darkness > maxDarkness) continue;
+
+    labels.push({
+      text: String(next++),
+      x: clamp(cx, 0, grid.gridWidth - 1),
+      y: clamp(cy, 0, grid.gridHeight - 1),
+      _score: darkness,
+    });
+  }
+
+  labels.sort((a, b) => b._score - a._score);
+  return labels.slice(0, maxLabels).map((label) => ({
+    text: label.text,
+    x: label.x,
+    y: label.y,
+  }));
+}
+
 function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
   if (!raw || typeof raw.length !== "number") {
     throw new Error("raw pixel buffer is required");
@@ -473,21 +794,17 @@ function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
   const minGridPx = Number.isFinite(options.minGridPx) ? options.minGridPx : 8;
   const maxGridPx = Number.isFinite(options.maxGridPx) ? options.maxGridPx : 80;
 
-  const floorLuminanceThreshold = Number.isFinite(
+  const explicitFloorLuminanceThreshold = Number.isFinite(
     options.floorLuminanceThreshold,
   )
     ? options.floorLuminanceThreshold
-    : 0.78;
+    : null;
 
   const floorCellRatioThreshold = Number.isFinite(
     options.floorCellRatioThreshold,
   )
     ? options.floorCellRatioThreshold
     : 0.38;
-
-  const maxCells = Number.isFinite(options.maxCells)
-    ? Math.max(8, Math.floor(options.maxCells))
-    : 128;
 
   const { luma, rowDarkness, colDarkness } = computeLumaAndDarkProfiles(
     raw,
@@ -499,12 +816,9 @@ function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
   const xSpacing = detectGridSpacing(colDarkness, minGridPx, maxGridPx);
   const ySpacing = detectGridSpacing(rowDarkness, minGridPx, maxGridPx);
 
-  const chosenSpacing = clamp(
-    Math.round(
-      ((xSpacing ? xSpacing.spacing : minGridPx) +
-        (ySpacing ? ySpacing.spacing : minGridPx)) /
-        (xSpacing && ySpacing ? 2 : 1),
-    ),
+  const chosenSpacing = chooseGridSpacing(
+    xSpacing,
+    ySpacing,
     minGridPx,
     maxGridPx,
   );
@@ -512,45 +826,148 @@ function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
   const phaseX = detectGridPhase(colDarkness, chosenSpacing);
   const phaseY = detectGridPhase(rowDarkness, chosenSpacing);
 
-  const mask = buildFloorMask(luma, width, height, floorLuminanceThreshold);
-  const bounds = findMaskBounds(mask, width, height) || {
-    minX: 0,
-    minY: 0,
-    maxX: width - 1,
-    maxY: height - 1,
-  };
+  const maxCells = Number.isFinite(options.maxCells)
+    ? Math.max(8, Math.floor(options.maxCells))
+    : 128;
 
-  const startX = alignGridStart(phaseX, bounds.minX, chosenSpacing);
-  const startY = alignGridStart(phaseY, bounds.minY, chosenSpacing);
+  const floorRatioMin = Number.isFinite(options.floorRatioMin)
+    ? options.floorRatioMin
+    : 0.36;
+  const floorRatioMax = Number.isFinite(options.floorRatioMax)
+    ? options.floorRatioMax
+    : 0.52;
+  const thresholdTuningStep = Number.isFinite(options.thresholdTuningStep)
+    ? options.thresholdTuningStep
+    : 0.02;
+  const thresholdTuningAttempts = Number.isFinite(
+    options.thresholdTuningAttempts,
+  )
+    ? Math.max(0, Math.floor(options.thresholdTuningAttempts))
+    : 5;
 
-  const gridWidth = clamp(
-    Math.floor((bounds.maxX + 1 - startX) / chosenSpacing),
-    1,
-    maxCells,
-  );
-  const gridHeight = clamp(
-    Math.floor((bounds.maxY + 1 - startY) / chosenSpacing),
-    1,
-    maxCells,
-  );
+  const initialFloorThreshold =
+    explicitFloorLuminanceThreshold !== null
+      ? explicitFloorLuminanceThreshold
+      : computeOtsuThreshold(luma);
 
-  const sampled = sampleCellGrid(
-    mask,
-    width,
-    height,
-    {
+  const sampleAtThreshold = (threshold) => {
+    const mask = buildFloorMask(luma, width, height, threshold);
+    const bounds = findMaskBounds(mask, width, height) || {
+      minX: 0,
+      minY: 0,
+      maxX: width - 1,
+      maxY: height - 1,
+    };
+
+    const startX = alignGridStart(phaseX, bounds.minX, chosenSpacing);
+    const startY = alignGridStart(phaseY, bounds.minY, chosenSpacing);
+
+    const gridWidth = clamp(
+      Math.floor((bounds.maxX + 1 - startX) / chosenSpacing),
+      1,
+      maxCells,
+    );
+    const gridHeight = clamp(
+      Math.floor((bounds.maxY + 1 - startY) / chosenSpacing),
+      1,
+      maxCells,
+    );
+
+    const sampled = sampleCellGrid(
+      mask,
+      width,
+      height,
+      {
+        startX,
+        startY,
+        spacing: chosenSpacing,
+        gridWidth,
+        gridHeight,
+        floorCellRatioThreshold,
+      },
+      options,
+    );
+
+    const floorCellRatio =
+      gridWidth * gridHeight > 0
+        ? sampled.floorCellCount / (gridWidth * gridHeight)
+        : 0;
+
+    return {
+      threshold,
+      mask,
+      bounds,
       startX,
       startY,
-      spacing: chosenSpacing,
       gridWidth,
       gridHeight,
-      floorCellRatioThreshold,
-    },
-    options,
-  );
+      sampled,
+      floorCellRatio,
+    };
+  };
 
-  const floors = compressFloorRects(sampled.cells);
-  const walls = deriveWallSegments(sampled.cells);
+  let extraction = sampleAtThreshold(initialFloorThreshold);
+  const thresholdHistory = [initialFloorThreshold];
+
+  if (explicitFloorLuminanceThreshold === null) {
+    for (let attempt = 0; attempt < thresholdTuningAttempts; attempt++) {
+      if (
+        extraction.floorCellRatio >= floorRatioMin &&
+        extraction.floorCellRatio <= floorRatioMax
+      ) {
+        break;
+      }
+
+      let nextThreshold = extraction.threshold;
+      if (extraction.floorCellRatio > floorRatioMax) {
+        nextThreshold += thresholdTuningStep;
+      } else if (extraction.floorCellRatio < floorRatioMin) {
+        nextThreshold -= thresholdTuningStep;
+      }
+      nextThreshold = clamp(nextThreshold, 0.52, 0.92);
+
+      if (Math.abs(nextThreshold - extraction.threshold) < 1e-6) {
+        break;
+      }
+
+      thresholdHistory.push(nextThreshold);
+      extraction = sampleAtThreshold(nextThreshold);
+    }
+  }
+
+  const floors = compressFloorRects(extraction.sampled.cells);
+  const walls = deriveWallSegments(extraction.sampled.cells);
+
+  const gridInfo = {
+    startX: extraction.startX,
+    startY: extraction.startY,
+    spacing: chosenSpacing,
+    gridWidth: extraction.gridWidth,
+    gridHeight: extraction.gridHeight,
+  };
+
+  const thresholds =
+    options.extractThresholds === false
+      ? []
+      : extractHighConfidenceDoorThresholds(
+          extraction.sampled.cells,
+          luma,
+          width,
+          height,
+          gridInfo,
+          options,
+        );
+  const labels =
+    options.extractLabels === false
+      ? []
+      : extractHighConfidenceLabels(
+          floors,
+          luma,
+          width,
+          height,
+          gridInfo,
+          options,
+        );
 
   const diagnostics = {
     pixelWidth: width,
@@ -560,18 +977,21 @@ function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
     chosenSpacing,
     phaseX,
     phaseY,
-    bounds,
-    floorCellCount: sampled.floorCellCount,
-    floorCellRatio:
-      gridWidth * gridHeight > 0
-        ? sampled.floorCellCount / (gridWidth * gridHeight)
-        : 0,
+    bounds: extraction.bounds,
+    floorLuminanceThreshold: extraction.threshold,
+    floorThresholdMode:
+      explicitFloorLuminanceThreshold !== null ? "manual" : "adaptive-otsu",
+    floorThresholdHistory: thresholdHistory,
+    floorCellCount: extraction.sampled.floorCellCount,
+    floorCellRatio: extraction.floorCellRatio,
+    thresholdCount: thresholds.length,
+    labelCount: labels.length,
   };
 
   const mapIr = createMapIr({
     meta: {
-      width: gridWidth,
-      height: gridHeight,
+      width: extraction.gridWidth,
+      height: extraction.gridHeight,
       cellSizeFt: Number.isFinite(options.cellSizeFt) ? options.cellSizeFt : 10,
       title:
         typeof options.title === "string" && options.title.trim()
@@ -581,15 +1001,15 @@ function extractMapIrFromRaw(raw, width, height, channels = 4, options = {}) {
     grid: {
       cellSizePx: chosenSpacing,
       originPx: {
-        x: startX,
-        y: startY,
+        x: extraction.startX,
+        y: extraction.startY,
       },
-      boundsPx: bounds,
+      boundsPx: extraction.bounds,
     },
     floors,
     walls,
-    thresholds: [],
-    labels: [],
+    thresholds,
+    labels,
     diagnostics,
   });
 
@@ -632,6 +1052,10 @@ module.exports = {
   extractMapIrFromImage,
   detectGridSpacing,
   detectGridPhase,
+  chooseGridSpacing,
+  computeOtsuThreshold,
   compressFloorRects,
   deriveWallSegments,
+  extractHighConfidenceDoorThresholds,
+  extractHighConfidenceLabels,
 };

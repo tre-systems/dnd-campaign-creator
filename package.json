@@ -19,6 +19,7 @@
     "map:ir:batch": "node bin/map-ir.js batch",
     "map:ir:render": "node bin/map-ir.js render",
     "map:ir:benchmark": "node bin/map-ir-benchmark.js",
+    "map:ir:generate": "node bin/map-ir-generate.js",
     "map:quality:score": "node bin/map-quality-score.js score",
     "map:quality:gate": "node bin/map-quality-score.js gate",
     "security:scan": "node bin/security-scan.js",
