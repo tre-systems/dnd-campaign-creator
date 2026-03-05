@@ -341,7 +341,7 @@ async function run() {
     const sectionFile = args[1];
     if (!sectionFile || sectionFile.startsWith("--")) {
       console.error(
-        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--ascii-only] [--cell-size <px>] [--max-attempts <n>] [--allow-invalid] [--no-grid] [--no-labels] [--label-mode <auto|corner|center|none>] [--color-scheme <blue|parchment>] [--style-profile <blue-enhanced|blueprint-strict>]",
+        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--max-attempts <n>] [--allow-invalid]",
       );
       process.exit(1);
     }
@@ -373,8 +373,6 @@ async function generateMap(sectionFile, args) {
   const { layoutConstructed } = require("../src/map/geometry");
   const { routeCorridors } = require("../src/map/corridors");
   const { applyDressing } = require("../src/map/dressing");
-  const { renderSvg } = require("../src/map/render-svg");
-  const { renderAscii } = require("../src/map/render-ascii");
   const { renderPacket } = require("../src/map/packet");
 
   // Parse CLI options
@@ -394,12 +392,6 @@ async function generateMap(sectionFile, args) {
     : 50;
   const validateOnly = args.includes("--validate-only");
   const allowInvalid = args.includes("--allow-invalid");
-  const asciiOnly = args.includes("--ascii-only");
-  const showGrid = !args.includes("--no-grid");
-  const showLabels = !args.includes("--no-labels");
-  const colorScheme = getArg("--color-scheme") || "blue";
-  const styleProfile = getArg("--style-profile") || undefined;
-  const labelMode = getArg("--label-mode") || undefined;
 
   console.error(`Using seed: ${seed}`);
   const rng = createRng(seed);
@@ -483,42 +475,18 @@ async function generateMap(sectionFile, args) {
   // 9. Render outputs
   await fs.mkdir(outputDir, { recursive: true });
 
-  // ASCII map
-  const ascii = renderAscii(geometry, graph);
-  const asciiPath = path.join(outputDir, `${intent.id}-map.txt`);
-  await fs.writeFile(asciiPath, ascii, "utf8");
-  console.log(`\nASCII map: ${asciiPath}`);
-
-  // SVG map
-  let svgFilename = null;
-  if (!asciiOnly) {
-    const svg = renderSvg(geometry, graph, intent, {
-      cellSize,
-      showGrid,
-      showLabels,
-      showRockHatch: true,
-      colorScheme,
-      styleProfile,
-      labelMode,
-    });
-    svgFilename = `${intent.id}-map.svg`;
-    const svgPath = path.join(outputDir, svgFilename);
-    await fs.writeFile(svgPath, svg, "utf8");
-    console.log(`SVG map: ${svgPath}`);
-  }
-
   // Section packet markdown
   const packet = renderPacket(
     geometry,
     graph,
     intent,
-    ascii,
-    svgFilename ? `./${svgFilename}` : null,
+    null, // ASCII removed
+    null, // SVG removed
     allValidation,
   );
   const packetPath = path.join(outputDir, `${intent.id}-packet.md`);
   await fs.writeFile(packetPath, packet, "utf8");
-  console.log(`Section packet: ${packetPath}`);
+  console.log(`Section packet (for prompting): ${packetPath}`);
 
   console.log("\nDone.");
 }

@@ -7,7 +7,6 @@ const { buildIntent, createRng } = require("./intent");
 const { layoutConstructed } = require("./geometry");
 const { routeCorridors } = require("./corridors");
 const { applyDressing } = require("./dressing");
-const { renderAscii } = require("./render-ascii");
 const { validateTopology, validateGeometry } = require("./validate");
 const { createGatehouseSection } = require("./fixtures/gatehouse-ruin");
 
@@ -28,7 +27,6 @@ function generateGatehouseArtifacts(seed) {
   geometry = routeCorridors(geometry, graph, rng, section.connectors || []);
   geometry = applyDressing(geometry, graph, rng);
 
-  const ascii = renderAscii(geometry, graph);
   const topoValidation = validateTopology(graph, intent.grid);
   const geoValidation = validateGeometry(
     geometry,
@@ -41,7 +39,7 @@ function generateGatehouseArtifacts(seed) {
     results: [...topoValidation.results, ...geoValidation.results],
   };
 
-  return { geometry, graph, intent, ascii, validation };
+  return { geometry, graph, intent, ascii: null, validation };
 }
 
 describe("packet", () => {
@@ -75,8 +73,8 @@ describe("packet", () => {
       geometry,
       graph,
       intent,
-      ascii,
-      "./gatehouse-ruin-map.svg",
+      null,
+      null,
       validation,
     );
 

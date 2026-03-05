@@ -28,6 +28,9 @@ function renderPacket(
 ) {
   const sections = [];
 
+  // 0. AI Generation Prompt
+  sections.push(renderPromptInstructions(geometry, graph, intent));
+
   // 1. Section Metadata
   sections.push(renderMetadata(intent));
 
@@ -37,8 +40,8 @@ function renderPacket(
   // 3. Topology Summary
   sections.push(renderTopologySummary(graph));
 
-  // 4. Section Map
-  sections.push(renderMapSection(asciiMap, svgFilename, intent));
+  // 4. Spatial Layout (Technical Reference)
+  sections.push(renderSpatialData(geometry));
 
   // 5. Room Key
   sections.push(renderRoomKey(geometry, graph));
@@ -59,6 +62,36 @@ function renderPacket(
   sections.push(renderDmNotes(graph, intent));
 
   return sections.join("\n\n");
+}
+
+function renderPromptInstructions(geometry, graph, intent) {
+  const labels = buildRoomLabelLookup(geometry);
+  const roomDescriptions = geometry.rooms.map((room) => {
+    const label = labels.get(room.nodeId);
+    return `- **Room ${label} (${room.nodeName})**: Located at (${room.x}, ${room.y}), size ${room.w}x${room.h}. Shape: ${room.shape}. Type: ${room.nodeType}.`;
+  });
+
+  return [
+    `# Map Generation Prompt for Nanobanna 2`,
+    ``,
+    `**Instructions for AI:**`,
+    `You are an expert fantasy cartographer. I need you to draw a D&D dungeon map in the attached "Paratime/TSR blue" reference style.`,
+    `Use the exact structural and thematic information provided below.`,
+    ``,
+    `- **Theme**: ${intent.theme}`,
+    `- **Grid Size**: ${geometry.width} x ${geometry.height} (1 unit = 5 feet)`,
+    `- **Style**: Blue-hued background, solid white floors, textured "rock" borders containing parallel hatching and stippling. Clean, hand-drafted straight lines.`,
+    `- **Content**: Top-down 2D view. Use standard old-school map symbols (doors, stairs, pillars). Include room numbers from the Room Key.`,
+    `- **Grid**: Overlay a subtle square grid over the walkable floor areas.`,
+    ``,
+    `### Room Layout Details`,
+    ...roomDescriptions,
+    ``,
+    `### Corridor and Connector Routing`,
+    `The rooms are connected by a network of corridors. Follow the topology graph and spatial data provided in the Technical Reference section below to ensure accurate placement of doors and passages.`,
+    ``,
+    `Please generate the map image directly matching these specifications.`
+  ].join("\n");
 }
 
 function renderMetadata(intent) {
@@ -131,18 +164,39 @@ function renderTopologySummary(graph) {
   return lines.join("\n");
 }
 
-function renderMapSection(asciiMap, svgFilename, intent) {
-  const lines = [`## Section Map`];
+function renderSpatialData(geometry) {
+  const lines = [
+    `## Spatial Layout (Technical Reference)`,
+    "",
+    "### Room Placement",
+    "",
+    "| Room | X | Y | W | H | Shape |",
+    "| --- | --- | --- | --- | --- | --- |",
+  ];
 
-  if (svgFilename) {
-    lines.push("");
-    lines.push(`![${intent.theme} Map](${svgFilename})`);
+  for (let i = 0; i < geometry.rooms.length; i++) {
+    const room = geometry.rooms[i];
+    const label = roomLabelFromIndex(i);
+    lines.push(
+      `| ${label} | ${room.x} | ${room.y} | ${room.w} | ${room.h} | ${room.shape} |`,
+    );
   }
 
   lines.push("");
-  lines.push("```text");
-  lines.push(asciiMap);
-  lines.push("```");
+  lines.push("### Corridor Paths");
+  lines.push("");
+  lines.push("| Edge | Path (X,Y Coordinates) |");
+  lines.push("| --- | --- |");
+
+  if (geometry.corridors && geometry.corridors.length > 0) {
+    for (const corridor of geometry.corridors) {
+      if (!corridor.path) continue;
+      const pathStr = corridor.path.map((p) => `(${p.x},${p.y})`).join(" -> ");
+      lines.push(`| ${corridor.from} to ${corridor.to} | ${pathStr} |`);
+    }
+  } else {
+    lines.push("| (None generated) | - |");
+  }
 
   return lines.join("\n");
 }
