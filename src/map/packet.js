@@ -71,12 +71,33 @@ function renderPromptInstructions(geometry, graph, intent) {
     return `- **Room ${label} (${room.nodeName})**: Located at (${room.x}, ${room.y}), size ${room.w}x${room.h}. Shape: ${room.shape}. Type: ${room.nodeType}.`;
   });
 
+  // Pick a reference map based on section ID to provide variety
+  const refMaps = [
+    "bluemap003.jpg",
+    "bluemap006.jpg",
+    "bluemap007.jpg",
+    "bluemap008.jpg",
+    "bluemap009.jpg",
+    "bluemap010.jpg",
+    "bluemap011.jpg",
+    "bluemap012.jpg",
+    "bluemap013.jpg",
+  ];
+  // Simple deterministic pick
+  let charSum = 0;
+  for (let i = 0; i < intent.id.length; i++) charSum += intent.id.charCodeAt(i);
+  const refMap = refMaps[charSum % refMaps.length];
+  const refPath = `../../docs/map-review/references/paratime/${refMap}`;
+
   return [
     `# Map Generation Prompt for Nanobanna 2`,
     ``,
     `**Instructions for AI:**`,
-    `You are an expert fantasy cartographer. I need you to draw a D&D dungeon map in the attached "Paratime/TSR blue" reference style.`,
-    `Use the exact structural and thematic information provided below.`,
+    `You are an expert fantasy cartographer. I need you to draw a D&D dungeon map in the style of the reference image embedded below.`,
+    `Use the exact structural and thematic information provided.`,
+    ``,
+    `## Style Reference: ${refMap}`,
+    `![Style Reference](${refPath})`,
     ``,
     `- **Theme**: ${intent.theme}`,
     `- **Grid Size**: ${geometry.width} x ${geometry.height} (1 unit = 5 feet)`,
@@ -84,19 +105,19 @@ function renderPromptInstructions(geometry, graph, intent) {
     `- **Content**: Top-down 2D view. Use standard old-school map symbols (doors, stairs, pillars). Include room numbers from the Room Key.`,
     `- **Grid**: Overlay a subtle square grid over the walkable floor areas.`,
     ``,
-    `### Room Layout Details`,
+    `## Room Layout Details`,
     ...roomDescriptions,
     ``,
-    `### Corridor and Connector Routing`,
+    `## Corridor and Connector Routing`,
     `The rooms are connected by a network of corridors. Follow the topology graph and spatial data provided in the Technical Reference section below to ensure accurate placement of doors and passages.`,
     ``,
-    `Please generate the map image directly matching these specifications.`
+    `Please generate the map image directly matching these specifications.`,
   ].join("\n");
 }
 
 function renderMetadata(intent) {
   return [
-    `# ${intent.theme}`,
+    `## Section Metadata: ${intent.theme}`,
     "",
     `| Field | Value |`,
     `| --- | --- |`,
