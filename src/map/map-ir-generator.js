@@ -5,6 +5,10 @@ const {
   compressFloorRects,
   deriveWallSegments,
 } = require("./map-ir-extractor");
+const {
+  assertValidMapIrProposalModel,
+  computeMapIrStructuralMetrics,
+} = require("./map-ir-proposal-model");
 
 function createSeededRng(seed) {
   let t = seed | 0;
@@ -16,8 +20,25 @@ function createSeededRng(seed) {
   };
 }
 
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
 function randInt(rng, min, max) {
   return min + Math.floor(rng() * (max - min + 1));
+}
+
+function randNormal(rng, mean = 0, stdDev = 1) {
+  // Box-Muller transform.
+  const u1 = Math.max(1e-12, rng());
+  const u2 = rng();
+  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  return mean + z * stdDev;
+}
+
+function pickDiscrete(rng, values, fallback) {
+  if (!Array.isArray(values) || values.length === 0) return fallback;
+  return values[randInt(rng, 0, values.length - 1)];
 }
 
 function makeBoolGrid(width, height, value = false) {
@@ -195,6 +216,136 @@ function countConnectedComponents(cells) {
   return components;
 }
 
+function normalizeMetricDistance(value, metricSummary, fallbackStd) {
+  const mean = Number.isFinite(metricSummary?.mean) ? metricSummary.mean : 0;
+  const stdDev = Number.isFinite(metricSummary?.stdDev)
+    ? metricSummary.stdDev
+    : fallbackStd;
+  const denom = Math.max(fallbackStd, stdDev);
+  return Math.abs(value - mean) / denom;
+}
+
+function scoreMapAgainstProposalModel(mapIr, proposalModel) {
+  const metrics = computeMapIrStructuralMetrics(mapIr);
+
+  let score = 0;
+  score +=
+    normalizeMetricDistance(
+      metrics.floorCellRatio,
+      proposalModel.metrics.floorCellRatio,
+      0.02,
+    ) * 4;
+  score +=
+    normalizeMetricDistance(
+      metrics.floorsPerCell,
+      proposalModel.metrics.floorsPerCell,
+      0.01,
+    ) * 1.4;
+  score +=
+    normalizeMetricDistance(
+      metrics.wallsPerCell,
+      proposalModel.metrics.wallsPerCell,
+      0.02,
+    ) * 1.2;
+  score +=
+    normalizeMetricDistance(
+      metrics.thresholdsPerCell,
+      proposalModel.metrics.thresholdsPerCell,
+      0.00012,
+    ) * 1;
+  score +=
+    normalizeMetricDistance(
+      metrics.labelsPerCell,
+      proposalModel.metrics.labelsPerCell,
+      0.00018,
+    ) * 0.8;
+
+  const components =
+    mapIr?.diagnostics?.generator?.connectedComponents ??
+    metrics.connectedComponents ??
+    0;
+  if (components > 1) {
+    score += (components - 1) * 50;
+  }
+
+  return score;
+}
+
+function sampleGeneratorParamsFromModel(proposalModel, rng, options = {}) {
+  const width =
+    Number.isFinite(options.width) && options.width > 0
+      ? Math.floor(options.width)
+      : pickDiscrete(
+          rng,
+          proposalModel.dimensions.width.values,
+          Math.round(proposalModel.dimensions.width.stats.mean || 64),
+        );
+  const height =
+    Number.isFinite(options.height) && options.height > 0
+      ? Math.floor(options.height)
+      : pickDiscrete(
+          rng,
+          proposalModel.dimensions.height.values,
+          Math.round(proposalModel.dimensions.height.stats.mean || 64),
+        );
+
+  const roomMinSize = clamp(
+    Math.round(
+      randNormal(
+        rng,
+        proposalModel.generatorPriors.roomMinSize,
+        Math.max(0.8, proposalModel.generatorPriors.roomMinSize * 0.1),
+      ),
+    ),
+    3,
+    20,
+  );
+
+  const roomMaxSize = clamp(
+    Math.round(
+      randNormal(
+        rng,
+        proposalModel.generatorPriors.roomMaxSize,
+        Math.max(1.2, proposalModel.generatorPriors.roomMaxSize * 0.12),
+      ),
+    ),
+    roomMinSize + 1,
+    32,
+  );
+
+  const roomCountBase = randNormal(
+    rng,
+    proposalModel.generatorPriors.roomCountMean,
+    proposalModel.generatorPriors.roomCountStd,
+  );
+  const roomCount = clamp(Math.round(roomCountBase), 8, 96);
+
+  const extraConnectionRatio = clamp(
+    randNormal(
+      rng,
+      proposalModel.generatorPriors.extraConnectionRatioMean,
+      proposalModel.generatorPriors.extraConnectionRatioStd,
+    ),
+    0.15,
+    0.8,
+  );
+  const extraConnections = clamp(
+    Math.round(roomCount * extraConnectionRatio),
+    0,
+    roomCount * 2,
+  );
+
+  return {
+    width,
+    height,
+    roomMinSize,
+    roomMaxSize,
+    roomCount,
+    extraConnections,
+    maxPlacementAttempts: proposalModel.generatorPriors.maxPlacementAttempts,
+  };
+}
+
 function generateConstrainedMapIr(options = {}) {
   const seed = Number.isFinite(options.seed) ? options.seed : 1;
   const rng = createSeededRng(seed);
@@ -302,8 +453,85 @@ function generateConstrainedMapIr(options = {}) {
   });
 }
 
+function generateLearnedProposalMapIr(options = {}) {
+  const proposalModel = assertValidMapIrProposalModel(options.model);
+  const seed = Number.isFinite(options.seed) ? options.seed : 1;
+  const attempts = Number.isFinite(options.attempts)
+    ? Math.max(1, Math.floor(options.attempts))
+    : 32;
+  const rng = createSeededRng(seed);
+
+  let best = null;
+  let successfulCandidates = 0;
+
+  for (let i = 0; i < attempts; i++) {
+    const sampled = sampleGeneratorParamsFromModel(proposalModel, rng, {
+      width: options.width,
+      height: options.height,
+    });
+    const candidateSeed = (seed + 1 + i * 7919) | 0;
+
+    let candidate = null;
+    try {
+      candidate = generateConstrainedMapIr({
+        ...sampled,
+        seed: candidateSeed,
+        cellSizeFt: Number.isFinite(options.cellSizeFt)
+          ? options.cellSizeFt
+          : 10,
+        title:
+          typeof options.title === "string" && options.title.trim()
+            ? options.title.trim()
+            : `Learned Proposal Map (seed ${seed})`,
+      });
+    } catch {
+      continue;
+    }
+
+    successfulCandidates++;
+    const proposalScore = scoreMapAgainstProposalModel(
+      candidate,
+      proposalModel,
+    );
+    if (!best || proposalScore < best.proposalScore) {
+      best = {
+        mapIr: candidate,
+        proposalScore,
+      };
+    }
+  }
+
+  if (!best) {
+    throw new Error(
+      "learned proposal generator could not produce a valid candidate",
+    );
+  }
+
+  const diagnostics = best.mapIr.diagnostics || {};
+  const existingGenerator = diagnostics.generator || {};
+
+  best.mapIr.meta.source = "map-ir-generator:learned-proposal";
+  best.mapIr.diagnostics = {
+    ...diagnostics,
+    generator: {
+      ...existingGenerator,
+      strategy: "learned-proposal",
+      baseSeed: seed,
+      proposalScore: best.proposalScore,
+      candidateAttempts: attempts,
+      successfulCandidates,
+      proposalModelVersion: proposalModel.version,
+    },
+  };
+
+  return best.mapIr;
+}
+
 module.exports = {
   generateConstrainedMapIr,
+  generateLearnedProposalMapIr,
+  scoreMapAgainstProposalModel,
+  sampleGeneratorParamsFromModel,
   createSeededRng,
   countConnectedComponents,
 };

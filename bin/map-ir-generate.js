@@ -5,7 +5,13 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
-const { generateConstrainedMapIr } = require("../src/map/map-ir-generator");
+const {
+  generateConstrainedMapIr,
+  generateLearnedProposalMapIr,
+} = require("../src/map/map-ir-generator");
+const {
+  assertValidMapIrProposalModel,
+} = require("../src/map/map-ir-proposal-model");
 const { renderMapIrSvg } = require("../src/map/render-map-ir-svg");
 
 function getArg(args, flag, fallback = null) {
@@ -34,7 +40,7 @@ async function writeTextFile(filePath, contents) {
 function printUsage() {
   console.log("Usage:");
   console.log(
-    "  node bin/map-ir-generate.js --out-dir <json-dir> [--svg-dir <svg-dir>] [--summary <summary.json>] [--count <n>] [--seed <n>] [--width <n>] [--height <n>] [--room-count <n>]",
+    "  node bin/map-ir-generate.js --out-dir <json-dir> [--svg-dir <svg-dir>] [--summary <summary.json>] [--count <n>] [--seed <n>] [--width <n>] [--height <n>] [--room-count <n>] [--model <model.json>] [--attempts <n>]",
   );
 }
 
@@ -65,9 +71,20 @@ async function main() {
     throw new Error("--count must be a positive integer");
   }
 
-  const width = parseIntArg(args, "--width", 64);
-  const height = parseIntArg(args, "--height", 64);
+  const width = parseIntArg(args, "--width", null);
+  const height = parseIntArg(args, "--height", null);
   const roomCount = parseIntArg(args, "--room-count", null);
+  const attempts = parseIntArg(args, "--attempts", 32);
+  if (attempts <= 0) {
+    throw new Error("--attempts must be a positive integer");
+  }
+
+  const modelPath = getArg(args, "--model", null);
+  let proposalModel = null;
+  if (modelPath) {
+    const payload = await fs.readFile(path.resolve(modelPath), "utf8");
+    proposalModel = assertValidMapIrProposalModel(JSON.parse(payload));
+  }
 
   await fs.mkdir(path.resolve(outDir), { recursive: true });
   if (svgDir) {
@@ -79,13 +96,22 @@ async function main() {
   for (let i = 0; i < count; i++) {
     const seed = seedBase + i;
     const id = `generated-seed${seed}`;
-    const mapIr = generateConstrainedMapIr({
-      seed,
-      width,
-      height,
-      roomCount,
-      title: `Generated Map ${i + 1}`,
-    });
+    const mapIr = proposalModel
+      ? generateLearnedProposalMapIr({
+          model: proposalModel,
+          seed,
+          width,
+          height,
+          attempts,
+          title: `Learned Generated Map ${i + 1}`,
+        })
+      : generateConstrainedMapIr({
+          seed,
+          width,
+          height,
+          roomCount,
+          title: `Generated Map ${i + 1}`,
+        });
 
     const jsonPath = path.resolve(outDir, `${id}.map-ir.json`);
     await writeTextFile(jsonPath, `${JSON.stringify(mapIr, null, 2)}\n`);
@@ -112,10 +138,14 @@ async function main() {
       labels: mapIr.labels.length,
       connectedComponents: mapIr.diagnostics.generator.connectedComponents,
       floorCellRatio: mapIr.diagnostics.generator.floorCellRatio,
+      strategy: mapIr.diagnostics.generator.strategy || "constrained",
+      proposalScore: Number.isFinite(mapIr.diagnostics.generator.proposalScore)
+        ? mapIr.diagnostics.generator.proposalScore
+        : null,
     });
 
     console.log(
-      `[${i + 1}/${count}] ${id} floors=${mapIr.floors.length} walls=${mapIr.walls.length} thresholds=${mapIr.thresholds.length}`,
+      `[${i + 1}/${count}] ${id} strategy=${rows[rows.length - 1].strategy} floors=${mapIr.floors.length} walls=${mapIr.walls.length} thresholds=${mapIr.thresholds.length}`,
     );
   }
 
@@ -125,6 +155,8 @@ async function main() {
     svgDir: svgDir ? path.resolve(svgDir) : null,
     count,
     seedBase,
+    modelPath: modelPath ? path.resolve(modelPath) : null,
+    attempts: proposalModel ? attempts : null,
     rows,
   };
 

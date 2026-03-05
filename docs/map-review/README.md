@@ -87,3 +87,7 @@ MapIR vertical-slice harness (Option B exploration):
    `npm run map:ir:batch -- --input-dir docs/map-review/references/paratime --out-dir docs/map-review/map-ir/roundtrip --render-dir docs/map-review/map-ir/roundtrip-svg --summary docs/map-review/map-ir/roundtrip/summary.json`
 4. Run roundtrip benchmark report:
    `npm run map:ir:benchmark -- --references docs/map-review/references/paratime --report docs/map-review/map-ir/benchmark-report.json`
+5. Train supervised proposal model from extracted IR corpus:
+   `npm run map:ir:train -- --input-dir docs/map-review/map-ir/roundtrip --out docs/map-review/map-ir/proposal-model.json`
+6. Generate learned-proposal maps from trained model:
+   `npm run map:ir:generate -- --model docs/map-review/map-ir/proposal-model.json --out-dir docs/map-review/map-ir/generated-learned --svg-dir docs/map-review/map-ir/generated-learned-svg --summary docs/map-review/map-ir/generated-learned/summary.json --count 20 --seed 4000 --attempts 40`

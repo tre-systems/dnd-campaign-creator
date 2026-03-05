@@ -49,6 +49,14 @@ npm run map:ir:benchmark -- \
   --report docs/map-review/map-ir/benchmark-report.json
 ```
 
+Train a supervised MapIR proposal model from extracted corpus IR:
+
+```bash
+npm run map:ir:train -- \
+  --input-dir docs/map-review/map-ir/roundtrip \
+  --out docs/map-review/map-ir/proposal-model.json
+```
+
 Generate constrained MapIR samples (prototype generator):
 
 ```bash
@@ -58,6 +66,19 @@ npm run map:ir:generate -- \
   --summary docs/map-review/map-ir/generated/summary.json \
   --count 20 \
   --seed 2000
+```
+
+Generate learned-proposal maps from a trained model:
+
+```bash
+npm run map:ir:generate -- \
+  --model docs/map-review/map-ir/proposal-model.json \
+  --out-dir docs/map-review/map-ir/generated-learned \
+  --svg-dir docs/map-review/map-ir/generated-learned-svg \
+  --summary docs/map-review/map-ir/generated-learned/summary.json \
+  --count 20 \
+  --seed 4000 \
+  --attempts 40
 ```
 
 ## MapIR Schema (v0.1.0)

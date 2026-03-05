@@ -72,6 +72,21 @@ Recommended next stage:
 3. Add generated-IR style feedback loops only after the model can hit at least
    `40%` joint style + quality pass.
 
+## Stage 2 Supervised Prototype (March 5, 2026)
+
+Initial supervised corpus model (trained from `roundtrip/*.map-ir.json`) and
+learned-proposal generator mode are now implemented.
+
+Proxy benchmark comparison on 20 generated SVG samples (`seed 4000`, same gate):
+
+1. Constrained generator baseline: style pass `0/20` (`0.0%`), usability
+   `20/20`, average style score `54.1`.
+2. Learned-proposal generator: style pass `4/20` (`20.0%`), usability
+   `20/20`, average style score `55.7`.
+
+Interpretation: supervised priors are improving style alignment materially, but
+the generator still needs another iteration to hit the stage target (`>=40%`).
+
 ## Week Exit Gates
 
 1. IR validation pass rate on references: `>= 90%` (18/20).

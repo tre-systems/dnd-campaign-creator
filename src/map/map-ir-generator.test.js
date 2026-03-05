@@ -4,8 +4,10 @@ const assert = require("node:assert/strict");
 const { describe, it } = require("node:test");
 
 const { assertValidMapIr } = require("./map-ir");
+const { trainMapIrProposalModel } = require("./map-ir-proposal-model");
 const {
   generateConstrainedMapIr,
+  generateLearnedProposalMapIr,
   countConnectedComponents,
 } = require("./map-ir-generator");
 
@@ -42,6 +44,79 @@ describe("map-ir-generator", () => {
       width: 40,
       height: 40,
       roomCount: 10,
+    });
+
+    assert.equal(JSON.stringify(a), JSON.stringify(b));
+  });
+
+  it("generates a learned proposal map from trained corpus priors", () => {
+    const corpus = [
+      generateConstrainedMapIr({
+        seed: 100,
+        width: 48,
+        height: 48,
+        roomCount: 14,
+      }),
+      generateConstrainedMapIr({
+        seed: 101,
+        width: 48,
+        height: 48,
+        roomCount: 15,
+      }),
+      generateConstrainedMapIr({
+        seed: 102,
+        width: 48,
+        height: 48,
+        roomCount: 16,
+      }),
+    ];
+    const model = trainMapIrProposalModel(corpus);
+
+    const learned = generateLearnedProposalMapIr({
+      model,
+      seed: 42,
+      attempts: 12,
+    });
+
+    assert.doesNotThrow(() => assertValidMapIr(learned));
+    assert.equal(learned.meta.source, "map-ir-generator:learned-proposal");
+    assert.equal(learned.diagnostics.generator.strategy, "learned-proposal");
+    assert.equal(learned.diagnostics.generator.connectedComponents, 1);
+    assert.ok(Number.isFinite(learned.diagnostics.generator.proposalScore));
+  });
+
+  it("is deterministic for learned generation with same model and seed", () => {
+    const corpus = [
+      generateConstrainedMapIr({
+        seed: 200,
+        width: 52,
+        height: 52,
+        roomCount: 15,
+      }),
+      generateConstrainedMapIr({
+        seed: 201,
+        width: 52,
+        height: 52,
+        roomCount: 16,
+      }),
+      generateConstrainedMapIr({
+        seed: 202,
+        width: 52,
+        height: 52,
+        roomCount: 17,
+      }),
+    ];
+    const model = trainMapIrProposalModel(corpus);
+
+    const a = generateLearnedProposalMapIr({
+      model,
+      seed: 99,
+      attempts: 10,
+    });
+    const b = generateLearnedProposalMapIr({
+      model,
+      seed: 99,
+      attempts: 10,
     });
 
     assert.equal(JSON.stringify(a), JSON.stringify(b));
