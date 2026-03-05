@@ -53,9 +53,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 6721,
         "floorCellRatio": 0.46467090707964603,
         "thresholdCount": 3,
@@ -126,9 +124,7 @@
         },
         "floorLuminanceThreshold": 0.7568627450980392,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7568627450980392
-        ],
+        "floorThresholdHistory": [0.7568627450980392],
         "floorCellCount": 7553,
         "floorCellRatio": 0.49173177083333336,
         "thresholdCount": 5,
@@ -199,9 +195,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 6794,
         "floorCellRatio": 0.4825284090909091,
         "thresholdCount": 1,
@@ -272,9 +266,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7769,
         "floorCellRatio": 0.5143670550847458,
         "thresholdCount": 0,
@@ -345,9 +337,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7605,
         "floorCellRatio": 0.47154017857142855,
         "thresholdCount": 1,
@@ -418,9 +408,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 8065,
         "floorCellRatio": 0.49224853515625,
         "thresholdCount": 1,
@@ -491,9 +479,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 6105,
         "floorCellRatio": 0.37261962890625,
         "thresholdCount": 3,
@@ -564,9 +550,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7382,
         "floorCellRatio": 0.4505615234375,
         "thresholdCount": 7,
@@ -637,9 +621,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7740,
         "floorCellRatio": 0.472412109375,
         "thresholdCount": 2,
@@ -710,9 +692,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7447,
         "floorCellRatio": 0.45452880859375,
         "thresholdCount": 0,
@@ -783,9 +763,7 @@
         },
         "floorLuminanceThreshold": 0.7333333333333333,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7333333333333333
-        ],
+        "floorThresholdHistory": [0.7333333333333333],
         "floorCellCount": 7372,
         "floorCellRatio": 0.449951171875,
         "thresholdCount": 2,
@@ -857,12 +835,8 @@
         "floorLuminanceThreshold": 0.6450980392156862,
         "floorThresholdMode": "adaptive-otsu",
         "floorThresholdHistory": [
-          0.7450980392156863,
-          0.7250980392156863,
-          0.7050980392156863,
-          0.6850980392156862,
-          0.6650980392156862,
-          0.6450980392156862
+          0.7450980392156863, 0.7250980392156863, 0.7050980392156863,
+          0.6850980392156862, 0.6650980392156862, 0.6450980392156862
         ],
         "floorCellCount": 5551,
         "floorCellRatio": 0.33880615234375,
@@ -934,9 +908,7 @@
         },
         "floorLuminanceThreshold": 0.7450980392156863,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7450980392156863
-        ],
+        "floorThresholdHistory": [0.7450980392156863],
         "floorCellCount": 6902,
         "floorCellRatio": 0.4212646484375,
         "thresholdCount": 3,
@@ -1007,9 +979,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 6644,
         "floorCellRatio": 0.405517578125,
         "thresholdCount": 3,
@@ -1080,9 +1050,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7886,
         "floorCellRatio": 0.4813232421875,
         "thresholdCount": 3,
@@ -1153,9 +1121,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 8292,
         "floorCellRatio": 0.506103515625,
         "thresholdCount": 0,
@@ -1226,9 +1192,7 @@
         },
         "floorLuminanceThreshold": 0.7450980392156863,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7450980392156863
-        ],
+        "floorThresholdHistory": [0.7450980392156863],
         "floorCellCount": 8471,
         "floorCellRatio": 0.51702880859375,
         "thresholdCount": 0,
@@ -1299,9 +1263,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7457,
         "floorCellRatio": 0.45513916015625,
         "thresholdCount": 2,
@@ -1372,9 +1334,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7116,
         "floorCellRatio": 0.434326171875,
         "thresholdCount": 2,
@@ -1445,9 +1405,7 @@
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [
-          0.7490196078431373
-        ],
+        "floorThresholdHistory": [0.7490196078431373],
         "floorCellCount": 7765,
         "floorCellRatio": 0.47393798828125,
         "thresholdCount": 6,
