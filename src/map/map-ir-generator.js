@@ -62,6 +62,124 @@ function carveRect(cells, rect, value = true) {
   }
 }
 
+function carveRoomShape(cells, room, rng) {
+  const area = room.w * room.h;
+  let shape = "rect";
+
+  if (room.w >= 8 && room.h >= 8 && area >= 50 && rng() < 0.2) {
+    shape = "ellipse";
+  } else if (room.w >= 7 && room.h >= 7 && area >= 42 && rng() < 0.24) {
+    shape = "chamfer";
+  } else if (room.w >= 8 && room.h >= 6 && area >= 40 && rng() < 0.16) {
+    shape = "capsule";
+  }
+
+  const carvedCells = [];
+  const pushCell = (x, y) => {
+    cells[y][x] = true;
+    carvedCells.push({ x, y });
+  };
+
+  if (shape === "ellipse") {
+    const cx = room.x + (room.w - 1) / 2;
+    const cy = room.y + (room.h - 1) / 2;
+    const rx = Math.max(1, (room.w - 1) / 2);
+    const ry = Math.max(1, (room.h - 1) / 2);
+    for (let y = room.y; y < room.y + room.h; y++) {
+      for (let x = room.x; x < room.x + room.w; x++) {
+        const nx = (x - cx) / rx;
+        const ny = (y - cy) / ry;
+        if (nx * nx + ny * ny <= 1.03) {
+          pushCell(x, y);
+        }
+      }
+    }
+  } else if (shape === "chamfer") {
+    const cut = Math.max(1, Math.floor(Math.min(room.w, room.h) / 4));
+    for (let y = room.y; y < room.y + room.h; y++) {
+      for (let x = room.x; x < room.x + room.w; x++) {
+        const lx = x - room.x;
+        const ly = y - room.y;
+        const dx = Math.min(lx, room.w - 1 - lx);
+        const dy = Math.min(ly, room.h - 1 - ly);
+        if (dx + dy < cut) continue;
+        pushCell(x, y);
+      }
+    }
+  } else if (shape === "capsule") {
+    const horizontal = room.w >= room.h;
+    if (horizontal) {
+      const radius = Math.max(1, (room.h - 1) / 2);
+      const cy = room.y + (room.h - 1) / 2;
+      const left = room.x + radius;
+      const right = room.x + room.w - 1 - radius;
+      for (let y = room.y; y < room.y + room.h; y++) {
+        for (let x = room.x; x < room.x + room.w; x++) {
+          const dy = Math.abs(y - cy);
+          if (dy > radius + 0.12) continue;
+          if (x >= left && x <= right) {
+            pushCell(x, y);
+            continue;
+          }
+          const capX = x < left ? left : right;
+          const nx = x - capX;
+          const ny = y - cy;
+          if (nx * nx + ny * ny <= (radius + 0.2) * (radius + 0.2)) {
+            pushCell(x, y);
+          }
+        }
+      }
+    } else {
+      const radius = Math.max(1, (room.w - 1) / 2);
+      const cx = room.x + (room.w - 1) / 2;
+      const top = room.y + radius;
+      const bottom = room.y + room.h - 1 - radius;
+      for (let y = room.y; y < room.y + room.h; y++) {
+        for (let x = room.x; x < room.x + room.w; x++) {
+          const dx = Math.abs(x - cx);
+          if (dx > radius + 0.12) continue;
+          if (y >= top && y <= bottom) {
+            pushCell(x, y);
+            continue;
+          }
+          const capY = y < top ? top : bottom;
+          const nx = x - cx;
+          const ny = y - capY;
+          if (nx * nx + ny * ny <= (radius + 0.2) * (radius + 0.2)) {
+            pushCell(x, y);
+          }
+        }
+      }
+    }
+  } else {
+    carveRect(cells, room, true);
+    for (let y = room.y; y < room.y + room.h; y++) {
+      for (let x = room.x; x < room.x + room.w; x++) {
+        carvedCells.push({ x, y });
+      }
+    }
+  }
+
+  if (carvedCells.length < Math.max(8, Math.floor(area * 0.52))) {
+    carveRect(cells, room, true);
+    const fallbackCells = [];
+    for (let y = room.y; y < room.y + room.h; y++) {
+      for (let x = room.x; x < room.x + room.w; x++) {
+        fallbackCells.push({ x, y });
+      }
+    }
+    return {
+      shape: "rect",
+      cells: fallbackCells,
+    };
+  }
+
+  return {
+    shape,
+    cells: carvedCells,
+  };
+}
+
 function carveLine(cells, x0, y0, x1, y1) {
   const dx = Math.sign(x1 - x0);
   const dy = Math.sign(y1 - y0);
@@ -82,6 +200,32 @@ function roomCenter(room) {
     x: Math.floor(room.x + room.w / 2),
     y: Math.floor(room.y + room.h / 2),
   };
+}
+
+function resolveRoomLabelCell(room, cells) {
+  const center = roomCenter(room);
+  if (cells[center.y]?.[center.x]) {
+    return center;
+  }
+
+  const maxRadius = Math.max(room.w, room.h);
+  for (let radius = 1; radius <= maxRadius; radius++) {
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== radius) continue;
+        const x = center.x + dx;
+        const y = center.y + dy;
+        if (x < room.x || y < room.y || x >= room.x + room.w || y >= room.y + room.h) {
+          continue;
+        }
+        if (cells[y]?.[x]) {
+          return { x, y };
+        }
+      }
+    }
+  }
+
+  return center;
 }
 
 function connectRooms(cells, rooms, rng, extraConnections = 0) {
@@ -119,13 +263,11 @@ function connectRooms(cells, rooms, rng, extraConnections = 0) {
   return links;
 }
 
-function buildRoomMask(width, height, rooms) {
+function buildRoomMask(width, height, roomFootprints) {
   const mask = Array.from({ length: height }, () => Array(width).fill(-1));
-  rooms.forEach((room, idx) => {
-    for (let y = room.y; y < room.y + room.h; y++) {
-      for (let x = room.x; x < room.x + room.w; x++) {
-        mask[y][x] = idx;
-      }
+  roomFootprints.forEach((cells, idx) => {
+    for (const cell of cells) {
+      mask[cell.y][cell.x] = idx;
     }
   });
   return mask;
@@ -190,16 +332,52 @@ function synthesizeRoomFeatures(cells, rooms, thresholds, rng, options = {}) {
   const maxFeatures = Number.isFinite(options.maxFeatures)
     ? Math.max(0, Math.floor(options.maxFeatures))
     : 72;
+  const reservedCells = Array.isArray(options.reservedCells)
+    ? options.reservedCells.filter(
+        (cell) => cell && Number.isFinite(cell.x) && Number.isFinite(cell.y),
+      )
+    : [];
 
   const features = [];
   const occupied = new Set(
-    (Array.isArray(thresholds) ? thresholds : []).map(
-      (threshold) => `${threshold.x},${threshold.y}`,
-    ),
+    [
+      ...(Array.isArray(thresholds) ? thresholds : []),
+      ...reservedCells,
+    ].map((entry) => `${entry.x},${entry.y}`),
   );
 
   const isFloor = (x, y) =>
     x >= 0 && y >= 0 && x < width && y < height && cells[y][x];
+  const isInsideRoom = (room, x, y) =>
+    x >= room.x && y >= room.y && x < room.x + room.w && y < room.y + room.h;
+
+  const buildRoomCells = (room, inset = 1) => {
+    const x0 = room.x + inset;
+    const y0 = room.y + inset;
+    const x1 = room.x + room.w - 1 - inset;
+    const y1 = room.y + room.h - 1 - inset;
+    const cellsInRoom = [];
+
+    if (x0 > x1 || y0 > y1) {
+      if (inset === 0) return cellsInRoom;
+      return buildRoomCells(room, 0);
+    }
+
+    for (let y = y0; y <= y1; y++) {
+      for (let x = x0; x <= x1; x++) {
+        cellsInRoom.push({ x, y });
+      }
+    }
+    return cellsInRoom;
+  };
+
+  const shuffleInPlace = (list) => {
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = randInt(rng, 0, i);
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  };
 
   const placeFeature = (x, y, type) => {
     if (features.length >= maxFeatures) return false;
@@ -211,54 +389,84 @@ function synthesizeRoomFeatures(cells, rooms, thresholds, rng, options = {}) {
     return true;
   };
 
-  const tryPlaceNearCenter = (room, type, offsets = null) => {
+  const tryPlaceNearCenter = (room, type, offsets = []) => {
     const center = roomCenter(room);
-    const tries = offsets || [
-      [0, 0],
-      [1, 0],
-      [-1, 0],
-      [0, 1],
-      [0, -1],
-      [1, 1],
-      [-1, 1],
-      [1, -1],
-      [-1, -1],
-    ];
+    const tries = offsets.length > 0 ? offsets : [[0, 0]];
     for (const [dx, dy] of tries) {
       const x = center.x + dx;
       const y = center.y + dy;
-      if (
-        x < room.x ||
-        y < room.y ||
-        x >= room.x + room.w ||
-        y >= room.y + room.h
-      ) {
-        continue;
-      }
+      if (!isInsideRoom(room, x, y)) continue;
       if (placeFeature(x, y, type)) return true;
     }
     return false;
   };
 
-  const byAreaDesc = [...rooms]
-    .map((room, idx) => ({ room, idx, area: room.w * room.h }))
-    .sort((a, b) => b.area - a.area);
+  const placeFeatureInRoom = (
+    room,
+    type,
+    { inset = 1, preferEdge = false } = {},
+  ) => {
+    const roomCells = buildRoomCells(room, inset).filter((cell) =>
+      isFloor(cell.x, cell.y),
+    );
+    if (roomCells.length === 0) return false;
 
-  if (byAreaDesc.length > 0) {
-    tryPlaceNearCenter(byAreaDesc[0].room, "stairsDown");
-  }
-  if (byAreaDesc.length > 1) {
-    tryPlaceNearCenter(byAreaDesc[1].room, "stairsUp");
-  }
+    const edgeCells = roomCells.filter((cell) => {
+      const wallInset = Math.max(0, inset);
+      const edgeX0 = room.x + wallInset;
+      const edgeY0 = room.y + wallInset;
+      const edgeX1 = room.x + room.w - 1 - wallInset;
+      const edgeY1 = room.y + room.h - 1 - wallInset;
+      return (
+        cell.x === edgeX0 ||
+        cell.x === edgeX1 ||
+        cell.y === edgeY0 ||
+        cell.y === edgeY1
+      );
+    });
 
-  for (let roomIdx = 0; roomIdx < rooms.length; roomIdx++) {
-    const room = rooms[roomIdx];
-    const area = room.w * room.h;
-
-    if (area >= 24 && rng() < 0.65) {
-      tryPlaceNearCenter(room, "pillar");
+    const primary = preferEdge && edgeCells.length > 0 ? edgeCells : roomCells;
+    const ordered = shuffleInPlace([...primary]);
+    for (const candidate of ordered) {
+      if (placeFeature(candidate.x, candidate.y, type)) return true;
     }
-    if (area >= 56 && rng() < 0.45) {
+
+    if (primary !== roomCells) {
+      const fallback = shuffleInPlace([...roomCells]);
+      for (const candidate of fallback) {
+        if (placeFeature(candidate.x, candidate.y, type)) return true;
+      }
+    }
+
+    return false;
+  };
+
+  const placePillarCluster = (room, area) => {
+    if (area < 24 || rng() >= 0.72) return;
+
+    if (area >= 80 && rng() < 0.7) {
+      const clusterOffsets = shuffleInPlace([
+        [-2, -1],
+        [2, -1],
+        [-2, 1],
+        [2, 1],
+        [-1, -1],
+        [1, -1],
+        [-1, 1],
+        [1, 1],
+      ]);
+      const target = area >= 104 ? 4 : 3;
+      let placed = 0;
+      for (const offset of clusterOffsets) {
+        if (tryPlaceNearCenter(room, "pillar", [offset])) {
+          placed++;
+        }
+        if (placed >= target) break;
+      }
+      return;
+    }
+
+    if (area >= 48 && rng() < 0.62) {
       const axisOffsets =
         rng() < 0.5
           ? [
@@ -273,17 +481,89 @@ function synthesizeRoomFeatures(cells, rooms, thresholds, rng, options = {}) {
               [0, 1],
               [0, -1],
             ];
-      tryPlaceNearCenter(room, "pillar", axisOffsets);
+      let placed = 0;
+      for (const offset of shuffleInPlace([...axisOffsets])) {
+        if (tryPlaceNearCenter(room, "pillar", [offset])) {
+          placed++;
+        }
+        if (placed >= 2) break;
+      }
+      if (placed > 0) return;
     }
 
-    if (area >= 40 && roomIdx % 6 === 0) {
-      tryPlaceNearCenter(room, "well");
-    } else if (area >= 28 && rng() < 0.16) {
-      tryPlaceNearCenter(room, "statue");
+    tryPlaceNearCenter(room, "pillar", [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+      [1, 1],
+      [-1, 1],
+      [1, -1],
+      [-1, -1],
+      [0, 0],
+    ]);
+  };
+
+  const commonCenterOffsets = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+    [2, 0],
+    [-2, 0],
+    [0, 2],
+    [0, -2],
+    [1, 1],
+    [-1, 1],
+    [1, -1],
+    [-1, -1],
+    [0, 0],
+  ];
+
+  const byAreaDesc = [...rooms]
+    .map((room, idx) => ({ room, idx, area: room.w * room.h }))
+    .sort((a, b) => b.area - a.area);
+
+  if (byAreaDesc.length > 0) {
+    tryPlaceNearCenter(
+      byAreaDesc[0].room,
+      "stairsDown",
+      shuffleInPlace([...commonCenterOffsets]),
+    );
+  }
+  if (byAreaDesc.length > 1) {
+    tryPlaceNearCenter(
+      byAreaDesc[1].room,
+      "stairsUp",
+      shuffleInPlace([...commonCenterOffsets]),
+    );
+  }
+
+  for (let roomIdx = 0; roomIdx < rooms.length; roomIdx++) {
+    const room = rooms[roomIdx];
+    const area = room.w * room.h;
+
+    placePillarCluster(room, area);
+
+    if (area >= 44 && rng() < 0.18) {
+      placeFeatureInRoom(room, rng() < 0.5 ? "well" : "altar", {
+        inset: 1,
+      });
+    } else if (area >= 28 && rng() < 0.24) {
+      placeFeatureInRoom(room, "statue", { inset: 1 });
     }
 
-    if (area >= 20 && rng() < 0.14) {
-      tryPlaceNearCenter(room, "trap");
+    if (area >= 20 && rng() < 0.17) {
+      placeFeatureInRoom(room, "trap", { inset: 1 });
+    }
+    if (area >= 20 && rng() < 0.16) {
+      placeFeatureInRoom(room, rng() < 0.52 ? "chest" : "coffin", {
+        inset: 1,
+        preferEdge: true,
+      });
+    }
+    if (area >= 18 && rng() < 0.1) {
+      placeFeatureInRoom(room, "curtain", { inset: 1, preferEdge: true });
     }
   }
 
@@ -484,6 +764,7 @@ function generateConstrainedMapIr(options = {}) {
 
   const cells = makeBoolGrid(width, height, false);
   const rooms = [];
+  const roomFootprints = [];
 
   let attempts = 0;
   while (rooms.length < roomCount && attempts < maxPlacementAttempts) {
@@ -501,8 +782,10 @@ function generateConstrainedMapIr(options = {}) {
       continue;
     }
 
+    const carved = carveRoomShape(cells, room, rng);
+    room.shape = carved.shape;
     rooms.push(room);
-    carveRect(cells, room, true);
+    roomFootprints.push(carved.cells);
   }
 
   if (rooms.length < 4) {
@@ -515,20 +798,20 @@ function generateConstrainedMapIr(options = {}) {
     ? Math.max(0, Math.floor(options.extraConnections))
     : Math.floor(rooms.length * 0.35);
   const links = connectRooms(cells, rooms, rng, extraConnections);
+  const labels = rooms.map((room, idx) => ({
+    ...resolveRoomLabelCell(room, cells),
+    text: String(idx + 1),
+  }));
 
-  const roomMask = buildRoomMask(width, height, rooms);
+  const roomMask = buildRoomMask(width, height, roomFootprints);
   const thresholds = extractDoorThresholds(cells, roomMask, rooms, rng);
   const features = synthesizeRoomFeatures(cells, rooms, thresholds, rng, {
     maxFeatures: options.maxFeatures,
+    reservedCells: labels.map((label) => ({ x: label.x, y: label.y })),
   });
 
   const floors = compressFloorRects(cells);
   const walls = deriveWallSegments(cells);
-  const labels = rooms.map((room, idx) => ({
-    text: String(idx + 1),
-    x: Math.floor(room.x + room.w / 2),
-    y: Math.floor(room.y + room.h / 2),
-  }));
 
   const floorCellCount = cells.reduce(
     (sum, row) => sum + row.filter(Boolean).length,

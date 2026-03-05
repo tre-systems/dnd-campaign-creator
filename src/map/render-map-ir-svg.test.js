@@ -19,13 +19,20 @@ function makeMapIrWithFloorRatio(floorCellRatio) {
       { x1: 1, y1: 1, x2: 5, y2: 1 },
       { x1: 5, y1: 1, x2: 5, y2: 4 },
     ],
-    thresholds: [{ x: 5, y: 2, type: "door" }],
+    thresholds: [
+      { x: 5, y: 2, type: "door" },
+      { x: 4, y: 2, type: "secret" },
+    ],
     labels: [{ text: "1", x: 2, y: 2 }],
     diagnostics: {
       floorCellRatio,
     },
     extensions: {
-      features: [{ x: 2, y: 2, type: "pillar" }],
+      features: [
+        { x: 2, y: 2, type: "pillar" },
+        { x: 3, y: 2, type: "altar" },
+        { x: 3, y: 3, type: "curtain" },
+      ],
     },
   });
 }
@@ -53,7 +60,10 @@ describe("render-map-ir-svg", () => {
     assert.match(svg, /class="features"/);
     assert.match(svg, /class="labels"/);
     assert.match(svg, /data-threshold-type="door"/);
+    assert.match(svg, /data-threshold-type="secret"/);
     assert.match(svg, /data-feature-type="pillar"/);
+    assert.match(svg, /data-feature-type="altar"/);
+    assert.match(svg, /data-feature-type="curtain"/);
     assert.match(svg, />1<\/text>/);
   });
 
