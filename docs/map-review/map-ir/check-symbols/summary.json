@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-03-05T12:14:56.034Z",
+  "outDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/check-symbols",
+  "svgDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/check-symbols-svg",
+  "count": 1,
+  "seedBase": 5100,
+  "modelPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/proposal-model.json",
+  "attempts": 40,
+  "rows": [
+    {
+      "id": "generated-seed5100",
+      "seed": 5100,
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/check-symbols/generated-seed5100.map-ir.json",
+      "svgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/check-symbols-svg/generated-seed5100.svg",
+      "width": 94,
+      "height": 96,
+      "floors": 183,
+      "walls": 612,
+      "thresholds": 35,
+      "labels": 35,
+      "connectedComponents": 1,
+      "floorCellRatio": 0.3622562056737589,
+      "strategy": "learned-proposal",
+      "proposalScore": 36.322877505873976
+    }
+  ]
+}
