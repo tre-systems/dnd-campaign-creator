@@ -83,3 +83,7 @@ MapIR vertical-slice harness (Option B exploration):
    `npm run map:ir:extract -- --input docs/map-review/references/paratime/bluemap001.jpg --out docs/map-review/map-ir/bluemap001.json --diag docs/map-review/map-ir/bluemap001.diag.json`
 2. Render extracted IR back to SVG:
    `npm run map:ir:render -- --input docs/map-review/map-ir/bluemap001.json --out docs/map-review/map-ir/bluemap001.svg`
+3. Batch extract the full reference set:
+   `npm run map:ir:batch -- --input-dir docs/map-review/references/paratime --out-dir docs/map-review/map-ir/roundtrip --render-dir docs/map-review/map-ir/roundtrip-svg --summary docs/map-review/map-ir/roundtrip/summary.json`
+4. Run roundtrip benchmark report:
+   `npm run map:ir:benchmark -- --references docs/map-review/references/paratime --report docs/map-review/map-ir/benchmark-report.json`

@@ -2,6 +2,24 @@
 
 const MAP_IR_VERSION = "0.1.0";
 const THRESHOLD_TYPES = new Set(["door", "locked", "secret"]);
+const ALLOWED_TOP_LEVEL_KEYS = new Set([
+  "version",
+  "meta",
+  "floors",
+  "walls",
+  "thresholds",
+  "labels",
+  "grid",
+  "diagnostics",
+  "extensions",
+]);
+const ALLOWED_META_KEYS = new Set([
+  "width",
+  "height",
+  "cellSizeFt",
+  "title",
+  "source",
+]);
 
 function isObject(value) {
   return !!value && typeof value === "object" && !Array.isArray(value);
@@ -23,7 +41,16 @@ function pushError(errors, path, message) {
   errors.push({ path, message });
 }
 
-function validateRect(rect, path, errors) {
+function validateUnknownKeys(value, allowedKeys, path, errors) {
+  if (!isObject(value)) return;
+  for (const key of Object.keys(value)) {
+    if (!allowedKeys.has(key)) {
+      pushError(errors, `${path}.${key}`, "is not allowed in MapIR v0.1.0");
+    }
+  }
+}
+
+function validateRect(rect, path, errors, bounds = null) {
   if (!isObject(rect)) {
     pushError(errors, path, "must be an object");
     return;
@@ -42,9 +69,26 @@ function validateRect(rect, path, errors) {
   if (!isPositiveInt(rect.h)) {
     pushError(errors, `${path}.h`, "must be a positive integer");
   }
+
+  if (
+    bounds &&
+    isPositiveInt(bounds.width) &&
+    isPositiveInt(bounds.height) &&
+    isNonNegativeInt(rect.x) &&
+    isNonNegativeInt(rect.y) &&
+    isPositiveInt(rect.w) &&
+    isPositiveInt(rect.h)
+  ) {
+    if (rect.x + rect.w > bounds.width) {
+      pushError(errors, `${path}.x`, "rectangle exceeds meta.width bounds");
+    }
+    if (rect.y + rect.h > bounds.height) {
+      pushError(errors, `${path}.y`, "rectangle exceeds meta.height bounds");
+    }
+  }
 }
 
-function validateWall(wall, path, errors) {
+function validateWall(wall, path, errors, bounds = null) {
   if (!isObject(wall)) {
     pushError(errors, path, "must be an object");
     return;
@@ -72,9 +116,41 @@ function validateWall(wall, path, errors) {
       pushError(errors, path, "wall segment must be axis-aligned");
     }
   }
+
+  if (
+    bounds &&
+    isPositiveInt(bounds.width) &&
+    isPositiveInt(bounds.height) &&
+    isFiniteNumber(wall.x1) &&
+    isFiniteNumber(wall.y1) &&
+    isFiniteNumber(wall.x2) &&
+    isFiniteNumber(wall.y2)
+  ) {
+    const points = [
+      { x: wall.x1, y: wall.y1, key: "x1" },
+      { x: wall.x2, y: wall.y2, key: "x2" },
+    ];
+    for (const point of points) {
+      if (point.x < 0 || point.x > bounds.width) {
+        pushError(
+          errors,
+          `${path}.${point.key}`,
+          "must be within 0..meta.width (edge coordinates)",
+        );
+      }
+      if (point.y < 0 || point.y > bounds.height) {
+        const yKey = point.key === "x1" ? "y1" : "y2";
+        pushError(
+          errors,
+          `${path}.${yKey}`,
+          "must be within 0..meta.height (edge coordinates)",
+        );
+      }
+    }
+  }
 }
 
-function validateThreshold(threshold, path, errors) {
+function validateThreshold(threshold, path, errors, bounds = null) {
   if (!isObject(threshold)) {
     pushError(errors, path, "must be an object");
     return;
@@ -97,9 +173,24 @@ function validateThreshold(threshold, path, errors) {
       `must be one of: ${Array.from(THRESHOLD_TYPES).join(", ")}`,
     );
   }
+
+  if (
+    bounds &&
+    isPositiveInt(bounds.width) &&
+    isPositiveInt(bounds.height) &&
+    isNonNegativeInt(threshold.x) &&
+    isNonNegativeInt(threshold.y)
+  ) {
+    if (threshold.x >= bounds.width) {
+      pushError(errors, `${path}.x`, "must be within 0..meta.width-1");
+    }
+    if (threshold.y >= bounds.height) {
+      pushError(errors, `${path}.y`, "must be within 0..meta.height-1");
+    }
+  }
 }
 
-function validateLabel(label, path, errors) {
+function validateLabel(label, path, errors, bounds = null) {
   if (!isObject(label)) {
     pushError(errors, path, "must be an object");
     return;
@@ -115,6 +206,21 @@ function validateLabel(label, path, errors) {
   if (!isFiniteNumber(label.y)) {
     pushError(errors, `${path}.y`, "must be a finite number");
   }
+
+  if (
+    bounds &&
+    isPositiveInt(bounds.width) &&
+    isPositiveInt(bounds.height) &&
+    isFiniteNumber(label.x) &&
+    isFiniteNumber(label.y)
+  ) {
+    if (label.x < 0 || label.x >= bounds.width) {
+      pushError(errors, `${path}.x`, "must be within 0..meta.width");
+    }
+    if (label.y < 0 || label.y >= bounds.height) {
+      pushError(errors, `${path}.y`, "must be within 0..meta.height");
+    }
+  }
 }
 
 function validateMapIr(mapIr) {
@@ -127,22 +233,29 @@ function validateMapIr(mapIr) {
     };
   }
 
-  if (mapIr.version !== undefined && mapIr.version !== MAP_IR_VERSION) {
-    pushError(
-      errors,
-      "version",
-      `unsupported version \"${mapIr.version}\" (expected ${MAP_IR_VERSION})`,
-    );
+  validateUnknownKeys(mapIr, ALLOWED_TOP_LEVEL_KEYS, "mapIr", errors);
+
+  if (mapIr.version !== MAP_IR_VERSION) {
+    pushError(errors, "version", `must equal ${MAP_IR_VERSION}`);
   }
+
+  let metaWidth = null;
+  let metaHeight = null;
 
   if (!isObject(mapIr.meta)) {
     pushError(errors, "meta", "must be an object");
   } else {
+    validateUnknownKeys(mapIr.meta, ALLOWED_META_KEYS, "meta", errors);
+
     if (!isPositiveInt(mapIr.meta.width)) {
       pushError(errors, "meta.width", "must be a positive integer");
+    } else {
+      metaWidth = mapIr.meta.width;
     }
     if (!isPositiveInt(mapIr.meta.height)) {
       pushError(errors, "meta.height", "must be a positive integer");
+    } else {
+      metaHeight = mapIr.meta.height;
     }
     if (
       mapIr.meta.cellSizeFt !== undefined &&
@@ -152,11 +265,16 @@ function validateMapIr(mapIr) {
     }
   }
 
+  const bounds = {
+    width: metaWidth,
+    height: metaHeight,
+  };
+
   if (!Array.isArray(mapIr.floors)) {
     pushError(errors, "floors", "must be an array");
   } else {
     mapIr.floors.forEach((rect, idx) => {
-      validateRect(rect, `floors[${idx}]`, errors);
+      validateRect(rect, `floors[${idx}]`, errors, bounds);
     });
   }
 
@@ -164,7 +282,7 @@ function validateMapIr(mapIr) {
     pushError(errors, "walls", "must be an array");
   } else {
     mapIr.walls.forEach((wall, idx) => {
-      validateWall(wall, `walls[${idx}]`, errors);
+      validateWall(wall, `walls[${idx}]`, errors, bounds);
     });
   }
 
@@ -173,7 +291,7 @@ function validateMapIr(mapIr) {
       pushError(errors, "thresholds", "must be an array if provided");
     } else {
       mapIr.thresholds.forEach((threshold, idx) => {
-        validateThreshold(threshold, `thresholds[${idx}]`, errors);
+        validateThreshold(threshold, `thresholds[${idx}]`, errors, bounds);
       });
     }
   }
@@ -183,7 +301,7 @@ function validateMapIr(mapIr) {
       pushError(errors, "labels", "must be an array if provided");
     } else {
       mapIr.labels.forEach((label, idx) => {
-        validateLabel(label, `labels[${idx}]`, errors);
+        validateLabel(label, `labels[${idx}]`, errors, bounds);
       });
     }
   }

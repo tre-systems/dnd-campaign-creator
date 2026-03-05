@@ -53,6 +53,31 @@ describe("map-ir", () => {
     );
   });
 
+  it("rejects unknown keys and out-of-bounds geometry", () => {
+    const mapIr = {
+      version: MAP_IR_VERSION,
+      meta: {
+        width: 4,
+        height: 4,
+        unknownMeta: true,
+      },
+      floors: [{ x: 3, y: 3, w: 2, h: 2 }],
+      walls: [{ x1: 0, y1: 0, x2: 6, y2: 0 }],
+      thresholds: [{ x: 4, y: 1, type: "door" }],
+      labels: [{ text: "X", x: 4, y: 2 }],
+      extraField: "not-allowed",
+    };
+
+    const result = validateMapIr(mapIr);
+    assert.equal(result.valid, false);
+    assert.ok(result.errors.some((error) => error.path === "mapIr.extraField"));
+    assert.ok(result.errors.some((error) => error.path === "meta.unknownMeta"));
+    assert.ok(result.errors.some((error) => error.path === "floors[0].x"));
+    assert.ok(result.errors.some((error) => error.path === "walls[0].x2"));
+    assert.ok(result.errors.some((error) => error.path === "thresholds[0].x"));
+    assert.ok(result.errors.some((error) => error.path === "labels[0].x"));
+  });
+
   it("creates and validates defaults from partial input", () => {
     const created = createMapIr({
       meta: { width: 6, height: 4 },

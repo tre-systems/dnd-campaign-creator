@@ -41,10 +41,47 @@ async function writeTextFile(filePath, contents) {
   return absPath;
 }
 
+async function listImageFiles(dirPath) {
+  const entries = await fs.readdir(path.resolve(dirPath));
+  return entries
+    .filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
+    .sort()
+    .map((name) => path.join(path.resolve(dirPath), name));
+}
+
+function fileStem(filePath) {
+  const ext = path.extname(filePath);
+  return path.basename(filePath, ext);
+}
+
+function buildExtractOptions(args) {
+  return {
+    title: getArg(args, "--title", null),
+    cellSizeFt: parseFiniteArg(args, "--cell-size-ft", 10),
+    minGridPx: parseIntArg(args, "--min-grid-px", 8),
+    maxGridPx: parseIntArg(args, "--max-grid-px", 80),
+    floorLuminanceThreshold: parseFiniteArg(
+      args,
+      "--floor-luma-threshold",
+      0.78,
+    ),
+    floorCellRatioThreshold: parseFiniteArg(
+      args,
+      "--floor-cell-threshold",
+      0.38,
+    ),
+    maxCells: parseIntArg(args, "--max-cells", 128),
+    maxSize: parseIntArg(args, "--max-size", 1600),
+  };
+}
+
 function printUsage() {
   console.log("Usage:");
   console.log(
     "  node bin/map-ir.js extract --input <image> --out <map-ir.json> [--diag <diagnostics.json>] [--title <title>] [--cell-size-ft <n>] [--min-grid-px <n>] [--max-grid-px <n>]",
+  );
+  console.log(
+    "  node bin/map-ir.js batch --input-dir <images> --out-dir <map-ir-dir> [--diag-dir <diag-dir>] [--render-dir <svg-dir>] [--summary <summary.json>] [--limit <n>] [extract options]",
   );
   console.log(
     "  node bin/map-ir.js render --input <map-ir.json> --out <map.svg> [--cell-size <n>]",
@@ -66,24 +103,10 @@ async function runExtract(args) {
     throw new Error("extract requires --out <map-ir.json>");
   }
 
-  const result = await extractMapIrFromImage(path.resolve(inputPath), {
-    title: getArg(args, "--title", null),
-    cellSizeFt: parseFiniteArg(args, "--cell-size-ft", 10),
-    minGridPx: parseIntArg(args, "--min-grid-px", 8),
-    maxGridPx: parseIntArg(args, "--max-grid-px", 80),
-    floorLuminanceThreshold: parseFiniteArg(
-      args,
-      "--floor-luma-threshold",
-      0.78,
-    ),
-    floorCellRatioThreshold: parseFiniteArg(
-      args,
-      "--floor-cell-threshold",
-      0.38,
-    ),
-    maxCells: parseIntArg(args, "--max-cells", 128),
-    maxSize: parseIntArg(args, "--max-size", 1600),
-  });
+  const result = await extractMapIrFromImage(
+    path.resolve(inputPath),
+    buildExtractOptions(args),
+  );
 
   const irOut = await writeTextFile(
     outputPath,
@@ -109,6 +132,106 @@ async function runExtract(args) {
   }
 
   return result.mapIr;
+}
+
+async function runBatch(args) {
+  const inputDir = getArg(args, "--input-dir", null);
+  const outDir = getArg(args, "--out-dir", null);
+
+  if (!inputDir) {
+    throw new Error("batch requires --input-dir <images>");
+  }
+  if (!outDir) {
+    throw new Error("batch requires --out-dir <map-ir-dir>");
+  }
+
+  const diagDir = getArg(args, "--diag-dir", path.join(outDir, "diagnostics"));
+  const renderDir = getArg(args, "--render-dir", null);
+  const summaryPath = getArg(
+    args,
+    "--summary",
+    path.join(outDir, "summary.json"),
+  );
+  const limit = parseIntArg(args, "--limit", null);
+  if (limit !== null && limit <= 0) {
+    throw new Error("--limit must be a positive integer");
+  }
+
+  const images = await listImageFiles(inputDir);
+  if (images.length === 0) {
+    throw new Error(`no image files found under ${path.resolve(inputDir)}`);
+  }
+
+  const selected = limit ? images.slice(0, limit) : images;
+  const extractOptions = buildExtractOptions(args);
+
+  await fs.mkdir(path.resolve(outDir), { recursive: true });
+  await fs.mkdir(path.resolve(diagDir), { recursive: true });
+  if (renderDir) {
+    await fs.mkdir(path.resolve(renderDir), { recursive: true });
+  }
+
+  const results = [];
+
+  for (const imagePath of selected) {
+    const stem = fileStem(imagePath);
+    const irPath = path.resolve(outDir, `${stem}.map-ir.json`);
+    const diagPath = path.resolve(diagDir, `${stem}.diag.json`);
+
+    const result = await extractMapIrFromImage(imagePath, {
+      ...extractOptions,
+      title: extractOptions.title || stem,
+    });
+
+    await writeTextFile(irPath, `${JSON.stringify(result.mapIr, null, 2)}\n`);
+    await writeTextFile(
+      diagPath,
+      `${JSON.stringify(result.diagnostics, null, 2)}\n`,
+    );
+
+    let renderedPath = null;
+    if (renderDir) {
+      const svgPath = path.resolve(renderDir, `${stem}.roundtrip.svg`);
+      const svg = renderMapIrSvg(result.mapIr, {
+        cellSize: parseFiniteArg(args, "--cell-size", 20),
+      });
+      await writeTextFile(svgPath, svg);
+      renderedPath = svgPath;
+    }
+
+    const summaryRow = {
+      sourceImage: imagePath,
+      mapIrPath: irPath,
+      diagnosticsPath: diagPath,
+      roundtripSvgPath: renderedPath,
+      width: result.mapIr.meta.width,
+      height: result.mapIr.meta.height,
+      floorCellCount: result.diagnostics.floorCellCount,
+      floorCellRatio: result.diagnostics.floorCellRatio,
+      chosenSpacing: result.diagnostics.chosenSpacing,
+    };
+    results.push(summaryRow);
+
+    console.log(
+      `[${results.length}/${selected.length}] ${path.basename(imagePath)} -> ${path.basename(irPath)} (${summaryRow.width}x${summaryRow.height}, floor ${(summaryRow.floorCellRatio * 100).toFixed(1)}%)`,
+    );
+  }
+
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    sourceDir: path.resolve(inputDir),
+    outputDir: path.resolve(outDir),
+    diagnosticsDir: path.resolve(diagDir),
+    renderDir: renderDir ? path.resolve(renderDir) : null,
+    mapCount: results.length,
+    results,
+  };
+
+  const summaryOut = await writeTextFile(
+    summaryPath,
+    `${JSON.stringify(payload, null, 2)}\n`,
+  );
+  console.log(`Wrote batch summary to ${summaryOut}`);
 }
 
 async function runRender(args, mapIrOverride = null) {
@@ -148,6 +271,11 @@ async function main() {
 
   if (command === "extract") {
     await runExtract(args);
+    return;
+  }
+
+  if (command === "batch") {
+    await runBatch(args);
     return;
   }
 
