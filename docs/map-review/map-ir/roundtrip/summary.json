@@ -1,0 +1,230 @@
+{
+  "generatedAt": "2026-03-05T09:36:49.781Z",
+  "sourceDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime",
+  "outputDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip",
+  "diagnosticsDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag",
+  "renderDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg",
+  "mapCount": 20,
+  "results": [
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap001.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap001.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap001.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap001.roundtrip.svg",
+      "width": 93,
+      "height": 96,
+      "floorCellCount": 3991,
+      "floorCellRatio": 0.4470206093189964,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap002.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap002.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap002.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap002.roundtrip.svg",
+      "width": 80,
+      "height": 96,
+      "floorCellCount": 3872,
+      "floorCellRatio": 0.5041666666666667,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap003.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap003.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap003.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap003.roundtrip.svg",
+      "width": 90,
+      "height": 96,
+      "floorCellCount": 4060,
+      "floorCellRatio": 0.4699074074074074,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap004.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap004.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap004.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap004.roundtrip.svg",
+      "width": 94,
+      "height": 96,
+      "floorCellCount": 4668,
+      "floorCellRatio": 0.5172872340425532,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap006.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap006.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap006.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap006.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4441,
+      "floorCellRatio": 0.4818793402777778,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap007.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap007.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap007.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap007.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4571,
+      "floorCellRatio": 0.4959852430555556,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap008.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap008.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap008.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap008.roundtrip.svg",
+      "width": 94,
+      "height": 96,
+      "floorCellCount": 3649,
+      "floorCellRatio": 0.4043661347517731,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap009.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap009.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap009.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap009.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4289,
+      "floorCellRatio": 0.4653862847222222,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap010.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap010.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap010.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap010.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4323,
+      "floorCellRatio": 0.4690755208333333,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap011.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap011.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap011.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap011.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4206,
+      "floorCellRatio": 0.4563802083333333,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap012.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap012.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap012.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap012.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4280,
+      "floorCellRatio": 0.4644097222222222,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap013.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap013.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap013.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap013.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 3193,
+      "floorCellRatio": 0.3464626736111111,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap014b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap014b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap014b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap014b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4142,
+      "floorCellRatio": 0.4494357638888889,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap015b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap015b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap015b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap015b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4000,
+      "floorCellRatio": 0.4340277777777778,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap016b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap016b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap016b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap016b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4675,
+      "floorCellRatio": 0.5072699652777778,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap017b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap017b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap017b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap017b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4575,
+      "floorCellRatio": 0.4964192708333333,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap018b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap018b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap018b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap018b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4767,
+      "floorCellRatio": 0.5172526041666666,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap019b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap019b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap019b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap019b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4249,
+      "floorCellRatio": 0.4610460069444444,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap020b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap020b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap020b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap020b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4186,
+      "floorCellRatio": 0.4542100694444444,
+      "chosenSpacing": 8
+    },
+    {
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap021b.jpg",
+      "mapIrPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip/bluemap021b.map-ir.json",
+      "diagnosticsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-diag/bluemap021b.diag.json",
+      "roundtripSvgPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/roundtrip-svg/bluemap021b.roundtrip.svg",
+      "width": 96,
+      "height": 96,
+      "floorCellCount": 4572,
+      "floorCellRatio": 0.49609375,
+      "chosenSpacing": 8
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-03-05T09:14:20.795Z",
+  "sourcePlan": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/prompt-experiments/baseline-plan.json",
+  "promptCount": 6,
+  "prompts": [
+    {
+      "id": "prompt-001",
+      "variables": {
+        "theme": "ancient dwarven archive",
+        "caveFraction": "0.05"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "ancient dwarven archive",
+        "caveFraction": "0.05"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: ancient dwarven archive; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.05; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    },
+    {
+      "id": "prompt-002",
+      "variables": {
+        "theme": "ancient dwarven archive",
+        "caveFraction": "0.15"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "ancient dwarven archive",
+        "caveFraction": "0.15"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: ancient dwarven archive; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.15; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    },
+    {
+      "id": "prompt-003",
+      "variables": {
+        "theme": "sunken temple undercrofts",
+        "caveFraction": "0.05"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "sunken temple undercrofts",
+        "caveFraction": "0.05"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: sunken temple undercrofts; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.05; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    },
+    {
+      "id": "prompt-004",
+      "variables": {
+        "theme": "sunken temple undercrofts",
+        "caveFraction": "0.15"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "sunken temple undercrofts",
+        "caveFraction": "0.15"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: sunken temple undercrofts; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.15; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    },
+    {
+      "id": "prompt-005",
+      "variables": {
+        "theme": "clockwork citadel vault",
+        "caveFraction": "0.05"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "clockwork citadel vault",
+        "caveFraction": "0.05"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: clockwork citadel vault; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.05; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    },
+    {
+      "id": "prompt-006",
+      "variables": {
+        "theme": "clockwork citadel vault",
+        "caveFraction": "0.15"
+      },
+      "config": {
+        "complexity": "high",
+        "roomCount": "30-45",
+        "emphasis": [
+          "loop-capable topology",
+          "clear threshold door symbols",
+          "set-piece chamber"
+        ],
+        "avoid": ["perspective projection", "overly dense hatching"],
+        "theme": "clockwork citadel vault",
+        "caveFraction": "0.15"
+      },
+      "prompt": "old-school TSR-style dungeon blueprint map; medium-blue background with white playable space; visible square grid with 10 ft by 10 ft scale logic; crisp orthogonal linework with restrained diagonal connectors; numbered rooms and compact cartography symbols; flat technical drafting style with no perspective; theme: clockwork citadel vault; layout complexity: high; target room count: 30-45; cave/organic area fraction: 0.15; feature emphasis: loop-capable topology, clear threshold door symbols, set-piece chamber; avoid: perspective projection, overly dense hatching. Negative prompt: no painterly rendering; no isometric view; no characters or monsters; no dramatic lighting; no photoreal textures; no decorative fantasy illustration framing."
+    }
+  ]
+}

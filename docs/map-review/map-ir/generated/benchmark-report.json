@@ -1,0 +1,1820 @@
+{
+  "generatedAt": "2026-03-05T09:39:33.669Z",
+  "referencesDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg",
+  "mapCount": 20,
+  "referenceMetricsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/reference-style-metrics.json",
+  "gate": {
+    "minScore": 45,
+    "maxAbsDelta": {
+      "luminanceMean": 0.12,
+      "saturationMean": 0.08,
+      "inkCoverage": 0.08,
+      "orthogonalEdgeRatio": 0.16
+    }
+  },
+  "summary": {
+    "stylePassCount": 0,
+    "stylePassRate": 0,
+    "usablePassCount": 20,
+    "usablePassRate": 1,
+    "averageStyleScore": 31.265075185147953
+  },
+  "rows": [
+    {
+      "id": "generated-seed2000",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2000.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 70,
+        "wallSegments": 224,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.789807099050301
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.8087064980714561
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 33,
+          "maxX": 942,
+          "maxY": 942
+        },
+        "floorLuminanceThreshold": 0.8647058823529412,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7847058823529411, 0.8047058823529412,
+          0.8247058823529412, 0.8447058823529412, 0.8647058823529412
+        ],
+        "floorCellCount": 4804,
+        "floorCellRatio": 0.5212673611111112,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 66.60103979070698,
+        "passed": false,
+        "failures": [
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.16836543748695865,
+            "signedDelta": 0.16836543748695865
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.004131315416010528,
+          "luminanceStd": -0.007346306119073193,
+          "saturationMean": 0.002714108000267834,
+          "blueCast": 0.004943734711086223,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.05698635140330639,
+          "orthogonalEdgeRatio": 0.16836543748695865,
+          "textureDensity": -0.04990715109573239
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2001",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2001.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 45,
+        "wallSegments": 134,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7605661323084141
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7604633462130752
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 65,
+          "minY": 65,
+          "maxX": 990,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3064,
+        "floorCellRatio": 0.3324652777777778,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 24.242271120493037,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 24.242271120493037
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.11419666101777409,
+            "signedDelta": 0.11419666101777409
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1747076897895764,
+            "signedDelta": 0.1747076897895764
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.08635467539366648,
+          "luminanceStd": -0.02030096165829462,
+          "saturationMean": 0.11419666101777409,
+          "blueCast": 0.08821073719088982,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06943156478277582,
+          "orthogonalEdgeRatio": 0.1747076897895764,
+          "textureDensity": -0.06262533640907342
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2002",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2002.svg",
+      "map": {
+        "width": 92,
+        "height": 96,
+        "floorRects": 55,
+        "wallSegments": 180,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7897726061679642
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7516307338774755
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 257,
+          "minY": 49,
+          "maxX": 990,
+          "maxY": 926
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3116,
+        "floorCellRatio": 0.35280797101449274,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 30.671505976101543,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 30.671505976101543
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.08559162416462812,
+            "signedDelta": 0.08559162416462812
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.16918461846893929,
+            "signedDelta": 0.16918461846893929
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.0649067243385214,
+          "luminanceStd": -0.013266941981853353,
+          "saturationMean": 0.08559162416462812,
+          "blueCast": 0.0666740335198295,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.05529084967320258,
+          "orthogonalEdgeRatio": 0.16918461846893929,
+          "textureDensity": -0.06019934640522874
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2003",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2003.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 50,
+        "wallSegments": 164,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6905631820715676
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.6786926833154184
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 65,
+          "minY": 33,
+          "maxX": 990,
+          "maxY": 990
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3288,
+        "floorCellRatio": 0.3567708333333333,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 27.257116895030585,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 27.257116895030585
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.10032090443260494,
+            "signedDelta": 0.10032090443260494
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17390707377356907,
+            "signedDelta": 0.17390707377356907
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.07619999301928015,
+          "luminanceStd": -0.01704230346867494,
+          "saturationMean": 0.10032090443260494,
+          "blueCast": 0.07787962446007665,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06248039215686271,
+          "orthogonalEdgeRatio": 0.17390707377356907,
+          "textureDensity": -0.05761572472126104
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2004",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2004.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 55,
+        "wallSegments": 160,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6657031997713582
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7998123625665997
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 81,
+          "minY": 161,
+          "maxX": 990,
+          "maxY": 990
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3448,
+        "floorCellRatio": 0.3741319444444444,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 27.955890230738166,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 27.955890230738166
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.08914774185095059,
+            "signedDelta": 0.08914774185095059
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17150210542376665,
+            "signedDelta": 0.17150210542376665
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.06784345128694491,
+          "luminanceStd": -0.01423678867663336,
+          "saturationMean": 0.08914774185095059,
+          "blueCast": 0.06944185817904533,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06748615916955014,
+          "orthogonalEdgeRatio": 0.17150210542376665,
+          "textureDensity": -0.061064398308342926
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2005",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2005.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 55,
+        "wallSegments": 194,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6626831060782442
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.6751118596642995
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 49,
+          "minY": 33,
+          "maxX": 990,
+          "maxY": 990
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3300,
+        "floorCellRatio": 0.3580729166666667,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 28.048558249152535,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 28.048558249152535
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.09999366182963132,
+            "signedDelta": 0.09999366182963132
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17161933797757267,
+            "signedDelta": 0.17161933797757267
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.07604947534851259,
+          "luminanceStd": -0.017254665838452365,
+          "saturationMean": 0.09999366182963132,
+          "blueCast": 0.07768992180904963,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.05863571703191077,
+          "orthogonalEdgeRatio": 0.17161933797757267,
+          "textureDensity": -0.056245098039215666
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2006",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2006.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 46,
+        "wallSegments": 122,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7896543468836683
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.818380724375678
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 145,
+          "maxX": 926,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3564,
+        "floorCellRatio": 0.38671875,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 28.500529449657414,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 28.500529449657414
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.08178753573599723,
+            "signedDelta": 0.08178753573599723
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17523556656062056,
+            "signedDelta": 0.17523556656062056
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.06236234384803829,
+          "luminanceStd": -0.012769200990290913,
+          "saturationMean": 0.08178753573599723,
+          "blueCast": 0.06392522250878982,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.07074644367550939,
+          "orthogonalEdgeRatio": 0.17523556656062056,
+          "textureDensity": -0.06218319876970394
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2007",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2007.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 39,
+        "wallSegments": 136,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6770141534934772
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.6335864714068554
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 81,
+          "minY": 49,
+          "maxX": 990,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3060,
+        "floorCellRatio": 0.33203125,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 24.939193568687685,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 24.939193568687685
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.114337706594689,
+            "signedDelta": 0.114337706594689
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1767783612000965,
+            "signedDelta": 0.1767783612000965
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.08648853763276676,
+          "luminanceStd": -0.020321086167707475,
+          "saturationMean": 0.114337706594689,
+          "blueCast": 0.0883106373804288,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06645578623606302,
+          "orthogonalEdgeRatio": 0.1767783612000965,
+          "textureDensity": -0.061108612072279876
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2008",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2008.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 46,
+        "wallSegments": 162,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7979821500514542
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.8030274581730679
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 33,
+          "maxX": 974,
+          "maxY": 910
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3256,
+        "floorCellRatio": 0.3532986111111111,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 24.550453012764446,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 24.550453012764446
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.10172106846684237,
+            "signedDelta": 0.10172106846684237
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17140453695325053,
+            "signedDelta": 0.17140453695325053
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.07706280184235703,
+          "luminanceStd": -0.016808149861947952,
+          "saturationMean": 0.10172106846684237,
+          "blueCast": 0.07881413553255265,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.0722420222991157,
+          "orthogonalEdgeRatio": 0.17140453695325053,
+          "textureDensity": -0.06461687812379852
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2009",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2009.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 53,
+        "wallSegments": 190,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7558708990062596
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7277113524916604
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 113,
+          "minY": 81,
+          "maxX": 958,
+          "maxY": 942
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 2984,
+        "floorCellRatio": 0.3237847222222222,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 25.32930481513782,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 25.32930481513782
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.11978847432802475,
+            "signedDelta": 0.11978847432802475
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17016654426201827,
+            "signedDelta": 0.17016654426201827
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.09059862384536443,
+          "luminanceStd": -0.022199222496785825,
+          "saturationMean": 0.11978847432802475,
+          "blueCast": 0.09245505912610072,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06380296039984618,
+          "orthogonalEdgeRatio": 0.17016654426201827,
+          "textureDensity": -0.05825970780469049
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2010",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2010.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 43,
+        "wallSegments": 136,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.780152440146837
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7453989310588002
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 49,
+          "minY": 81,
+          "maxX": 830,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3352,
+        "floorCellRatio": 0.3637152777777778,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 26.190363956493833,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 26.190363956493833
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.09527317924639311,
+            "signedDelta": 0.09527317924639311
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1736131530247409,
+            "signedDelta": 0.1736131530247409
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.0723128501736614,
+          "luminanceStd": -0.015355309734698647,
+          "saturationMean": 0.09527317924639311,
+          "blueCast": 0.07399388406767907,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.07096559015763165,
+          "orthogonalEdgeRatio": 0.1736131530247409,
+          "textureDensity": -0.06254267589388696
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2011",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2011.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 56,
+        "wallSegments": 170,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7192678667189507
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.8259628343683835
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 65,
+          "minY": 49,
+          "maxX": 990,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3792,
+        "floorCellRatio": 0.4114583333333333,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 33.82032119387849,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 33.82032119387849
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1716232332784572,
+            "signedDelta": 0.1716232332784572
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.052193417067770476,
+          "luminanceStd": -0.010869795637301616,
+          "saturationMean": 0.06788710206546844,
+          "blueCast": 0.053601275424964595,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06504479046520566,
+          "orthogonalEdgeRatio": 0.1716232332784572,
+          "textureDensity": -0.057609957708573606
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2012",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2012.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 66,
+        "wallSegments": 208,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6198922549989925
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.746773417062166
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 33,
+          "maxX": 974,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3900,
+        "floorCellRatio": 0.4231770833333333,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 37.910249594210946,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 37.910249594210946
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1719043829510124,
+            "signedDelta": 0.1719043829510124
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.047217046068570356,
+          "luminanceStd": -0.01023254809334867,
+          "saturationMean": 0.0609879220998682,
+          "blueCast": 0.048498407251510695,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.055344675124951906,
+          "orthogonalEdgeRatio": 0.1719043829510124,
+          "textureDensity": -0.05389215686274508
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2013",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2013.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 53,
+        "wallSegments": 152,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.6833992236792173
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7941710512680332
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 65,
+          "maxX": 990,
+          "maxY": 958
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3680,
+        "floorCellRatio": 0.3993055555555556,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 30.870516861522134,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 30.870516861522134
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17205652939314442,
+            "signedDelta": 0.17205652939314442
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.0570633279233399,
+          "luminanceStd": -0.011801238405385134,
+          "saturationMean": 0.07455057719294411,
+          "blueCast": 0.0585718558814681,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06987754709727026,
+          "orthogonalEdgeRatio": 0.17205652939314442,
+          "textureDensity": -0.05870184544405996
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2014",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2014.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 53,
+        "wallSegments": 160,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.701175578921982
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7995535245841784
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 33,
+          "minY": 81,
+          "maxX": 974,
+          "maxY": 990
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3756,
+        "floorCellRatio": 0.4075520833333333,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 33.39711943156958,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 33.39711943156958
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17411149827704253,
+            "signedDelta": 0.17411149827704253
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.05327280665325407,
+          "luminanceStd": -0.010918187850149835,
+          "saturationMean": 0.06938376173664212,
+          "blueCast": 0.05468550214570769,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06529469434832753,
+          "orthogonalEdgeRatio": 0.17411149827704253,
+          "textureDensity": -0.05746770472895039
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2015",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2015.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 48,
+        "wallSegments": 152,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.8233974304132682
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.8090243593808646
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 113,
+          "minY": 65,
+          "maxX": 926,
+          "maxY": 894
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3296,
+        "floorCellRatio": 0.3576388888888889,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 24.801208892413467,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 24.801208892413467
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.0991151823965114,
+            "signedDelta": 0.0991151823965114
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17132503142263755,
+            "signedDelta": 0.17132503142263755
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.07512551586300587,
+          "luminanceStd": -0.016284107527129887,
+          "saturationMean": 0.0991151823965114,
+          "blueCast": 0.07688475141320986,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.07397212610534407,
+          "orthogonalEdgeRatio": 0.17132503142263755,
+          "textureDensity": -0.06404978854286811
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2016",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2016.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 47,
+        "wallSegments": 134,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7663585154200176
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.6962997618065979
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 81,
+          "minY": 97,
+          "maxX": 958,
+          "maxY": 926
+        },
+        "floorLuminanceThreshold": 0.664705882352941,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [
+          0.7647058823529411, 0.7447058823529411, 0.7247058823529411,
+          0.7047058823529411, 0.684705882352941, 0.664705882352941
+        ],
+        "floorCellCount": 3084,
+        "floorCellRatio": 0.3346354166666667,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 23.676538402883395,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 23.676538402883395
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.11322676239430901,
+            "signedDelta": 0.11322676239430901
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17250526166170743,
+            "signedDelta": 0.17250526166170743
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.08562894088382411,
+          "luminanceStd": -0.019966333897437516,
+          "saturationMean": 0.11322676239430901,
+          "blueCast": 0.08747499428526026,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.07336851211072662,
+          "orthogonalEdgeRatio": 0.17250526166170743,
+          "textureDensity": -0.06284448289119568
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2017",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2017.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 65,
+        "wallSegments": 204,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7736622433736472
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7518088780428718
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 81,
+          "minY": 65,
+          "maxX": 974,
+          "maxY": 974
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 4068,
+        "floorCellRatio": 0.44140625,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 40.8838876140616,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 40.8838876140616
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17174729661742627,
+            "signedDelta": 0.17174729661742627
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.03867041534075688,
+          "luminanceStd": -0.008715771569529435,
+          "saturationMean": 0.0495142208834401,
+          "blueCast": 0.03986833534971021,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.05981218762014606,
+          "orthogonalEdgeRatio": 0.17174729661742627,
+          "textureDensity": -0.053623029603998444
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2018",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2018.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 50,
+        "wallSegments": 152,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.7412895068656676
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.7620179180481064
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 129,
+          "minY": 81,
+          "maxX": 974,
+          "maxY": 958
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3440,
+        "floorCellRatio": 0.3732638888888889,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 27.77145204087287,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 27.77145204087287
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "saturationMean",
+            "expected": 0.08,
+            "actual": 0.09040548965348172,
+            "signedDelta": 0.09040548965348172
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.1728026596278497,
+            "signedDelta": 0.1728026596278497
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.06881172587622919,
+          "luminanceStd": -0.014794593688844587,
+          "saturationMean": 0.09040548965348172,
+          "blueCast": 0.07044872882301131,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06797827758554399,
+          "orthogonalEdgeRatio": 0.1728026596278497,
+          "textureDensity": -0.05985332564398307
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    },
+    {
+      "id": "generated-seed2019",
+      "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/map-ir/generated-svg/generated-seed2019.svg",
+      "map": {
+        "width": 96,
+        "height": 96,
+        "floorRects": 56,
+        "wallSegments": 178,
+        "thresholds": 0,
+        "labels": 0
+      },
+      "diagnostics": {
+        "pixelWidth": 1024,
+        "pixelHeight": 1024,
+        "xSpacing": {
+          "spacing": 8,
+          "confidence": 0.8262259473681959
+        },
+        "ySpacing": {
+          "spacing": 8,
+          "confidence": 0.6867395853273599
+        },
+        "chosenSpacing": 8,
+        "phaseX": 5,
+        "phaseY": 1,
+        "bounds": {
+          "minX": 49,
+          "minY": 33,
+          "maxX": 926,
+          "maxY": 990
+        },
+        "floorLuminanceThreshold": 0.7647058823529411,
+        "floorThresholdMode": "adaptive-otsu",
+        "floorThresholdHistory": [0.7647058823529411],
+        "floorCellCount": 3972,
+        "floorCellRatio": 0.4309895833333333,
+        "thresholdCount": 0,
+        "labelCount": 0
+      },
+      "style": {
+        "score": 37.88398260658252,
+        "passed": false,
+        "failures": [
+          {
+            "type": "minScore",
+            "expected": 45,
+            "actual": 37.88398260658252
+          },
+          {
+            "type": "maxAbsDelta",
+            "metric": "orthogonalEdgeRatio",
+            "expected": 0.16,
+            "actual": 0.17199813478094372,
+            "signedDelta": 0.17199813478094372
+          }
+        ],
+        "delta": {
+          "luminanceMean": -0.0433259298073182,
+          "luminanceStd": -0.00932083327837191,
+          "saturationMean": 0.0559062386687863,
+          "blueCast": 0.04463290719418175,
+          "inkCoverage": -0.00023326873779296874,
+          "edgeDensity": -0.06249961553248748,
+          "orthogonalEdgeRatio": 0.17199813478094372,
+          "textureDensity": -0.057417723952326014
+        }
+      },
+      "usability": {
+        "passed": true,
+        "checks": {
+          "minGridWidth": true,
+          "minGridHeight": true,
+          "floorRects": true,
+          "wallSegments": true,
+          "floorRatioRange": true
+        },
+        "thresholds": {
+          "minGridWidth": 8,
+          "minGridHeight": 8,
+          "minFloorRatio": 0.08,
+          "maxFloorRatio": 0.85
+        }
+      }
+    }
+  ]
+}

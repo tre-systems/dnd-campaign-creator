@@ -1,0 +1,28 @@
+{
+  "pixelWidth": 798,
+  "pixelHeight": 1024,
+  "xSpacing": {
+    "spacing": 8,
+    "confidence": 0.5362958874081132
+  },
+  "ySpacing": {
+    "spacing": 8,
+    "confidence": 0.5840432537252955
+  },
+  "chosenSpacing": 8,
+  "phaseX": 2,
+  "phaseY": 2,
+  "bounds": {
+    "minX": 20,
+    "minY": 21,
+    "maxX": 786,
+    "maxY": 1009
+  },
+  "floorLuminanceThreshold": 0.7450980392156863,
+  "floorThresholdMode": "adaptive-otsu",
+  "floorThresholdHistory": [0.7450980392156863],
+  "floorCellCount": 4000,
+  "floorCellRatio": 0.4340277777777778,
+  "thresholdCount": 2,
+  "labelCount": 4
+}
