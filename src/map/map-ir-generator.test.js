@@ -48,7 +48,9 @@ describe("map-ir-generator", () => {
     assert.ok(Array.isArray(mapIr.extensions?.features));
     assert.ok(mapIr.extensions.features.length > 0);
     assert.ok(
-      mapIr.extensions.features.every((feature) => FEATURE_TYPES.has(feature.type)),
+      mapIr.extensions.features.every((feature) =>
+        FEATURE_TYPES.has(feature.type),
+      ),
     );
     assert.equal(
       mapIr.diagnostics.generator.featureCount,
@@ -63,7 +65,9 @@ describe("map-ir-generator", () => {
       ),
     );
     assert.ok(
-      mapIr.extensions.features.some((feature) => feature.type === "stairsDown"),
+      mapIr.extensions.features.some(
+        (feature) => feature.type === "stairsDown",
+      ),
     );
     assert.ok(
       mapIr.extensions.features.some((feature) => feature.type === "stairsUp"),

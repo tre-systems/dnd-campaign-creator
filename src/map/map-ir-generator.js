@@ -215,7 +215,12 @@ function resolveRoomLabelCell(room, cells) {
         if (Math.max(Math.abs(dx), Math.abs(dy)) !== radius) continue;
         const x = center.x + dx;
         const y = center.y + dy;
-        if (x < room.x || y < room.y || x >= room.x + room.w || y >= room.y + room.h) {
+        if (
+          x < room.x ||
+          y < room.y ||
+          x >= room.x + room.w ||
+          y >= room.y + room.h
+        ) {
           continue;
         }
         if (cells[y]?.[x]) {
@@ -231,6 +236,8 @@ function resolveRoomLabelCell(room, cells) {
 function connectRooms(cells, rooms, rng, extraConnections = 0) {
   const links = [];
   if (rooms.length <= 1) return links;
+
+  const centers = rooms.map((room) => roomCenter(room));
 
   for (let i = 1; i < rooms.length; i++) {
     const j = randInt(rng, 0, i - 1);
@@ -248,10 +255,11 @@ function connectRooms(cells, rooms, rng, extraConnections = 0) {
   }
 
   for (const [aIdx, bIdx] of links) {
-    const a = roomCenter(rooms[aIdx]);
-    const b = roomCenter(rooms[bIdx]);
+    const a = centers[aIdx];
+    const b = centers[bIdx];
+    const orientationRoll = rng();
 
-    if (rng() < 0.5) {
+    if (orientationRoll < 0.5) {
       carveLine(cells, a.x, a.y, b.x, a.y);
       carveLine(cells, b.x, a.y, b.x, b.y);
     } else {
@@ -340,10 +348,9 @@ function synthesizeRoomFeatures(cells, rooms, thresholds, rng, options = {}) {
 
   const features = [];
   const occupied = new Set(
-    [
-      ...(Array.isArray(thresholds) ? thresholds : []),
-      ...reservedCells,
-    ].map((entry) => `${entry.x},${entry.y}`),
+    [...(Array.isArray(thresholds) ? thresholds : []), ...reservedCells].map(
+      (entry) => `${entry.x},${entry.y}`,
+    ),
   );
 
   const isFloor = (x, y) =>
@@ -797,13 +804,13 @@ function generateConstrainedMapIr(options = {}) {
   const extraConnections = Number.isFinite(options.extraConnections)
     ? Math.max(0, Math.floor(options.extraConnections))
     : Math.floor(rooms.length * 0.35);
+  const roomMask = buildRoomMask(width, height, roomFootprints);
   const links = connectRooms(cells, rooms, rng, extraConnections);
   const labels = rooms.map((room, idx) => ({
     ...resolveRoomLabelCell(room, cells),
     text: String(idx + 1),
   }));
 
-  const roomMask = buildRoomMask(width, height, roomFootprints);
   const thresholds = extractDoorThresholds(cells, roomMask, rooms, rng);
   const features = synthesizeRoomFeatures(cells, rooms, thresholds, rng, {
     maxFeatures: options.maxFeatures,

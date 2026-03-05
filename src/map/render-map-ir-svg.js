@@ -3,20 +3,21 @@
 const { assertValidMapIr } = require("./map-ir");
 
 const DEFAULT_PALETTE = {
-  background: "#4393be",
-  floor: "#fcfdfe",
-  grid: "#cde2ec",
-  wall: "#6aa7c7",
-  symbol: "#5a98b8",
-  label: "#4f89a8",
+  background: "#5d9fbc",
+  floor: "#fbfdfe",
+  grid: "#d7e7ef",
+  wall: "#6fa8c1",
+  symbol: "#6a99b0",
+  label: "#5c92ab",
 };
 
 const ADAPTIVE_PALETTE = {
-  targetFloorRatio: 0.48,
-  sparseLightenScale: 1.92,
-  denseDarkenScale: 0.96,
-  maxMix: 0.9,
-  darkBackground: "#2c76a6",
+  targetFloorRatio: 0.46,
+  sparseLightenScale: 2.6,
+  denseDarkenScale: 0.72,
+  maxMix: 0.92,
+  sparseMixColor: "#f4f8fb",
+  darkBackground: "#4d90b0",
 };
 
 function escapeXml(str) {
@@ -98,7 +99,11 @@ function resolvePalette(mapIr, options = {}) {
     );
     return {
       ...palette,
-      background: mixHexColors(palette.background, "#ffffff", mixAmount),
+      background: mixHexColors(
+        palette.background,
+        ADAPTIVE_PALETTE.sparseMixColor,
+        mixAmount,
+      ),
     };
   }
 
@@ -176,11 +181,7 @@ function renderFeature(feature, cellSize, palette) {
         );
       }
       rows[0] = rows[0].replace("<line ", `<line ${tag} `);
-      return [
-        `<g ${tag}>`,
-        rows.join(""),
-        `</g>`,
-      ].join("");
+      return [`<g ${tag}>`, rows.join(""), `</g>`].join("");
     }
     case "stairsUp": {
       const w = cellSize * 0.72;
@@ -198,11 +199,7 @@ function renderFeature(feature, cellSize, palette) {
         );
       }
       rows[0] = rows[0].replace("<line ", `<line ${tag} `);
-      return [
-        `<g ${tag}>`,
-        rows.join(""),
-        `</g>`,
-      ].join("");
+      return [`<g ${tag}>`, rows.join(""), `</g>`].join("");
     }
     case "well": {
       const outer = Math.max(2.2, cellSize * 0.25);
