@@ -110,10 +110,27 @@ Use a schema that is easy to validate and easy to render:
 {
   "meta": { "cellSizeFt": 10, "width": 60, "height": 60 },
   "rooms": [
-    { "id": "r12", "shape": "rect", "x": 10, "y": 8, "w": 6, "h": 5, "label": "12" }
+    {
+      "id": "r12",
+      "shape": "rect",
+      "x": 10,
+      "y": 8,
+      "w": 6,
+      "h": 5,
+      "label": "12"
+    }
   ],
   "corridors": [
-    { "from": "r12", "to": "r13", "path": [[16,10],[17,10],[18,10]], "width": 1 }
+    {
+      "from": "r12",
+      "to": "r13",
+      "path": [
+        [16, 10],
+        [17, 10],
+        [18, 10]
+      ],
+      "width": 1
+    }
   ],
   "thresholds": [
     { "x": 16, "y": 10, "type": "door" },
@@ -175,15 +192,15 @@ If this is met, it becomes a strong base architecture and the best path away fro
 
 ## Decision Matrix
 
-| Criterion | Option A: Prompt-Led Images | Option B: IR-Centric |
-| --- | --- | --- |
-| Visual style discovery speed | High | Medium |
-| Playability control | Low-Medium | High |
-| Determinism/editability | Low | High |
-| Data efficiency with 20 refs | Low-Medium | Medium-High |
-| Long-term maintainability | Medium-Low | High |
-| Upfront implementation effort | Low-Medium | Medium-High |
-| Risk of hidden ad-hoc cleanup | High | Medium |
+| Criterion                     | Option A: Prompt-Led Images | Option B: IR-Centric |
+| ----------------------------- | --------------------------- | -------------------- |
+| Visual style discovery speed  | High                        | Medium               |
+| Playability control           | Low-Medium                  | High                 |
+| Determinism/editability       | Low                         | High                 |
+| Data efficiency with 20 refs  | Low-Medium                  | Medium-High          |
+| Long-term maintainability     | Medium-Low                  | High                 |
+| Upfront implementation effort | Low-Medium                  | Medium-High          |
+| Risk of hidden ad-hoc cleanup | High                        | Medium               |
 
 ## Recommendation
 
