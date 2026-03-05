@@ -76,3 +76,10 @@ Recommended iteration loop:
 2. Run `npm run map:quality:score`.
 3. Review score deltas + rendered exemplars.
 4. Keep the change only if `npm run map:quality:gate` still passes.
+
+MapIR vertical-slice harness (Option B exploration):
+
+1. Extract MapIR from a reference map image:
+   `npm run map:ir:extract -- --input docs/map-review/references/paratime/bluemap001.jpg --out docs/map-review/map-ir/bluemap001.json --diag docs/map-review/map-ir/bluemap001.diag.json`
+2. Render extracted IR back to SVG:
+   `npm run map:ir:render -- --input docs/map-review/map-ir/bluemap001.json --out docs/map-review/map-ir/bluemap001.svg`
