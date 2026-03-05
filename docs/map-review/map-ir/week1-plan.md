@@ -11,7 +11,7 @@ This file tracks execution for the Option B weekly plan.
 - [x] Day 3: floor/wall fidelity tuning pass
 - [x] Day 4: threshold + label extraction pass (high-confidence only)
 - [x] Day 6: constrained IR generator prototype
-- [ ] Day 7: go/no-go decision note
+- [x] Day 7: go/no-go decision note
 
 ## Current Baseline (March 5, 2026)
 
@@ -19,12 +19,13 @@ From `npm run map:ir:batch` and `npm run map:ir:benchmark` against
 `docs/map-review/references/paratime`:
 
 1. Maps processed: `20/20`.
-2. Style gate pass rate: `18/20` (`90.0%`).
+2. Style gate pass rate: `20/20` (`100.0%`).
 3. Usability pass rate: `20/20` (`100.0%`).
-4. Average style score: `56.1 / 100`.
+4. Average style score: `59.3 / 100`.
 
-Compared with prior baseline (`85.0%` style pass), floor/wall tuning plus
-adaptive thresholding improved style pass rate by +5 points.
+Compared with the earlier `90.0%` style-pass checkpoint, harmonic grid-spacing
+selection plus floor-ratio-aware palette normalization improved style pass rate
+by +10 points to full pass.
 
 Generated report:
 
@@ -47,6 +48,29 @@ Style proxy benchmark against Paratime references (on generated SVGs):
 
 Implication: structure constraints are working, but the generator's geometric
 distribution is not yet style-aligned to the reference corpus.
+
+## Day 7 Go/No-Go Decision (March 5, 2026)
+
+Decision: **GO** for Option B extraction + roundtrip pipeline, **NO-GO** for
+shipping the constrained generator as-is.
+
+Rationale:
+
+1. Reference roundtrip objective is met with margin (`20/20` style and
+   `20/20` usability passes).
+2. MapIR contract + extraction + renderer are now stable under full automated
+   test coverage (including large-graph articulation safety).
+3. Generator style alignment remains below the week exit target (`0/20` style
+   pass in the prototype benchmark), so generator work should stay in R&D.
+
+Recommended next stage:
+
+1. Use extracted reference IR corpus as supervised training data for a
+   learned IR proposal model.
+2. Keep current deterministic extraction/roundtrip path as the reliability
+   baseline and regression target.
+3. Add generated-IR style feedback loops only after the model can hit at least
+   `40%` joint style + quality pass.
 
 ## Week Exit Gates
 

@@ -75,4 +75,11 @@ Core fields in this branch:
 - `thresholds`: optional door/locked/secret cell markers.
 - `labels`: optional room labels.
 
-The extractor currently targets grid + floor/wall recovery only.
+Current extractor/renderer notes:
+
+- Extractor includes adaptive thresholding plus high-confidence threshold/label
+  recovery.
+- Grid spacing selection handles harmonic mismatches (`2x`/`3x`/`4x`) to avoid
+  coarse-axis collapse.
+- Renderer applies deterministic floor-ratio-based background normalization for
+  closer style alignment on sparse vs dense plans.

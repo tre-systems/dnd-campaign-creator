@@ -141,9 +141,14 @@ function chooseGridSpacing(xSpacing, ySpacing, minGridPx, maxGridPx) {
     const small = Math.min(sx, sy);
     const large = Math.max(sx, sy);
     const ratio = large / Math.max(1, small);
+    const nearestHarmonic = Math.round(ratio);
+    const isNearIntegerHarmonic =
+      nearestHarmonic >= 2 &&
+      nearestHarmonic <= 4 &&
+      Math.abs(ratio - nearestHarmonic) <= 0.35;
 
-    // If one axis likely landed on a doubled harmonic, keep the smaller base period.
-    if (ratio >= 1.6 && ratio <= 2.4) {
+    // If one axis likely landed on a harmonic multiple, keep the smaller base period.
+    if ((ratio >= 1.6 && ratio <= 2.4) || isNearIntegerHarmonic) {
       chosen = small;
     } else {
       const cx = Number.isFinite(xSpacing.confidence)
@@ -537,6 +542,7 @@ function buildArticulationSet(cells) {
   const width = height > 0 ? cells[0].length : 0;
   const keys = [];
   const floorSet = new Set();
+  const keyToCoord = new Map();
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -544,6 +550,7 @@ function buildArticulationSet(cells) {
       const key = `${x},${y}`;
       keys.push(key);
       floorSet.add(key);
+      keyToCoord.set(key, { x, y });
     }
   }
 
@@ -553,7 +560,10 @@ function buildArticulationSet(cells) {
   const articulation = new Set();
   let time = 0;
 
-  const neighbors = (x, y) => {
+  const neighborsForKey = (key) => {
+    const point = keyToCoord.get(key);
+    if (!point) return [];
+
     const out = [];
     const deltas = [
       [1, 0],
@@ -562,46 +572,76 @@ function buildArticulationSet(cells) {
       [0, -1],
     ];
     for (const [dx, dy] of deltas) {
-      const nx = x + dx;
-      const ny = y + dy;
-      const key = `${nx},${ny}`;
-      if (floorSet.has(key)) out.push({ x: nx, y: ny, key });
+      const neighborKey = `${point.x + dx},${point.y + dy}`;
+      if (floorSet.has(neighborKey)) {
+        out.push(neighborKey);
+      }
     }
     return out;
   };
 
-  const dfs = (x, y, key) => {
-    disc.set(key, ++time);
-    low.set(key, disc.get(key));
-    let children = 0;
-
-    for (const neighbor of neighbors(x, y)) {
-      if (!disc.has(neighbor.key)) {
-        children++;
-        parent.set(neighbor.key, key);
-        dfs(neighbor.x, neighbor.y, neighbor.key);
-
-        low.set(key, Math.min(low.get(key), low.get(neighbor.key)));
-
-        if (!parent.has(key) && children > 1) {
-          articulation.add(key);
-        }
-        if (
-          parent.has(key) &&
-          low.get(neighbor.key) >= (disc.get(key) || Number.POSITIVE_INFINITY)
-        ) {
-          articulation.add(key);
-        }
-      } else if (parent.get(key) !== neighbor.key) {
-        low.set(key, Math.min(low.get(key), disc.get(neighbor.key)));
-      }
-    }
-  };
-
   for (const key of keys) {
     if (disc.has(key)) continue;
-    const [x, y] = key.split(",").map((part) => Number.parseInt(part, 10));
-    dfs(x, y, key);
+
+    disc.set(key, ++time);
+    low.set(key, disc.get(key));
+
+    const stack = [
+      {
+        key,
+        neighbors: neighborsForKey(key),
+        index: 0,
+        childCount: 0,
+      },
+    ];
+
+    while (stack.length > 0) {
+      const frame = stack[stack.length - 1];
+
+      if (frame.index < frame.neighbors.length) {
+        const neighborKey = frame.neighbors[frame.index++];
+
+        if (!disc.has(neighborKey)) {
+          parent.set(neighborKey, frame.key);
+          frame.childCount++;
+
+          disc.set(neighborKey, ++time);
+          low.set(neighborKey, disc.get(neighborKey));
+
+          stack.push({
+            key: neighborKey,
+            neighbors: neighborsForKey(neighborKey),
+            index: 0,
+            childCount: 0,
+          });
+          continue;
+        }
+
+        if (parent.get(frame.key) !== neighborKey) {
+          low.set(
+            frame.key,
+            Math.min(low.get(frame.key), disc.get(neighborKey)),
+          );
+        }
+        continue;
+      }
+
+      stack.pop();
+      const parentKey = parent.get(frame.key);
+
+      if (parentKey !== undefined) {
+        low.set(parentKey, Math.min(low.get(parentKey), low.get(frame.key)));
+        if (
+          parent.has(parentKey) &&
+          low.get(frame.key) >=
+            (disc.get(parentKey) || Number.POSITIVE_INFINITY)
+        ) {
+          articulation.add(parentKey);
+        }
+      } else if (frame.childCount > 1) {
+        articulation.add(frame.key);
+      }
+    }
   }
 
   return articulation;

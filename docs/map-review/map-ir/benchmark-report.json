@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T09:36:51.007Z",
+  "generatedAt": "2026-03-05T11:50:43.346Z",
   "referencesDir": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime",
   "mapCount": 20,
   "referenceMetricsPath": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/reference-style-metrics.json",
@@ -13,65 +13,67 @@
     }
   },
   "summary": {
-    "stylePassCount": 18,
-    "stylePassRate": 0.9,
+    "stylePassCount": 20,
+    "stylePassRate": 1,
     "usablePassCount": 20,
     "usablePassRate": 1,
-    "averageStyleScore": 56.07203790796798
+    "averageStyleScore": 59.33368877709406
   },
   "rows": [
     {
       "id": "bluemap001",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap001.jpg",
       "map": {
-        "width": 93,
-        "height": 96,
-        "floorRects": 218,
-        "wallSegments": 554,
+        "width": 113,
+        "height": 128,
+        "floorRects": 354,
+        "wallSegments": 924,
         "thresholds": 3,
-        "labels": 3
+        "labels": 9
       },
       "diagnostics": {
-        "pixelWidth": 774,
-        "pixelHeight": 1024,
+        "pixelWidth": 936,
+        "pixelHeight": 1239,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.7809771867325844
+          "confidence": 0.7946880509103426
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.8214931950395216
+          "confidence": 0.8407093973335812
         },
         "chosenSpacing": 8,
-        "phaseX": 5,
-        "phaseY": 7,
+        "phaseX": 7,
+        "phaseY": 0,
         "bounds": {
-          "minX": 8,
-          "minY": 44,
-          "maxX": 752,
-          "maxY": 1003
+          "minX": 10,
+          "minY": 52,
+          "maxX": 910,
+          "maxY": 1214
         },
-        "floorLuminanceThreshold": 0.7529411764705882,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7529411764705882],
-        "floorCellCount": 3991,
-        "floorCellRatio": 0.4470206093189964,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 6721,
+        "floorCellRatio": 0.46467090707964603,
         "thresholdCount": 3,
-        "labelCount": 3
+        "labelCount": 9
       },
       "style": {
-        "score": 50.336258797052395,
+        "score": 61.95509694998849,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.02919406758336074,
-          "luminanceStd": -0.007893746581488642,
-          "saturationMean": 0.03668875289384438,
-          "blueCast": 0.030330245821776375,
+          "luminanceMean": 0.009727137309520906,
+          "luminanceStd": -0.012190894350883885,
+          "saturationMean": -0.015478275069574943,
+          "blueCast": -0.006112350014907869,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.054364282968089164,
-          "orthogonalEdgeRatio": 0.13827294080571473,
-          "textureDensity": -0.04258496732026142
+          "edgeDensity": -0.04782833525567086,
+          "orthogonalEdgeRatio": 0.11218093893348924,
+          "textureDensity": -0.05720818915801613
         }
       },
       "usability": {
@@ -95,54 +97,56 @@
       "id": "bluemap002",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap002.jpg",
       "map": {
-        "width": 80,
-        "height": 96,
-        "floorRects": 304,
-        "wallSegments": 846,
+        "width": 120,
+        "height": 128,
+        "floorRects": 509,
+        "wallSegments": 1316,
         "thresholds": 5,
         "labels": 13
       },
       "diagnostics": {
-        "pixelWidth": 661,
-        "pixelHeight": 1024,
+        "pixelWidth": 1000,
+        "pixelHeight": 1550,
         "xSpacing": {
-          "spacing": 17,
-          "confidence": 0.6064653667573403
+          "spacing": 26,
+          "confidence": 0.622927756339746
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.6408830759546966
+          "confidence": 0.6478936846569762
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 0,
+        "phaseX": 4,
+        "phaseY": 4,
         "bounds": {
-          "minX": 17,
-          "minY": 36,
-          "maxX": 651,
-          "maxY": 1005
+          "minX": 26,
+          "minY": 54,
+          "maxX": 985,
+          "maxY": 1521
         },
-        "floorLuminanceThreshold": 0.7529411764705882,
+        "floorLuminanceThreshold": 0.7568627450980392,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7529411764705882],
-        "floorCellCount": 3872,
-        "floorCellRatio": 0.5041666666666667,
+        "floorThresholdHistory": [
+          0.7568627450980392
+        ],
+        "floorCellCount": 7553,
+        "floorCellRatio": 0.49173177083333336,
         "thresholdCount": 5,
         "labelCount": 13
       },
       "style": {
-        "score": 57.01123333324738,
+        "score": 76.7498349578701,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": 0.02577288382738907,
-          "luminanceStd": -0.009112476874277853,
-          "saturationMean": -0.03715459334359761,
-          "blueCast": -0.025143725077535234,
+          "luminanceMean": -0.0002691938068025701,
+          "luminanceStd": -0.007546081351761741,
+          "saturationMean": 0.0012642477789908124,
+          "blueCast": 0.0055611621633457065,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.023537677816224498,
-          "orthogonalEdgeRatio": 0.12483631823926955,
-          "textureDensity": -0.037744521337946924
+          "edgeDensity": -0.014283544790465175,
+          "orthogonalEdgeRatio": 0.10909132569507007,
+          "textureDensity": -0.041462322183775456
         }
       },
       "usability": {
@@ -166,54 +170,56 @@
       "id": "bluemap003",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap003.jpg",
       "map": {
-        "width": 90,
-        "height": 96,
-        "floorRects": 178,
-        "wallSegments": 470,
-        "thresholds": 2,
+        "width": 110,
+        "height": 128,
+        "floorRects": 260,
+        "wallSegments": 668,
+        "thresholds": 1,
         "labels": 5
       },
       "diagnostics": {
-        "pixelWidth": 765,
-        "pixelHeight": 1024,
+        "pixelWidth": 934,
+        "pixelHeight": 1250,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.8015439297379355
+          "confidence": 0.8251144862707109
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.7764437179239091
+          "confidence": 0.7719140321636411
         },
         "chosenSpacing": 8,
-        "phaseX": 3,
-        "phaseY": 6,
+        "phaseX": 5,
+        "phaseY": 5,
         "bounds": {
-          "minX": 21,
-          "minY": 43,
-          "maxX": 743,
-          "maxY": 993
+          "minX": 26,
+          "minY": 52,
+          "maxX": 907,
+          "maxY": 1212
         },
         "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7490196078431373],
-        "floorCellCount": 4060,
-        "floorCellRatio": 0.4699074074074074,
-        "thresholdCount": 2,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 6794,
+        "floorCellRatio": 0.4825284090909091,
+        "thresholdCount": 1,
         "labelCount": 5
       },
       "style": {
-        "score": 63.256510798001166,
+        "score": 61.00489614530621,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.011250420337244882,
-          "luminanceStd": -0.006219157342583187,
-          "saturationMean": 0.0127403793361896,
-          "blueCast": 0.01221429338621352,
+          "luminanceMean": 0.0159467962676636,
+          "luminanceStd": -0.006430832053242463,
+          "saturationMean": -0.01996661575952058,
+          "blueCast": -0.011007309707903368,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.052115148019992286,
-          "orthogonalEdgeRatio": 0.1468174692413352,
-          "textureDensity": -0.045182045367166454
+          "edgeDensity": -0.04082333717800843,
+          "orthogonalEdgeRatio": 0.13690217180357878,
+          "textureDensity": -0.053928681276432126
         }
       },
       "usability": {
@@ -237,54 +243,56 @@
       "id": "bluemap004",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap004.jpg",
       "map": {
-        "width": 94,
-        "height": 96,
-        "floorRects": 372,
-        "wallSegments": 1040,
-        "thresholds": 3,
-        "labels": 10
+        "width": 118,
+        "height": 128,
+        "floorRects": 539,
+        "wallSegments": 1444,
+        "thresholds": 0,
+        "labels": 4
       },
       "diagnostics": {
-        "pixelWidth": 797,
-        "pixelHeight": 1024,
+        "pixelWidth": 1000,
+        "pixelHeight": 1285,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.6879132345545632
+          "confidence": 0.7450082810403053
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.7445953325797106
+          "confidence": 0.7965088255203057
         },
         "chosenSpacing": 8,
-        "phaseX": 0,
+        "phaseX": 1,
         "phaseY": 0,
         "bounds": {
-          "minX": 18,
-          "minY": 36,
-          "maxX": 767,
-          "maxY": 990
+          "minX": 23,
+          "minY": 45,
+          "maxX": 962,
+          "maxY": 1242
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4668,
-        "floorCellRatio": 0.5172872340425532,
-        "thresholdCount": 3,
-        "labelCount": 10
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7769,
+        "floorCellRatio": 0.5143670550847458,
+        "thresholdCount": 0,
+        "labelCount": 4
       },
       "style": {
-        "score": 78.5318928533696,
+        "score": 72.11077118566044,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.004072901952350438,
-          "luminanceStd": -0.009766394858995109,
-          "saturationMean": 0.001536086501399303,
-          "blueCast": 0.004504610696975664,
+          "luminanceMean": 0.011057281041008449,
+          "luminanceStd": -0.006806939318765526,
+          "saturationMean": -0.014713961622992489,
+          "blueCast": -0.007538777519535078,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.009496924259900008,
-          "orthogonalEdgeRatio": 0.12142517832028121,
-          "textureDensity": -0.019568819684736616
+          "edgeDensity": -0.00916243752402919,
+          "orthogonalEdgeRatio": 0.11078713391845907,
+          "textureDensity": -0.03844425221068818
         }
       },
       "usability": {
@@ -308,54 +316,56 @@
       "id": "bluemap006",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap006.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 307,
-        "wallSegments": 832,
+        "width": 126,
+        "height": 128,
+        "floorRects": 442,
+        "wallSegments": 1134,
         "thresholds": 1,
-        "labels": 11
+        "labels": 6
       },
       "diagnostics": {
-        "pixelWidth": 832,
-        "pixelHeight": 1024,
+        "pixelWidth": 1044,
+        "pixelHeight": 1285,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.7043020791960742
+          "confidence": 0.7528542589729065
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.7825594569064575
+          "confidence": 0.8227606091681037
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 5,
+        "phaseX": 3,
+        "phaseY": 0,
         "bounds": {
-          "minX": 19,
-          "minY": 41,
-          "maxX": 818,
-          "maxY": 988
+          "minX": 24,
+          "minY": 52,
+          "maxX": 1027,
+          "maxY": 1240
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4441,
-        "floorCellRatio": 0.4818793402777778,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7605,
+        "floorCellRatio": 0.47154017857142855,
         "thresholdCount": 1,
-        "labelCount": 11
+        "labelCount": 6
       },
       "style": {
-        "score": 60.37319880180223,
+        "score": 63.406732335046456,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.02364496545831618,
-          "luminanceStd": -0.009186647177411689,
-          "saturationMean": 0.02828304375552393,
-          "blueCast": 0.024423299302986562,
+          "luminanceMean": -0.016007078113127626,
+          "luminanceStd": -0.012379471461281127,
+          "saturationMean": 0.021208953040911083,
+          "blueCast": 0.021856232437742013,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.029919838523644715,
-          "orthogonalEdgeRatio": 0.1333244456544891,
-          "textureDensity": -0.027479238754325244
+          "edgeDensity": -0.015133217993079554,
+          "orthogonalEdgeRatio": 0.12364392997825491,
+          "textureDensity": -0.04181218762014608
         }
       },
       "usability": {
@@ -379,54 +389,56 @@
       "id": "bluemap007",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap007.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 294,
-        "wallSegments": 870,
-        "thresholds": 6,
-        "labels": 6
+        "width": 128,
+        "height": 128,
+        "floorRects": 310,
+        "wallSegments": 886,
+        "thresholds": 1,
+        "labels": 8
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.6117620409413458
+          "confidence": 0.6883631830683513
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.6820821553347276
+          "confidence": 0.7447459787758157
         },
         "chosenSpacing": 8,
-        "phaseX": 0,
-        "phaseY": 6,
+        "phaseX": 5,
+        "phaseY": 7,
         "bounds": {
-          "minX": 18,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1011
+          "minX": 27,
+          "minY": 33,
+          "maxX": 1230,
+          "maxY": 1580
         },
-        "floorLuminanceThreshold": 0.7411764705882353,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7411764705882353],
-        "floorCellCount": 4571,
-        "floorCellRatio": 0.4959852430555556,
-        "thresholdCount": 6,
-        "labelCount": 6
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 8065,
+        "floorCellRatio": 0.49224853515625,
+        "thresholdCount": 1,
+        "labelCount": 8
       },
       "style": {
-        "score": 63.72837004268897,
+        "score": 59.26604963257114,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.016932801591355906,
-          "luminanceStd": -0.008729119589914264,
-          "saturationMean": 0.01934711068613132,
-          "blueCast": 0.017705916610189443,
+          "luminanceMean": -0.014167719158433734,
+          "luminanceStd": -0.007473338358716164,
+          "saturationMean": 0.020315755036385275,
+          "blueCast": 0.019953446481814546,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03735159554017682,
-          "orthogonalEdgeRatio": 0.12487935747816903,
-          "textureDensity": -0.029270857362552846
+          "edgeDensity": -0.04359150326797383,
+          "orthogonalEdgeRatio": 0.12197313487469752,
+          "textureDensity": -0.05348846597462513
         }
       },
       "usability": {
@@ -450,60 +462,56 @@
       "id": "bluemap008",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap008.jpg",
       "map": {
-        "width": 94,
-        "height": 96,
-        "floorRects": 212,
-        "wallSegments": 638,
-        "thresholds": 0,
+        "width": 128,
+        "height": 128,
+        "floorRects": 259,
+        "wallSegments": 750,
+        "thresholds": 3,
         "labels": 5
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.6933503259541742
+          "confidence": 0.7525496008603928
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.7084540609613749
+          "confidence": 0.771845701174823
         },
         "chosenSpacing": 8,
-        "phaseX": 1,
-        "phaseY": 0,
+        "phaseX": 6,
+        "phaseY": 3,
         "bounds": {
-          "minX": 29,
-          "minY": 21,
-          "maxX": 778,
-          "maxY": 1009
+          "minX": 45,
+          "minY": 33,
+          "maxX": 1216,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 3649,
-        "floorCellRatio": 0.4043661347517731,
-        "thresholdCount": 0,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 6105,
+        "floorCellRatio": 0.37261962890625,
+        "thresholdCount": 3,
         "labelCount": 5
       },
       "style": {
-        "score": 40.37276651503113,
-        "passed": false,
-        "failures": [
-          {
-            "type": "minScore",
-            "expected": 45,
-            "actual": 40.37276651503113
-          }
-        ],
+        "score": 50.69379195921846,
+        "passed": true,
+        "failures": [],
         "delta": {
-          "luminanceMean": -0.05042347674768344,
-          "luminanceStd": -0.011547425828071,
-          "saturationMean": 0.06517738067445739,
-          "blueCast": 0.05165337132428047,
+          "luminanceMean": -0.008981681088811144,
+          "luminanceStd": -0.05924472858810889,
+          "saturationMean": -0.005851065325252092,
+          "blueCast": 0.013095578212971692,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.04003517877739328,
-          "orthogonalEdgeRatio": 0.13245478211349182,
-          "textureDensity": -0.043907535563244886
+          "edgeDensity": -0.060719530949634726,
+          "orthogonalEdgeRatio": 0.11875837551435664,
+          "textureDensity": -0.06092406766628218
         }
       },
       "usability": {
@@ -527,54 +535,56 @@
       "id": "bluemap009",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap009.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 232,
-        "wallSegments": 622,
-        "thresholds": 1,
-        "labels": 7
+        "width": 128,
+        "height": 128,
+        "floorRects": 318,
+        "wallSegments": 814,
+        "thresholds": 7,
+        "labels": 11
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.45869993102018414
+          "confidence": 0.5870297958636479
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.634157643307673
+          "confidence": 0.7042553683071903
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 7,
+        "phaseX": 6,
+        "phaseY": 1,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1230,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4289,
-        "floorCellRatio": 0.4653862847222222,
-        "thresholdCount": 1,
-        "labelCount": 7
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7382,
+        "floorCellRatio": 0.4505615234375,
+        "thresholdCount": 7,
+        "labelCount": 11
       },
       "style": {
-        "score": 53.01762456726304,
+        "score": 55.88849081437151,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.030332229240233044,
-          "luminanceStd": -0.009254002241965043,
-          "saturationMean": 0.03757004098465111,
-          "blueCast": 0.031266178056067934,
+          "luminanceMean": -0.018686108970962234,
+          "luminanceStd": -0.022154563161248864,
+          "saturationMean": 0.019500668982805724,
+          "blueCast": 0.023117266637057238,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.037916762783544763,
-          "orthogonalEdgeRatio": 0.14306847545332713,
-          "textureDensity": -0.035831795463283335
+          "edgeDensity": -0.037163206459054174,
+          "orthogonalEdgeRatio": 0.1306537998691406,
+          "textureDensity": -0.05015897731641675
         }
       },
       "usability": {
@@ -598,54 +608,56 @@
       "id": "bluemap010",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap010.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 270,
-        "wallSegments": 788,
-        "thresholds": 3,
-        "labels": 2
+        "width": 128,
+        "height": 128,
+        "floorRects": 359,
+        "wallSegments": 1024,
+        "thresholds": 2,
+        "labels": 12
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.6234823314663235
+          "confidence": 0.7054129068385205
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5371668723807846
+          "confidence": 0.6380664729493752
         },
         "chosenSpacing": 8,
         "phaseX": 1,
-        "phaseY": 2,
+        "phaseY": 1,
         "bounds": {
-          "minX": 21,
-          "minY": 7,
-          "maxX": 787,
-          "maxY": 1009
+          "minX": 32,
+          "minY": 10,
+          "maxX": 1230,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4323,
-        "floorCellRatio": 0.4690755208333333,
-        "thresholdCount": 3,
-        "labelCount": 2
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7740,
+        "floorCellRatio": 0.472412109375,
+        "thresholdCount": 2,
+        "labelCount": 12
       },
       "style": {
-        "score": 54.858475414042786,
+        "score": 56.87096425428161,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.029062638304306332,
-          "luminanceStd": -0.009471490795441878,
-          "saturationMean": 0.03573630512255371,
-          "blueCast": 0.029972666571836754,
+          "luminanceMean": -0.01896138616281351,
+          "luminanceStd": -0.012279878292604768,
+          "saturationMean": 0.025397290826994046,
+          "blueCast": 0.02497873418501287,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03615974625144172,
-          "orthogonalEdgeRatio": 0.13288446290905298,
-          "textureDensity": -0.03137966166858899
+          "edgeDensity": -0.03641349480968856,
+          "orthogonalEdgeRatio": 0.11801852527040502,
+          "textureDensity": -0.05007823913879275
         }
       },
       "usability": {
@@ -669,54 +681,56 @@
       "id": "bluemap011",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap011.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 258,
-        "wallSegments": 734,
+        "width": 128,
+        "height": 128,
+        "floorRects": 337,
+        "wallSegments": 890,
         "thresholds": 0,
-        "labels": 6
+        "labels": 7
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1204,
+        "pixelHeight": 1544,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.5373577325530587
+          "confidence": 0.6387994143587631
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.4775346104292609
+          "confidence": 0.5806876031867283
         },
         "chosenSpacing": 8,
-        "phaseX": 0,
-        "phaseY": 4,
+        "phaseX": 3,
+        "phaseY": 2,
         "bounds": {
-          "minX": 20,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1009
+          "minX": 31,
+          "minY": 32,
+          "maxX": 1186,
+          "maxY": 1522
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4206,
-        "floorCellRatio": 0.4563802083333333,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7447,
+        "floorCellRatio": 0.45452880859375,
         "thresholdCount": 0,
-        "labelCount": 6
+        "labelCount": 7
       },
       "style": {
-        "score": 50.346160909086194,
+        "score": 55.50801687532194,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.034591431983149845,
-          "luminanceStd": -0.009783384520099747,
-          "saturationMean": 0.04326376693938083,
-          "blueCast": 0.03554770450941322,
+          "luminanceMean": -0.019501314254569246,
+          "luminanceStd": -0.01959339845352326,
+          "saturationMean": 0.02180230950102774,
+          "blueCast": 0.023969410167423794,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03614821222606687,
-          "orthogonalEdgeRatio": 0.1366965245592925,
-          "textureDensity": -0.03478027681660898
+          "edgeDensity": -0.03803210303729332,
+          "orthogonalEdgeRatio": 0.12448962642740857,
+          "textureDensity": -0.05020126874279122
         }
       },
       "usability": {
@@ -740,54 +754,56 @@
       "id": "bluemap012",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap012.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 265,
-        "wallSegments": 730,
-        "thresholds": 3,
-        "labels": 5
+        "width": 128,
+        "height": 128,
+        "floorRects": 312,
+        "wallSegments": 788,
+        "thresholds": 2,
+        "labels": 13
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1204,
+        "pixelHeight": 1544,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.5517480067269149
+          "confidence": 0.6463146736078001
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.6170978805584991
+          "confidence": 0.693815822803512
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
+        "phaseX": 3,
         "phaseY": 1,
         "bounds": {
-          "minX": 20,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 988
+          "minX": 30,
+          "minY": 32,
+          "maxX": 1186,
+          "maxY": 1490
         },
         "floorLuminanceThreshold": 0.7333333333333333,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7333333333333333],
-        "floorCellCount": 4280,
-        "floorCellRatio": 0.4644097222222222,
-        "thresholdCount": 3,
-        "labelCount": 5
+        "floorThresholdHistory": [
+          0.7333333333333333
+        ],
+        "floorCellCount": 7372,
+        "floorCellRatio": 0.449951171875,
+        "thresholdCount": 2,
+        "labelCount": 13
       },
       "style": {
-        "score": 52.665204027210244,
+        "score": 54.490020363986666,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.030816664629023438,
-          "luminanceStd": -0.009386545926952483,
-          "saturationMean": 0.03820117156164754,
-          "blueCast": 0.03175960540744724,
+          "luminanceMean": -0.018624590236341,
+          "luminanceStd": -0.02185710529453372,
+          "saturationMean": 0.01954249241838557,
+          "blueCast": 0.02308908275607499,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03865878508266049,
-          "orthogonalEdgeRatio": 0.1339153280415607,
-          "textureDensity": -0.03498404459823143
+          "edgeDensity": -0.04346847366397537,
+          "orthogonalEdgeRatio": 0.1282305641607343,
+          "textureDensity": -0.05332314494425219
         }
       },
       "usability": {
@@ -811,70 +827,61 @@
       "id": "bluemap013",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap013.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 196,
-        "wallSegments": 586,
-        "thresholds": 1,
-        "labels": 2
+        "width": 128,
+        "height": 128,
+        "floorRects": 249,
+        "wallSegments": 744,
+        "thresholds": 6,
+        "labels": 8
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.7349832335926962
+          "confidence": 0.8030400628257054
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.6258299824504349
+          "confidence": 0.7229378860390657
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 0,
+        "phaseX": 6,
+        "phaseY": 1,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1009
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1230,
+          "maxY": 1577
         },
-        "floorLuminanceThreshold": 0.6411764705882352,
+        "floorLuminanceThreshold": 0.6450980392156862,
         "floorThresholdMode": "adaptive-otsu",
         "floorThresholdHistory": [
-          0.7411764705882353, 0.7211764705882353, 0.7011764705882353,
-          0.6811764705882353, 0.6611764705882353, 0.6411764705882352
+          0.7450980392156863,
+          0.7250980392156863,
+          0.7050980392156863,
+          0.6850980392156862,
+          0.6650980392156862,
+          0.6450980392156862
         ],
-        "floorCellCount": 3193,
-        "floorCellRatio": 0.3464626736111111,
-        "thresholdCount": 1,
-        "labelCount": 2
+        "floorCellCount": 5551,
+        "floorCellRatio": 0.33880615234375,
+        "thresholdCount": 6,
+        "labelCount": 8
       },
       "style": {
-        "score": 28.178305588027104,
-        "passed": false,
-        "failures": [
-          {
-            "type": "minScore",
-            "expected": 45,
-            "actual": 28.178305588027104
-          },
-          {
-            "type": "maxAbsDelta",
-            "metric": "saturationMean",
-            "expected": 0.08,
-            "actual": 0.10729788798253043,
-            "signedDelta": 0.10729788798253043
-          }
-        ],
+        "score": 48.215336838458065,
+        "passed": true,
+        "failures": [],
         "delta": {
-          "luminanceMean": -0.08156247524403493,
-          "luminanceStd": -0.019582294760861152,
-          "saturationMean": 0.10729788798253043,
-          "blueCast": 0.08327640383841836,
+          "luminanceMean": -0.0016974223323102944,
+          "luminanceStd": -0.07601728353062978,
+          "saturationMean": -0.019865086110194274,
+          "blueCast": 0.00669891432254946,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.06138081507112646,
-          "orthogonalEdgeRatio": 0.1287198557814354,
-          "textureDensity": -0.046635332564398294
+          "edgeDensity": -0.06961226451364858,
+          "orthogonalEdgeRatio": 0.11278729049137137,
+          "textureDensity": -0.06556074586697422
         }
       },
       "usability": {
@@ -898,54 +905,56 @@
       "id": "bluemap014b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap014b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 261,
-        "wallSegments": 720,
-        "thresholds": 0,
+        "width": 128,
+        "height": 128,
+        "floorRects": 322,
+        "wallSegments": 798,
+        "thresholds": 3,
         "labels": 8
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.5342336110481882
+          "confidence": 0.6497420938793134
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5239309195025574
+          "confidence": 0.6458975918798691
         },
         "chosenSpacing": 8,
-        "phaseX": 1,
-        "phaseY": 1,
+        "phaseX": 6,
+        "phaseY": 0,
         "bounds": {
-          "minX": 21,
-          "minY": 17,
-          "maxX": 792,
-          "maxY": 1023
+          "minX": 33,
+          "minY": 27,
+          "maxX": 1238,
+          "maxY": 1599
         },
-        "floorLuminanceThreshold": 0.7411764705882353,
+        "floorLuminanceThreshold": 0.7450980392156863,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7411764705882353],
-        "floorCellCount": 4142,
-        "floorCellRatio": 0.4494357638888889,
-        "thresholdCount": 0,
+        "floorThresholdHistory": [
+          0.7450980392156863
+        ],
+        "floorCellCount": 6902,
+        "floorCellRatio": 0.4212646484375,
+        "thresholdCount": 3,
         "labelCount": 8
       },
       "style": {
-        "score": 49.94707795891142,
+        "score": 55.168752677991286,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.0378499579154401,
-          "luminanceStd": -0.010626027527061016,
-          "saturationMean": 0.0474614198994599,
-          "blueCast": 0.03879146875092479,
+          "luminanceMean": -0.017702855500842274,
+          "luminanceStd": -0.0353631696432162,
+          "saturationMean": 0.01299641409265756,
+          "blueCast": 0.0214910237932667,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.02861649365628602,
-          "orthogonalEdgeRatio": 0.14145597230182272,
-          "textureDensity": -0.02921318723567856
+          "edgeDensity": -0.03509477124183004,
+          "orthogonalEdgeRatio": 0.1334294537970111,
+          "textureDensity": -0.049044021530180684
         }
       },
       "usability": {
@@ -969,54 +978,56 @@
       "id": "bluemap015b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap015b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 233,
-        "wallSegments": 680,
-        "thresholds": 2,
-        "labels": 4
+        "width": 128,
+        "height": 128,
+        "floorRects": 299,
+        "wallSegments": 844,
+        "thresholds": 3,
+        "labels": 7
       },
       "diagnostics": {
-        "pixelWidth": 798,
-        "pixelHeight": 1024,
+        "pixelWidth": 1247,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.5362958874081132
+          "confidence": 0.6397606876196124
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5840432537252955
+          "confidence": 0.6803942167307757
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
+        "phaseX": 0,
         "phaseY": 2,
         "bounds": {
-          "minX": 20,
-          "minY": 21,
-          "maxX": 786,
-          "maxY": 1009
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1229,
+          "maxY": 1577
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4000,
-        "floorCellRatio": 0.4340277777777778,
-        "thresholdCount": 2,
-        "labelCount": 4
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 6644,
+        "floorCellRatio": 0.405517578125,
+        "thresholdCount": 3,
+        "labelCount": 7
       },
       "style": {
-        "score": 45.46276328242268,
+        "score": 54.59600120310466,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.044243554543736296,
-          "luminanceStd": -0.011092904177551793,
-          "saturationMean": 0.056275633743196996,
-          "blueCast": 0.04527827917333191,
+          "luminanceMean": -0.01562585319315668,
+          "luminanceStd": -0.042960541862855084,
+          "saturationMean": 0.006846412849269734,
+          "blueCast": 0.018924286038495497,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.0311693579392541,
-          "orthogonalEdgeRatio": 0.14244367554119042,
-          "textureDensity": -0.03553960015378699
+          "edgeDensity": -0.03937389465590155,
+          "orthogonalEdgeRatio": 0.12883458668899006,
+          "textureDensity": -0.051450788158400595
         }
       },
       "usability": {
@@ -1040,54 +1051,56 @@
       "id": "bluemap016b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap016b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 214,
-        "wallSegments": 580,
-        "thresholds": 1,
-        "labels": 6
+        "width": 128,
+        "height": 128,
+        "floorRects": 325,
+        "wallSegments": 774,
+        "thresholds": 3,
+        "labels": 12
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.48579607904208993
+          "confidence": 0.5992465049144213
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5615402722511503
+          "confidence": 0.6735228252359736
         },
         "chosenSpacing": 8,
-        "phaseX": 1,
+        "phaseX": 6,
         "phaseY": 1,
         "bounds": {
           "minX": 0,
-          "minY": 21,
-          "maxX": 798,
-          "maxY": 1023
+          "minY": 33,
+          "maxX": 1247,
+          "maxY": 1599
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4675,
-        "floorCellRatio": 0.5072699652777778,
-        "thresholdCount": 1,
-        "labelCount": 6
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7886,
+        "floorCellRatio": 0.4813232421875,
+        "thresholdCount": 3,
+        "labelCount": 12
       },
       "style": {
-        "score": 66.2144687048672,
+        "score": 56.896181123727274,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.011908995648473697,
-          "luminanceStd": -0.008346738020787059,
-          "saturationMean": 0.012659699056748186,
-          "blueCast": 0.012634643105672777,
+          "luminanceMean": -0.01928764117665316,
+          "luminanceStd": -0.007982351735176668,
+          "saturationMean": 0.027089626265621336,
+          "blueCast": 0.025118935528860548,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03847808535178775,
-          "orthogonalEdgeRatio": 0.1476922684959444,
-          "textureDensity": -0.0353146866589773
+          "edgeDensity": -0.03796674356016913,
+          "orthogonalEdgeRatio": 0.13139526131582013,
+          "textureDensity": -0.05063571703191078
         }
       },
       "usability": {
@@ -1111,54 +1124,56 @@
       "id": "bluemap017b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap017b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 264,
-        "wallSegments": 778,
-        "thresholds": 3,
+        "width": 128,
+        "height": 128,
+        "floorRects": 352,
+        "wallSegments": 938,
+        "thresholds": 0,
         "labels": 8
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.4530530999636965
+          "confidence": 0.5859763757888604
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5403673610334937
+          "confidence": 0.658072716295381
         },
         "chosenSpacing": 8,
         "phaseX": 4,
-        "phaseY": 3,
+        "phaseY": 1,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1229,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4575,
-        "floorCellRatio": 0.4964192708333333,
-        "thresholdCount": 3,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 8292,
+        "floorCellRatio": 0.506103515625,
+        "thresholdCount": 0,
         "labelCount": 8
       },
       "style": {
-        "score": 64.15252719570533,
+        "score": 64.66173732745962,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.017012057417470805,
-          "luminanceStd": -0.008752086789778735,
-          "saturationMean": 0.019381822234812718,
-          "blueCast": 0.017732604531417284,
+          "luminanceMean": -0.009944035840268373,
+          "luminanceStd": -0.006129740499113329,
+          "saturationMean": 0.013814711351838427,
+          "blueCast": 0.01396160424934198,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.032741830065359454,
-          "orthogonalEdgeRatio": 0.13472925102887456,
-          "textureDensity": -0.03094136870434447
+          "edgeDensity": -0.03677489427143403,
+          "orthogonalEdgeRatio": 0.12174362898346469,
+          "textureDensity": -0.04994752018454439
         }
       },
       "usability": {
@@ -1182,54 +1197,56 @@
       "id": "bluemap018b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap018b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 208,
-        "wallSegments": 564,
-        "thresholds": 2,
-        "labels": 6
+        "width": 128,
+        "height": 128,
+        "floorRects": 334,
+        "wallSegments": 834,
+        "thresholds": 0,
+        "labels": 16
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.45420760808241073
+          "confidence": 0.6123231677325268
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.46413785804428764
+          "confidence": 0.5923172246216026
         },
         "chosenSpacing": 8,
-        "phaseX": 1,
-        "phaseY": 2,
+        "phaseX": 3,
+        "phaseY": 0,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 33,
+          "minY": 33,
+          "maxX": 1230,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7411764705882353,
+        "floorLuminanceThreshold": 0.7450980392156863,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7411764705882353],
-        "floorCellCount": 4767,
-        "floorCellRatio": 0.5172526041666666,
-        "thresholdCount": 2,
-        "labelCount": 6
+        "floorThresholdHistory": [
+          0.7450980392156863
+        ],
+        "floorCellCount": 8471,
+        "floorCellRatio": 0.51702880859375,
+        "thresholdCount": 0,
+        "labelCount": 16
       },
       "style": {
-        "score": 70.65422270733872,
+        "score": 68.5646880754294,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.00788088892315042,
-          "luminanceStd": -0.008595909190590834,
-          "saturationMean": 0.007054023028441603,
-          "blueCast": 0.008495920966428178,
+          "luminanceMean": -0.005081542856506971,
+          "luminanceStd": -0.006219448876884276,
+          "saturationMean": 0.00726077169751671,
+          "blueCast": 0.009065253313999544,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03189600153787002,
-          "orthogonalEdgeRatio": 0.15151327387890623,
-          "textureDensity": -0.0315622837370242
+          "edgeDensity": -0.03455651672433677,
+          "orthogonalEdgeRatio": 0.13116588146858343,
+          "textureDensity": -0.04890945790080736
         }
       },
       "usability": {
@@ -1253,54 +1270,56 @@
       "id": "bluemap019b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap019b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 222,
-        "wallSegments": 640,
-        "thresholds": 1,
-        "labels": 2
+        "width": 128,
+        "height": 128,
+        "floorRects": 270,
+        "wallSegments": 740,
+        "thresholds": 2,
+        "labels": 10
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.5053099572972771
+          "confidence": 0.6229518080124491
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.5552547308976861
+          "confidence": 0.6730815486060194
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 6,
+        "phaseX": 4,
+        "phaseY": 0,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1229,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4249,
-        "floorCellRatio": 0.4610460069444444,
-        "thresholdCount": 1,
-        "labelCount": 2
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7457,
+        "floorCellRatio": 0.45513916015625,
+        "thresholdCount": 2,
+        "labelCount": 10
       },
       "style": {
-        "score": 52.479588872023264,
+        "score": 54.796802056640715,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.0322200003561105,
-          "luminanceStd": -0.009455860102613789,
-          "saturationMean": 0.04008115487799835,
-          "blueCast": 0.03314594119176453,
+          "luminanceMean": -0.018945119060799098,
+          "luminanceStd": -0.019270743101807597,
+          "saturationMean": 0.02118462184478298,
+          "blueCast": 0.023443221298380473,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.03294175317185695,
-          "orthogonalEdgeRatio": 0.14405182876132716,
-          "textureDensity": -0.035512687427912325
+          "edgeDensity": -0.04225355632449054,
+          "orthogonalEdgeRatio": 0.13279127626909182,
+          "textureDensity": -0.053303921568627434
         }
       },
       "usability": {
@@ -1324,54 +1343,56 @@
       "id": "bluemap020b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap020b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 319,
-        "wallSegments": 950,
-        "thresholds": 7,
+        "width": 128,
+        "height": 128,
+        "floorRects": 425,
+        "wallSegments": 1154,
+        "thresholds": 2,
         "labels": 6
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.47973784603254654
+          "confidence": 0.5918528498987168
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.4275573098326999
+          "confidence": 0.5576384561095703
         },
         "chosenSpacing": 8,
-        "phaseX": 2,
-        "phaseY": 2,
+        "phaseX": 1,
+        "phaseY": 1,
         "bounds": {
-          "minX": 21,
-          "minY": 13,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 32,
+          "minY": 21,
+          "maxX": 1229,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4186,
-        "floorCellRatio": 0.4542100694444444,
-        "thresholdCount": 7,
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7116,
+        "floorCellRatio": 0.434326171875,
+        "thresholdCount": 2,
         "labelCount": 6
       },
       "style": {
-        "score": 52.11220299668772,
+        "score": 55.967530068132184,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.036130349165626074,
-          "luminanceStd": -0.010558575965194716,
-          "saturationMean": 0.04504475764683008,
-          "blueCast": 0.03701521106769631,
+          "luminanceMean": -0.019863528063064795,
+          "luminanceStd": -0.028503341413712496,
+          "saturationMean": 0.01919455007279841,
+          "blueCast": 0.02525364670124905,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.025740676662821968,
-          "orthogonalEdgeRatio": 0.12765425223427562,
-          "textureDensity": -0.02627585544021528
+          "edgeDensity": -0.03010053825451746,
+          "orthogonalEdgeRatio": 0.11475036671756467,
+          "textureDensity": -0.04684102268358322
         }
       },
       "usability": {
@@ -1395,54 +1416,56 @@
       "id": "bluemap021b",
       "sourceImage": "/Users/robertgilks/Source/dnd-campaign-creator/docs/map-review/references/paratime/bluemap021b.jpg",
       "map": {
-        "width": 96,
-        "height": 96,
-        "floorRects": 273,
-        "wallSegments": 718,
-        "thresholds": 4,
-        "labels": 3
+        "width": 128,
+        "height": 128,
+        "floorRects": 328,
+        "wallSegments": 816,
+        "thresholds": 6,
+        "labels": 16
       },
       "diagnostics": {
-        "pixelWidth": 799,
-        "pixelHeight": 1024,
+        "pixelWidth": 1248,
+        "pixelHeight": 1600,
         "xSpacing": {
           "spacing": 8,
-          "confidence": 0.31974066158569886
+          "confidence": 0.4845874333834208
         },
         "ySpacing": {
           "spacing": 8,
-          "confidence": 0.39034826841853293
+          "confidence": 0.521350064225242
         },
         "chosenSpacing": 8,
-        "phaseX": 4,
-        "phaseY": 4,
+        "phaseX": 1,
+        "phaseY": 5,
         "bounds": {
-          "minX": 21,
-          "minY": 21,
-          "maxX": 787,
-          "maxY": 1008
+          "minX": 32,
+          "minY": 33,
+          "maxX": 1230,
+          "maxY": 1576
         },
-        "floorLuminanceThreshold": 0.7450980392156863,
+        "floorLuminanceThreshold": 0.7490196078431373,
         "floorThresholdMode": "adaptive-otsu",
-        "floorThresholdHistory": [0.7450980392156863],
-        "floorCellCount": 4572,
-        "floorCellRatio": 0.49609375,
-        "thresholdCount": 4,
-        "labelCount": 3
+        "floorThresholdHistory": [
+          0.7490196078431373
+        ],
+        "floorCellCount": 7765,
+        "floorCellRatio": 0.47393798828125,
+        "thresholdCount": 6,
+        "labelCount": 16
       },
       "style": {
-        "score": 67.74190479458106,
+        "score": 59.86208069731491,
         "passed": true,
         "failures": [],
         "delta": {
-          "luminanceMean": -0.018182724567487263,
-          "luminanceStd": -0.00951865023400128,
-          "saturationMean": 0.02051729534141522,
-          "blueCast": 0.018741599437954892,
+          "luminanceMean": -0.020924581011722343,
+          "luminanceStd": -0.01128823371157181,
+          "saturationMean": 0.027686448996012802,
+          "blueCast": 0.02689903782891731,
           "inkCoverage": -0.00023326873779296874,
-          "edgeDensity": -0.01140003844675122,
-          "orthogonalEdgeRatio": 0.14839357538023012,
-          "textureDensity": -0.02369800076893501
+          "edgeDensity": -0.01855497885428678,
+          "orthogonalEdgeRatio": 0.13999132337335618,
+          "textureDensity": -0.040858708189157995
         }
       },
       "usability": {

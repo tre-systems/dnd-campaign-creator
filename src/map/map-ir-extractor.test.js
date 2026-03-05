@@ -89,6 +89,16 @@ describe("map-ir-extractor", () => {
     assert.equal(chosen, 8);
   });
 
+  it("prefers smaller spacing when one axis is near a 3x harmonic", () => {
+    const chosen = chooseGridSpacing(
+      { spacing: 26, confidence: 0.62 },
+      { spacing: 8, confidence: 0.65 },
+      6,
+      40,
+    );
+    assert.equal(chosen, 8);
+  });
+
   it("extracts a valid MapIR from synthetic blueprint pixels", () => {
     const synthetic = makeSyntheticBlueprintRaw(12, 10, 10);
 
@@ -171,5 +181,43 @@ describe("map-ir-extractor", () => {
     assert.ok(
       thresholds.some((threshold) => threshold.x === 2 && threshold.y === 1),
     );
+  });
+
+  it("handles long floor graphs without recursive stack overflow", () => {
+    const corridorLength = 12000;
+    const row = Array(corridorLength + 2).fill(false);
+    const floorRow = Array(corridorLength + 2).fill(true);
+    floorRow[0] = false;
+    floorRow[floorRow.length - 1] = false;
+
+    const cells = [row.slice(), floorRow, row.slice()];
+    const width = corridorLength + 2;
+    const height = 3;
+    const luma = new Float32Array(width * height).fill(0.92);
+
+    const darkerPoints = [100, 6000, 11000];
+    for (const x of darkerPoints) {
+      luma[1 * width + x] = 0.6;
+    }
+
+    const thresholds = extractHighConfidenceDoorThresholds(
+      cells,
+      luma,
+      width,
+      height,
+      {
+        startX: 0,
+        startY: 0,
+        spacing: 1,
+        gridWidth: width,
+        gridHeight: height,
+      },
+      {
+        minDoorDarkness: 0.25,
+        maxDoorThresholds: 8,
+      },
+    );
+
+    assert.ok(Array.isArray(thresholds));
   });
 });

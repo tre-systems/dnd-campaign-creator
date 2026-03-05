@@ -11,6 +11,14 @@ const DEFAULT_PALETTE = {
   label: "#4f89a8",
 };
 
+const ADAPTIVE_PALETTE = {
+  targetFloorRatio: 0.48,
+  sparseLightenScale: 1.92,
+  denseDarkenScale: 0.96,
+  maxMix: 0.9,
+  darkBackground: "#2c76a6",
+};
+
 function escapeXml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -20,12 +28,91 @@ function escapeXml(str) {
     .replace(/'/g, "&apos;");
 }
 
-function resolvePalette(options = {}) {
-  return {
+function hexToRgb(hex) {
+  if (typeof hex !== "string") return null;
+  const normalized = hex.trim().toLowerCase();
+  const match = normalized.match(/^#([0-9a-f]{6})$/);
+  if (!match) return null;
+
+  const value = match[1];
+  return [
+    Number.parseInt(value.slice(0, 2), 16),
+    Number.parseInt(value.slice(2, 4), 16),
+    Number.parseInt(value.slice(4, 6), 16),
+  ];
+}
+
+function rgbToHex(rgb) {
+  if (!Array.isArray(rgb) || rgb.length !== 3) return null;
+  return `#${rgb
+    .map((component) =>
+      Math.min(255, Math.max(0, Math.round(component)))
+        .toString(16)
+        .padStart(2, "0"),
+    )
+    .join("")}`;
+}
+
+function mixHexColors(sourceHex, targetHex, amount) {
+  const source = hexToRgb(sourceHex);
+  const target = hexToRgb(targetHex);
+  if (!source || !target) return sourceHex;
+
+  const t = Math.min(1, Math.max(0, amount));
+  const mixed = [
+    source[0] * (1 - t) + target[0] * t,
+    source[1] * (1 - t) + target[1] * t,
+    source[2] * (1 - t) + target[2] * t,
+  ];
+  return rgbToHex(mixed) || sourceHex;
+}
+
+function resolvePalette(mapIr, options = {}) {
+  const hasCustomPalette =
+    options.palette && typeof options.palette === "object";
+  const palette = {
     ...DEFAULT_PALETTE,
-    ...(options.palette && typeof options.palette === "object"
-      ? options.palette
-      : {}),
+    ...(hasCustomPalette ? options.palette : {}),
+  };
+
+  if (hasCustomPalette || options.disableAdaptivePalette === true) {
+    return palette;
+  }
+
+  const floorRatio = Number.isFinite(mapIr?.diagnostics?.floorCellRatio)
+    ? mapIr.diagnostics.floorCellRatio
+    : null;
+  if (floorRatio === null) {
+    return palette;
+  }
+
+  const delta = floorRatio - ADAPTIVE_PALETTE.targetFloorRatio;
+  if (Math.abs(delta) < 1e-6) {
+    return palette;
+  }
+
+  if (delta < 0) {
+    const mixAmount = Math.min(
+      ADAPTIVE_PALETTE.maxMix,
+      -delta * ADAPTIVE_PALETTE.sparseLightenScale,
+    );
+    return {
+      ...palette,
+      background: mixHexColors(palette.background, "#ffffff", mixAmount),
+    };
+  }
+
+  const mixAmount = Math.min(
+    ADAPTIVE_PALETTE.maxMix,
+    delta * ADAPTIVE_PALETTE.denseDarkenScale,
+  );
+  return {
+    ...palette,
+    background: mixHexColors(
+      palette.background,
+      ADAPTIVE_PALETTE.darkBackground,
+      mixAmount,
+    ),
   };
 }
 
@@ -54,7 +141,7 @@ function renderMapIrSvg(mapIr, options = {}) {
   const cellSize = Number.isFinite(options.cellSize)
     ? Math.max(6, options.cellSize)
     : 20;
-  const palette = resolvePalette(options);
+  const palette = resolvePalette(mapIr, options);
 
   const width = mapIr.meta.width * cellSize;
   const height = mapIr.meta.height * cellSize;
