@@ -91,10 +91,7 @@ function normalizeAreas(value) {
         entry.connections,
         `areas[${index}].connections`,
       ),
-      exits: normalizeStringArray(
-        entry.exits,
-        `areas[${index}].exits`,
-      ),
+      exits: normalizeStringArray(entry.exits, `areas[${index}].exits`),
       mustInclude: normalizeStringArray(
         entry.mustInclude,
         `areas[${index}].mustInclude`,
@@ -127,7 +124,10 @@ function normalizeDeliverable(value) {
     camera: normalizeString(value.camera, "deliverable.camera"),
     grid: normalizeString(value.grid, "deliverable.grid"),
     labels: normalizeString(value.labels, "deliverable.labels"),
-    legendItems: normalizeStringArray(value.legendItems, "deliverable.legendItems"),
+    legendItems: normalizeStringArray(
+      value.legendItems,
+      "deliverable.legendItems",
+    ),
   };
 }
 
@@ -210,7 +210,8 @@ function buildMapPrompt(spec) {
     spec.deliverable.camera && `Camera: ${spec.deliverable.camera}`,
     spec.deliverable.grid && `Grid treatment: ${spec.deliverable.grid}`,
     spec.deliverable.labels && `Labels: ${spec.deliverable.labels}`,
-    spec.deliverable.legendItems.length > 0 && `Bottom panel MUST be included: white background legend showing short labels under symbols: ${spec.deliverable.legendItems.join(', ')}`,
+    spec.deliverable.legendItems.length > 0 &&
+      `Bottom panel MUST be included: white background legend showing short labels under symbols: ${spec.deliverable.legendItems.join(", ")}`,
   ]);
   if (deliverableSentence) {
     lines.push(`${deliverableSentence}.`);
@@ -320,7 +321,9 @@ function renderMapPromptPacket(spec) {
   lines.push(tableRow("Grid", spec.deliverable.grid));
   lines.push(tableRow("Labels", spec.deliverable.labels));
   if (spec.deliverable.legendItems.length > 0) {
-    lines.push(tableRow("Legend Items", spec.deliverable.legendItems.join(", ")));
+    lines.push(
+      tableRow("Legend Items", spec.deliverable.legendItems.join(", ")),
+    );
   }
   lines.push("");
   lines.push("## Area Schedule");
@@ -335,9 +338,7 @@ function renderMapPromptPacket(spec) {
       `- Connections: ${area.connections.length > 0 ? area.connections.join(", ") : "None specified"}`,
     );
     if (area.exits.length > 0) {
-      lines.push(
-        `- Exits: ${area.exits.join(", ")}`,
-      );
+      lines.push(`- Exits: ${area.exits.join(", ")}`);
     }
     lines.push(
       `- Must Include: ${area.mustInclude.length > 0 ? area.mustInclude.join(", ") : "None specified"}`,
