@@ -3,6 +3,12 @@ const fs = require("fs").promises;
 const path = require("path");
 const sharp = require("sharp");
 
+function ensureSentence(value) {
+  const normalized = String(value || "").trim();
+  if (!normalized) return "";
+  return /[.!?]$/.test(normalized) ? normalized : `${normalized}.`;
+}
+
 function escapeDriveQueryValue(value) {
   return String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
@@ -285,7 +291,9 @@ async function processImagesAndUpload(
  * @returns {string} - The constructed prompt
  */
 function generatePrompt(artStyle, description) {
-  if (!artStyle) return description;
+  if (!artStyle || typeof artStyle !== "object") {
+    return ensureSentence(description || "Image description unavailable");
+  }
 
   const { style, medium, palette, lighting, mood, subjects, avoid } = artStyle;
 
@@ -304,8 +312,9 @@ function generatePrompt(artStyle, description) {
   }
 
   return [
-    `${style}. ${medium}.`,
-    description,
+    style ? `${style}.` : "",
+    medium ? `${medium}.` : "",
+    ensureSentence(description || "Image description unavailable"),
     subjects ? `Subjects: ${subjects}.` : "",
     activePalette ? `Palette: ${activePalette}.` : "",
     lighting ? `Lighting: ${lighting}.` : "",

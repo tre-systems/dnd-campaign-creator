@@ -7,7 +7,7 @@ function assertObject(value, fieldName) {
 }
 
 function normalizeString(value, fieldName, { required = false } = {}) {
-  if (value === undefined || value === null || value === "") {
+  if (value === undefined || value === null) {
     if (required) {
       throw new Error(`${fieldName} is required`);
     }
@@ -18,7 +18,12 @@ function normalizeString(value, fieldName, { required = false } = {}) {
     throw new Error(`${fieldName} must be a string`);
   }
 
-  return String(value).trim();
+  const normalized = String(value).trim();
+  if (required && normalized === "") {
+    throw new Error(`${fieldName} is required`);
+  }
+
+  return normalized;
 }
 
 function normalizeStringArray(value, fieldName) {

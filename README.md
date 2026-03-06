@@ -13,6 +13,7 @@ styled Google Docs, complete with Google Drive image syncing.
 
 - **Automated Google Docs Publishing**: Combines multiple markdown files, organizes them by category, inserts page breaks, generates a title page, and publishes a single cohesive Google Document.
 - **Image Syncing**: Automatically traverses markdown files finding local images (like maps and NPC portraits), uploads them to Google Drive (making them public), and rewrites the markdown to use the new Drive URLs.
+- **Missing Asset Review**: Finds missing local image files, prints reusable prompts for them, and can hand off generation to a project-specific AI provider adapter.
 - **Stat Block Formatting**: D&D 5E compliant formatting for any blockquotes matching the standard `_Size type, alignment_` layout, complete with thematic parchment backgrounds and red dividers.
 
 ## Prerequisites
@@ -230,6 +231,26 @@ npx campaign-creator publish my-epic-adventure --config ./campaign.json
 
 You can append `--test` to the command to run a dry-run which simulates the file fetching and category organization without hitting the Google APIs or modifying any documents.
 
+### Asset Sync
+
+Use `sync-assets` to scan an adventure for missing local image files and print
+prompts for the missing assets:
+
+```bash
+npx campaign-creator sync-assets my-epic-adventure --config ./campaign.json
+```
+
+Add `--generate` only if you have wired a real image provider into
+[`src/ai-service.js`](./src/ai-service.js):
+
+```bash
+npx campaign-creator sync-assets my-epic-adventure --config ./campaign.json --generate
+```
+
+Out of the box, the repository does **not** ship a built-in image provider.
+If `--generate` is used before a provider is implemented, the command fails
+fast with a clear configuration error rather than pretending success.
+
 ### Map Generation
 
 `generate-map` now builds a **prompt packet** for an image model rather than
@@ -259,7 +280,7 @@ an authored area schedule, and revision criteria. The technical reference is in
 
 The repository currently ships these checks:
 
-- `npm test` runs the Node test suite, including map-generation coverage.
+- `npm test` runs the Node test suite, including prompt-packet coverage.
 - `npm run lint` checks Markdown docs.
 - `npm run security:scan` scans tracked files for high-signal secrets and credential artifacts.
 - `npm run verify` runs lint, tests, and the tracked-file security scan together.

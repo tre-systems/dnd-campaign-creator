@@ -42,6 +42,10 @@ Run the repository secret/sensitive-file scan before publishing public changes:
 npm run security:scan
 ```
 
+If you exercise `sync-assets --generate`, remember that the repository does not
+ship a default AI backend. Wire a real provider into `src/ai-service.js` first,
+or expect the command to fail with a configuration error.
+
 If you touch the map generator, run a packet-generation smoke test as well:
 
 ```bash

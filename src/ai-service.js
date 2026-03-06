@@ -67,24 +67,20 @@ class AIService {
 
   /**
    * Placeholder for actual image generation.
-   * In a real implementation, this would call OpenAI, Midjourney, etc.
+   * Callers must wire a real provider into this module before using
+   * `sync-assets --generate`.
    *
    * @param {string} prompt - The final detailed prompt
    * @param {string} savePath - Where to save the image
    */
   async generateImage(prompt, savePath) {
-    // This is a placeholder since we don't know the user's preferred API keys/provider yet.
-    // However, the orchestration logic above is what ensures robustness.
-    return this.withRetry(async () => {
-      console.log(`   🎨 Generating image: ${savePath}`);
-      console.log(`   📝 Prompt: "${prompt.substring(0, 100)}..."`);
-
-      // MOCKED: In reality, call the provider here and write to file
-      // throw new Error("AI Provider not configured. Please add an API key and update src/ai-service.js");
-
-      // For demonstration of the tool's flow, we'll just log and "succeed"
-      // In a real scenario, the user would provide an implementation here.
-    });
+    const error = new Error(
+      "AI provider not configured. Implement src/ai-service.js before using sync-assets --generate.",
+    );
+    error.status = 400;
+    error.prompt = prompt;
+    error.savePath = savePath;
+    throw error;
   }
 }
 

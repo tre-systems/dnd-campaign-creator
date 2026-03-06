@@ -46,6 +46,40 @@ test("validateMapPromptSpec rejects missing area schedules", () => {
   );
 });
 
+test("validateMapPromptSpec rejects whitespace-only required fields", () => {
+  assert.throws(
+    () =>
+      validateMapPromptSpec({
+        id: "   ",
+        title: "Gatehouse Ruin",
+        theme: "Goblin-held dwarven gatehouse",
+        promise: "Players force a breach and discover a deeper threat below.",
+        areas: [
+          {
+            name: "Collapsed Gate",
+          },
+        ],
+      }),
+    /id is required/,
+  );
+
+  assert.throws(
+    () =>
+      validateMapPromptSpec({
+        id: "gatehouse-ruin",
+        title: "Gatehouse Ruin",
+        theme: "Goblin-held dwarven gatehouse",
+        promise: "Players force a breach and discover a deeper threat below.",
+        areas: [
+          {
+            name: "   ",
+          },
+        ],
+      }),
+    /areas\[0\]\.name is required/,
+  );
+});
+
 test("renderMapPromptPacket includes prompt, references, and checklist", () => {
   const spec = validateMapPromptSpec({
     id: "gatehouse-ruin",

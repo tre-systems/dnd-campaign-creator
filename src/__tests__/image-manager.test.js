@@ -2,8 +2,10 @@ const { test, describe } = require("node:test");
 const assert = require("node:assert");
 const {
   extractLocalImagePaths,
+  generatePrompt,
   processImagesAndUpload,
 } = require("../image-manager");
+const { AIService } = require("../ai-service");
 
 describe("image-manager", () => {
   describe("extractLocalImagePaths", () => {
@@ -47,6 +49,25 @@ describe("image-manager", () => {
         "folder123",
       );
       assert.strictEqual(result, content);
+    });
+  });
+
+  describe("generatePrompt", () => {
+    test("does not emit undefined fragments when art style is sparse", () => {
+      const prompt = generatePrompt({}, "Missing portrait");
+      assert.strictEqual(prompt, "Missing portrait. No text or lettering.");
+      assert.ok(!prompt.includes("undefined"));
+    });
+  });
+
+  describe("AIService", () => {
+    test("fails clearly when no provider is configured", async () => {
+      const service = new AIService();
+
+      await assert.rejects(
+        service.generateImage("Prompt", "/tmp/missing.png"),
+        /AI provider not configured/,
+      );
     });
   });
 });
