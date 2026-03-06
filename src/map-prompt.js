@@ -41,7 +41,10 @@ function normalizeReferenceImages(value) {
   return value.map((entry, index) => {
     assertObject(entry, `referenceImages[${index}]`);
 
-    const label = normalizeString(entry.label, `referenceImages[${index}].label`);
+    const label = normalizeString(
+      entry.label,
+      `referenceImages[${index}].label`,
+    );
     const path = normalizeString(entry.path, `referenceImages[${index}].path`);
 
     if (!label && !path) {
@@ -294,7 +297,10 @@ function renderMapPromptPacket(spec) {
   lines.push("| Field | Value |");
   lines.push("| ----- | ----- |");
   lines.push(
-    tableRow("Format", spec.deliverable.format || "single top-down dungeon map"),
+    tableRow(
+      "Format",
+      spec.deliverable.format || "single top-down dungeon map",
+    ),
   );
   lines.push(tableRow("Aspect Ratio", spec.deliverable.aspectRatio));
   lines.push(tableRow("Camera", spec.deliverable.camera));

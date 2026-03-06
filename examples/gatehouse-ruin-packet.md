@@ -8,30 +8,30 @@
 
 ## Metadata
 
-| Field | Value |
-| ----- | ----- |
-| ID | gatehouse-ruin |
-| Title | Gatehouse Ruin |
-| Level | 1 |
-| Chapter | Act I |
-| Theme | Goblin-occupied dwarven gatehouse |
+| Field   | Value                                                                                               |
+| ------- | --------------------------------------------------------------------------------------------------- |
+| ID      | gatehouse-ruin                                                                                      |
+| Title   | Gatehouse Ruin                                                                                      |
+| Level   | 1                                                                                                   |
+| Chapter | Act I                                                                                               |
+| Theme   | Goblin-occupied dwarven gatehouse                                                                   |
 | Promise | Players breach the outer defences and discover the goblins are fortifying against something deeper. |
 
 ## Reference Images
 
-| Ref | Path | Focus | Usage |
-| --- | ---- | ----- | ----- |
+| Ref                     | Path                                        | Focus                                                                                      | Usage                                                                              |
+| ----------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | Primary style reference | ./private-reference/gatehouse-blueprint.jpg | old-school blue-draft wall language, restrained hatching, and clear door and stair symbols | Match the visual language and readability, but do not copy the source composition. |
 
 ## Deliverable
 
-| Field | Value |
-| ----- | ----- |
-| Format | single top-down dungeon map |
-| Aspect Ratio | portrait, roughly 30 by 44 squares |
-| Camera | straight top-down orthographic view |
-| Grid | subtle square grid visible over walkable space only |
-| Labels | room numbers only, no full room names |
+| Field        | Value                                               |
+| ------------ | --------------------------------------------------- |
+| Format       | single top-down dungeon map                         |
+| Aspect Ratio | portrait, roughly 30 by 44 squares                  |
+| Camera       | straight top-down orthographic view                 |
+| Grid         | subtle square grid visible over walkable space only |
+| Labels       | room numbers only, no full room names               |
 
 ## Area Schedule
 

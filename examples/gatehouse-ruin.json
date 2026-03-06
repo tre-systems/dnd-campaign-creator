@@ -40,10 +40,7 @@
       "name": "Collapsed Gate",
       "role": "entry breach point",
       "description": "The outer gatehouse has partially failed, leaving a rubble funnel that attackers must force their way through.",
-      "connections": [
-        "2. Guard Post",
-        "3. Gatehouse Hall"
-      ],
+      "connections": ["2. Guard Post", "3. Gatehouse Hall"],
       "mustInclude": [
         "broken portcullis remains",
         "masonry rubble choke point",
@@ -55,10 +52,7 @@
       "name": "Guard Post",
       "role": "forward sentry position",
       "description": "A defended stop between the breach and the main interior, sized for a short skirmish and alarm response.",
-      "connections": [
-        "1. Collapsed Gate",
-        "3. Gatehouse Hall"
-      ],
+      "connections": ["1. Collapsed Gate", "3. Gatehouse Hall"],
       "mustInclude": [
         "makeshift goblin barricade",
         "clear sightline toward the breach",
@@ -89,10 +83,7 @@
       "name": "Barracks",
       "role": "occupied troop room",
       "description": "A cramped but usable sleeping space for rank-and-file goblins just off the main hall.",
-      "connections": [
-        "3. Gatehouse Hall",
-        "5. Armoury"
-      ],
+      "connections": ["3. Gatehouse Hall", "5. Armoury"],
       "mustInclude": [
         "simple bunk or bedroll cues",
         "tight but traversable footprint",
@@ -104,10 +95,7 @@
       "name": "Armoury",
       "role": "supply room",
       "description": "A compact side room holding scavenged weapons and gear, with one more hidden or indirect access option.",
-      "connections": [
-        "4. Barracks",
-        "3. Gatehouse Hall"
-      ],
+      "connections": ["4. Barracks", "3. Gatehouse Hall"],
       "mustInclude": [
         "weapon rack or crate cues",
         "stout dwarven walls",
@@ -119,10 +107,7 @@
       "name": "Kitchen Well",
       "role": "support room",
       "description": "A service space with a well and simple cooking setup that makes the ruin feel occupied rather than abandoned.",
-      "connections": [
-        "3. Gatehouse Hall",
-        "8. Stairs Down"
-      ],
+      "connections": ["3. Gatehouse Hall", "8. Stairs Down"],
       "mustInclude": [
         "visible well feature",
         "cooking or storage cues",
@@ -134,11 +119,7 @@
       "name": "Boss Room",
       "role": "command space",
       "description": "The most imposing room in the section, where the goblin leader holds court and reacts to threats from the entrance.",
-      "connections": [
-        "3. Gatehouse Hall",
-        "8. Stairs Down",
-        "9. Old Vault"
-      ],
+      "connections": ["3. Gatehouse Hall", "8. Stairs Down", "9. Old Vault"],
       "mustInclude": [
         "dominant focal point or dais",
         "better defensive position than the outer rooms",
@@ -150,10 +131,7 @@
       "name": "Stairs Down",
       "role": "exit to deeper danger",
       "description": "A clear descent point that promises a second phase below the gatehouse.",
-      "connections": [
-        "6. Kitchen Well",
-        "7. Boss Room"
-      ],
+      "connections": ["6. Kitchen Well", "7. Boss Room"],
       "mustInclude": [
         "obvious stair symbol",
         "clear placement near the back half of the map",
@@ -165,9 +143,7 @@
       "name": "Old Vault",
       "role": "secret reward room",
       "description": "A smaller hidden chamber tied to the boss space, useful for treasure or lore payoff.",
-      "connections": [
-        "7. Boss Room"
-      ],
+      "connections": ["7. Boss Room"],
       "mustInclude": [
         "subtle or tucked-away placement",
         "older dwarven character than the goblin rooms",
