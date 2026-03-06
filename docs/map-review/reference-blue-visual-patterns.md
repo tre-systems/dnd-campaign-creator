@@ -1,8 +1,8 @@
-# Paratime Blue Dungeon Maps: Visual Feature and Pattern Inventory
+# Reference Blue Dungeon Maps: Visual Feature and Pattern Inventory
 
-This document records a visual analysis of the local Paratime reference set in:
+This document records a visual analysis of a local blue-draft reference set in:
 
-- `docs/map-review/references/paratime/` (20 maps: `bluemap001.jpg` to `bluemap021b.jpg`, with `005` missing in the source set)
+- `docs/map-review/references/` (sample local reference maps, filenames may vary by workstation)
 
 The goal is to capture recurring map-language rules and stylistic patterns as a concrete reference for map generation work.
 
@@ -79,7 +79,7 @@ The goal is to capture recurring map-language rules and stylistic patterns as a 
 - altar (small rectangle marker)
 - tapestry/curtain (wavy line)
 
-From map legends, additional symbols are part of the broader Paratime language:
+From map legends, additional symbols are part of the broader reference language:
 
 - chest
 - coffin
@@ -160,7 +160,7 @@ From map legends, additional symbols are part of the broader Paratime language:
 
 ## 14. Practical Pattern Summary
 
-If a generated map is intended to read as “Paratime-like,” it should usually satisfy:
+If a generated map is intended to read as “reference-blue,” it should usually satisfy:
 
 - white playable geometry on medium-blue field
 - explicit grid and 10-ft square logic

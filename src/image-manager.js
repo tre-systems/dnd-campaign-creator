@@ -1,9 +1,29 @@
 const { AIService } = require("./ai-service");
 const fs = require("fs").promises;
 const path = require("path");
-const { google } = require("googleapis");
-const crypto = require("crypto");
 const sharp = require("sharp");
+
+function escapeDriveQueryValue(value) {
+  return String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function mimeTypeForImage(filePath) {
+  switch (path.extname(filePath).toLowerCase()) {
+    case ".png":
+      return "image/png";
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".webp":
+      return "image/webp";
+    case ".gif":
+      return "image/gif";
+    case ".svg":
+      return "image/svg+xml";
+    default:
+      return "application/octet-stream";
+  }
+}
 
 /**
  * Scan markdown content for local image paths.
@@ -49,9 +69,9 @@ function extractLocalImagePaths(content, markdownFilePath) {
  */
 async function findImageInDrive(drive, fileName, folderId) {
   try {
-    let query = `name = '${fileName}' and trashed = false`;
+    let query = `name = '${escapeDriveQueryValue(fileName)}' and trashed = false`;
     if (folderId) {
-      query += ` and '${folderId}' in parents`;
+      query += ` and '${escapeDriveQueryValue(folderId)}' in parents`;
     }
 
     const res = await drive.files.list({
@@ -101,7 +121,10 @@ async function makeFilePublic(drive, fileId) {
  * @returns {Promise<string>} - The ID of the uploaded file
  */
 async function uploadImageToDrive(drive, filePath, folderId) {
-  const fileName = path.basename(filePath);
+  const isSvg = filePath.toLowerCase().endsWith(".svg");
+  const fileName = isSvg
+    ? path.basename(filePath).replace(/\.svg$/i, ".png")
+    : path.basename(filePath);
   let fileId = null;
 
   // 1. Check if file exists in Drive already
@@ -119,8 +142,6 @@ async function uploadImageToDrive(drive, filePath, folderId) {
       fileMetadata.parents = [folderId];
     }
 
-    // Check if the file is an SVG
-    const isSvg = filePath.toLowerCase().endsWith(".svg");
     let mediaBody;
 
     if (isSvg) {
@@ -168,13 +189,13 @@ async function uploadImageToDrive(drive, filePath, folderId) {
       mediaBody = Readable.from(pngBuffer);
 
       // Force the drive filename to be .png so Docs doesn't complain about the file type
-      fileMetadata.name = fileName.replace(/\.svg$/i, ".png");
+      fileMetadata.name = fileName;
     } else {
       mediaBody = require("fs").createReadStream(filePath);
     }
 
     const media = {
-      mimeType: "image/png",
+      mimeType: isSvg ? "image/png" : mimeTypeForImage(filePath),
       body: mediaBody,
     };
 

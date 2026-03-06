@@ -1,22 +1,11 @@
 # Reference Images (Local Only)
 
-This directory is reserved for private/local style references used during map
-evaluation.
+This directory remains reserved for private, local reference images.
 
-To keep this repository safe for public distribution, external reference images
-are intentionally **not** tracked in git unless explicit license provenance is
-documented and approved.
+## Usage
 
-If you want to benchmark against personal or third-party references:
-
-1. Place files under this directory locally.
-2. Keep them untracked.
-3. Use deterministic outputs under `docs/map-review/snapshots/` for
-   committed/public artifacts.
-4. Use `docs/map-review/iteration/` only as local scratch space if you generate
-   additional comparison renders during development.
-5. Run `npm run map:style:audit` to compare local references against current
-   strict snapshot outputs using objective style metrics.
-6. Run `npm run map:style:baseline:update` to refresh the committed
-   `docs/map-review/reference-style-metrics.json` baseline when reference inputs
-   are intentionally updated.
+- Keep third-party or personal reference images untracked unless licensing and
+  provenance are explicit.
+- Treat this folder as optional research material only; the current repository
+  does not ship the old `map:style:*` automation described in earlier notes.
+- Use committed docs and fixtures for the active packet-generation workflow.

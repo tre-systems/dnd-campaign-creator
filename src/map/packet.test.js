@@ -39,22 +39,15 @@ function generateGatehouseArtifacts(seed) {
     results: [...topoValidation.results, ...geoValidation.results],
   };
 
-  return { geometry, graph, intent, ascii: null, validation };
+  return { geometry, graph, intent, validation };
 }
 
 describe("packet", () => {
   it("renders computed ecology instead of placeholders", () => {
-    const { geometry, graph, intent, ascii, validation } =
+    const { geometry, graph, intent, validation } =
       generateGatehouseArtifacts(42);
 
-    const packet = renderPacket(
-      geometry,
-      graph,
-      intent,
-      ascii,
-      "./gatehouse-ruin-map.svg",
-      validation,
-    );
+    const packet = renderPacket(geometry, graph, intent, validation);
 
     assert.ok(packet.includes("### Territory Zones"));
     assert.ok(packet.includes("| Perimeter |"));
@@ -66,17 +59,10 @@ describe("packet", () => {
   });
 
   it("includes escalation clocks and sequence for dynamic behaviour", () => {
-    const { geometry, graph, intent, ascii, validation } =
+    const { geometry, graph, intent, validation } =
       generateGatehouseArtifacts(99);
 
-    const packet = renderPacket(
-      geometry,
-      graph,
-      intent,
-      null,
-      null,
-      validation,
-    );
+    const packet = renderPacket(geometry, graph, intent, validation);
 
     assert.ok(packet.includes("## Dynamic Behaviour"));
     assert.ok(packet.includes("| Clock | Trigger | Effect | Reset |"));

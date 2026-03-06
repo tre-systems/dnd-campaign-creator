@@ -8,6 +8,51 @@ const { marked } = require("marked");
 const { inlineMarkdownToText } = require("./markdown-utils");
 const { isStatBlock, formatStatBlock } = require("./stat-block-formatter");
 
+function appendInlineFormatting(
+  requests,
+  formatting,
+  absoluteStart,
+  textLength,
+) {
+  if (
+    !Array.isArray(formatting) ||
+    formatting.length === 0 ||
+    textLength <= 0
+  ) {
+    return;
+  }
+
+  const absoluteEnd = absoluteStart + textLength;
+
+  for (const fmt of formatting) {
+    const range = fmt?.updateTextStyle?.range;
+    if (!range) {
+      continue;
+    }
+
+    const startIdx = absoluteStart + range.startIndex;
+    const endIdx = absoluteStart + range.endIndex;
+
+    if (
+      range.startIndex < 0 ||
+      range.endIndex < 0 ||
+      startIdx < absoluteStart ||
+      endIdx > absoluteEnd ||
+      startIdx >= endIdx
+    ) {
+      continue;
+    }
+
+    requests.push({
+      updateTextStyle: {
+        ...fmt.updateTextStyle,
+        range: { startIndex: startIdx, endIndex: endIdx },
+        textStyle: { ...(fmt.updateTextStyle.textStyle || {}) },
+      },
+    });
+  }
+}
+
 /**
  * Convert Markdown to Google Docs API batchUpdate requests.
  * Uses marked library to parse Markdown into tokens, then converts to Google Docs format.
@@ -91,6 +136,12 @@ function markdownToGoogleDocsRequests(mdContent) {
               text: paraText.text + "\n",
             },
           });
+          appendInlineFormatting(
+            requests,
+            paraText.formatting,
+            paraStart,
+            paraText.text.length,
+          );
           currentIndex += paraText.text.length + 1;
         }
 
@@ -313,21 +364,12 @@ function tokenToGoogleDocs(token, startIndex) {
       });
 
       // Apply inline formatting (validate indices)
-      if (headingText.formatting && headingText.formatting.length > 0) {
-        headingText.formatting.forEach((fmt) => {
-          const startIdx = headingStart + fmt.updateTextStyle.range.startIndex;
-          const endIdx = headingStart + fmt.updateTextStyle.range.endIndex;
-          // Only apply if indices are valid
-          if (
-            endIdx <= headingStart + headingText.text.length &&
-            startIdx < endIdx
-          ) {
-            fmt.updateTextStyle.range.startIndex = startIdx;
-            fmt.updateTextStyle.range.endIndex = endIdx;
-            requests.push(fmt);
-          }
-        });
-      }
+      appendInlineFormatting(
+        requests,
+        headingText.formatting,
+        headingStart,
+        headingText.text.length,
+      );
 
       currentIndex = headingEnd + 1;
       break;
@@ -351,18 +393,12 @@ function tokenToGoogleDocs(token, startIndex) {
       });
 
       // Apply inline formatting (validate indices first)
-      if (paraText.formatting && paraText.formatting.length > 0) {
-        paraText.formatting.forEach((fmt) => {
-          const startIdx = paraStart + fmt.updateTextStyle.range.startIndex;
-          const endIdx = paraStart + fmt.updateTextStyle.range.endIndex;
-          // Only apply if indices are valid
-          if (endIdx <= paraStart + paraText.text.length && startIdx < endIdx) {
-            fmt.updateTextStyle.range.startIndex = startIdx;
-            fmt.updateTextStyle.range.endIndex = endIdx;
-            requests.push(fmt);
-          }
-        });
-      }
+      appendInlineFormatting(
+        requests,
+        paraText.formatting,
+        paraStart,
+        paraText.text.length,
+      );
 
       currentIndex += paraText.text.length + 1;
       break;
@@ -391,23 +427,12 @@ function tokenToGoogleDocs(token, startIndex) {
         });
 
         // Apply formatting (validate indices)
-        if (itemText.formatting && itemText.formatting.length > 0) {
-          itemText.formatting.forEach((fmt) => {
-            const startIdx =
-              itemStart + prefix.length + fmt.updateTextStyle.range.startIndex;
-            const endIdx =
-              itemStart + prefix.length + fmt.updateTextStyle.range.endIndex;
-            // Only apply if indices are valid
-            if (
-              endIdx <= itemStart + (prefix + itemText.text).length &&
-              startIdx < endIdx
-            ) {
-              fmt.updateTextStyle.range.startIndex = startIdx;
-              fmt.updateTextStyle.range.endIndex = endIdx;
-              requests.push(fmt);
-            }
-          });
-        }
+        appendInlineFormatting(
+          requests,
+          itemText.formatting,
+          itemStart + prefix.length,
+          itemText.text.length,
+        );
 
         // Add visual spacing below list items for readability
         requests.push({
@@ -556,13 +581,12 @@ function tokenToGoogleDocs(token, startIndex) {
         }
       }
 
-      const quoteStart = currentIndex;
-
       // Add spacing before quote
       requests.push({
         insertText: { location: { index: currentIndex }, text: "\n" },
       });
       currentIndex += 1;
+      const quoteTextStart = currentIndex;
 
       requests.push({
         insertText: {
@@ -646,21 +670,12 @@ function tokenToGoogleDocs(token, startIndex) {
         },
       });
       // Apply inline formatting if any (validate indices)
-      if (quoteText.formatting && quoteText.formatting.length > 0) {
-        quoteText.formatting.forEach((fmt) => {
-          const startIdx = quoteStart + fmt.updateTextStyle.range.startIndex;
-          const endIdx = quoteStart + fmt.updateTextStyle.range.endIndex;
-          // Only apply if indices are valid
-          if (
-            endIdx <= quoteStart + quoteText.text.length &&
-            startIdx < endIdx
-          ) {
-            fmt.updateTextStyle.range.startIndex = startIdx;
-            fmt.updateTextStyle.range.endIndex = endIdx;
-            requests.push(fmt);
-          }
-        });
-      }
+      appendInlineFormatting(
+        requests,
+        quoteText.formatting,
+        quoteTextStart,
+        quoteText.text.length,
+      );
       currentIndex = quoteEnd + 1;
 
       // Add spacing after blockquote for visual separation

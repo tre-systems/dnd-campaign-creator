@@ -323,20 +323,29 @@ function formatStatBlock(blockquoteToken, startIndex) {
         paraText.formatting.forEach((fmt) => {
           const startIdx = paraStart + fmt.updateTextStyle.range.startIndex;
           const endIdx = paraStart + fmt.updateTextStyle.range.endIndex;
-          if (endIdx <= paraStart + paraText.text.length && startIdx < endIdx) {
-            fmt.updateTextStyle.range.startIndex = startIdx;
-            fmt.updateTextStyle.range.endIndex = endIdx;
+          if (
+            startIdx >= paraStart &&
+            endIdx <= paraStart + paraText.text.length &&
+            startIdx < endIdx
+          ) {
+            const nextFmt = {
+              updateTextStyle: {
+                ...fmt.updateTextStyle,
+                range: { startIndex: startIdx, endIndex: endIdx },
+                textStyle: { ...(fmt.updateTextStyle.textStyle || {}) },
+              },
+            };
 
             // If bold, ensure it's still Roboto but Bold
-            if (fmt.updateTextStyle.textStyle.bold) {
-              fmt.updateTextStyle.textStyle.weightedFontFamily = {
+            if (nextFmt.updateTextStyle.textStyle.bold) {
+              nextFmt.updateTextStyle.textStyle.weightedFontFamily = {
                 fontFamily: "Roboto",
                 weight: 700,
               };
-              fmt.updateTextStyle.fields += ",weightedFontFamily";
+              nextFmt.updateTextStyle.fields += ",weightedFontFamily";
             }
 
-            requests.push(fmt);
+            requests.push(nextFmt);
           }
         });
       }
@@ -699,22 +708,28 @@ function formatStatBlockList(listToken, startIndex) {
         const endIdx =
           itemStart + prefix.length + fmt.updateTextStyle.range.endIndex;
         if (
+          startIdx >= itemStart + prefix.length &&
           endIdx <= itemStart + (prefix + itemText.text).length &&
           startIdx < endIdx
         ) {
-          fmt.updateTextStyle.range.startIndex = startIdx;
-          fmt.updateTextStyle.range.endIndex = endIdx;
+          const nextFmt = {
+            updateTextStyle: {
+              ...fmt.updateTextStyle,
+              range: { startIndex: startIdx, endIndex: endIdx },
+              textStyle: { ...(fmt.updateTextStyle.textStyle || {}) },
+            },
+          };
 
           // Ensure bold items use Roboto Bold
-          if (fmt.updateTextStyle.textStyle.bold) {
-            fmt.updateTextStyle.textStyle.weightedFontFamily = {
+          if (nextFmt.updateTextStyle.textStyle.bold) {
+            nextFmt.updateTextStyle.textStyle.weightedFontFamily = {
               fontFamily: "Roboto",
               weight: 700,
             };
-            fmt.updateTextStyle.fields += ",weightedFontFamily";
+            nextFmt.updateTextStyle.fields += ",weightedFontFamily";
           }
 
-          requests.push(fmt);
+          requests.push(nextFmt);
         }
       });
     }

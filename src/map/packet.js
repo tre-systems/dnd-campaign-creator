@@ -13,19 +13,10 @@ const { roomLabelFromIndex } = require("./room-label");
  * @param {Object} geometry - Geometry with rooms and corridors
  * @param {Object} graph - TopologyGraph
  * @param {Object} intent - Section intent
- * @param {string} asciiMap - ASCII map string
- * @param {string} [svgFilename] - SVG filename for image reference
  * @param {{valid: boolean, results: Object[]}} [validationResult] - Validation results
  * @returns {string} Markdown section packet
  */
-function renderPacket(
-  geometry,
-  graph,
-  intent,
-  asciiMap,
-  svgFilename,
-  validationResult,
-) {
+function renderPacket(geometry, graph, intent, validationResult) {
   const sections = [];
 
   // 0. AI Generation Prompt
@@ -71,37 +62,16 @@ function renderPromptInstructions(geometry, graph, intent) {
     return `- **Room ${label} (${room.nodeName})**: Located at (${room.x}, ${room.y}), size ${room.w}x${room.h}. Shape: ${room.shape}. Type: ${room.nodeType}.`;
   });
 
-  // Pick a reference map based on section ID to provide variety
-  const refMaps = [
-    "bluemap003.jpg",
-    "bluemap006.jpg",
-    "bluemap007.jpg",
-    "bluemap008.jpg",
-    "bluemap009.jpg",
-    "bluemap010.jpg",
-    "bluemap011.jpg",
-    "bluemap012.jpg",
-    "bluemap013.jpg",
-  ];
-  // Simple deterministic pick
-  let charSum = 0;
-  for (let i = 0; i < intent.id.length; i++) charSum += intent.id.charCodeAt(i);
-  const refMap = refMaps[charSum % refMaps.length];
-  const refPath = `../../docs/map-review/references/paratime/${refMap}`;
-
   return [
-    `# Map Generation Prompt for Nanobanna 2`,
+    `# Map Generation Prompt`,
     ``,
     `**Instructions for AI:**`,
-    `You are an expert fantasy cartographer. I need you to draw a D&D dungeon map in the style of the reference image embedded below.`,
+    `You are an expert fantasy cartographer. I need you to draw a D&D dungeon map using the structural and thematic guidance below.`,
     `Use the exact structural and thematic information provided.`,
-    ``,
-    `## Style Reference: ${refMap}`,
-    `![Style Reference](${refPath})`,
     ``,
     `- **Theme**: ${intent.theme}`,
     `- **Grid Size**: ${geometry.width} x ${geometry.height} (1 unit = 5 feet)`,
-    `- **Style**: Blue-hued background, solid white floors, textured "rock" borders containing parallel hatching and stippling. Clean, hand-drafted straight lines.`,
+    `- **Style**: Classic blue-draft dungeon aesthetic, solid light floors, textured rock borders with restrained hatching and stippling, and clean hand-drafted linework.`,
     `- **Content**: Top-down 2D view. Use standard old-school map symbols (doors, stairs, pillars). Include room numbers from the Room Key.`,
     `- **Grid**: Overlay a subtle square grid over the walkable floor areas.`,
     ``,

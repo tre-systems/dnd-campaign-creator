@@ -43,7 +43,7 @@ All code lives in `src/map/`:
 | `corridors.js`               | Geometry     | A\* corridor routing, door placement                  |
 | `dressing.js`                | Geometry     | Thematic feature placement (pillars, altars, etc.)    |
 | `validate.js`                | Cross-layer  | Topology and geometry validation rules                |
-| `render-svg.js`              | Presentation | SVG rendering (Paratime blue style)                   |
+| `render-svg.js`              | Presentation | SVG rendering (classic blue-draft style)              |
 | `render-ascii.js`            | Presentation | ASCII text rendering                                  |
 | `packet.js`                  | Presentation | Markdown specification document                       |
 | `fixtures/gatehouse-ruin.js` | Test data    | Gatehouse (9 rooms), linear (3), dwarven complex (22) |
@@ -497,7 +497,7 @@ placement.
 
 **Module:** `render-svg.js`
 
-Produces old-school dungeon maps in the Paratime/TSR blue style.
+Produces old-school dungeon maps in a classic blue-draft style.
 
 #### Rendering order
 
@@ -539,7 +539,7 @@ rather than a uniform fill.
 
 #### Color schemes
 
-**Blue (default, Paratime style):**
+**Blue (default, classic draft style):**
 
 - Background: `#4a90b8`
 - Floors: `#eef6fb`
@@ -685,7 +685,7 @@ const svg = renderSvg(geometry, graph, intent, {
   labelMode: "auto",
 });
 const ascii = renderAscii(geometry, graph);
-const packet = renderPacket(geometry, graph, intent, ascii, "map.svg", {
+const packet = renderPacket(geometry, graph, intent, {
   valid: topoResult.valid && geoResult.valid,
   results: [...topoResult.results, ...geoResult.results],
 });
@@ -737,16 +737,16 @@ if you need archived visual outputs from older versions.
 | Version | Key changes                                                                                                                                           |
 | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | v4      | Initial blue rendering, basic wall segments                                                                                                           |
-| v5      | Paratime wall color (#16516d), 10ft scale, room label improvements                                                                                    |
+| v5      | Blue wall color tuning (#16516d), 10ft scale, room label improvements                                                                                 |
 | v6      | 22-room dwarven complex, dressing system, L-shaped rooms                                                                                              |
 | v7      | A\* corridor routing, rock hatching default, thicker walls                                                                                            |
 | v8      | Blueprint grain texture, double-line frame, layered wall strokes, improved compass/legend readability                                                 |
 | v9      | Blueprint wash, major 5-square grid lines, title block + sheet border, room number tags, legend sizing sync                                           |
 | v10     | Door/lock/secret/stair glyph polish and denser period-style rock treatment (dual hatch + stipple + chisel)                                            |
-| v11     | Strict Paratime profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA  |
+| v11     | Strict blueprint profile (`blueprint-strict`), centered labels, reduced chrome defaults, computed ecology/dynamic packet sections, visual snapshot QA |
 | v12     | Grid-backed threshold door placement, doorway-aware feature keepouts/relocation, explicit `labelMode` overrides (`auto`, `corner`, `center`, `none`)  |
 | v13     | Reference-style CI gate via checked-in style metrics baseline, with scored alignment and critical delta thresholds                                    |
-| v14     | Paratime spec-driven quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                     |
+| v14     | Reference-style quality scoring (`style + content + semantics`) with structural gate and CI report artifacts                                          |
 | v15     | Gated-threshold symbol precedence (no lock/secret downgrades) plus stricter v1.1 quality checks for density, width variation, and gated-edge matching |
 | v16     | Strict palette calibration + snapshot refresh; style alignment baseline to `45.7` and CI style-gate floor to `45`                                     |
 
@@ -761,7 +761,7 @@ and clockwork archive profiles across fixed seeds.
 - `npm run map:snapshots:update` regenerates baselines intentionally.
 - `npm run map:snapshots:check` compares current output to baselines.
 - `npm run map:style:audit` compares snapshot style metrics to local reference
-  images in `docs/map-review/references/paratime/` and reports measurable gaps.
+  images in `docs/map-review/references/` and reports measurable gaps.
 - `npm run map:style:gate` enforces a minimum alignment score and critical
   metric-delta limits against `docs/map-review/reference-style-metrics.json`.
 - `npm run map:style:baseline:update` refreshes the checked-in style baseline

@@ -6,7 +6,6 @@
 
 const fs = require("fs").promises;
 const path = require("path");
-const { google } = require("googleapis");
 const { markdownToGoogleDocsRequests } = require("./markdown-converter");
 
 /**
@@ -176,7 +175,6 @@ async function createOrUpdateDoc(
  */
 async function getMarkdownFiles(directory, baseDir = null) {
   const files = [];
-  const base = baseDir || directory;
 
   async function walkDir(dir) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -195,95 +193,6 @@ async function getMarkdownFiles(directory, baseDir = null) {
 
   await walkDir(directory);
   return files.sort();
-}
-
-/**
- * List all published Sanctum documents in Google Drive.
- *
- * @param {Object} driveService - Google Drive API service
- * @returns {Promise<void>}
- */
-async function listDocs(driveService) {
-  console.log("📋 Listing Sanctum documents in Google Drive...\n");
-
-  try {
-    // Search for documents with Sanctum-related names
-    const query =
-      "mimeType='application/vnd.google-apps.document' and (name contains 'Sanctum' or name contains 'Terminus' or name contains 'Memory Engine' or name contains 'Forge' or name contains 'Canyon' or name contains 'Spire' or name contains 'Plated Mage' or name contains 'Voice Guide' or name contains 'Campaign Connections' or name contains 'Character Hooks' or name contains 'Dm Guide' or name contains 'Multiple Endings' or name contains 'Npc Relationships' or name contains 'Hex Map')";
-
-    const files = await driveService.files.list({
-      q: query,
-      fields: "files(id, name, webViewLink, modifiedTime, createdTime)",
-      orderBy: "name",
-    });
-
-    if (files.data.files && files.data.files.length > 0) {
-      console.log(`Found ${files.data.files.length} documents:\n`);
-      files.data.files.forEach((file, index) => {
-        const modified = file.modifiedTime
-          ? new Date(file.modifiedTime).toLocaleDateString()
-          : "Unknown";
-        console.log(`${index + 1}. ${file.name}`);
-        console.log(`   📄 ${file.webViewLink}`);
-        console.log(`   📅 Modified: ${modified}\n`);
-      });
-    } else {
-      console.log("No Sanctum documents found in Google Drive.");
-    }
-  } catch (error) {
-    console.error("Error listing documents:", error.message);
-  }
-}
-
-/**
- * Get document content from Google Docs.
- *
- * @param {Object} docsService - Google Docs API service
- * @param {string} docId - Document ID
- * @returns {Promise<string|null>} - Document text content or null on error
- */
-async function getDocContent(docsService, docId) {
-  try {
-    const doc = await docsService.documents.get({ documentId: docId });
-
-    // Extract text content
-    let text = "";
-    if (doc.data.body && doc.data.body.content) {
-      function extractText(element) {
-        if (element.paragraph) {
-          const para = element.paragraph;
-          if (para.elements) {
-            para.elements.forEach((elem) => {
-              if (elem.textRun) {
-                text += elem.textRun.content;
-              }
-            });
-          }
-        } else if (element.table) {
-          // Handle tables
-          element.table.tableRows.forEach((row) => {
-            row.tableCells.forEach((cell) => {
-              if (cell.content) {
-                cell.content.forEach((cont) => {
-                  extractText(cont);
-                });
-              }
-            });
-            text += "\n";
-          });
-        }
-      }
-
-      doc.data.body.content.forEach((element) => {
-        extractText(element);
-      });
-    }
-
-    return text;
-  } catch (error) {
-    console.error("Error getting document content:", error.message);
-    return null;
-  }
 }
 
 /**
@@ -543,6 +452,4 @@ async function processRequestsWithTables(docsService, docId, requests) {
 module.exports = {
   createOrUpdateDoc,
   getMarkdownFiles,
-  listDocs,
-  getDocContent,
 };

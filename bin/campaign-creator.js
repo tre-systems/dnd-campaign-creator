@@ -12,15 +12,12 @@
 const fs = require("fs").promises;
 const path = require("path");
 const { google } = require("googleapis");
-const { marked } = require("marked");
 
 const { loadConfig } = require("../src/config");
 const { authorize } = require("../src/auth");
 const {
   getMarkdownFiles,
   createOrUpdateDoc,
-  listDocs,
-  getDocContent,
 } = require("../src/document-manager");
 const {
   processImagesAndUpload,
@@ -66,8 +63,10 @@ function generateTitlePage(adventureConfig) {
 async function combineAdventureFiles(
   adventureDir,
   adventureConfig,
-  forPublishing = true,
+  options = {},
 ) {
+  const { forPublishing = true, transformContent } =
+    typeof options === "boolean" ? { forPublishing: options } : options;
   const mdFiles = await getMarkdownFiles(adventureDir);
   const order = adventureConfig.order || {};
 
@@ -125,7 +124,10 @@ async function combineAdventureFiles(
     let isFirstFileInCategory = true;
 
     for (const file of filesInCategory) {
-      const content = await fs.readFile(file.path, "utf-8");
+      let content = await fs.readFile(file.path, "utf-8");
+      if (typeof transformContent === "function") {
+        content = await transformContent(content, file.path);
+      }
 
       // Spacing logic (assume page breaks between sections unless overridden)
       const breakType = adventureConfig.useThematicBreaks
@@ -187,7 +189,9 @@ async function publishAdventure(config, adventureName, isDryRun = false) {
       `🧪 TEST MODE: Combining files for ${adventureConfig.title}...\n`,
     );
     const { combinedContent, sortedFiles, categorizedFiles } =
-      await combineAdventureFiles(adventureDir, adventureConfig, false);
+      await combineAdventureFiles(adventureDir, adventureConfig, {
+        forPublishing: false,
+      });
 
     console.log(`Found ${sortedFiles.length} Markdown files\n`);
     console.log("📋 Files to be included:\n");
@@ -234,16 +238,16 @@ async function publishAdventure(config, adventureName, isDryRun = false) {
   const { combinedContent } = await combineAdventureFiles(
     adventureDir,
     adventureConfig,
-    true,
-  );
-
-  // Provide the adventureDir as the context for relative image paths
-  const fakeMarkdownPathForRoot = path.join(adventureDir, "index.md");
-  const finalContent = await processImagesAndUpload(
-    driveService,
-    combinedContent,
-    adventureConfig.folderId,
-    fakeMarkdownPathForRoot,
+    {
+      forPublishing: true,
+      transformContent: (content, filePath) =>
+        processImagesAndUpload(
+          driveService,
+          content,
+          adventureConfig.folderId,
+          filePath,
+        ),
+    },
   );
 
   console.log(`\n📄 Creating/updating: ${adventureConfig.title}`);
@@ -252,7 +256,7 @@ async function publishAdventure(config, adventureName, isDryRun = false) {
     docsService,
     driveService,
     adventureConfig.title,
-    finalContent,
+    combinedContent,
     adventureConfig.folderId,
     adventureConfig.targetDocId,
   );
@@ -319,6 +323,7 @@ async function run() {
       await publishAdventure(config, adventureName, isTest);
     } catch (error) {
       console.error("Critical Error Config:", error.message);
+      process.exit(1);
     }
   } else if (command === "sync-assets") {
     const adventureName = args[1];
@@ -336,6 +341,7 @@ async function run() {
       await syncAssets(config, adventureName, shouldGenerate);
     } catch (error) {
       console.error("Critical Error Config:", error.message);
+      process.exit(1);
     }
   } else if (command === "generate-map") {
     const sectionFile = args[1];
@@ -358,13 +364,13 @@ D&D Campaign Creator Tool
 Usage:
   campaign-creator publish <adventure-key> [--config ./campaign.json] [--test]
   campaign-creator sync-assets <adventure-key> [--config ./campaign.json] [--generate]
-  campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only]
+  campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--max-attempts <n>] [--allow-invalid]
 `);
   }
 }
 
 /**
- * Generate a dungeon map from a section definition JSON file.
+ * Generate a section packet from a section definition JSON file.
  */
 async function generateMap(sectionFile, args) {
   const { buildIntent, createRng } = require("../src/map/intent");
@@ -384,9 +390,6 @@ async function generateMap(sectionFile, args) {
     getArg("--output") || path.dirname(path.resolve(sectionFile));
   const seedInput = getArg("--seed");
   const seed = seedInput ? parseInt(seedInput, 10) : Date.now();
-  const cellSize = getArg("--cell-size")
-    ? parseInt(getArg("--cell-size"), 10)
-    : 20;
   const maxAttempts = getArg("--max-attempts")
     ? parseInt(getArg("--max-attempts"), 10)
     : 50;
@@ -476,14 +479,7 @@ async function generateMap(sectionFile, args) {
   await fs.mkdir(outputDir, { recursive: true });
 
   // Section packet markdown
-  const packet = renderPacket(
-    geometry,
-    graph,
-    intent,
-    null, // ASCII removed
-    null, // SVG removed
-    allValidation,
-  );
+  const packet = renderPacket(geometry, graph, intent, allValidation);
   const packetPath = path.join(outputDir, `${intent.id}-packet.md`);
   await fs.writeFile(packetPath, packet, "utf8");
   console.log(`Section packet (for prompting): ${packetPath}`);
@@ -492,7 +488,10 @@ async function generateMap(sectionFile, args) {
 }
 
 if (require.main === module) {
-  run().catch(console.error);
+  run().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 }
 
 module.exports = {

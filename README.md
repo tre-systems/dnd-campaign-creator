@@ -6,9 +6,8 @@
 </div>
 <!-- markdownlint-enable MD033 -->
 
-A generic, automated utility for compiling Markdown-based D&D adventures into flawlessly styled Google Docs, complete with Google Drive image syncing.
-
-This tool extracts the robust publishing scripts developed for the _Borderlands Campaign_ and makes them available for any organized repository of Markdown adventure notes.
+A generic, automated utility for compiling Markdown-based D&D adventures into
+styled Google Docs, complete with Google Drive image syncing.
 
 ## Features
 
@@ -129,15 +128,7 @@ If OAuth tokens become stale/corrupt, delete `token.json` and authenticate again
 
 This repository now acts as a **generic, reusable engine**. Campaign content itself should live in completely separate repositories and link to these tools.
 
-### 1. Initializing a New Campaign
-
-You can create a new blank campaign repository anywhere on your machine by referring to the Antigravity workflow designed for this tool.
-
-If you are using Google Antigravity, simply tell the agent:
-
-> "Use the create-campaign workflow to make a new campaign at /path/to/my/new/campaign"
-
-### 2. Manual Setup
+### 1. Manual Setup
 
 If you prefer manual setup:
 
@@ -150,7 +141,7 @@ If you prefer manual setup:
 
 3. Copy the `campaign.example.json` file from this repository into your new campaign repository and rename it to `campaign.json`.
 
-### `campaign.json` Configuration
+### 2. `campaign.json` Configuration
 
 Your campaign repository must have a `campaign.json` at its root.
 
@@ -241,7 +232,7 @@ You can append `--test` to the command to run a dry-run which simulates the file
 
 ### Map Generation
 
-The tool can generate old-school tactical maps and section packets from a section JSON definition:
+The tool can validate a section definition, generate layout/topology data, and emit a packet for downstream prompting or review:
 
 ```bash
 npx campaign-creator generate-map ./examples/gatehouse-ruin.json --output ./examples --seed 42
@@ -249,20 +240,13 @@ npx campaign-creator generate-map ./examples/gatehouse-ruin.json --output ./exam
 
 Generated artifacts:
 
-- `<id>-map.txt` (ASCII map)
-- `<id>-map.svg` (styled SVG map)
 - `<id>-packet.md` (section packet with topology, room key, and validation checklist)
 
 Useful options:
 
+- `--output <dir>` write the packet into a different directory
+- `--seed <n>` make generation deterministic for repeat runs
 - `--validate-only` run topology checks without geometry/output
-- `--ascii-only` skip SVG generation
-- `--cell-size <px>` SVG cell size (default `20`)
-- `--no-grid` disable SVG grid lines
-- `--no-labels` disable room labels
-- `--label-mode <auto|corner|center|none>` room label placement strategy
-- `--color-scheme <blue|parchment>` map palette
-- `--style-profile <blue-enhanced|blueprint-strict>` blue-map style profile
 - `--max-attempts <n>` geometry retry budget (default `50`)
 - `--allow-invalid` emit outputs even if geometry validation fails
 
@@ -271,79 +255,21 @@ Notes:
 - The map system enforces a maximum section grid of `60 x 60` and minimum `10 x 10`.
 - Connector definitions are routed into playable space and validated for reachability.
 - `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
-- `blueprint-strict` defaults to flatter old-school output (no sheet wash, paper grain, title block, legend, or compass unless explicitly enabled).
 - Room geometry is semantic (`rect`, `notched`, `chamfered`, `cross`, `cave`) and selected from node intent and naming.
 - Entry/exit rooms receive automatic transition symbols (stairs up/down), with name-direction hints overriding defaults.
 - Dressing placement now reserves doorway ingress and center traffic lanes so key room features do not block natural movement.
+- The current CLI is packet-only. ASCII and SVG renderers are not part of the current command surface.
 
-### Quality Automation
+### Quality Checks
 
-Quality is enforced in four layers:
+The repository currently ships these checks:
 
-- Local pre-commit hook: runs `npm test`, formatting, and markdown lint.
-- Local pre-push hook: runs `npm run verify` (lint + tests + map snapshot diffs + style gate + structural quality gate + tracked-file secret scan).
-- CI workflow: GitHub Actions runs `npm run verify`, scans full git history for secret patterns, and audits production dependencies on every PR and on pushes to `main`.
-- CI workflow also publishes a map quality report artifact (`JSON` + `Markdown`) for each run.
-
-You can run the same checks manually with:
-
-```bash
-npm run verify
-```
-
-Map rendering snapshots are managed with:
-
-```bash
-npm run map:snapshots:update
-npm run map:snapshots:check
-```
-
-Reference-style alignment against local Paratime benchmarks:
-
-```bash
-npm run map:style:audit
-```
-
-Reference-style gate used by `verify` and CI:
-
-```bash
-npm run map:style:gate
-```
-
-Structural/content/semantics quality scoring and gate:
-
-```bash
-npm run map:quality:score
-npm run map:quality:gate
-```
-
-Refresh the checked-in reference metrics baseline (requires local reference images):
-
-```bash
-npm run map:style:baseline:update
-```
-
-Notes:
-
-- `map:style:audit` compares generated snapshots to local images under
-  `docs/map-review/references/paratime/`.
-- `map:style:gate` compares generated snapshots to
-  `docs/map-review/reference-style-metrics.json` so CI can enforce style
-  alignment without requiring external reference image files.
-- `map:quality:gate` evaluates style + content + semantic topology checks using
-  `docs/map-review/paratime-style-spec.json` to prevent regressions while map
-  generation logic evolves.
-- `map:quality:score` emits a human/machine-readable report without failing the
-  run (unless used in gate mode).
-- Current structural quality gate (`paratime-style-spec.json`) requires
-  composite score `>= 75`, corridor-width variety across the suite, bounded
-  feature-cell density, and full gated-edge symbol-match coverage.
-- Current gate thresholds: minimum alignment score `45`, with max absolute
-  deltas for `luminanceMean=0.12`, `saturationMean=0.08`,
-  `inkCoverage=0.08`, and `orthogonalEdgeRatio=0.16`.
-- Snapshot QA currently tracks 12 deterministic strict renders across gatehouse,
-  dwarven, sunken, and clockwork fixtures with varied seeds.
-- Reference images stay local-only by default and are excluded from git.
+- `npm test` runs the Node test suite, including map-generation coverage.
+- `npm run lint` checks Markdown docs.
+- `npm run security:scan` scans tracked files for high-signal secrets and credential artifacts.
+- `npm run verify` runs lint, tests, and the tracked-file security scan together.
+- `npm run check-links` verifies external links in docs and examples.
+- `npm run public:check` runs `verify`, scans full git history for secrets, and audits production dependencies.
 
 Public-release checks are available with:
 
@@ -361,7 +287,7 @@ npm run public:check
 
 This runs:
 
-- `npm run verify` for lint/tests/snapshot guardrails and tracked-file secret scanning
+- `npm run verify` for lint, tests, and tracked-file secret scanning
 - `npm run security:scan:history` to scan full git history for high-signal secret patterns
 - `npm audit --omit=dev --audit-level=high` for production dependency vulnerabilities
 

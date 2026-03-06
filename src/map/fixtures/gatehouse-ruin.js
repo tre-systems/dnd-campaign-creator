@@ -229,7 +229,7 @@ function createLinearSection() {
 
 /**
  * Create a large dungeon complex with 22 rooms.
- * Designed to produce dense Paratime-style blue maps.
+ * Designed to produce dense classic-blue dungeon map examples.
  */
 function createDwarvenComplexSection() {
   return {

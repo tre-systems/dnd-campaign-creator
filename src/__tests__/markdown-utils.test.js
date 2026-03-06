@@ -95,4 +95,67 @@ describe("inlineMarkdownToText", () => {
     assert.strictEqual(result.text, "bold italic code");
     assert.strictEqual(result.formatting.length, 3);
   });
+
+  it("handles bold text nested inside a link", () => {
+    const result = inlineMarkdownToText("[**Bold**](https://example.com)");
+    assert.strictEqual(result.text, "Bold");
+
+    const boldFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.bold,
+    );
+    const linkFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.link?.url === "https://example.com",
+    );
+
+    assert.deepStrictEqual(boldFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+    assert.deepStrictEqual(linkFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+  });
+
+  it("handles a link nested inside bold text", () => {
+    const result = inlineMarkdownToText("**[Link](https://example.com)**");
+    assert.strictEqual(result.text, "Link");
+
+    const boldFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.bold,
+    );
+    const linkFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.link?.url === "https://example.com",
+    );
+
+    assert.deepStrictEqual(boldFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+    assert.deepStrictEqual(linkFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+  });
+
+  it("handles italic text wrapped around bold text", () => {
+    const result = inlineMarkdownToText("_**Bold**_");
+    assert.strictEqual(result.text, "Bold");
+
+    const boldFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.bold,
+    );
+    const italicFmt = result.formatting.find(
+      (f) => f.updateTextStyle.textStyle.italic,
+    );
+
+    assert.deepStrictEqual(boldFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+    assert.deepStrictEqual(italicFmt.updateTextStyle.range, {
+      startIndex: 0,
+      endIndex: 4,
+    });
+  });
 });
