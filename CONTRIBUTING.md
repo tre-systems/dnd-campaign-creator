@@ -21,17 +21,13 @@ Prerequisite: Node.js v20 or newer.
 
 ## Running Tests
 
-Ensure your code passes formatting, linting, unit tests, map snapshot checks,
-style alignment gate checks, and structural quality gate checks before
-submitting a Pull Request:
+Ensure your code passes formatting, linting, and the current unit/integration
+suite before submitting a Pull Request:
 
 ```bash
 npm run format
 npm run lint
 npm test
-npm run map:snapshots:check
-npm run map:style:gate
-npm run map:quality:gate
 ```
 
 Or run the bundled local gate:
@@ -46,6 +42,12 @@ Run the repository secret/sensitive-file scan before publishing public changes:
 npm run security:scan
 ```
 
+If you touch the map generator, run a packet-generation smoke test as well:
+
+```bash
+node bin/campaign-creator.js generate-map ./examples/gatehouse-ruin.json --output ./examples
+```
+
 Before making the repository public (or tagging a public release), run the full
 public safety gate:
 
@@ -54,7 +56,7 @@ npm run public:check
 ```
 
 Do not commit third-party reference images (for example under
-`docs/map-review/references/`) unless you have clear redistribution rights and
+`docs/reference-images/`) unless you have clear redistribution rights and
 documented provenance.
 
 ## Pull Requests

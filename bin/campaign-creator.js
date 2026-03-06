@@ -347,7 +347,7 @@ async function run() {
     const sectionFile = args[1];
     if (!sectionFile || sectionFile.startsWith("--")) {
       console.error(
-        "Usage: campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--max-attempts <n>] [--allow-invalid]",
+        "Usage: campaign-creator generate-map <brief.json> [--output <dir>] [--validate-only]",
       );
       process.exit(1);
     }
@@ -364,22 +364,19 @@ D&D Campaign Creator Tool
 Usage:
   campaign-creator publish <adventure-key> [--config ./campaign.json] [--test]
   campaign-creator sync-assets <adventure-key> [--config ./campaign.json] [--generate]
-  campaign-creator generate-map <section.json> [--output <dir>] [--seed <n>] [--validate-only] [--max-attempts <n>] [--allow-invalid]
+  campaign-creator generate-map <brief.json> [--output <dir>] [--validate-only]
 `);
   }
 }
 
 /**
- * Generate a section packet from a section definition JSON file.
+ * Generate a prompt packet from a map brief JSON file.
  */
 async function generateMap(sectionFile, args) {
-  const { buildIntent, createRng } = require("../src/map/intent");
-  const { buildGraph } = require("../src/map/topology");
-  const { validateTopology, validateGeometry } = require("../src/map/validate");
-  const { layoutConstructed } = require("../src/map/geometry");
-  const { routeCorridors } = require("../src/map/corridors");
-  const { applyDressing } = require("../src/map/dressing");
-  const { renderPacket } = require("../src/map/packet");
+  const {
+    renderMapPromptPacket,
+    validateMapPromptSpec,
+  } = require("../src/map-prompt");
 
   // Parse CLI options
   const getArg = (flag) => {
@@ -388,101 +385,27 @@ async function generateMap(sectionFile, args) {
   };
   const outputDir =
     getArg("--output") || path.dirname(path.resolve(sectionFile));
-  const seedInput = getArg("--seed");
-  const seed = seedInput ? parseInt(seedInput, 10) : Date.now();
-  const maxAttempts = getArg("--max-attempts")
-    ? parseInt(getArg("--max-attempts"), 10)
-    : 50;
   const validateOnly = args.includes("--validate-only");
-  const allowInvalid = args.includes("--allow-invalid");
 
-  console.error(`Using seed: ${seed}`);
-  const rng = createRng(seed);
-
-  // 1. Load section definition
+  // 1. Load and validate prompt brief
   const raw = await fs.readFile(path.resolve(sectionFile), "utf8");
-  const section = JSON.parse(raw);
+  const brief = validateMapPromptSpec(JSON.parse(raw));
 
-  // 2. Build intent
-  const intent = buildIntent(section);
-  intent._connectors = section.connectors || [];
-  console.log(`Section: ${intent.theme} (${intent.id})`);
-  console.log(
-    `Grid: ${intent.grid.width}x${intent.grid.height}, ${intent.layoutStrategy}, ${intent.density}`,
-  );
+  console.log(`Map Brief: ${brief.title} (${brief.id})`);
+  console.log(`Areas: ${brief.areas.length}`);
+  console.log(`Reference images: ${brief.referenceImages.length}`);
 
-  // 3. Build topology graph
-  const graph = buildGraph(section.nodes, section.edges);
-  console.log(
-    `Topology: ${graph.nodes.length} nodes, ${graph.edges.length} edges`,
-  );
-
-  // 4. Validate topology
-  const topoResult = validateTopology(graph, intent.grid);
-  console.log("\nTopology validation:");
-  for (const r of topoResult.results) {
-    console.log(`  ${r.passed ? "PASS" : "FAIL"} ${r.rule}: ${r.detail}`);
-  }
-  if (!topoResult.valid) {
-    console.error(
-      "\nTopology validation failed. Fix issues before generating geometry.",
-    );
-    process.exit(1);
-  }
   if (validateOnly) {
     console.log("\nValidation complete (--validate-only).");
     return;
   }
 
-  // 5. Generate geometry
-  console.log("\nGenerating layout...");
-  if (intent.layoutStrategy !== "constructed") {
-    console.warn(
-      `Layout strategy "${intent.layoutStrategy}" currently uses constructed placement baseline.`,
-    );
-  }
-  let geometry = layoutConstructed(
-    graph,
-    intent.grid,
-    intent.density,
-    section.connectors || [],
-    maxAttempts,
-    rng,
-  );
-
-  // 6. Route corridors
-  geometry = routeCorridors(geometry, graph, rng, section.connectors || []);
-
-  // 7. Apply thematic dressing (pillars, altars, wells, etc.)
-  geometry = applyDressing(geometry, graph, rng);
-
-  // 8. Validate geometry
-  const geoResult = validateGeometry(geometry, graph, section.connectors || []);
-  console.log("\nGeometry validation:");
-  for (const r of geoResult.results) {
-    console.log(`  ${r.passed ? "PASS" : "FAIL"} ${r.rule}: ${r.detail}`);
-  }
-  if (!geoResult.valid && !allowInvalid) {
-    console.error(
-      "\nGeometry validation failed. Re-run with --allow-invalid to emit debug outputs.",
-    );
-    process.exit(1);
-  }
-
-  // Merge validation results
-  const allValidation = {
-    valid: topoResult.valid && geoResult.valid,
-    results: [...topoResult.results, ...geoResult.results],
-  };
-
-  // 9. Render outputs
+  // 2. Render prompt packet
   await fs.mkdir(outputDir, { recursive: true });
-
-  // Section packet markdown
-  const packet = renderPacket(geometry, graph, intent, allValidation);
-  const packetPath = path.join(outputDir, `${intent.id}-packet.md`);
+  const packet = renderMapPromptPacket(brief);
+  const packetPath = path.join(outputDir, `${brief.id}-packet.md`);
   await fs.writeFile(packetPath, packet, "utf8");
-  console.log(`Section packet (for prompting): ${packetPath}`);
+  console.log(`Prompt packet: ${packetPath}`);
 
   console.log("\nDone.");
 }

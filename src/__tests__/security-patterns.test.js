@@ -19,7 +19,7 @@ test("forbidden path rules catch known sensitive file names", () => {
     "id_rsa",
     "nested/id_ed25519",
     "private/key.pem",
-    "docs/map-review/references/example.jpg",
+    "docs/reference-images/example.jpg",
   ];
 
   for (const sample of samples) {

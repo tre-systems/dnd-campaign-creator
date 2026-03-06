@@ -25,7 +25,7 @@ npm run public:check
 
 This enforces:
 
-- lint + tests + map snapshot checks
+- lint + tests
 - tracked-file secret/sensitive-file scanning
 - git history secret scanning
 - production dependency vulnerability audit (`high` and above)
@@ -36,7 +36,7 @@ until history is rewritten or a clean-history public mirror is created.
 ## Secret Handling
 
 - Never commit `credentials.json`, `token.json`, `service-account-key.json`, `.env*`, or private key files.
-- Keep third-party style reference images local-only unless explicit license
+- Keep third-party reference images local-only unless explicit license
   provenance is documented in-repo.
 - Use environment-variable overrides for credential paths when possible:
   - `GOOGLE_OAUTH_CREDENTIALS_PATH`

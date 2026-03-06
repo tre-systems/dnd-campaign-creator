@@ -232,33 +232,28 @@ You can append `--test` to the command to run a dry-run which simulates the file
 
 ### Map Generation
 
-The tool can validate a section definition, generate layout/topology data, and emit a packet for downstream prompting or review:
+`generate-map` now builds a **prompt packet** for an image model rather than
+trying to lay out rooms procedurally in code. You author the map brief,
+attach one or more reference images, and use the generated markdown packet as
+the handoff document.
 
 ```bash
-npx campaign-creator generate-map ./examples/gatehouse-ruin.json --output ./examples --seed 42
+npx campaign-creator generate-map ./examples/gatehouse-ruin.json --output ./examples
 ```
 
-Generated artifacts:
+Generated artifact:
 
-- `<id>-packet.md` (section packet with topology, room key, and validation checklist)
+- `<id>-packet.md` (reference-image list, area schedule, final prompt, and revision checklist)
 
 Useful options:
 
 - `--output <dir>` write the packet into a different directory
-- `--seed <n>` make generation deterministic for repeat runs
-- `--validate-only` run topology checks without geometry/output
-- `--max-attempts <n>` geometry retry budget (default `50`)
-- `--allow-invalid` emit outputs even if geometry validation fails
+- `--validate-only` validate the authored brief without writing a packet
 
-Notes:
-
-- The map system enforces a maximum section grid of `60 x 60` and minimum `10 x 10`.
-- Connector definitions are routed into playable space and validated for reachability.
-- `layoutStrategy: "organic"` and `"hybrid"` currently run on the constructed placement baseline.
-- Room geometry is semantic (`rect`, `notched`, `chamfered`, `cross`, `cave`) and selected from node intent and naming.
-- Entry/exit rooms receive automatic transition symbols (stairs up/down), with name-direction hints overriding defaults.
-- Dressing placement now reserves doorway ingress and center traffic lanes so key room features do not block natural movement.
-- The current CLI is packet-only. ASCII and SVG renderers are not part of the current command surface.
+The example brief in [`examples/gatehouse-ruin.json`](./examples/gatehouse-ruin.json)
+shows the current schema: metadata, reference images, deliverable/style notes,
+an authored area schedule, and revision criteria. The technical reference is in
+[`docs/map-system.md`](./docs/map-system.md).
 
 ### Quality Checks
 
@@ -295,7 +290,7 @@ Tracked-file scanning checks for:
 
 - accidentally committed credential artifacts (`credentials.json`, `token.json`, `service-account-key.json`, `.env*`, key files)
 - high-signal secret patterns (private key blocks, common API token formats)
-- local-only external reference images under `docs/map-review/references/`
+- local-only external reference images under `docs/reference-images/`
 
 Credential files are ignored by default in `.gitignore`, but this scan is the
 enforcement layer that prevents accidental exposure.

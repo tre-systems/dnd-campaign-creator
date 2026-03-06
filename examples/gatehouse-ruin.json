@@ -1,181 +1,194 @@
 {
   "id": "gatehouse-ruin",
+  "title": "Gatehouse Ruin",
   "level": 1,
   "chapter": "Act I",
   "theme": "Goblin-occupied dwarven gatehouse",
-  "pressure": "faction",
-  "sessionLoad": "standard",
   "promise": "Players breach the outer defences and discover the goblins are fortifying against something deeper.",
-  "layoutStrategy": "constructed",
-  "grid": { "width": 30, "height": 44 },
-  "density": "standard",
-
-  "nodes": [
+  "referenceImages": [
     {
-      "id": "E1",
-      "type": "entry",
+      "label": "Primary style reference",
+      "path": "./private-reference/gatehouse-blueprint.jpg",
+      "focus": "old-school blue-draft wall language, restrained hatching, and clear door and stair symbols",
+      "usage": "Match the visual language and readability, but do not copy the source composition."
+    }
+  ],
+  "deliverable": {
+    "format": "single top-down dungeon map",
+    "aspectRatio": "portrait, roughly 30 by 44 squares",
+    "camera": "straight top-down orthographic view",
+    "grid": "subtle square grid visible over walkable space only",
+    "labels": "room numbers only, no full room names"
+  },
+  "style": {
+    "overview": "classic blue-draft dungeon cartography with clean linework and readable room masses",
+    "palette": "muted blue ink, pale floor fill, controlled dark accents",
+    "linework": "clean hand-drafted walls, solid floor shapes, simple old-school symbols",
+    "lighting": "flat diagrammatic lighting with no dramatic shadows",
+    "atmosphere": "occupied defensive ruin where sturdy dwarven stonework has been repurposed by goblins",
+    "avoid": [
+      "photorealism",
+      "isometric or perspective view",
+      "characters or creature tokens",
+      "heavy painterly textures",
+      "text labels beyond room numbers"
+    ]
+  },
+  "areas": [
+    {
+      "label": "1",
       "name": "Collapsed Gate",
-      "sizeClass": "medium",
-      "sightline": "open",
-      "retreatOptions": ["G1"]
+      "role": "entry breach point",
+      "description": "The outer gatehouse has partially failed, leaving a rubble funnel that attackers must force their way through.",
+      "connections": [
+        "2. Guard Post",
+        "3. Gatehouse Hall"
+      ],
+      "mustInclude": [
+        "broken portcullis remains",
+        "masonry rubble choke point",
+        "partial line of sight into the hall"
+      ]
     },
     {
-      "id": "G1",
-      "type": "guard",
+      "label": "2",
       "name": "Guard Post",
-      "sizeClass": "medium",
-      "sightline": "partial",
-      "retreatOptions": ["H1"],
-      "occupants": "2 goblin sentries"
+      "role": "forward sentry position",
+      "description": "A defended stop between the breach and the main interior, sized for a short skirmish and alarm response.",
+      "connections": [
+        "1. Collapsed Gate",
+        "3. Gatehouse Hall"
+      ],
+      "mustInclude": [
+        "makeshift goblin barricade",
+        "clear sightline toward the breach",
+        "room number placement that does not obscure the choke point"
+      ]
     },
     {
-      "id": "H1",
-      "type": "hub",
+      "label": "3",
       "name": "Gatehouse Hall",
-      "sizeClass": "medium",
-      "sightline": "open",
-      "retreatOptions": ["R1", "R3", "F1"]
+      "role": "main hub",
+      "description": "The largest central circulation space, connecting the sentry zone to the support rooms and deeper command spaces.",
+      "connections": [
+        "1. Collapsed Gate",
+        "2. Guard Post",
+        "4. Barracks",
+        "5. Armoury",
+        "6. Kitchen Well",
+        "7. Boss Room"
+      ],
+      "mustInclude": [
+        "clear central room mass",
+        "multiple readable exits",
+        "dwarven stone geometry with goblin clutter"
+      ]
     },
     {
-      "id": "R1",
-      "type": "standard",
+      "label": "4",
       "name": "Barracks",
-      "sizeClass": "small",
-      "sightline": "blocked",
-      "retreatOptions": ["H1"],
-      "occupants": "4 goblins"
+      "role": "occupied troop room",
+      "description": "A cramped but usable sleeping space for rank-and-file goblins just off the main hall.",
+      "connections": [
+        "3. Gatehouse Hall",
+        "5. Armoury"
+      ],
+      "mustInclude": [
+        "simple bunk or bedroll cues",
+        "tight but traversable footprint",
+        "quick path back to the hall"
+      ]
     },
     {
-      "id": "R2",
-      "type": "resource",
+      "label": "5",
       "name": "Armoury",
-      "sizeClass": "small",
-      "sightline": "blocked",
-      "retreatOptions": ["R1"]
+      "role": "supply room",
+      "description": "A compact side room holding scavenged weapons and gear, with one more hidden or indirect access option.",
+      "connections": [
+        "4. Barracks",
+        "3. Gatehouse Hall"
+      ],
+      "mustInclude": [
+        "weapon rack or crate cues",
+        "stout dwarven walls",
+        "a hint that this room is less obvious from the main path"
+      ]
     },
     {
-      "id": "R3",
-      "type": "resource",
-      "name": "Kitchen/Well",
-      "sizeClass": "medium",
-      "sightline": "open",
-      "retreatOptions": ["X1"],
-      "occupants": "1 noncombatant cook"
+      "label": "6",
+      "name": "Kitchen Well",
+      "role": "support room",
+      "description": "A service space with a well and simple cooking setup that makes the ruin feel occupied rather than abandoned.",
+      "connections": [
+        "3. Gatehouse Hall",
+        "8. Stairs Down"
+      ],
+      "mustInclude": [
+        "visible well feature",
+        "cooking or storage cues",
+        "easy route onward to the stairs"
+      ]
     },
     {
-      "id": "F1",
-      "type": "faction-core",
+      "label": "7",
       "name": "Boss Room",
-      "sizeClass": "large",
-      "sightline": "open",
-      "retreatOptions": ["X1"],
-      "occupants": "Hobgoblin boss + 1 bodyguard"
+      "role": "command space",
+      "description": "The most imposing room in the section, where the goblin leader holds court and reacts to threats from the entrance.",
+      "connections": [
+        "3. Gatehouse Hall",
+        "8. Stairs Down",
+        "9. Old Vault"
+      ],
+      "mustInclude": [
+        "dominant focal point or dais",
+        "better defensive position than the outer rooms",
+        "strong silhouette compared with the rest of the map"
+      ]
     },
     {
-      "id": "S1",
-      "type": "secret",
-      "name": "Old Vault",
-      "sizeClass": "small",
-      "sightline": "blocked",
-      "retreatOptions": []
-    },
-    {
-      "id": "X1",
-      "type": "exit",
+      "label": "8",
       "name": "Stairs Down",
-      "sizeClass": "small",
-      "sightline": "partial",
-      "retreatOptions": ["R3", "F1"]
+      "role": "exit to deeper danger",
+      "description": "A clear descent point that promises a second phase below the gatehouse.",
+      "connections": [
+        "6. Kitchen Well",
+        "7. Boss Room"
+      ],
+      "mustInclude": [
+        "obvious stair symbol",
+        "clear placement near the back half of the map",
+        "enough breathing room to read as an exit"
+      ]
+    },
+    {
+      "label": "9",
+      "name": "Old Vault",
+      "role": "secret reward room",
+      "description": "A smaller hidden chamber tied to the boss space, useful for treasure or lore payoff.",
+      "connections": [
+        "7. Boss Room"
+      ],
+      "mustInclude": [
+        "subtle or tucked-away placement",
+        "older dwarven character than the goblin rooms",
+        "a sense of being discoverable but not obvious"
+      ]
     }
   ],
-
-  "edges": [
-    {
-      "from": "E1",
-      "to": "G1",
-      "type": "door",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "G1",
-      "to": "H1",
-      "type": "open",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "H1",
-      "to": "R1",
-      "type": "open",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "H1",
-      "to": "R3",
-      "type": "door",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "H1",
-      "to": "F1",
-      "type": "locked",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "R1",
-      "to": "R2",
-      "type": "open",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "R3",
-      "to": "X1",
-      "type": "open",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "F1",
-      "to": "S1",
-      "type": "secret",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "F1",
-      "to": "X1",
-      "type": "door",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "R2",
-      "to": "H1",
-      "type": "secret",
-      "bidirectional": true,
-      "width": "standard"
-    },
-    {
-      "from": "E1",
-      "to": "H1",
-      "type": "open",
-      "bidirectional": true,
-      "width": "standard"
-    }
+  "flow": [
+    "Players should read the map from the collapsed gate through a guarded choke point into a hub that branches into practical side rooms and one commanding set-piece room.",
+    "The support spaces should feel plausibly useful to the occupants, not randomly scattered.",
+    "The stairs down and the hidden vault should both sit deeper in the composition than the breach and guard rooms."
   ],
-
-  "connectors": [
-    {
-      "side": "bottom",
-      "offset": 15,
-      "width": 3,
-      "transitionType": "vertical",
-      "destination": "Deep Caves"
-    }
+  "compositionNotes": [
+    "Keep the overall silhouette legible at a glance, with a clear front half and a deeper defended back half.",
+    "Use room shapes and wall thickness to suggest solid dwarven construction, then layer goblin improvisation on top.",
+    "Favor clear traversal and room identity over clever geometric tricks."
+  ],
+  "revisionChecklist": [
+    "The map feels original while still borrowing the reference image's drafting language.",
+    "The front-to-back progression from breach to defended core is visually obvious.",
+    "The well, stairs, and boss space are instantly readable at tabletop scale.",
+    "Room numbers remain clear without cluttering the drawing."
   ]
 }

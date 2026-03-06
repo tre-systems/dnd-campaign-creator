@@ -30,7 +30,7 @@ const forbiddenPathChecks = [
   {
     name: "external-reference-image",
     test: (p) =>
-      /^docs\/map-review\/references\/.+\.(png|jpe?g|webp)$/i.test(p),
+      /^docs\/reference-images\/.+\.(png|jpe?g|webp)$/i.test(p),
     message:
       "External reference images should remain local-only unless license provenance is documented",
   },

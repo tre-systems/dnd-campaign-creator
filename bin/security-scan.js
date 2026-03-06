@@ -56,6 +56,10 @@ function scan() {
     try {
       buffer = fs.readFileSync(abs);
     } catch (error) {
+      if (error && error.code === "ENOENT") {
+        // Ignore tracked files that are deleted in the current worktree.
+        continue;
+      }
       findings.push({
         type: "read-error",
         rule: "file-read",

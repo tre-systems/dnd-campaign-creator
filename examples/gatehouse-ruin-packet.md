@@ -1,247 +1,158 @@
-# Map Generation Prompt
+# Map Prompt Packet: Gatehouse Ruin
 
-**Instructions for AI:**
-You are an expert fantasy cartographer. I need you to draw a D&D dungeon map using the structural and thematic guidance below.
-Use the exact structural and thematic information provided.
+## Workflow
 
-- **Theme**: Goblin-occupied dwarven gatehouse
-- **Grid Size**: 30 x 44 (1 unit = 5 feet)
-- **Style**: Classic blue-draft dungeon aesthetic, solid light floors, textured rock borders with restrained hatching and stippling, and clean hand-drafted linework.
-- **Content**: Top-down 2D view. Use standard old-school map symbols (doors, stairs, pillars). Include room numbers from the Room Key.
-- **Grid**: Overlay a subtle square grid over the walkable floor areas.
+1. Attach the listed reference images to your image model.
+2. Paste the final prompt after the references are attached.
+3. Review the first pass against the checklist before asking for revisions.
 
-## Room Layout Details
+## Metadata
 
-- **Room 1 (Boss Room)**: Located at (12, 35), size 12x7. Shape: cave. Type: faction-core.
-- **Room 2 (Guard Post)**: Located at (14, 24), size 12x6. Shape: rect. Type: guard.
-- **Room 3 (Kitchen/Well)**: Located at (3, 27), size 6x11. Shape: circle. Type: resource.
-- **Room 4 (Collapsed Gate)**: Located at (15, 8), size 9x5. Shape: circle. Type: entry.
-- **Room 5 (Gatehouse Hall)**: Located at (4, 7), size 8x5. Shape: cross. Type: hub.
-- **Room 6 (Stairs Down)**: Located at (3, 16), size 6x6. Shape: rect. Type: exit.
-- **Room 7 (Barracks)**: Located at (16, 16), size 12x3. Shape: rect. Type: standard.
-- **Room 8 (Armoury)**: Located at (17, 2), size 9x2. Shape: rect. Type: resource.
-- **Room 9 (Old Vault)**: Located at (3, 2), size 8x3. Shape: rect. Type: secret.
+| Field | Value |
+| ----- | ----- |
+| ID | gatehouse-ruin |
+| Title | Gatehouse Ruin |
+| Level | 1 |
+| Chapter | Act I |
+| Theme | Goblin-occupied dwarven gatehouse |
+| Promise | Players breach the outer defences and discover the goblins are fortifying against something deeper. |
 
-## Corridor and Connector Routing
+## Reference Images
 
-The rooms are connected by a network of corridors. Follow the topology graph and spatial data provided in the Technical Reference section below to ensure accurate placement of doors and passages.
+| Ref | Path | Focus | Usage |
+| --- | ---- | ----- | ----- |
+| Primary style reference | ./private-reference/gatehouse-blueprint.jpg | old-school blue-draft wall language, restrained hatching, and clear door and stair symbols | Match the visual language and readability, but do not copy the source composition. |
 
-Please generate the map image directly matching these specifications.
+## Deliverable
 
-## Section Metadata: Goblin-occupied dwarven gatehouse
+| Field | Value |
+| ----- | ----- |
+| Format | single top-down dungeon map |
+| Aspect Ratio | portrait, roughly 30 by 44 squares |
+| Camera | straight top-down orthographic view |
+| Grid | subtle square grid visible over walkable space only |
+| Labels | room numbers only, no full room names |
 
-| Field           | Value          |
-| --------------- | -------------- |
-| Section ID      | gatehouse-ruin |
-| Level           | 1              |
-| Chapter         | Act I          |
-| Pressure        | faction        |
-| Session Load    | standard       |
-| Layout Strategy | constructed    |
+## Area Schedule
 
-**Promise:** Players breach the outer defences and discover the goblins are fortifying against something deeper.
+### 1. Collapsed Gate
 
-## Tactical Footprint
+- Role: entry breach point
+- Description: The outer gatehouse has partially failed, leaving a rubble funnel that attackers must force their way through.
+- Connections: 2. Guard Post, 3. Gatehouse Hall
+- Must Include: broken portcullis remains, masonry rubble choke point, partial line of sight into the hall
 
-| Field      | Value                         |
-| ---------- | ----------------------------- |
-| Dimensions | 30 x 44                       |
-| Density    | 36% floor coverage (standard) |
-| Rooms      | 9                             |
-| Corridors  | 12                            |
+### 2. Guard Post
 
-## Topology
+- Role: forward sentry position
+- Description: A defended stop between the breach and the main interior, sized for a short skirmish and alarm response.
+- Connections: 1. Collapsed Gate, 3. Gatehouse Hall
+- Must Include: makeshift goblin barricade, clear sightline toward the breach, room number placement that does not obscure the choke point
 
-### Node Inventory
+### 3. Gatehouse Hall
 
-| Node | Type         | Name           | Occupants                    | Size   |
-| ---- | ------------ | -------------- | ---------------------------- | ------ |
-| E1   | entry        | Collapsed Gate | -                            | medium |
-| G1   | guard        | Guard Post     | 2 goblin sentries            | medium |
-| H1   | hub          | Gatehouse Hall | -                            | medium |
-| R1   | standard     | Barracks       | 4 goblins                    | small  |
-| R2   | resource     | Armoury        | -                            | small  |
-| R3   | resource     | Kitchen/Well   | 1 noncombatant cook          | medium |
-| F1   | faction-core | Boss Room      | Hobgoblin boss + 1 bodyguard | large  |
-| S1   | secret       | Old Vault      | -                            | small  |
-| X1   | exit         | Stairs Down    | -                            | small  |
+- Role: main hub
+- Description: The largest central circulation space, connecting the sentry zone to the support rooms and deeper command spaces.
+- Connections: 1. Collapsed Gate, 2. Guard Post, 4. Barracks, 5. Armoury, 6. Kitchen Well, 7. Boss Room
+- Must Include: clear central room mass, multiple readable exits, dwarven stone geometry with goblin clutter
 
-### Connections
+### 4. Barracks
 
-| From | To  | Type   | Bidir | Width    |
-| ---- | --- | ------ | ----- | -------- |
-| E1   | G1  | door   | Y     | standard |
-| G1   | H1  | open   | Y     | standard |
-| H1   | R1  | open   | Y     | standard |
-| H1   | R3  | door   | Y     | standard |
-| H1   | F1  | locked | Y     | standard |
-| R1   | R2  | open   | Y     | standard |
-| R3   | X1  | open   | Y     | standard |
-| F1   | S1  | secret | Y     | standard |
-| F1   | X1  | door   | Y     | standard |
-| R2   | H1  | secret | Y     | standard |
-| E1   | H1  | open   | Y     | standard |
+- Role: occupied troop room
+- Description: A cramped but usable sleeping space for rank-and-file goblins just off the main hall.
+- Connections: 3. Gatehouse Hall, 5. Armoury
+- Must Include: simple bunk or bedroll cues, tight but traversable footprint, quick path back to the hall
 
-## Spatial Layout (Technical Reference)
+### 5. Armoury
 
-### Room Placement
+- Role: supply room
+- Description: A compact side room holding scavenged weapons and gear, with one more hidden or indirect access option.
+- Connections: 4. Barracks, 3. Gatehouse Hall
+- Must Include: weapon rack or crate cues, stout dwarven walls, a hint that this room is less obvious from the main path
 
-| Room | X   | Y   | W   | H   | Shape  |
-| ---- | --- | --- | --- | --- | ------ |
-| 1    | 12  | 35  | 12  | 7   | cave   |
-| 2    | 14  | 24  | 12  | 6   | rect   |
-| 3    | 3   | 27  | 6   | 11  | circle |
-| 4    | 15  | 8   | 9   | 5   | circle |
-| 5    | 4   | 7   | 8   | 5   | cross  |
-| 6    | 3   | 16  | 6   | 6   | rect   |
-| 7    | 16  | 16  | 12  | 3   | rect   |
-| 8    | 17  | 2   | 9   | 2   | rect   |
-| 9    | 3   | 2   | 8   | 3   | rect   |
+### 6. Kitchen Well
 
-### Corridor Paths
+- Role: support room
+- Description: A service space with a well and simple cooking setup that makes the ruin feel occupied rather than abandoned.
+- Connections: 3. Gatehouse Hall, 8. Stairs Down
+- Must Include: visible well feature, cooking or storage cues, easy route onward to the stairs
 
-| Edge              | Path (X,Y Coordinates)                                                                                                                                                                                                                                                                                                                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| E1 to G1          | (19,13) -> (19,14) -> (19,15) -> (18,15) -> (17,15) -> (16,15) -> (15,15) -> (15,16) -> (15,17) -> (15,18) -> (15,19) -> (16,19) -> (17,19) -> (18,19) -> (19,19) -> (19,20) -> (19,21) -> (19,22) -> (19,23)                                                                                                                                                                                                |
-| G1 to H1          | (14,23) -> (14,22) -> (14,21) -> (14,20) -> (14,19) -> (15,19) -> (15,18) -> (15,17) -> (15,16) -> (15,15) -> (14,15) -> (13,15) -> (12,15) -> (11,15) -> (10,15) -> (10,14) -> (10,13) -> (10,12)                                                                                                                                                                                                           |
-| H1 to R1          | (12,10) -> (12,11) -> (12,12) -> (12,13) -> (12,14) -> (12,15) -> (13,15) -> (14,15) -> (15,15) -> (15,16)                                                                                                                                                                                                                                                                                                   |
-| H1 to R3          | (6,12) -> (6,13) -> (6,14) -> (6,15) -> (7,15) -> (8,15) -> (9,15) -> (9,16) -> (9,17) -> (9,18) -> (9,19) -> (9,20) -> (9,21) -> (9,22) -> (8,22) -> (7,22) -> (6,22) -> (6,23) -> (6,24) -> (6,25) -> (6,26)                                                                                                                                                                                               |
-| H1 to F1          | (10,12) -> (10,13) -> (10,14) -> (10,15) -> (11,15) -> (12,15) -> (13,15) -> (14,15) -> (15,15) -> (15,16) -> (15,17) -> (15,18) -> (15,19) -> (14,19) -> (14,20) -> (14,21) -> (14,22) -> (14,23) -> (13,23) -> (13,24) -> (13,25) -> (13,26) -> (13,27) -> (13,28) -> (13,29) -> (13,30) -> (13,31) -> (13,32) -> (13,33) -> (13,34)                                                                       |
-| R1 to R2          | (21,15) -> (22,15) -> (22,14) -> (22,13) -> (22,12) -> (23,12) -> (23,11) -> (24,11) -> (24,10) -> (24,9) -> (23,9) -> (23,8) -> (22,8) -> (22,7) -> (22,6) -> (22,5) -> (22,4)                                                                                                                                                                                                                              |
-| R3 to X1          | (6,26) -> (6,25) -> (6,24) -> (6,23) -> (6,22)                                                                                                                                                                                                                                                                                                                                                               |
-| F1 to S1          | (13,34) -> (13,33) -> (13,32) -> (13,31) -> (13,30) -> (13,29) -> (13,28) -> (13,27) -> (13,26) -> (13,25) -> (13,24) -> (13,23) -> (14,23) -> (14,22) -> (14,21) -> (14,20) -> (14,19) -> (15,19) -> (15,18) -> (15,17) -> (15,16) -> (15,15) -> (14,15) -> (13,15) -> (12,15) -> (12,14) -> (12,13) -> (12,12) -> (12,11) -> (12,10) -> (12,9) -> (12,8) -> (12,7) -> (11,7) -> (11,6) -> (10,6) -> (10,5) |
-| F1 to X1          | (13,34) -> (13,33) -> (13,32) -> (13,31) -> (13,30) -> (13,29) -> (13,28) -> (13,27) -> (13,26) -> (13,25) -> (13,24) -> (13,23) -> (12,23) -> (11,23) -> (10,23) -> (9,23) -> (9,22) -> (8,22)                                                                                                                                                                                                              |
-| R2 to H1          | (16,3) -> (15,3) -> (14,3) -> (13,3) -> (12,3) -> (12,4) -> (12,5) -> (12,6) -> (12,7) -> (12,8)                                                                                                                                                                                                                                                                                                             |
-| E1 to H1          | (14,10) -> (13,10) -> (12,10)                                                                                                                                                                                                                                                                                                                                                                                |
-| connector:1 to F1 | (15,42)                                                                                                                                                                                                                                                                                                                                                                                                      |
+### 7. Boss Room
 
-## Room Key
+- Role: command space
+- Description: The most imposing room in the section, where the goblin leader holds court and reacts to threats from the entrance.
+- Connections: 3. Gatehouse Hall, 8. Stairs Down, 9. Old Vault
+- Must Include: dominant focal point or dais, better defensive position than the outer rooms, strong silhouette compared with the rest of the map
 
-**1. Boss Room** (12x7, large)
+### 8. Stairs Down
 
-- Occupants: Hobgoblin boss + 1 bodyguard
-- Type: faction-core
-- Sightline: open
-- Retreat: X1
+- Role: exit to deeper danger
+- Description: A clear descent point that promises a second phase below the gatehouse.
+- Connections: 6. Kitchen Well, 7. Boss Room
+- Must Include: obvious stair symbol, clear placement near the back half of the map, enough breathing room to read as an exit
 
-**2. Guard Post** (12x6, medium)
+### 9. Old Vault
 
-- Occupants: 2 goblin sentries
-- Type: guard
-- Sightline: partial
-- Retreat: H1
+- Role: secret reward room
+- Description: A smaller hidden chamber tied to the boss space, useful for treasure or lore payoff.
+- Connections: 7. Boss Room
+- Must Include: subtle or tucked-away placement, older dwarven character than the goblin rooms, a sense of being discoverable but not obvious
 
-**3. Kitchen/Well** (6x11, medium)
+## Flow
 
-- Occupants: 1 noncombatant cook
-- Type: resource
-- Sightline: open
-- Retreat: X1
+1. Players should read the map from the collapsed gate through a guarded choke point into a hub that branches into practical side rooms and one commanding set-piece room.
+2. The support spaces should feel plausibly useful to the occupants, not randomly scattered.
+3. The stairs down and the hidden vault should both sit deeper in the composition than the breach and guard rooms.
 
-**4. Collapsed Gate** (9x5, medium)
+## Composition Notes
 
-- Type: entry
-- Sightline: open
-- Retreat: G1
+- Keep the overall silhouette legible at a glance, with a clear front half and a deeper defended back half.
+- Use room shapes and wall thickness to suggest solid dwarven construction, then layer goblin improvisation on top.
+- Favor clear traversal and room identity over clever geometric tricks.
 
-**5. Gatehouse Hall** (8x5, medium)
+## Final Prompt
 
-- Type: hub
-- Sightline: open
-- Retreat: R1, R3, F1
+```text
+Create a single top-down fantasy dungeon map for tabletop play.
+Project title: Gatehouse Ruin.
+Theme: Goblin-occupied dwarven gatehouse.
+Play promise: Players breach the outer defences and discover the goblins are fortifying against something deeper.
+Use the attached reference images for visual language, symbols, and surface treatment, but invent a fresh layout instead of copying any reference composition.
+Reference image "Primary style reference": Focus on old-school blue-draft wall language, restrained hatching, and clear door and stair symbols. Usage guidance: Match the visual language and readability, but do not copy the source composition.
+Deliverable: single top-down dungeon map. Frame it for portrait, roughly 30 by 44 squares. Camera: straight top-down orthographic view. Grid treatment: subtle square grid visible over walkable space only. Labels: room numbers only, no full room names.
+Visual direction: classic blue-draft dungeon cartography with clean linework and readable room masses. Palette: muted blue ink, pale floor fill, controlled dark accents. Linework: clean hand-drafted walls, solid floor shapes, simple old-school symbols. Lighting: flat diagrammatic lighting with no dramatic shadows. Atmosphere: occupied defensive ruin where sturdy dwarven stonework has been repurposed by goblins.
+Required areas and adjacencies:
+1. Collapsed Gate: Role: entry breach point. The outer gatehouse has partially failed, leaving a rubble funnel that attackers must force their way through. Connect directly to 2. Guard Post, 3. Gatehouse Hall. Must include broken portcullis remains, masonry rubble choke point, partial line of sight into the hall.
+2. Guard Post: Role: forward sentry position. A defended stop between the breach and the main interior, sized for a short skirmish and alarm response. Connect directly to 1. Collapsed Gate, 3. Gatehouse Hall. Must include makeshift goblin barricade, clear sightline toward the breach, room number placement that does not obscure the choke point.
+3. Gatehouse Hall: Role: main hub. The largest central circulation space, connecting the sentry zone to the support rooms and deeper command spaces. Connect directly to 1. Collapsed Gate, 2. Guard Post, 4. Barracks, 5. Armoury, 6. Kitchen Well, 7. Boss Room. Must include clear central room mass, multiple readable exits, dwarven stone geometry with goblin clutter.
+4. Barracks: Role: occupied troop room. A cramped but usable sleeping space for rank-and-file goblins just off the main hall. Connect directly to 3. Gatehouse Hall, 5. Armoury. Must include simple bunk or bedroll cues, tight but traversable footprint, quick path back to the hall.
+5. Armoury: Role: supply room. A compact side room holding scavenged weapons and gear, with one more hidden or indirect access option. Connect directly to 4. Barracks, 3. Gatehouse Hall. Must include weapon rack or crate cues, stout dwarven walls, a hint that this room is less obvious from the main path.
+6. Kitchen Well: Role: support room. A service space with a well and simple cooking setup that makes the ruin feel occupied rather than abandoned. Connect directly to 3. Gatehouse Hall, 8. Stairs Down. Must include visible well feature, cooking or storage cues, easy route onward to the stairs.
+7. Boss Room: Role: command space. The most imposing room in the section, where the goblin leader holds court and reacts to threats from the entrance. Connect directly to 3. Gatehouse Hall, 8. Stairs Down, 9. Old Vault. Must include dominant focal point or dais, better defensive position than the outer rooms, strong silhouette compared with the rest of the map.
+8. Stairs Down: Role: exit to deeper danger. A clear descent point that promises a second phase below the gatehouse. Connect directly to 6. Kitchen Well, 7. Boss Room. Must include obvious stair symbol, clear placement near the back half of the map, enough breathing room to read as an exit.
+9. Old Vault: Role: secret reward room. A smaller hidden chamber tied to the boss space, useful for treasure or lore payoff. Connect directly to 7. Boss Room. Must include subtle or tucked-away placement, older dwarven character than the goblin rooms, a sense of being discoverable but not obvious.
+Map flow and player-facing sequencing:
+- Players should read the map from the collapsed gate through a guarded choke point into a hub that branches into practical side rooms and one commanding set-piece room.
+- The support spaces should feel plausibly useful to the occupants, not randomly scattered.
+- The stairs down and the hidden vault should both sit deeper in the composition than the breach and guard rooms.
+Additional composition notes:
+- Keep the overall silhouette legible at a glance, with a clear front half and a deeper defended back half.
+- Use room shapes and wall thickness to suggest solid dwarven construction, then layer goblin improvisation on top.
+- Favor clear traversal and room identity over clever geometric tricks.
+Avoid: photorealism, isometric or perspective view, characters or creature tokens, heavy painterly textures, text labels beyond room numbers.
+```
 
-**6. Stairs Down** (6x6, small)
+## Negative Prompt
 
-- Type: exit
-- Sightline: partial
-- Retreat: R3, F1
+- photorealism
+- isometric or perspective view
+- characters or creature tokens
+- heavy painterly textures
+- text labels beyond room numbers
 
-**7. Barracks** (12x3, small)
+## Revision Checklist
 
-- Occupants: 4 goblins
-- Type: standard
-- Sightline: blocked
-- Retreat: H1
-
-**8. Armoury** (9x2, small)
-
-- Type: resource
-- Sightline: blocked
-- Retreat: R1
-
-**9. Old Vault** (8x3, small)
-
-- Type: secret
-- Sightline: blocked
-
-## Transition Connectors
-
-| Connector | Side   | Offset | Width | Type     | Destination |
-| --------- | ------ | ------ | ----- | -------- | ----------- |
-| C1        | bottom | 15     | 3     | vertical | Deep Caves  |
-
-## Encounter Ecology
-
-Territory and patrol model derived from topology depth, room role, and section pressure.
-
-### Territory Zones
-
-| Zone      | Rooms                                                                       | Description                                           | Control                  | Response                             |
-| --------- | --------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------ | ------------------------------------ |
-| Perimeter | 4 (Collapsed Gate); 2 (Guard Post); 5 (Gatehouse Hall)                      | First-contact ring. Delay intruders and raise alarms. | Sentry-controlled        | Delay and signal.                    |
-| Transit   | -                                                                           | Circulation band linking wings and support rooms.     | Lightly held             | Screen and fall back to chokepoints. |
-| Core      | 7 (Barracks); 8 (Armoury); 3 (Kitchen/Well); 1 (Boss Room); 6 (Stairs Down) | Command/treasure depth where defenders concentrate.   | Primary faction hold     | Hold position and counterattack.     |
-| Hidden    | 9 (Old Vault)                                                               | Irregular spaces outside routine movement.            | Low traffic / hidden use | Ambush or opportunistic withdrawal.  |
-
-### Patrols
-
-| Patrol | Owner              | Route       | Interval | Triggers                                     | Fallback |
-| ------ | ------------------ | ----------- | -------- | -------------------------------------------- | -------- |
-| P1     | 2 (Guard Post)     | 2 -> 5 -> 7 | 15 min   | Missing sentry, alarm gong, or blocked route | 7        |
-| P2     | 5 (Gatehouse Hall) | 5 -> 7      | 15 min   | Missing sentry, alarm gong, or blocked route | 7        |
-| P3     | 1 (Boss Room)      | 1 -> 6      | 15 min   | Missing sentry, alarm gong, or blocked route | 7        |
-
-## Dynamic Behaviour
-
-Escalation clocks and reactive movement generated from section pressure and patrol ownership.
-
-| Clock     | Trigger                                                                                       | Effect                                                                          | Reset                                  |
-| --------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------- |
-| Suspicion | Disturbance in 4 (Collapsed Gate); 2 (Guard Post); 5 (Gatehouse Hall)                         | Patrol P1 re-runs route (2 -> 5 -> 7) with no detours.                          | 20 minutes with no new signs           |
-| Alerted   | Combat/noise in -                                                                             | Reinforcements move to nearest chokepoint and lock contested doors.             | 45 minutes with no contact             |
-| Committed | Core threatened (7 (Barracks); 8 (Armoury); 3 (Kitchen/Well); 1 (Boss Room); 6 (Stairs Down)) | Defenders abandon perimeter and concentrate on core defence or evacuation path. | End of scene / regroup outside section |
-
-### Escalation Sequence
-
-1. Initial contact pressure follows **faction** cues and starts at perimeter routes.
-2. Patrol cadence is **15 min**; skipped check-ins immediately escalate one clock step.
-3. Once committed, defenders preserve one fallback route and deny all secondary routes until reset.
-
-## Validation Checklist
-
-- [x] Grid size: 30x44 within 60x60 limit
-- [x] Entry and exit exist: 1 entry, 1 exit
-- [x] Guard placement: All 1 guards within 2 edges of entry
-- [x] Boss/treasure depth: All high-value nodes at depth >= 2 from entry
-- [x] Loop count: 3 loops (need >= 2 for 9 nodes)
-- [x] Two independent routes: 2 independent routes from E1 to X1
-- [x] Dead end justification: All dead ends justified
-- [x] One-way safety: No one-way edges
-- [x] Rooms within bounds: All rooms within grid bounds
-- [x] No room overlaps: No room overlaps
-- [x] All nodes placed: All 9 nodes have placed rooms
-- [x] Large room exists: At least one large room present
-- [x] Connectors connected: All 1 connectors connect to playable space
-
-## DM Quick-Run Notes
-
-**Theme:** Goblin-occupied dwarven gatehouse
-**Promise:** Players breach the outer defences and discover the goblins are fortifying against something deeper.
-
-**Entry points:** E1 (Collapsed Gate)
-**Exit points:** X1 (Stairs Down)
-**Hub rooms:** H1 (Gatehouse Hall)
-
-### Key Decision Points
-
-- **Gatehouse Hall:** connects to G1 (open), R1 (open), R3 (door), F1 (locked), R2 (secret), E1 (open)
+- [ ] The map feels original while still borrowing the reference image's drafting language.
+- [ ] The front-to-back progression from breach to defended core is visually obvious.
+- [ ] The well, stairs, and boss space are instantly readable at tabletop scale.
+- [ ] Room numbers remain clear without cluttering the drawing.

@@ -24,8 +24,6 @@ describe("generate-map", () => {
         sectionPath,
         "--output",
         outputDir,
-        "--seed",
-        "42",
       ]);
     } finally {
       console.log = originalLog;
@@ -36,10 +34,11 @@ describe("generate-map", () => {
     const packetPath = path.join(outputDir, "gatehouse-ruin-packet.md");
     const packet = await fs.readFile(packetPath, "utf8");
 
-    // Dressing symbols should be described in the output somehow if it's a valid packet
     assert.ok(
-      packet.includes("Gatehouse"),
-      "Packet should contain intent theme or nodes",
+      packet.includes("Final Prompt"),
+      "Packet should contain the rendered prompt section",
     );
+    assert.match(packet, /Reference Images/);
+    assert.match(packet, /Collapsed Gate/);
   });
 });
