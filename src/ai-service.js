@@ -50,7 +50,15 @@ class AIService {
           error.status || (error.response && error.response.status);
         const isRetryable = status === 429 || status === 503 || !status;
 
-        if (!isRetryable || attempt === this.maxRetries) {
+        // If it's a 429 but the message indicates a hard quota limit, fail fast
+        const errorMessage = error.message ? error.message.toLowerCase() : "";
+        const isQuotaExhausted =
+          status === 429 &&
+          (errorMessage.includes("quota") ||
+            errorMessage.includes("capacity") ||
+            errorMessage.includes("exhausted"));
+
+        if (!isRetryable || isQuotaExhausted || attempt === this.maxRetries) {
           throw error;
         }
 
