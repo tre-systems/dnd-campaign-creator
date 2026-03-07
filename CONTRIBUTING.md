@@ -36,6 +36,8 @@ Or run the bundled local gate:
 npm run verify
 ```
 
+`verify` now includes documentation link checks as well as code, test, and tracked-file security gates.
+
 Run the repository secret/sensitive-file scan before publishing public changes:
 
 ```bash
@@ -51,6 +53,8 @@ If you touch the map generator, run a packet-generation smoke test as well:
 ```bash
 node bin/campaign-creator.js generate-map ./examples/gatehouse-ruin.json --output ./examples
 ```
+
+If your change affects the example brief, regenerate the checked-in packet so the example stays honest.
 
 Before making the repository public (or tagging a public release), run the full
 public safety gate:

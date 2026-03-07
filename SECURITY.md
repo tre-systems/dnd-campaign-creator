@@ -26,6 +26,7 @@ npm run public:check
 This enforces:
 
 - lint + tests
+- documentation link checks
 - tracked-file secret/sensitive-file scanning
 - git history secret scanning
 - production dependency vulnerability audit (`high` and above)

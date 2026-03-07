@@ -11,7 +11,7 @@ styled Google Docs, complete with Google Drive image syncing.
 
 ## Features
 
-- **Automated Google Docs Publishing**: Combines multiple markdown files, organizes them by category, inserts page breaks, generates a title page, and publishes a single cohesive Google Document.
+- **Automated Google Docs Publishing**: Combines multiple markdown files, organizes them by category, generates a title page, and publishes a single cohesive Google Document in a pageless reading format.
 - **Image Syncing**: Automatically traverses markdown files finding local images (like maps and NPC portraits), uploads them to Google Drive (making them public), and rewrites the markdown to use the new Drive URLs.
 - **Missing Asset Review**: Finds missing local image files, prints reusable prompts for them, and can hand off generation to a project-specific AI provider adapter.
 - **Stat Block Formatting**: D&D 5E compliant formatting for any blockquotes matching the standard `_Size type, alignment_` layout, complete with thematic parchment backgrounds and red dividers.
@@ -88,7 +88,6 @@ By default, credential files are discovered in this order:
 
 1. Current working directory (`process.cwd()`, typically your campaign repo)
 2. Package directory fallback
-3. Legacy parent-directory fallback
 
 You can override paths explicitly:
 
@@ -142,6 +141,8 @@ If you prefer manual setup:
 
 3. Copy the `campaign.example.json` file from this repository into your new campaign repository and rename it to `campaign.json`.
 
+The checked-in example uses `null` for `targetDocId` and `folderId`, so it is safe to copy before you know your final Google Doc or Drive folder IDs.
+
 ### 2. `campaign.json` Configuration
 
 Your campaign repository must have a `campaign.json` at its root.
@@ -154,8 +155,8 @@ Your campaign repository must have a `campaign.json` at its root.
     "my-epic-adventure": {
       "title": "My Epic Adventure",
       "sourceDir": "adventures/epic",
-      "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE", // Optional: leave null to create a new doc
-      "folderId": "YOUR_GOOGLE_DRIVE_FOLDER_ID", // Optional
+      "targetDocId": null, // Optional: leave null to create a new doc
+      "folderId": null, // Optional: leave null to keep the doc in the default Drive location
       "categories": [
         { "name": "Content", "key": "content", "pageBreakBefore": false },
         {
@@ -276,6 +277,13 @@ shows the current schema: metadata, reference images, deliverable/style notes,
 an authored area schedule, and revision criteria. The technical reference is in
 [`docs/map-system.md`](./docs/map-system.md).
 
+Generic map lessons worth encoding in briefs:
+
+- Use `deliverable.legendItems` when the final map needs a controlled symbol legend.
+- Use `areas[].exits` when a room must show a specific edge-of-map arrow label.
+- Keep area labels unique. The validator now rejects duplicate room numbers before packet generation.
+- Call out readability risks in `compositionNotes` or `revisionChecklist` when a map has tight clusters, alternate routes, or adjoining quarters that must stay distinct.
+
 ### Quality Checks
 
 The repository currently ships these checks:
@@ -283,7 +291,7 @@ The repository currently ships these checks:
 - `npm test` runs the Node test suite, including prompt-packet coverage.
 - `npm run lint` checks Markdown docs.
 - `npm run security:scan` scans tracked files for high-signal secrets and credential artifacts.
-- `npm run verify` runs lint, tests, and the tracked-file security scan together.
+- `npm run verify` runs lint, tests, the tracked-file security scan, and documentation link checks together.
 - `npm run check-links` verifies external links in docs and examples.
 - `npm run public:check` runs `verify`, scans full git history for secrets, and audits production dependencies.
 
@@ -303,7 +311,7 @@ npm run public:check
 
 This runs:
 
-- `npm run verify` for lint, tests, and tracked-file secret scanning
+- `npm run verify` for lint, tests, tracked-file secret scanning, and documentation link checks
 - `npm run security:scan:history` to scan full git history for high-signal secret patterns
 - `npm audit --omit=dev --audit-level=high` for production dependency vulnerabilities
 

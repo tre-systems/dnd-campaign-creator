@@ -3,6 +3,21 @@
   "version": "1.0.0",
   "description": "A generic utility for compiling Markdown adventures into Google Docs with Drive image syncing.",
   "main": "src/index.js",
+  "files": [
+    "bin/",
+    "src/*.js",
+    "src/security/",
+    "README.md",
+    "LICENSE",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "campaign.example.json",
+    "docs/",
+    "examples/"
+  ],
+  "exports": {
+    ".": "./src/index.js"
+  },
   "bin": {
     "campaign-creator": "./bin/campaign-creator.js"
   },
@@ -13,7 +28,7 @@
     "security:scan": "node bin/security-scan.js",
     "security:scan:history": "node bin/security-history-scan.js",
     "public:check": "npm run verify && npm run security:scan:history && npm audit --omit=dev --audit-level=high",
-    "verify": "npm run lint && npm test && npm run security:scan",
+    "verify": "npm run lint && npm test && npm run security:scan && npm run check-links",
     "check-links": "linkinator 'README.md' 'CONTRIBUTING.md' 'docs/**/*.md' 'examples/**/*.md' --skip '^(?!https?://)' --retry",
     "precommit": "npm run format && npm run lint",
     "prepare": "husky"

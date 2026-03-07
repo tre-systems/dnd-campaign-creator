@@ -80,6 +80,29 @@ test("validateMapPromptSpec rejects whitespace-only required fields", () => {
   );
 });
 
+test("validateMapPromptSpec rejects duplicate area labels", () => {
+  assert.throws(
+    () =>
+      validateMapPromptSpec({
+        id: "duplicate-labels",
+        title: "Duplicate Labels",
+        theme: "Broken numbering",
+        promise: "This should fail before it reaches the packet stage.",
+        areas: [
+          {
+            label: "3",
+            name: "First Room",
+          },
+          {
+            label: "3",
+            name: "Second Room",
+          },
+        ],
+      }),
+    /areas labels must be unique/,
+  );
+});
+
 test("renderMapPromptPacket includes prompt, references, and checklist", () => {
   const spec = validateMapPromptSpec({
     id: "gatehouse-ruin",

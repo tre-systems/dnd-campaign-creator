@@ -18,7 +18,8 @@
     "aspectRatio": "portrait, roughly 30 by 44 squares",
     "camera": "straight top-down orthographic view",
     "grid": "subtle square grid visible over walkable space only",
-    "labels": "room numbers only, no full room names"
+    "labels": "room numbers only, no full room names",
+    "legendItems": ["doors", "stairs", "secret door", "well", "barricade"]
   },
   "style": {
     "overview": "classic blue-draft dungeon cartography with clean linework and readable room masses",
@@ -41,6 +42,7 @@
       "role": "entry breach point",
       "description": "The outer gatehouse has partially failed, leaving a rubble funnel that attackers must force their way through.",
       "connections": ["2. Guard Post", "3. Gatehouse Hall"],
+      "exits": ["←Surface road"],
       "mustInclude": [
         "broken portcullis remains",
         "masonry rubble choke point",
@@ -132,6 +134,7 @@
       "role": "exit to deeper danger",
       "description": "A clear descent point that promises a second phase below the gatehouse.",
       "connections": ["6. Kitchen Well", "7. Boss Room"],
+      "exits": ["↓Lower vaults"],
       "mustInclude": [
         "obvious stair symbol",
         "clear placement near the back half of the map",
@@ -159,12 +162,14 @@
   "compositionNotes": [
     "Keep the overall silhouette legible at a glance, with a clear front half and a deeper defended back half.",
     "Use room shapes and wall thickness to suggest solid dwarven construction, then layer goblin improvisation on top.",
-    "Favor clear traversal and room identity over clever geometric tricks."
+    "Favor clear traversal and room identity over clever geometric tricks.",
+    "Room numbers must stay distinct and unobscured, especially around the breach, stairs, and tucked-away vault."
   ],
   "revisionChecklist": [
     "The map feels original while still borrowing the reference image's drafting language.",
     "The front-to-back progression from breach to defended core is visually obvious.",
     "The well, stairs, and boss space are instantly readable at tabletop scale.",
-    "Room numbers remain clear without cluttering the drawing."
+    "Room numbers remain clear without cluttering the drawing.",
+    "Edge exits and legend symbols match the authored brief exactly."
   ]
 }

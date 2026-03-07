@@ -5,7 +5,8 @@
     "my-epic-adventure": {
       "title": "My Epic Adventure",
       "sourceDir": "adventures/epic",
-      "targetDocId": "YOUR_GOOGLE_DOC_ID_HERE",
+      "targetDocId": null,
+      "folderId": null,
       "artStyle": {
         "style": "Dark fantasy, painterly, highly detailed",
         "medium": "Digital painting with traditional oil painting aesthetic",
@@ -41,7 +42,8 @@
         "acts": ["01-intro.md", "02-the-road-west.md"],
         "npcs": ["npcs/villain.md", "npcs/ally.md"],
         "handouts": ["handouts/secret-note.md"],
-        "session": ["session-1-notes.md"]
+        "session": ["session-1-notes.md"],
+        "other": ["appendix/rules-reference.md"]
       }
     }
   }

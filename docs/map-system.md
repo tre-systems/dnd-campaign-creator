@@ -79,6 +79,7 @@ Supported authored fields:
 - `camera`
 - `grid`
 - `labels`
+- `legendItems` (ordered short labels for a bottom legend panel)
 
 ### `style`
 
@@ -100,9 +101,11 @@ Supported authored fields:
 - `role`
 - `description`
 - `connections`
+- `exits` (explicit edge-of-map exit arrow labels)
 - `mustInclude`
 
 If `label` is omitted, sequential numbering is assigned automatically.
+Area labels must be unique; duplicate room numbers are rejected during validation.
 
 ## Packet Contents
 
@@ -120,6 +123,13 @@ The generated markdown packet contains:
 
 The packet is intentionally model-agnostic. It should work with any image
 generation workflow that accepts attached reference images plus a text prompt.
+
+## Authoring Guidance
+
+- Use `legendItems` when the map should ship with a constrained symbol legend rather than a free-form note.
+- Use `exits` when continuity between adjacent maps matters and the image model must place a specific labelled arrow on the map edge.
+- Treat `compositionNotes` as the place to call out room-number readability, patrol-route clarity, alternate-route arrival points, and other problems that are easy for an image model to muddle.
+- Treat `revisionChecklist` as the final QA gate. Include exact checks for label clarity, edge exits, distinct adjacent rooms, and any route continuity that the DM must be able to trust.
 
 ## Reference Images
 

@@ -72,7 +72,7 @@ function normalizeAreas(value) {
     throw new Error("areas must be a non-empty array");
   }
 
-  return value.map((entry, index) => {
+  const areas = value.map((entry, index) => {
     assertObject(entry, `areas[${index}]`);
 
     return {
@@ -98,6 +98,18 @@ function normalizeAreas(value) {
       ),
     };
   });
+
+  const seenLabels = new Set();
+  for (const area of areas) {
+    if (seenLabels.has(area.label)) {
+      throw new Error(
+        `areas labels must be unique; duplicate label '${area.label}'`,
+      );
+    }
+    seenLabels.add(area.label);
+  }
+
+  return areas;
 }
 
 function normalizeStyle(value) {

@@ -20,14 +20,13 @@ try {
 }
 
 const PACKAGE_ROOT = path.join(__dirname, "..");
-const LEGACY_ROOT = path.join(__dirname, "..", "..");
 
 const DEFAULT_CREDENTIALS_FILENAME = "credentials.json";
 const DEFAULT_SERVICE_ACCOUNT_FILENAME = "service-account-key.json";
 const DEFAULT_TOKEN_FILENAME = "token.json";
 
 function candidateSearchDirs() {
-  return [process.cwd(), PACKAGE_ROOT, LEGACY_ROOT];
+  return [process.cwd(), PACKAGE_ROOT];
 }
 
 function resolvePathForRead(explicitPath, filename) {
